@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import random
 import urllib.request
 from collections import Counter
@@ -80,7 +81,8 @@ def run(raw: bytes, limit: int = 128, seed: int = 17,
         settings = Settings(backend="memory",
                             provider="ollama" if local_model_id else "offline",
                             model_id=local_model_id or "",
-                            ollama_url="http://127.0.0.1:11434",
+                            ollama_url=os.environ.get(
+                                "UGI_OLLAMA_URL", "http://127.0.0.1:11434"),
                             allow_paid_calls=False)
         engine = Engine(Store(settings))
         ingest_report = engine.ingest(f"fewrel_{i:04d}.txt", sentence.encode(),
