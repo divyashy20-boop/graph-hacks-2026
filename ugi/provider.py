@@ -112,6 +112,11 @@ class Ollama:
         self.calls = 0
         self.usage = {"calls": 0, "input_tokens": 0, "output_tokens": 0, "estimated_usd": 0}
         self.transport = transport
+        # Opt-in in-memory debug trace for public benchmark samples only.
+        # Never persisted, logged or returned by the production HTTP API.
+        self.trace_enabled = False
+        self.trace = []
+        self.is_local = True
         url = urlsplit(settings.ollama_url)
         if (settings.provider != "ollama" or not settings.model_id
                 or url.scheme != "http" or url.hostname not in {
@@ -184,8 +189,16 @@ class Ollama:
             try:
                 if response.get("done_reason") == "length":
                     raise ValueError("Model output truncated")
-                return schema.model_validate_json(raw)
+                parsed = schema.model_validate_json(raw)
+                if self.trace_enabled:
+                    self.trace.append({"schema": schema.__name__,
+                                       "valid": True, "response": raw[:16000]})
+                return parsed
             except (ValidationError, ValueError) as exc:
+                if self.trace_enabled:
+                    self.trace.append({"schema": schema.__name__,
+                                       "valid": False, "response": raw[:16000],
+                                       "error": str(exc)[:1000]})
                 errors.append(type(exc).__name__)
                 self.store.commit([{
                     "id": uid(usage_record["id"], "invalid"), "kind": "ReviewTask",
