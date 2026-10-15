@@ -59,3 +59,14 @@ Key implementation constraints: FalkorDB remains required for production/demo pe
 - [x] Logged the exact test and its limitations to `TEST_REPORT.md`, and updated the `README.md` submission checklist.
 - [ ] Complete an independently annotated unseen-document evaluation and verify model-backed semantic extraction separately, before broader accuracy claims.
 - [ ] Record hackathon demo video and submit form after final review.
+
+
+## Challenge evaluation, external baseline and local-model adapter — October 15, 2026
+
+- [x] Created and froze `evaluation/challenge_v1.json` (26 AI-assisted synthetic stress cases) separately from the prior tuned synthetic fixture. Added `ugi/eval_challenge.py` for strict relation/qualifier scores, negative control abstention, exact evidence-span checks and per-domain diagnostics.
+- [x] Created `ugi/eval_fewrel.py` with explicit download of upstream FewRel Wikipedia-derived human-annotated validation data. Fixed sample of 128 cases, zero model calls, head/tail directed-pair screening only. GitHub Actions archived per-sample output; baseline emitted 1 claim and correctly extracted 0/128 target pairs, revealing a major generalisation gap.
+- [x] Added `Engine.resolution_gap`: paths now come with typed predicate/direction sequences, missing evidence and recommended verification actions; missing/ambiguous entity identity returns its own diagnostic. No new inferred fact is promoted from proximity.
+- [x] Added opt-in local `Ollama` backend (restricted URL, Pydantic JSON schema, bounded retries/calls, persisted usage and invalid-result reviews); wired Settings, Engine, Compose and .env.example. Default offline and paid calls disabled.
+- [x] GitHub CI verified syntax, unit/adapter tests, live FalkorDB integration, synthetic and upstream validation diagnostics. `README.md` documents the poor external grammar baseline and local Ollama setup.
+- [ ] Run a real model locally on Windows with explicit user setup. **No claim of improved extraction precision/recall/F1 yet.**
+- [ ] Develop a separate truly independent evaluation split to avoid overfitting after reviewing FewRel results.
