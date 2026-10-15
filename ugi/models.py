@@ -39,6 +39,16 @@ def predicate(value: str) -> str:
     normalized = re.sub(r"[^\w]+", "_", value.strip(), flags=re.UNICODE).strip("_").upper()
     if not normalized or len(normalized) > 80:
         raise ValueError("Predicate must contain 1-80 meaningful characters")
+    # Canonicalize explicitly directional wording to a *weaker, entailed*
+    # relation (e.g. "just south of" implies "south of"). The exact quote
+    # and original model wording are retained with the claim. This does not
+    # bypass source-grounding or semantic review.
+    direction = re.fullmatch(
+        r"(?:(?:LOCATED|SITUATED)_)?(?:JUST_)?(NORTH|SOUTH|EAST|WEST)_OF",
+        normalized,
+    )
+    if direction:
+        return direction[1] + "_OF"
     return ALIASES.get(normalized, normalized)
 
 
