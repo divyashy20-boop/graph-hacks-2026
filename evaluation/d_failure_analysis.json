@@ -1,0 +1,111 @@
+{
+  "categories": {
+    "entity_not_identified": 0,
+    "candidate_never_proposed": 6,
+    "wrong_subject_or_object": 0,
+    "wrong_direction": 0,
+    "incorrect_predicate": 0,
+    "lost_qualifiers": 0,
+    "wrong_evidence_span": 0,
+    "false_rejection_by_verifier": 0,
+    "unsafe_acceptance": 0,
+    "accepted_not_persisted": 0
+  },
+  "examples": [
+    {
+      "id": "public-research",
+      "category": "candidate_never_proposed",
+      "target": {
+        "relation_type": "INTERDISCIPLINARY_FIELD",
+        "participants": [
+          {
+            "role": "subject",
+            "name": "eXplainable Artificial Intelligence (XAI)"
+          },
+          {
+            "role": "discipline",
+            "name": "machine learning"
+          },
+          {
+            "role": "discipline",
+            "name": "statistics"
+          },
+          {
+            "role": "discipline",
+            "name": "psychology"
+          }
+        ],
+        "evidence": "We demonstrate our approach through a case study of eXplainable Artificial Intelligence (XAI) research, an emerging interdisciplinary field at the intersection of machine learning, statistics, and psychology."
+      }
+    },
+    {
+      "id": "public-employment",
+      "category": "candidate_never_proposed",
+      "target": {
+        "subject": "Neil A. Armstrong",
+        "predicate": "JOINED",
+        "object": "National Advisory Committee for Aeronautics",
+        "event_time": "1955-01-01",
+        "historical": true,
+        "evidence": "Neil A. Armstrong served as a naval aviator from 1949 to 1952 before joining the National Advisory Committee for Aeronautics at the Lewis Flight Propulsion Laboratory in 1955."
+      }
+    },
+    {
+      "id": "public-employment",
+      "category": "candidate_never_proposed",
+      "target": {
+        "subject": "Neil A. Armstrong",
+        "predicate": "WORKED_AT",
+        "object": "Lewis Flight Propulsion Laboratory",
+        "event_time": "1955-01-01",
+        "historical": true,
+        "evidence": "Neil A. Armstrong served as a naval aviator from 1949 to 1952 before joining the National Advisory Committee for Aeronautics at the Lewis Flight Propulsion Laboratory in 1955."
+      }
+    },
+    {
+      "id": "public-history",
+      "category": "candidate_never_proposed",
+      "target": {
+        "subject": "oxygen tank assembly",
+        "predicate": "ABOARD",
+        "object": "Apollo 13",
+        "historical": true,
+        "evidence": "The oxygen tank assembly aboard Apollo 13 had originally been installed in the SM assigned to Apollo 10, but to implement design changes to the tanks, engineers at NAR Downey removed them in October 1968."
+      }
+    },
+    {
+      "id": "public-history",
+      "category": "candidate_never_proposed",
+      "target": {
+        "subject": "oxygen tank assembly",
+        "predicate": "INSTALLED_IN",
+        "object": "SM",
+        "historical": true,
+        "evidence": "The oxygen tank assembly aboard Apollo 13 had originally been installed in the SM assigned to Apollo 10, but to implement design changes to the tanks, engineers at NAR Downey removed them in October 1968."
+      }
+    },
+    {
+      "id": "public-history",
+      "category": "candidate_never_proposed",
+      "target": {
+        "subject": "SM",
+        "predicate": "ASSIGNED_TO",
+        "object": "Apollo 10",
+        "historical": true,
+        "evidence": "The oxygen tank assembly aboard Apollo 13 had originally been installed in the SM assigned to Apollo 10, but to implement design changes to the tanks, engineers at NAR Downey removed them in October 1968."
+      }
+    }
+  ],
+  "unidentifiable_categories": [
+    "entity_not_identified",
+    "wrong_subject_or_object"
+  ],
+  "participant_surface_absent_from_proposals": 5,
+  "scope": "Offline developmental stage diagnosis; zero means not observed, not certified safe",
+  "limitations": [
+    "No independent NER stage: entity failure cannot be isolated from candidate generation",
+    "Existing labels are AI provisional; ontology/completeness can be wrong",
+    "wrong_subject/object vs absent proposal cannot be assigned without candidate trace",
+    "Frozen evaluation deliberately excluded"
+  ]
+}

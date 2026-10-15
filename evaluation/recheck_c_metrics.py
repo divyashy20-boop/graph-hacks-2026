@@ -16,12 +16,12 @@ def signature(item):
             item.get("modality", "asserted"))
 
 
-def recheck():
+def recheck(report_names=("c_baseline", "c_development_final", "c_qwen_baseline", "c_qwen_final")):
     root = Path(__file__).parent
     fixture = json.loads((root / "c_development.json").read_text(encoding="utf-8"))
     labels = {c["id"]: c for c in fixture["cases"]}
     output = {}
-    for name in ("c_baseline", "c_development_final", "c_qwen_baseline", "c_qwen_final"):
+    for name in report_names:
         report = json.loads((root / (name + ".json")).read_text(encoding="utf-8"))
         subsets = {}
         for subset in ("all_complete", "public_complete"):

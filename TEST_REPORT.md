@@ -1,5 +1,27 @@
 # Verified follow-up report — October 15, 2026
 
+## Milestone D increment 1 — October 16, 2026
+
+**186 passed (179 non-integration +7 actual FalkorDB), zero failed/skipped.**
+Full actual graph development audit: binary10/10/15, qualified F1 80%; public
+complete subset7/7/12,F1 73.68%, versus C1/1/12,F1 15.38%. Labels remain
+provisional and tuned; no independently reviewed public accuracy is asserted.
+Whole research event0/1, roles0/4; quotes12/12 emitted. Entity surface F1 71.43%
+is not NER. Older20/26/B12 regressions retain their C counts and qualifiers.
+
+Actual Qwen baseline/final on identical4 public texts:4 ->5 calls, exact
+1/1/9 ->7/8/9, F1 20% ->82.35%. Rules-only final7/7/9,F1 87.5%, so the model
+adds no exact recall and one label disagreement. First6-call probe retained;
+it exposed partial-quote historical/date loss, now regression-covered. Latest
+probe has11 review tasks,8/8 exact quotes, per-case wall2071.070/3688.928/
+1987.119/5064.686ms. Not pure inference or p95; no cloud charge, compute unknown.
+
+New generalized affiliation/responsibility frames, bounded hints, qualifier guards,
+positive/negative/regression tests and stage diagnosis are described in
+[MILESTONE_D_REPORT](MILESTONE_D_REPORT.md). C23 remains unreviewed/not fresh unseen.
+Graph-store code is intentionally unchanged in this first increment; no new
+large-write success or production-readiness claim is made yet.
+
 ## Milestone C: latest local verification
 
 Continued clean Milestone B base `4799c328f0c4cfdfd611390afa07042ffbc1ce08`;

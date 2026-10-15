@@ -4,7 +4,24 @@ An **event-time Graph Hacks 2026 Track 1 implementation** of a multi-format, evi
 
 **Status:** functional local prototype and demo, **not production-ready**. This repository contains a code-first implementation and a small synthetic evaluation, not a proven universally accurate graph extractor.
 
-## Milestone C: measured conversion quality, not universal accuracy
+## Milestone D: controlled extraction improvement
+
+The first increment adds bounded affiliation/responsibility clause extraction,
+source-only entity hints for local Qwen, enclosing-sentence checks for shortened
+model quotes and relation-bound date recovery. **186 tests passed, including
+7 actual FalkorDB tests.** No new large NLP dependency, UI redesign or paid calls.
+
+On the same **provisional development** texts, public-only recovery improved
+**1/12 -> 7/12**, F1 **15.38% -> 73.68%**; mixed F1 **42.11% -> 80%**. These
+are tuned, AI-authored labels, not independent accuracy. The public research
+event is still missed. Actual Qwen adds no exact recall over the improved rules
+on the matched four texts and has one additional label disagreement.
+
+Graph-store changes are a separate second increment; the C large-write timeout
+remains a limitation until a verified new measurement supersedes it. See
+[MILESTONE_D_REPORT](MILESTONE_D_REPORT.md) for diagnosis, comparisons and commands.
+
+## Milestone C: measured conversion quality (historical)
 
 **169 tests passed locally: 162 unit/API/provider/MCP + 7 actual FalkorDB tests.**
 The new audit exercises extraction, persistent records, reconnected retrieval

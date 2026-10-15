@@ -1,0 +1,354 @@
+{
+  "version": "conversion-audit-v1",
+  "recorded_at": "2026-10-15T18:43:05.333444+00:00",
+  "split": "development",
+  "fixture_sha256": "44862ce81022f36925e6191146b5a44eafef2f9aedd83dadb26f752437f14861",
+  "backend": "falkordb",
+  "model": "qwen3:4b-instruct",
+  "actual_model_inference": true,
+  "scope": "Curated public excerpts plus separately identified synthetic safety controls. AI-authored provisional development labels, not human gold. Named relationship participants only; no exhaustive concept/entity NER claim. Public evaluation remains unreviewed. HTML whitespace normalized; no paraphrasing. Not a whole-document general accuracy benchmark.",
+  "cases": 4,
+  "annotation_counts": {
+    "provisional": 4
+  },
+  "metrics": {
+    "binary": {
+      "tp": 1,
+      "predicted": 1,
+      "gold": 9,
+      "precision": 1.0,
+      "recall": 0.1111111111111111,
+      "f1": 0.19999999999999998
+    },
+    "qualified_binary": {
+      "tp": 1,
+      "predicted": 1,
+      "gold": 9,
+      "precision": 1.0,
+      "recall": 0.1111111111111111,
+      "f1": 0.19999999999999998
+    },
+    "events": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "qualified_events": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "participant_roles": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 4,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "entity_surfaces": {
+      "tp": 2,
+      "predicted": 2,
+      "gold": 16,
+      "precision": 1.0,
+      "recall": 0.125,
+      "f1": 0.2222222222222222
+    },
+    "directed_pairs": {
+      "tp": 1,
+      "predicted": 1,
+      "gold": 9,
+      "precision": 1.0,
+      "recall": 0.1111111111111111,
+      "f1": 0.19999999999999998
+    }
+  },
+  "by_domain": {
+    "operations": {
+      "tp": 1,
+      "predicted": 1,
+      "gold": 2,
+      "f1": 0.6666666666666666
+    },
+    "supply": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 5,
+      "f1": 0.0
+    },
+    "research": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 1,
+      "f1": 0.0
+    },
+    "organization": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 2,
+      "f1": 0.0
+    }
+  },
+  "failure_categories": {
+    "missed_binary": 8,
+    "unsupported_event": 0,
+    "missed_event": 1,
+    "temporal_or_historical_mismatch": 0
+  },
+  "evidence": {
+    "exact": 1,
+    "emitted": 1
+  },
+  "abstention": {
+    "correct": 0,
+    "controls": 0
+  },
+  "unassessed_predictions": 0,
+  "model_calls": 4,
+  "review_tasks": 0,
+  "attempted_model_calls": 4,
+  "retrieval_checks": 14,
+  "retrieval_consistent": true,
+  "graph_incidence_checks": 7,
+  "graph_incidence_consistent": true,
+  "per_case": [
+    {
+      "id": "public-operations",
+      "domain": "operations",
+      "source_url": "https://www.nasa.gov/history/nasa-lewis-aided-apollo-13-investigation/",
+      "source_title": "NASA Lewis Aided Apollo 13 Investigation",
+      "licence": "US-Government-work",
+      "licence_url": "https://www.usa.gov/government-copyright",
+      "source_locator": "Paragraph beginning Edgar Cortright",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [
+        {
+          "subject": "Edgar Cortright",
+          "object": "Apollo 13 investigation",
+          "evidence": "Edgar Cortright, a former Lewis engineer, led the Apollo 13 investigation.",
+          "subject_type": "Entity",
+          "object_type": "Entity",
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "time_precision": "unknown",
+          "temporal_source": null,
+          "historical": true,
+          "attribution": null,
+          "event_id": null,
+          "id": "390deb2ba56be53aa5898c6e4ba04c8b6b077c5d05edc3a3932c3041b5b7548a",
+          "kind": "Claim",
+          "subject_id": "033e0906d0b738f4239ff8173e338a9efca0960bceb701b648e20fc733fe6139",
+          "object_id": "e834c5d762f8133ea29cfd16f9269efbeb3c51b01d6faecad487ac482ed34618",
+          "original_predicate": "led",
+          "predicate": "LED",
+          "original_claim": "Edgar Cortright, a former Lewis engineer, led the Apollo 13 investigation.",
+          "evidence_id": "bea0fa8af82edb2b59674ed13869b9132d2c34998e4f42faa395d4e5e88703b3",
+          "source_id": "8b9434af2b88294eb58aef95f3c0bb3a355f19c007f984fa532dcffd12c1d757",
+          "chunk_id": "2d983243296066d75a2a6f2f071f85259d7e72b6de8b1e9a2ee884aad5efbbe3",
+          "recorded_at": "2026-10-15T18:43:04.158223+00:00",
+          "extraction_method": "hybrid",
+          "extraction_model": "qwen3:4b-instruct",
+          "review_status": "supported",
+          "review_reason": "Directional grammar, polarity, modality and temporal agreement",
+          "verification_level": "source_assertion",
+          "independently_verified": false
+        }
+      ],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [
+        [
+          "edgar cortright",
+          "FORMER_ENGINEER_AT",
+          "lewis",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 1,
+        "input_tokens": 305,
+        "output_tokens": 12,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 1,
+      "candidate_free_text_chunks": [],
+      "ingestion_ms": 3870.442,
+      "persisted_records": 8,
+      "graph_incidence_edges": 4,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "public-supply",
+      "domain": "supply",
+      "source_url": "https://science.nasa.gov/mission/webb/faqs-full/",
+      "source_title": "Webb FAQs",
+      "licence": "US-Government-work",
+      "licence_url": "https://www.usa.gov/government-copyright",
+      "source_locator": "Northrop Grumman main industrial contractor",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [
+        [
+          "northrop grumman",
+          "RESPONSIBLE_FOR_BUILDING",
+          "sunshield",
+          "positive",
+          "asserted"
+        ],
+        [
+          "northrop grumman",
+          "RESPONSIBLE_FOR_BUILDING",
+          "spacecraft bus",
+          "positive",
+          "asserted"
+        ],
+        [
+          "northrop grumman",
+          "RESPONSIBLE_FOR_PREPARING_FOR_LAUNCH",
+          "observatory",
+          "positive",
+          "asserted"
+        ],
+        [
+          "northrop grumman",
+          "RESPONSIBLE_FOR_BUILDING",
+          "optical telescope",
+          "positive",
+          "asserted"
+        ],
+        [
+          "northrop grumman",
+          "CONTRACTOR_FOR",
+          "nasa",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 1,
+        "input_tokens": 322,
+        "output_tokens": 12,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 1,
+      "candidate_free_text_chunks": [
+        "5bc8756a0f0fc34f2ebe1f9ec721baf22711f21da1c1705c6c278cca17c06234"
+      ],
+      "ingestion_ms": 286.17,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "public-research",
+      "domain": "research",
+      "source_url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0329302",
+      "source_title": "Cunningham E, Greene D (2025). Knowledge transfer, knowledge gaps, and knowledge silos in citation networks. PLOS One 20(8):e0329302",
+      "licence": "CC-BY-4.0",
+      "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source_locator": "Abstract, case-study sentence",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 1,
+        "input_tokens": 324,
+        "output_tokens": 12,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 1,
+      "candidate_free_text_chunks": [
+        "841640d99b7fd3564f6284dc2d482e287ba01fefbd95d40811c8c1f76ce29fa3"
+      ],
+      "ingestion_ms": 318.736,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "public-employment",
+      "domain": "organization",
+      "source_url": "https://www.nasa.gov/humans-in-space/astronauts/former-astronauts/former-astronaut-neil-a-armstrong/",
+      "source_title": "Former Astronaut Neil A. Armstrong",
+      "licence": "US-Government-work",
+      "licence_url": "https://www.usa.gov/government-copyright",
+      "source_locator": "First biography paragraph, opening sentence",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [
+        [
+          "neil a. armstrong",
+          "JOINED",
+          "national advisory committee for aeronautics",
+          "positive",
+          "asserted"
+        ],
+        [
+          "neil a. armstrong",
+          "WORKED_AT",
+          "lewis flight propulsion laboratory",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 1,
+        "input_tokens": 334,
+        "output_tokens": 12,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 1,
+      "candidate_free_text_chunks": [
+        "0888a559a53cb2e4e9bd094845dd50814226bd86d5e4f852e0718454066344f0"
+      ],
+      "ingestion_ms": 339.39,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    }
+  ],
+  "cloud_api_charge_usd": 0,
+  "limitations": [
+    "AI-authored provisional labels are not independent human truth",
+    "Entity surfaces are relation participants, not exhaustive span-level NER",
+    "No semantic F1 for unreviewed/incomplete public documents",
+    "Cross-document identity assessed by separate controlled robustness tests",
+    "Small curated corpus; lexical split guard cannot exclude semantic leakage"
+  ]
+}

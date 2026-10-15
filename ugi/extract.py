@@ -172,6 +172,7 @@ TEMPORAL_TAIL = re.compile(
 
 
 def text_candidates(text):
+    from .clauses import clause_candidates
     from .nary import text_events
 
     result = []
@@ -179,6 +180,10 @@ def text_candidates(text):
         evidence = sentence[0].strip()
         if text_events(evidence):
             # Retain the whole event; do not also generate weaker/misleading binary projections.
+            continue
+        additions, complete_frame = clause_candidates(evidence)
+        result.extend(additions)
+        if complete_frame:
             continue
         clause = evidence.rstrip(".!?").strip()
         lead = CLAUSE_LEAD.fullmatch(clause)
@@ -300,6 +305,12 @@ def verify(candidate, chunk, provider=None):
         return False, reason
     if chunk.get("record") is not None:
         return True, "Deterministic mapping from explicit structured fields"
+    from .clauses import anchored_dates
+
+    scope = anchored_dates(candidate.subject, candidate.object, candidate.evidence)
+    if any(getattr(candidate, field) != value for field, value in scope.items()
+           if field not in {"temporal_source"}):
+        return False, "Explicit relation-bound temporal scope must be preserved"
     if REPORTED_SCOPE.search(candidate.evidence) and candidate.modality == "asserted" and not candidate.attribution:
         return False, "Attributed statement needs explicit attribution or non-asserted modality"
     if key(candidate.subject) in {"he", "she", "it", "they", "this", "that"} or key(
@@ -324,6 +335,10 @@ def verify(candidate, chunk, provider=None):
         # ambiguous; do not promote a participial phrase into an entity edge.
         return False, "Ambiguous participial subject attachment; human review required"
     grammar = text_candidates(candidate.evidence)
+    if candidate.evidence != chunk["text"]:
+        # A short model quotation must not evade qualifiers/predicate constraints
+        # visible in its complete source sentence. Never rewrite the quotation.
+        grammar += [c for c in text_candidates(chunk["text"]) if candidate.evidence in c.evidence]
     if grammar:
         supported = any(
             key(c.subject) == key(candidate.subject) and key(c.object) == key(candidate.object)
@@ -465,6 +480,17 @@ def discover(chunk, provider=None, event_sink=None):
             "remain null. Do not generate external_id or occurrence_id from your own knowledge."
         )
         instruction = instruction.replace("\nSOURCE:\n", event_instruction + "\nSOURCE:\n", 1)
+        if local:
+            from .clauses import entity_hints
+
+            instruction = instruction.replace(
+                "\nSOURCE:\n",
+                "\nSource-only surface hints (not facts; do not force links): "
+                + json.dumps(entity_hints(chunk["text"]), ensure_ascii=False)
+                + "\nKeep action/purpose in predicates: being responsible for building an item "
+                  "does not assert it was built. A compound predicate may encode this explicit "
+                  "wording; do not reduce it to co-occurrence or generic RESPONSIBLE_FOR."
+                + "\nSOURCE:\n", 1)
         extraction = provider.request(instruction, schema)
         event_sink.extend(extraction.events)
         if local:
@@ -484,6 +510,10 @@ def discover(chunk, provider=None, event_sink=None):
                     signatures = {tuple(getattr(c, f) for f in fields) for c in matches}
                     if len(signatures) == 1:
                         data.update(zip(fields, signatures.pop()))
+                    elif not signatures:
+                        from .clauses import anchored_dates
+
+                        data.update(anchored_dates(item.subject, item.object, item.evidence))
                 extracted.append(Candidate.model_validate(data))
         else:
             extracted = extraction.relations

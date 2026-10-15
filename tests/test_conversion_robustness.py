@@ -35,10 +35,14 @@ def test_modal_negation_and_existing_polarity_preserved(text, polarity, modality
 
 def test_bounded_appositive_main_clause_and_negative_control():
     result = text_candidates("Talia, a former Vega engineer, led Gemini 9 investigation.")
-    assert len(result) == 1 and result[0].subject == "Talia"
-    assert result[0].object == "Gemini 9 investigation" and result[0].historical
+    # D intentionally adds the explicit former affiliation, not a changed main-clause truth.
+    assert len(result) == 2 and all(c.subject == "Talia" for c in result)
+    main = next(c for c in result if c.predicate == "led")
+    assert main.object == "Gemini 9 investigation" and main.historical
+    assert any(c.predicate == "FORMER_ENGINEER_AT" and c.object == "Vega" for c in result)
     assert not text_candidates("Talia, who might not lead the team, led Gemini 9 investigation.")
-    present = text_candidates("Talia, a former Vega engineer, owns Willow.")[0]
+    present = next(c for c in text_candidates("Talia, a former Vega engineer, owns Willow.")
+                   if c.predicate == "owns")
     assert not present.historical  # Former modifies affiliation, not present ownership.
     assert text_candidates("Talia owns Willow.")[0].object == "Willow"
 

@@ -1,4 +1,20 @@
-# Milestone C conversion quality gate
+# Conversion quality gate
+
+## Milestone D extraction update — October 16, 2026
+
+The controlled first increment improves the same provisional public complete
+development subset from1/1/12 to7/7/12 (TP/predictions/targets), F1 15.38% ->
+73.68%, recall8.33% ->58.33%. Mixed binary/qualified F1 42.11% ->80% (10/10/15).
+No new human annotation or unseen evaluation is claimed. Five public binaries
+and the research event still have no proposal. Actual Qwen final7/8/9 versus
+rules-only7/7/9 shows no extra exact recall; the remaining additional source-backed
+occupation uses a different predicate than provisional labels, requiring review.
+186 tests pass including7 actual graph tests. No graph-store optimization is part
+of this increment. Full diagnosis, rejected/accepted cases, limits and commands
+are in [MILESTONE_D_REPORT](MILESTONE_D_REPORT.md). Historical C measurements below
+are preserved rather than overwritten.
+
+## Milestone C audit (historical)
 
 Measured locally on October 15, 2026, continuing Milestone B
 `4799c328f0c4cfdfd611390afa07042ffbc1ce08`. This is a useful, conservative

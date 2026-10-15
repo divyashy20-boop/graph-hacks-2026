@@ -257,3 +257,33 @@ Key implementation constraints: FalkorDB remains required for production/demo pe
   mutation, CONTRADICTED query, duplicate upload and dashboard asset. Initial
   singular endpoint typo produced404 and was corrected to `/api/relationships`;
   removed only both owned synthetic test graphs after verification.
+
+## Milestone D increment 1 — October 16, 2026
+
+- [x] Read requested documentation/code, verified clean C base2a0a5df and remote
+  main, checked actual Docker/FalkorDB/Ollama. No user work discarded or cloud used.
+- [x] Recorded fresh unchanged C actual-graph/model baselines before changes.
+  Offline stage diagnosis:11 missing binaries +1 whole event never proposed;
+  entity recognition cannot be independently isolated (no distinct NER stage).
+- [x] Added bounded occupation/organization appositives and responsibility/action/
+  purpose lists. Preserved historical, negative/possible scope, full exact evidence
+  and whole events; ambiguous attachments fail closed. No benchmark-entity lookup.
+  No large NLP dependency justified for this measured bounded improvement.
+- [x] Source-only exact-offset surface hints inform local model prompts. Actual
+  first probe exposed partial-quote predicate/history escape and omitted occupation
+  interval. Added enclosing grammar and pair-anchored date guards; preserved first
+  probe report. Same-model review remains fallible, not independent truth.
+- [x] Same public complete development1/1/12 ->7/7/12,F1 15.38% ->73.68%; mixed
+ 4/4/15 ->10/10/15,F1 42.11% ->80%; entity surfaces F1 71.43%, not NER. Public
+  research event0/1/roles0/4; finance/spatial incomplete/unscored. No frozen C tuning.
+- [x] Actual local model4-source comparison: baseline4calls/1claim; final5calls/
+ 8claims/11reviews,7/8/9 exact,F1 82.35%. Rules same subset7/7/9,F1 87.5%; no
+  extra exact model recall. First6-call probe retained, total15 calls/$0 cloud.
+- [x] Full186 passed including7 actual FalkorDB; original20/B12/challenge26 counts
+  unchanged; independent arithmetic, targeted lint and source hashes checked.
+  C appositive test now expects added affiliation AND the preserved main clause;
+  no gold/accuracy targets relaxed. Host URL environment initially polluted one
+  mock endpoint test; cleared before successful full rerun, not changed expectation.
+- [x] Updated diagnosis/audit/README/TEST_REPORT and created MILESTONE_D_REPORT;
+  safe graph-write investigation is explicitly a subsequent increment. Store
+  remains unchanged until this increment is tested/committed and CI checked.
