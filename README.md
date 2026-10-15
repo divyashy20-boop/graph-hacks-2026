@@ -89,6 +89,34 @@ Entity identifiers are now **scoped by entity type**: a person and an organisati
 
 The verifier also now separates contradictory grammar for the **same entity pair** (still rejected) from an **unrelated, unparsed clause** in the evidence passage (eligible for opt-in LLM review). This reduces false rejections without removing the deterministic contradiction guard. The offline parser remains conservative; no universal extraction accuracy claim is made.
 
+## Reality check: independent text evaluation
+
+Two separate offline extraction diagnostics now run automatically in GitHub Actions, with per-sample JSON reports retained as workflow artifacts:
+
+```bash
+python -m ugi.eval_challenge --output /tmp/challenge.json
+python -m ugi.eval_fewrel --download --limit 128 --seed 17 --output /tmp/fewrel.json
+```
+
+**Synthetic challenge:** 26 new, AI-assisted examples spanning operations, people, finance, retail, science and supply; labels were written before the evaluation code was used. This is distinct from the earlier 20-example development fixture but **is not a human-adjudicated external dataset**. Baseline offline score: 17/25 expected relations recovered, 19 predictions, 89.5% precision / 68.0% recall / **77.3% F1**, with all 5 intentionally empty cases correctly abstaining. The exact-quote provenance check passed 19/19; that check measures span correctness, **not semantic entailment**. Do not conflate this new F1 with the earlier fixture's 95.7%.
+
+**External FewRel validation:** the repository downloads (does not redistribute) the upstream Wikipedia-derived, human-annotated FewRel `val_wiki.json` file from [thunlp/FewRel](https://github.com/thunlp/FewRel). Fixed-seed sample: 128 examples from 16 Wikidata relation classes; the input includes head/tail entity surfaces but those labels **are used only to grade the result, not provided to the extractor**. The current offline grammar produced **0/128 matching directed head/tail pairs** (and one unrelated extracted claim); source head/tail strings both occurred in 120/128 reconstructed sentences. The benchmark **does not calculate relation-label F1**, because Wikidata PID classes cannot be directly compared against the app's open predicates. It reveals the grammar's severe limits on ordinary natural Wikipedia prose, not an alleged failure of an LLM. This is a public validation set, not FewRel's hidden test set.
+
+For a private externally annotated JSON benchmark, supply the same `evaluation/challenge_v1.json` schema and run `python -m ugi.eval_challenge --fixture path/to/annotations.json --output results.json`. Never report a tuned development set as unbiased accuracy. Independent human adjudication and genuine model-based testing remain outstanding.
+
+## Optional local Ollama extraction (zero cloud API billing)
+
+UGI has an **opt-in local Ollama provider**, separate from AWS Bedrock. It sends source text only to the explicitly configured local Ollama server, requests schema-constrained JSON, and still subjects every relationship to the same exact-span, directional, polarity, temporal and semantic checks. A failed or ambiguous model response goes to review, not directly into the graph as established truth. This integration has been tested with **mocked local HTTP responses**; **no actual model-quality gain has been verified yet**.
+
+To experiment on your own Windows computer:
+
+1. Install [Ollama for Windows](https://ollama.com/download/windows). In a new PowerShell, run `ollama pull qwen3:4b-instruct` and verify `ollama list` and `http://127.0.0.1:11434/api/tags`.
+2. In your local **untracked** `.env`, set `UGI_PROVIDER=ollama`, `UGI_MODEL_ID=qwen3:4b-instruct` and `UGI_OLLAMA_URL=http://host.docker.internal:11434`.
+3. Run `docker compose up --build -d`. Confirm connectivity from the API container using `docker compose exec api python -c "import urllib.request; print(urllib.request.urlopen('http://host.docker.internal:11434/api/tags',timeout=5).status)"`. If Windows Ollama is only loopback-bound and inaccessible from Docker, do not expose it to the internet to fix this; run UGI directly on the Windows host with `UGI_OLLAMA_URL=http://127.0.0.1:11434`, reusing the existing local FalkorDB `127.0.0.1:6380`.
+4. Use `POST /api/uploads?use_ai=true` with a **new dataset name** and a short text sample. Normal uploads (`use_ai=false`) remain deterministic and do not call a model. The API caps model calls and writes usage/review records.
+
+Ollama must already be running and the selected model downloaded; Docker does **not** download or start it. The URL is restricted to loopback or Docker Desktop's `host.docker.internal:11434`; remote/cloud endpoints are rejected. `UGI_ALLOW_PAID_CALLS=false` stays locked in Docker Compose, so opting into Ollama does **not** enable Bedrock. Inference can still consume local CPU/GPU/RAM and time. Keep private inputs on machines you trust.
+
 ## Model Context Protocol (MCP) adapter
 
 UGI provides an application-level MCP **stdio** server, separate from FalkorDB's general-purpose MCP implementation. It exposes typed graph investigations and evidence, *not arbitrary Cypher*.
@@ -142,6 +170,7 @@ A source *asserting* a relationship is not independent truth verification. A con
 ## Known limitations
 
 - Offline text extraction is a conservative grammar/rule system, not universal natural-language understanding. In particular, ambiguous pronouns are deliberately not assigned to a person/entity.
+- Local Ollama integration is schema/transport tested with mocks only; there is no verified improvement on FewRel or unseen prose yet.
 - The main incident agent follows a bounded deterministic investigation policy. It is **not** an unrestricted conversational LLM planner; tool interfaces are available for external agents.
 - Entity linking is conservative across documents and may fragment true identities unless a stable explicit ID is available.
 - Nontext/scanned PDFs need OCR; OCR is not bundled.
