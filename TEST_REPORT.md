@@ -100,3 +100,25 @@ Following the restart, the same dataset header `X-Dataset: incident-demo` was us
 - `GET /api/tasks` => exactly **two** original `open` review tasks, IDs `621078a5bc51044c198dd6235f851718a5752c203011d95ded2053c05ddb9946` and `7186f9a68e274f77988829fb0e4ba5888fe4f6e6270ca4a06bd2384aab30b48a`, both referencing the same investigation and the same original claim IDs.
 
 **Result: PASS, restart-and-read durability smoke test.** This provides participant-observed evidence of graph-backed action retention after both app and database containers were restarted. It does **not** test removing the Docker volume, restoring from a backup, abrupt disk failure, concurrent write safety under load or production-grade reliability. Synthetic demonstration data only; no external-world validation of the source claims is implied.
+
+
+## Extraction generalisation and provider milestone — October 15, 2026
+
+**Independent infrastructure verification:** GitHub Actions run https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38694107593 finished successfully, including the full offline unit/API/MCP tests (76 cases), both actual FalkorDB integration tests, the previous synthetic evaluation, the new challenge fixture, and an external FewRel validation download. Local Ollama calls were **mocked only**; no actual model invocation is claimed.
+
+**New 26-sample cross-domain challenge, offline grammar baseline** (`evaluation/challenge_v1.json`):
+
+- 25 manually/AI-assisted annotated directed relations; **17 exact matches**, 19 predictions, precision **89.47%**, recall **68.00%**, F1 **77.27%**.
+- Five intentionally empty/no-relation cases; 5 correct abstentions and 0 false alarms on those five.
+- 19/19 stored evidence quotes match exact source spans. This is provenance consistency, not a semantic correctness score.
+- These novel authored samples are a development stress fixture, **not** an independently annotated external dataset. They must not be pooled with the older tuned 20-case synthetic fixture and labelled an unbiased test.
+
+**External FewRel validation sample, offline grammar baseline** (`ugi/eval_fewrel.py`):
+
+- Source: https://github.com/thunlp/FewRel ; validation file `data/val_wiki.json`; SHA256 `76bb44c2485b6faed358a3ce040eadafcc8a8835245cd7e6afc1bef672d4a0bf`.
+- Sample: 128 deterministic (seed=17) examples stratified across 16 Wikidata relation PIDs, drawn from Wikipedia-derived, human-annotated data.
+- Head and tail surfaces both present in 120/128 reconstructed source sentences; the extractor emitted any claim in just **1/128** and emitted a correct annotated **directed head/tail pair in 0/128**.
+- **Critical limitation:** This measures directed pair discovery only; the evaluator does not compare open predicates against Wikidata PID ontology, hence this is *not* a relation-classification F1 or model quality result. Pair detection alone could still have the wrong predicate.
+- Conclusion: Conservative grammar rules are insufficient for ordinary Wikipedia prose. Do not market offline extraction as generally accurate.
+
+**Optional local Ollama implementation**: bounded `/api/chat` calls with schema-constrained results, default provider remains offline, local endpoint validated, no AWS opt-in, failures and invalid JSON persisted for review. Mock-transport tests cover transport/schema/errors, quota, allowed endpoints and integration with offline grammar. **No actual local inference success, latency or accuracy has been measured.** Run a real Ollama sample before public demonstration of that feature.
