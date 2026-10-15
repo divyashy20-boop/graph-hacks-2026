@@ -235,6 +235,53 @@ class Engine:
     def evidence(self, claims):
         return [{"claim": c, "evidence": self.store.get(c["evidence_id"])} for c in claims]
 
+    @staticmethod
+    def resolution_gap(requested_predicate, paths, as_of=None):
+        """Describe evidence gaps; path proximity cannot prove a new predicate.
+
+        This is a deterministic explanation, never a proof or a learned score.
+        Claim IDs and source quotes remain available in the normal evidence field.
+        """
+        summaries = [
+            {"claim_ids": [c["id"] for c in path["claims"]],
+             "predicates": [c["predicate"] for c in path["claims"]],
+             "directions": ["forward" if direction else "reverse"
+                            for direction in path["directions"]]}
+            for path in paths[:5]
+        ]
+        common = ("Check source identity and source reliability; obtain an "
+                  "explicit, attributable assertion of the requested relation")
+        needed = [common]
+        next_action = "Obtain a new supporting document or seek human review before asserting it"
+        if requested_predicate == "TRANSITIVELY_DEPENDS_ON":
+            needed = ["At least two forward DEPENDS_ON claims forming one valid chain",
+                      "Consistent temporal applicability and no opposing dependency assertions"]
+        elif requested_predicate == "SHARES_EMPLOYER":
+            needed = ["Two WORKS_AT assertions pointing to one employer identity",
+                      "Explicit dated employment periods overlapping at the queried time"]
+        elif requested_predicate == "MAY_AFFECT":
+            needed = ["Reverse service-dependency evidence for exposure assessment",
+                      "Observed impact and a causal mechanism before claiming an actual outage"]
+            next_action = ("Only with explicit opt-in, propose an unverified dependency-risk "
+                           "hypothesis; investigate actual impact separately")
+        elif requested_predicate in {"FRIENDS_WITH", "KNOWS", "CAUSED", "FRAUD",
+                                     "COLLABORATED_WITH", "RELATED_TO"}:
+            needed = ["Direct source-specific semantic evidence; shared graph neighbours "
+                      "do not establish social ties, wrongdoing or causation"]
+        else:
+            needed = [f"Direct evidence for {requested_predicate} or an independently "
+                      "specified safe inference rule", common]
+        if as_of:
+            needed.append("Source evidence that is applicable on " + as_of[:10])
+        return {
+            "assessment": "CONNECTED_BUT_NOT_ENTAILED" if paths else "NO_APPLICABLE_GRAPH_PATH",
+            "requested_predicate": requested_predicate,
+            "path_summaries": summaries,
+            "missing_evidence": needed,
+            "recommended_action": next_action,
+            "safety_note": "A path/hypothesis does not establish the requested relation",
+        }
+
     def relationship(self, query: RelationQuery):
         p = predicate(query.predicate)
         if query.as_of:
@@ -273,6 +320,7 @@ class Engine:
                           "directions": path["directions"]} for path in paths]
         all_claims = {c["id"]: c for path in paths for c in path["claims"]}
         base["evidence"] = self.evidence(list(all_claims.values()))
+        base["resolution"] = self.resolution_gap(p, paths, query.as_of)
         proof = next((path for path in paths if len(path["claims"]) >= 2
                       and all(path["directions"])
                       and all(c["predicate"] == "DEPENDS_ON" for c in path["claims"])), None)
