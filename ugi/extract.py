@@ -131,6 +131,12 @@ def text_candidates(text):
         if not match:
             continue
         raw_p = match["p"].strip()
+        # Broad noun-phrase copulas (is a/an/the ..., was an ...) are
+        # semantic descriptions, not precise predicate tokens. Leave these
+        # to model-assisted review instead of inventing nonsensical edges.
+        # Explicit 'is part of' / 'is located in' remain usable grammar.
+        if re.match(r"^(?:is|was|were|are)\s+(?:a|an|the)\b", raw_p, re.I):
+            continue
         if match["s"].casefold() in {"he", "she", "it", "they", "this", "that", "the series"}:
             continue
         if raw_p in STOP_PREDICATES or any(w in raw_p for w in [" said ", " claims "]):
