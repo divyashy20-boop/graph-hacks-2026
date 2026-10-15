@@ -146,7 +146,7 @@ A source *asserting* a relationship is not independent truth verification. A con
 - Entity linking is conservative across documents and may fragment true identities unless a stable explicit ID is available.
 - Nontext/scanned PDFs need OCR; OCR is not bundled.
 - JSON and CSV must fit the configured ingestion limits. Large-scale real-world benchmarks have not been run.
-- Docker/FalkorDB live integration and reconnect are documented by the earlier Codex run, **but the updated package could not be retested against a live graph server in the ChatGPT environment**.
+- Updated package verification includes a successful GitHub-hosted Docker/FalkorDB integration run and participant-supplied Windows Docker Desktop results showing real upload, graph inference, persisted agent action and recovery after an API + graph container restart. See `TEST_REPORT.md` for scoped evidence. This is a prototype smoke test, not production-grade durability testing.
 - API keys and application-specific quotas are not substitutes for robust IAM, TLS, tenant policies, WAF controls, global cloud spending caps or independent security audit. Do not publicly expose the demo container as-is.
 - The synthetic held-out fixture may not generalise to open-ended unseen text or documents; quantitative scores in `evaluation/current_report.json` apply **only to that fixture**.
 
@@ -154,7 +154,7 @@ See `TEST_REPORT.md` for test evidence and `WORK_LOG.md` for event-time provenan
 
 ## Submission checklist
 
-- [ ] Run live FalkorDB integration and persistence/restart tests on the target computer.
+- [x] Run live FalkorDB integration and persistence/restart smoke tests on Windows Docker Desktop (participant-provided logs; see `TEST_REPORT.md`).
 - [ ] Verify eligibility of historical baseline/reference reuse with organisers where unclear.
 - [ ] Demonstrate incident graph + persisted investigation + evidence path.
 - [ ] Demonstrate second unrelated domain with the same code.
