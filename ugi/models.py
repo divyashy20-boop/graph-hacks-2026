@@ -132,6 +132,21 @@ class Extraction(Strict):
     relations: list[Candidate] = Field(max_length=60)
 
 
+class CompactRelation(Strict):
+    """Small local-model schema; converted to Candidate before verification."""
+    subject: str = Field(min_length=1, max_length=160)
+    predicate: str = Field(min_length=1, max_length=80)
+    object: str = Field(min_length=1, max_length=160)
+    evidence: str = Field(min_length=1, max_length=4000)
+    polarity: Literal["positive", "negative"] = "positive"
+    modality: Literal["asserted", "possible", "alleged", "probable", "unknown"] = "asserted"
+    historical: bool = False
+
+
+class CompactExtraction(Strict):
+    relations: list[CompactRelation] = Field(max_length=12)
+
+
 class Verdict(Strict):
     supported: bool
     reason: str = Field(max_length=1000)
