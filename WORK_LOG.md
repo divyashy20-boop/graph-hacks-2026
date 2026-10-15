@@ -91,3 +91,13 @@ Key implementation constraints: FalkorDB remains required for production/demo pe
 - [x] Added targeted `tests/test_batch_review.py`, migrated Ollama mock tests and fixed issues caught by hosted CI.
 - [x] [CI run 38702438378](https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38702438378) passed **86 non-integration tests and 2 live FalkorDB integration tests** with synthetic and external offline evaluation. Actual post-change Qwen inference remains untested.
 - [ ] Rerun the same four source examples with the participant's local Ollama model and inspect claim/review trace. Do not make an extraction accuracy claim until new empirical results and human adjudication are available.
+
+
+## Real Qwen batch-run findings and spatial normalization — October 15, 2026
+
+- [x] Participant supplied live Qwen diagnostic after batch change: same 4 FewRel samples, 8 to 5 local model calls, accepted claims 4 to 1, review tasks 2 to 5, and head-tail pair hits stayed 0/4. Exact quote check remained 1/1 for accepted post-batch claims.
+- [x] Confirmed previous ambiguous participial-entry claim and flattened BETWEEN relations now abstain, while an explicit LOCATED_IN relation remains accepted.
+- [x] Identified a false negative from the local model semantic reviewer for explicit *just south of*; reviewer incorrectly rejected SITUATED_JUST_SOUTH_OF despite source wording. Added generalized directional spatial predicate normalization to base NORTH/SOUTH/EAST/WEST_OF, retaining source quote and requiring standard semantic review.
+- [x] Added tests for direction variants and negative/spatial verification; CI run 38704185238 was green with real FalkorDB integration.
+- [ ] Rerun *new* spatial normalization on the participant's real local model; no actual post-change accuracy claims.
+- [ ] Annotate an independent source-supported relation set (not FewRel pair labels alone), with negative controls and linguistic group relations.
