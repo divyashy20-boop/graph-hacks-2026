@@ -1,0 +1,17 @@
+[
+  {
+    "relation_type":"PROVISION",
+    "participants":[
+      {"role":"provider","name":"Nova Supply","entity_type":"Organization","external_id":"org:nova"},
+      {"role":"item","name":"Sensor Unit","entity_type":"Component","external_id":"component:sensor"},
+      {"role":"recipient","name":"Harbor Factory","entity_type":"Facility","external_id":"factory:harbor"}
+    ],
+    "valid_from":"2026-01-01","valid_to":"2026-12-31","time_precision":"day",
+    "temporal_source":"structured contract interval","modality":"possible","attribution":"Synthetic contract proposal",
+    "occurrence_id":"contract:sample-2026"
+  },
+  {
+    "subject":"Harbor Factory","subject_type":"Facility","subject_id":"factory:harbor",
+    "predicate":"located in","object":"Northport","object_type":"Place","object_id":"place:northport"
+  }
+]

@@ -12,7 +12,7 @@ from .models import Settings, uid
 
 KINDS = {
     "Source", "Chunk", "Entity", "Claim", "Evidence", "Mention", "MergeDecision",
-    "Hypothesis", "Investigation", "ReviewTask", "AgentAction", "Usage",
+    "Hypothesis", "Investigation", "ReviewTask", "AgentAction", "Usage", "RelationEvent",
 }
 
 
@@ -137,6 +137,20 @@ class Store:
             return {kind: sum(r["kind"] == kind for r in self.records.values()) for kind in KINDS}
         return dict(self.query("MATCH (n:Record) RETURN n.kind,count(n)"))
 
+    def events(self, entity_id=None, limit=100):
+        if not 1 <= limit <= 500:
+            raise ValueError("Event limit must be between 1 and 500")
+        if entity_id is None:
+            return self.list("RelationEvent", limit)
+        if not self.client:
+            return [e for e in self.list("RelationEvent", 20000)
+                    if any(p["entity_id"] == entity_id for p in e["participants"])][:limit]
+        rows = self.query(
+            "MATCH (e:RelationEvent)-[:HAS_PARTICIPANT]->(:Entity {id:$id}) "
+            f"RETURN DISTINCT e.payload ORDER BY e.id LIMIT {limit}", {"id": entity_id},
+        )
+        return [json.loads(row[0]) for row in rows]
+
     def commit(self, records, links=()):
         records = list({r["id"]: r for r in records}.values())
         if any(r["kind"] not in KINDS for r in records):
@@ -159,13 +173,16 @@ class Store:
                 "SET n += v)"
             )
         for rel in sorted({link[2] for link in links}):
-            if rel not in {"RELATES", "HAS_CHUNK", "SUPPORTS", "CITES", "HAS_TASK", "ACTED_ON"}:
+            if rel not in {"RELATES", "HAS_CHUNK", "SUPPORTS", "CITES", "HAS_TASK", "ACTED_ON",
+                           "HAS_PARTICIPANT"}:
                 raise ValueError("Unknown edge kind")
-            params[rel] = [dict(a=a, b=b, claim_id=c) for a, b, label, c in links if label == rel]
+            params[rel] = [dict(a=link[0], b=link[1], claim_id=link[3],
+                                role=link[4] if len(link) == 5 else "")
+                           for link in links if link[2] == rel]
             clauses.append(
                 f"FOREACH(v IN ${rel} | MERGE (a:Record {{id:v.a}}) "
                 "MERGE (b:Record {id:v.b}) "
-                f"MERGE (a)-[:{rel} {{claim_id:v.claim_id}}]->(b))"
+                f"MERGE (a)-[r:{rel} {{claim_id:v.claim_id}}]->(b) SET r.role=v.role)"
             )
         self.query(" ".join(clauses), params)
 

@@ -60,11 +60,12 @@ class Engine:
                 self.store.consume("ai:" + self.store.owner + ":" + now()[:10],
                                    self.settings.daily_ai_queries)
             records, links, entities, claims, reviews, seen = [source, *chunks], [], {}, [], [], set()
-            warnings = []
+            warnings, events = [], []
             for chunk in chunks:
                 links.append((source["id"], chunk["id"], "HAS_CHUNK", chunk["id"]))
+                chunk_events = []
                 try:
-                    candidates, method = discover(chunk, provider)
+                    candidates, method = discover(chunk, provider, event_sink=chunk_events)
                 except (ValueError, ProviderError) as exc:
                     candidates, method = [], "failed"
                     warnings.append(str(exc))
@@ -163,16 +164,27 @@ class Engine:
                     links.extend([(entity_ids[0], entity_ids[1], "RELATES", identity),
                                   (evidence["id"], identity, "SUPPORTS", identity),
                                   (evidence["id"], chunk["id"], "CITES", identity)])
+                from .nary import event_records
+
+                extra, event_links, accepted_events, event_reviews = event_records(
+                    chunk_events, chunk, self.store, entities, provider,
+                )
+                records.extend(extra)
+                links.extend(event_links)
+                events.extend(accepted_events)
+                reviews.extend(event_reviews)
             counts = self.store.counts()
             new_entities = sum(self.store.get(eid) is None for eid in entities)
             if counts.get("Entity", 0) + new_entities > self.settings.max_nodes:
                 raise ValueError("Entity quota exceeded")
-            if counts.get("Claim", 0) + len(claims) > self.settings.max_claims:
+            if (counts.get("Claim", 0) + counts.get("RelationEvent", 0) + len(claims) + len(events)
+                    > self.settings.max_claims):
                 raise ValueError("Relationship quota exceeded")
             if sum(counts.values()) + len(records) + len(entities) + len(reviews) > 100000:
                 raise ValueError("Total record quota exceeded")
             report = dict(source_id=source["id"], chunks=len(chunks), entities=len(entities),
-                          claims=len(claims), review_tasks=len(reviews), duplicate=False,
+                          claims=len(claims), relation_events=len(events),
+                          review_tasks=len(reviews), duplicate=False,
                           warnings=warnings, elapsed_ms=round((perf_counter() - started) * 1000, 3),
                           provider=self.settings.provider if provider else "offline",
                           usage=getattr(provider, "usage", {"calls": 0, "estimated_usd": 0}))

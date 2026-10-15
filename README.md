@@ -17,10 +17,10 @@ An **event-time Graph Hacks 2026 Track 1 implementation** of a multi-format, evi
 
 ## Quick start: Docker Desktop (Windows/Linux/macOS)
 
-Use the **`event/` directory** as the working directory. Ensure Docker Desktop is running.
+Use the **repository root** (the directory containing `ugi/` and `compose.yaml`). Ensure Docker Desktop is running.
 
 ```bash
-cd event
+cd graph-hacks-2026
 # optionally configure local-only access keys in .env; never commit the real file
 cp .env.example .env
 # For a demo shared beyond your own machine, set a strong UGI_API_KEYS and use HTTPS + a reverse proxy.
@@ -196,6 +196,57 @@ App-side quotas, request caps and estimated pre-reserved costs are safeguards, *
 `Source -> HAS_CHUNK -> Chunk`. Source claims have exact `Evidence` records, tied to their originating chunk and supporting Claim. Entity-to-Entity `RELATES` connections are keyed by Claim ID and preserve direction, predicate, qualifier and source ID in the related Claim record. For agent actions, `Investigation -> HAS_TASK -> ReviewTask`; `AgentAction -> ACTED_ON -> Investigation`.
 
 A source *asserting* a relationship is not independent truth verification. A connected path alone is not a semantic inference. A hypothesis does not become a Claim without separate evidence. Negative source claims are now distinguished from contradictory positive+negative assertions. `TRANSITIVELY_DEPENDS_ON` requires at least two direct dependency hops.
+
+### Whole relations with three or more participants
+
+Upload `demo/relation_events.txt` to a fresh dataset, for example `events-demo`.
+It produces four whole events: a four-island BETWEEN relation, a supplier/item/factory
+provision, an acquisition including its consideration and year, and a research
+collaboration involving two researchers, a project and an institution. These
+examples are synthetic CC0 demonstration data. No separate binary claims are
+created from the event spokes.
+
+`RelationEvent -> HAS_PARTICIPANT {role} -> Entity` preserves every participant
+and role. `Evidence -> SUPPORTS -> RelationEvent` and `Evidence -> CITES -> Chunk`
+retain exact quotations and offsets. Event records preserve original relation
+type, normalized type, source/chunk, polarity/modality, time precision, event time,
+validity, attribution, review method and model. Type-scoped explicit IDs link
+structured event participants to existing entities; name-only identities remain
+document-local. All writes use the existing atomic document commit and dataset
+graph isolation. Role-order permutations deduplicate, while different occurrences,
+dates, polarity and modality remain separate. Repeated quotes need exact offsets.
+
+`demo/relation_events.json` demonstrates an uncertain, time-bounded structured
+provision and an ordinary binary location claim sharing the same factory ID.
+JSON/JSONL event rows contain `relation_type` and `participants` (3–12 entries,
+each with `role`, `name`, optional `entity_type`, `external_id`, `aliases`).
+Structured evidence is the original serialized row, not externally verified prose.
+
+New read endpoints:
+
+- `GET /api/events?entity_id=ENTITY_ID&as_of=2026-06-01&limit=100`
+- `GET /api/graph` includes `events` alongside compatible `entities` and `claims`.
+- `GET /api/records/{evidence_id}` reads an event's exact evidence.
+
+The browser draws events as diamonds and role-labelled spokes, with amber for
+uncertainty, red for negation and dashed historical participation. Select the
+event or role label to inspect evidence. These spokes are incidence edges, not
+binary world assertions, and do not enter the binary UNKNOWN resolver's proof
+paths. No general logical rule derives a pairwise relation from shared participation.
+
+Ollama's existing compact extraction can return an optional `events` array in the
+same response. Deterministic whole-event guards precede at most one event-review
+batch of six unresolved events; the existing global/per-request call ceilings
+still apply. Missing or duplicated verdicts, incomplete anchor groups, invented
+participants, altered quotes and lost qualifiers fail closed into review tasks.
+The binary batch path is preserved. Extra event review may consume an additional
+call, so this is not an unmeasured speed/accuracy improvement claim.
+
+The deterministic event templates cover only clear supported sentence forms.
+Relative-clause attachment and broad event extraction remain limited. Complex
+events require model/human review; live local-model event quality is reported
+separately from mocked tests in `TEST_REPORT.md`. Temporal filtering is bounded:
+the limit is applied before filtering, and the endpoint reports this explicitly.
 
 ## Known limitations
 

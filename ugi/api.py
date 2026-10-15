@@ -86,8 +86,34 @@ def create_app(settings=None):
         ids = {e["id"] for e in entities}
         claims = [c for c in engine.store.list("Claim", limit) if c["subject_id"] in ids
                   and c["object_id"] in ids]
-        return {"entities": entities, "claims": claims, "counts": engine.store.counts(),
+        events = [e for e in engine.store.events(limit=limit)
+                  if all(p["entity_id"] in ids for p in e["participants"])]
+        return {"entities": entities, "claims": claims, "events": events,
+                "counts": engine.store.counts(),
                 "truncated": engine.store.counts().get("Entity", 0) > limit}
+
+    @app.get("/api/events")
+    def events(entity_id: str | None = Query(default=None, max_length=160),
+               as_of: str | None = Query(default=None, max_length=32),
+               limit: int = Query(100, ge=1, le=500), engine=Depends(context)):
+        from datetime import date
+
+        from .engine import active
+
+        if as_of:
+            date.fromisoformat(as_of)
+        records = engine.store.events(entity_id, limit)
+        def applicable(event):
+            if not as_of:
+                return True
+            if event.get("event_time") and not event.get("valid_from"):
+                width = {"year": 4, "month": 7}.get(event.get("time_precision"), 10)
+                return event["event_time"][:width] == as_of[:width]
+            return active(event, as_of)
+
+        return {"events": [e for e in records if applicable(e)],
+                "limit": limit, "filtered_after_limit": bool(as_of),
+                "semantics": "Whole source events; participation does not prove binary predicates"}
 
     @app.get("/api/entities")
     def entities(name: str = Query(min_length=1, max_length=160), engine=Depends(context)):

@@ -1,0 +1,246 @@
+{
+  "recorded_at": "2026-10-15T08:34:36.489965+00:00",
+  "model": "qwen3:4b-instruct",
+  "documents": [
+    {
+      "id": "spatial",
+      "source": "Pavo lies between Quill and Rowan.",
+      "ingestion": {
+        "source_id": "466d76d4f9f838c97430350f87dc3acfc1b219424cbbd2ce7de5cb7201e4ad7f",
+        "chunks": 1,
+        "entities": 3,
+        "claims": 0,
+        "relation_events": 1,
+        "review_tasks": 2,
+        "duplicate": false,
+        "warnings": [],
+        "elapsed_ms": 7646.417,
+        "provider": "ollama",
+        "usage": {
+          "calls": 1,
+          "input_tokens": 297,
+          "output_tokens": 104,
+          "estimated_usd": 0
+        }
+      },
+      "events": [
+        {
+          "evidence": "Pavo lies between Quill and Rowan.",
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "time_precision": "unknown",
+          "temporal_source": null,
+          "historical": false,
+          "attribution": null,
+          "occurrence_id": null,
+          "evidence_start": 0,
+          "id": "33d8373e9395bb58ca0f310485c4924786341579a7d914cea2dfa8592b413434",
+          "kind": "RelationEvent",
+          "relation_type": "BETWEEN",
+          "original_relation_type": "BETWEEN",
+          "participants": [
+            {
+              "role": "anchor",
+              "name": "Quill",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "bd2276f5ed6d660a8a11a4d88c1e0d830bfe9ea7b2ae7ef4732d93b689656f74"
+            },
+            {
+              "role": "anchor",
+              "name": "Rowan",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "e50ba986536e29f4043eba83a2cbaed202664df0f841db651887235710281179"
+            },
+            {
+              "role": "subject",
+              "name": "Pavo",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "3ae54b25a68f20d82ba92e8f4c82d49411d110a8aab86abb742985a169b104a2"
+            }
+          ],
+          "source_id": "466d76d4f9f838c97430350f87dc3acfc1b219424cbbd2ce7de5cb7201e4ad7f",
+          "chunk_id": "361c6ca15c22e5b22da490398bddc44c11a4740dc28efb04c95a0ba3aef834a3",
+          "evidence_id": "99e40f67b00b94d721f9b40e992b902ccf4d134e8987101d56011af1d35f3162",
+          "recorded_at": "2026-10-15T08:34:35.992062+00:00",
+          "review_status": "supported",
+          "review_reason": "Whole-event grammar and complete role/qualifier agreement",
+          "extraction_method": "hybrid_event",
+          "extraction_model": "qwen3:4b-instruct",
+          "verification_level": "source_assertion",
+          "independently_verified": false
+        }
+      ],
+      "claims": [],
+      "reviews": [
+        {
+          "id": "6b520b57d99119426dd69fbea2dd21763c8f1c9bff8807a79f42667a21e49eaa",
+          "kind": "ReviewTask",
+          "status": "open",
+          "reason": "Multi-participant event requires whole role mapping; binary assertion withheld",
+          "candidate": {
+            "subject": "Pavo",
+            "predicate": "LOCATED_BETWEEN",
+            "object": "Quill",
+            "evidence": "Pavo lies between Quill and Rowan.",
+            "subject_id": null,
+            "object_id": null,
+            "subject_type": "Entity",
+            "object_type": "Entity",
+            "subject_aliases": [],
+            "object_aliases": [],
+            "polarity": "positive",
+            "modality": "asserted",
+            "event_time": null,
+            "valid_from": null,
+            "valid_to": null,
+            "time_precision": "unknown",
+            "temporal_source": null,
+            "historical": false,
+            "attribution": null,
+            "event_id": null
+          },
+          "source_id": "466d76d4f9f838c97430350f87dc3acfc1b219424cbbd2ce7de5cb7201e4ad7f",
+          "chunk_id": "361c6ca15c22e5b22da490398bddc44c11a4740dc28efb04c95a0ba3aef834a3",
+          "recorded_at": "2026-10-15T08:34:35.991373+00:00"
+        },
+        {
+          "id": "157b1ca7ff58296c57f787798323be89dbf70b8a0e6722dad4089e490e7714d8",
+          "kind": "ReviewTask",
+          "status": "open",
+          "reason": "Multi-participant event requires whole role mapping; binary assertion withheld",
+          "candidate": {
+            "subject": "Pavo",
+            "predicate": "LOCATED_BETWEEN",
+            "object": "Rowan",
+            "evidence": "Pavo lies between Quill and Rowan.",
+            "subject_id": null,
+            "object_id": null,
+            "subject_type": "Entity",
+            "object_type": "Entity",
+            "subject_aliases": [],
+            "object_aliases": [],
+            "polarity": "positive",
+            "modality": "asserted",
+            "event_time": null,
+            "valid_from": null,
+            "valid_to": null,
+            "time_precision": "unknown",
+            "temporal_source": null,
+            "historical": false,
+            "attribution": null,
+            "event_id": null
+          },
+          "source_id": "466d76d4f9f838c97430350f87dc3acfc1b219424cbbd2ce7de5cb7201e4ad7f",
+          "chunk_id": "361c6ca15c22e5b22da490398bddc44c11a4740dc28efb04c95a0ba3aef834a3",
+          "recorded_at": "2026-10-15T08:34:35.991373+00:00"
+        }
+      ],
+      "provider_trace": [
+        {
+          "schema": "CompactExtraction",
+          "valid": true,
+          "response": "{\n  \"relations\": [\n    {\n      \"evidence\": \"Pavo lies between Quill and Rowan.\",\n      \"object\": \"Quill\",\n      \"predicate\": \"LOCATED_BETWEEN\",\n      \"subject\": \"Pavo\"\n    },\n    {\n      \"evidence\": \"Pavo lies between Quill and Rowan.\",\n      \"object\": \"Rowan\",\n      \"predicate\": \"LOCATED_BETWEEN\",\n      \"subject\": \"Pavo\"\n    }\n  ]\n}"
+        }
+      ]
+    },
+    {
+      "id": "supply",
+      "source": "Mica provides Sensor to Vale Factory.",
+      "ingestion": {
+        "source_id": "a3ae4b279b165b42789e0b7faae9c523fd2eb2144842fd2cea53c80435c55938",
+        "chunks": 1,
+        "entities": 3,
+        "claims": 0,
+        "relation_events": 1,
+        "review_tasks": 0,
+        "duplicate": false,
+        "warnings": [],
+        "elapsed_ms": 497.216,
+        "provider": "ollama",
+        "usage": {
+          "calls": 1,
+          "input_tokens": 295,
+          "output_tokens": 12,
+          "estimated_usd": 0
+        }
+      },
+      "events": [
+        {
+          "evidence": "Mica provides Sensor to Vale Factory.",
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "time_precision": "unknown",
+          "temporal_source": null,
+          "historical": false,
+          "attribution": null,
+          "occurrence_id": null,
+          "evidence_start": 0,
+          "id": "bc406053985e40b626d5274f43d3d81455ecf8de9da94b69ff9145055174ace4",
+          "kind": "RelationEvent",
+          "relation_type": "PROVISION",
+          "original_relation_type": "PROVISION",
+          "participants": [
+            {
+              "role": "item",
+              "name": "Sensor",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "b15f9a901c0e37ef79cefaf7fcee67bae843c6ea3f260ff4bcbea5c640e93294"
+            },
+            {
+              "role": "provider",
+              "name": "Mica",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "0afe626e3d4bbfc8b4fddbcfe1cfe255ea5c89823065577cf90fb566847bbfd6"
+            },
+            {
+              "role": "recipient",
+              "name": "Vale Factory",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "df11e898bf1e6002753a459706e1dd17697c640bf80660601d014b583922cf32"
+            }
+          ],
+          "source_id": "a3ae4b279b165b42789e0b7faae9c523fd2eb2144842fd2cea53c80435c55938",
+          "chunk_id": "7e140a9fa2f641f0e87061c298cc22d95b0179d01fa54c586d79cdf70c1ba0e3",
+          "evidence_id": "3309797edec01d447df065dde7b2bce9356dc8a1d30a8cda032a871908e128a2",
+          "recorded_at": "2026-10-15T08:34:36.489965+00:00",
+          "review_status": "supported",
+          "review_reason": "Whole-event grammar and complete role/qualifier agreement",
+          "extraction_method": "hybrid_event",
+          "extraction_model": "qwen3:4b-instruct",
+          "verification_level": "source_assertion",
+          "independently_verified": false
+        }
+      ],
+      "claims": [],
+      "reviews": [],
+      "provider_trace": [
+        {
+          "schema": "CompactExtraction",
+          "valid": true,
+          "response": "{\n  \"relations\": []\n}"
+        }
+      ]
+    }
+  ],
+  "scope": "Two synthetic development smoke tests with deterministic templates; model transport/schema compatibility only, not independent model accuracy",
+  "cloud_api_calls": 0,
+  "annotation": "AI-authored CC0 development text"
+}

@@ -84,7 +84,7 @@ def evaluate(root):
         for sample in dataset["samples"]:
             source, chunks = IngestionService(OldSettings(_env_file=None)).parse(
                 sample["id"] + ".txt", sample["text"].encode())
-            result = RuleExtractor().extract(chunks[0])
+            result = RuleExtractor().extract(chunks)
             names = {e.id: e.name for e in result.entities}
             predicted |= {(sample["id"], names[c.subject_id], c.predicate, names.get(c.object_id, ""))
                           for c in result.claims}

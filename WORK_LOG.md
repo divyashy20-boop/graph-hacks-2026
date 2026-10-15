@@ -1,5 +1,37 @@
 # Event-time implementation work log
 
+## Native multi-participant relations — October 15, 2026 (Codex continuation)
+
+- Continued from verified remote main `cf07cf5`; its Actions run 38704495098
+  succeeded. The Downloads working tree was clean but behind remote main. Used
+  a clean clone in the authorized workspace; no nested event directory.
+- Added typed RelationEvent/participant schemas, exact evidence, role-labelled
+  graph incidence edges, atomic ingestion, type-scoped identities and review.
+  Binary claims and their reasoning paths remain compatible. Supported event
+  grammar: clear BETWEEN, provision, acquisition and research collaboration.
+- Added event retrieval/filter endpoints and source-connected event diamonds.
+  Added mixed binary/event and four-event synthetic demos. No general binary
+  inference is licensed by participant co-membership.
+- Corrected an optional historical evaluator adapter failure found locally:
+  RuleExtractor expects a list of chunks. It now executes where the old package
+  is available and still reports unavailable in a standalone checkout.
+- First full run: 111 passed, including 3 actual FalkorDB integration tests;
+  added further repeated-occurrence/identity regressions afterward, final count
+  recorded in TEST_REPORT.md. Existing development and challenge scores unchanged.
+- Local Qwen smoke: 2 actual local calls, one per synthetic document. Qwen gave
+  two flattened BETWEEN candidates (withheld) and empty supply extraction. Both
+  whole events came from grammar. No learned n-ary extraction improvement.
+  Subsequently moved event instructions before SOURCE; post-fix model behavior
+  remains unmeasured. Exact raw responses are in evaluation/nary_qwen_smoke.json.
+- New independently human-annotated evaluation, general natural-language agent
+  planning and full UI redesign remain subsequent milestones; no claims otherwise.
+- No paid Bedrock, cloud deployment, public endpoint, volume deletion, force push
+  or changes to Khoj. AI-assisted development disclosed; participant review remains
+  necessary. Publishing and CI result are recorded after verification below.
+- Final local suite: **114 passed, 0 failed, 0 skipped**, including 3 live
+  FalkorDB integration cases. Targeted lint/whitespace passed. Docker rebuild
+  succeeded; browser upload showed 4 events/14 entities/0 flattened binary claims.
+
 ## Historical Codex stage — October 15, 2026
 
 Started 2026-10-15 09:26 IST (03:56 UTC), within the event window, according to the supplied historical `WORK_LOG.md`.

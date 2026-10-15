@@ -1,5 +1,63 @@
 # Verified follow-up report — October 15, 2026
 
+## Native n-ary milestone: new measured evidence
+
+The October 15 Codex continuation began at remote main `cf07cf5`, whose
+[Actions run 38704495098](https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38704495098)
+was successful. The first full local continuation suite passed **111 tests,
+0 failed, 0 skipped**, including **3 actual FalkorDB integration tests** on the
+existing isolated loopback graph service. Later occurrence/identity regressions
+are included in the final verification entry below. API/provider model tests
+otherwise use mocks or memory, as indicated by test names.
+
+New actual-server test: upload four whole events -> 14 participant-role graph
+edges -> exact source evidence -> reconnect -> retrieve events by participant ->
+dataset isolation -> idempotent reupload. No entity-pair RELATES/Claim records
+were generated from the event spokes. The test deletes only its random test
+graphs; the participant's persistent graph volume is preserved.
+
+Unchanged benchmark results (fresh execution, zero model calls):
+
+| Fixture | Exact relation results | Interpretation |
+|---|---|---|
+| Existing 20-passage development fixture | 22/24 recovered, 22 predictions; F1 95.65% | Tuned synthetic development data |
+| Existing 26-case challenge | 17/25 recovered, 19 predictions; P 89.47%, R 68%, F1 77.27% | AI-assisted provisional stress labels |
+| Existing UNKNOWN fixture | 12/12 expected status matches | Small synthetic status regression |
+
+Reports: `evaluation/nary_development_report.json`, `evaluation/nary_challenge_report.json`.
+These are checks for regression, not a new independent benchmark or a measure of
+general event extraction. This workspace also reproduced historical rule F1
+15.38% on the 20-passage fixture using the optional adjacent historical package.
+That package is not a runtime dependency or included in this repository.
+
+### Actual local Qwen event smoke (development only)
+
+Model: `qwen3:4b-instruct`, host loopback Ollama; 2 documents, 2 actual calls,
+no cloud requests. Report: `evaluation/nary_qwen_smoke.json` (public synthetic
+text and opt-in raw model trace).
+
+| Document | Model behavior | Final pipeline | Calls / observed latency |
+|---|---|---|---|
+| Pavo / Quill / Rowan | Two flattened LOCATED_BETWEEN binary candidates, no event | Both binaries held for review; grammar produced one whole BETWEEN event | 1 / 7646 ms |
+| Mica / Sensor / Vale Factory | Empty relations list, no event | Grammar produced one PROVISION event | 1 / 497 ms |
+
+Reported token counts: 592 input, 116 output; cloud charge $0. Local compute and
+electricity are not free. Latencies are two observations, not a p95 claim. This
+demonstrates actual local transport and fail-closed behavior; it **does not show
+learned event extraction success**. Event instruction placement was corrected
+after this probe; that subsequent prompt change has regression tests but no new
+live inference measurement. No paid Bedrock call was made.
+
+### Final local verification for this milestone
+
+**114 passed, 0 failed, 0 skipped** (Python 3.12.14, pytest 9.1.1;
+`UGI_TEST_REDIS_URL=redis://127.0.0.1:6380/0 python -m pytest -o addopts='' -q`).
+This comprises **111 non-integration tests and 3 actual FalkorDB integration
+tests**. One upstream Starlette/httpx deprecation warning remains. Targeted Ruff
+and `git diff --check` passed. Docker app rebuild succeeded and a real browser
+upload displayed **14 entities, 4 whole events, 0 binary claims** with role
+spokes and exact evidence. No persistent Docker volumes were removed.
+
 This report describes the **ChatGPT continuation** of the event implementation supplied as `event.zip`. Prior Codex outputs are clearly distinguished from what was actually reproduced here.
 
 ## Code quality and functionality

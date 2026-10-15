@@ -138,8 +138,65 @@ class Candidate(Strict):
         return self
 
 
+class EventParticipant(Strict):
+    role: str = Field(pattern=r"^[a-z][a-z0-9_]{0,39}$")
+    name: str = Field(min_length=1, max_length=160)
+    entity_type: str = Field(default="Entity", min_length=1, max_length=80)
+    external_id: str | None = Field(default=None, max_length=160)
+    aliases: list[str] = Field(default_factory=list, max_length=20)
+
+    @model_validator(mode="after")
+    def nonempty(self):
+        if not self.name.strip() or not self.entity_type.strip():
+            raise ValueError("Participant name and type must be nonempty")
+        return self
+
+
+class RelationEventCandidate(Strict):
+    relation_type: str = Field(min_length=1, max_length=80)
+    participants: list[EventParticipant] = Field(min_length=3, max_length=12)
+    evidence: str = Field(min_length=1, max_length=4000)
+    polarity: Literal["positive", "negative"] = "positive"
+    modality: Literal["asserted", "possible", "alleged", "probable", "unknown"] = "asserted"
+    event_time: str | None = None
+    valid_from: str | None = None
+    valid_to: str | None = None
+    time_precision: Literal["unknown", "year", "month", "day", "instant"] = "unknown"
+    temporal_source: str | None = None
+    historical: bool = False
+    attribution: str | None = Field(default=None, max_length=160)
+    occurrence_id: str | None = Field(default=None, max_length=160)
+    evidence_start: int | None = Field(default=None, ge=0, le=4000)
+
+    @model_validator(mode="after")
+    def consistent(self):
+        predicate(self.relation_type)
+        participants = [(p.role, key(p.name), key(p.entity_type), p.external_id)
+                        for p in self.participants]
+        if len(set(participants)) != len(participants):
+            raise ValueError("Duplicate role/participant")
+        if len({(key(p.name), key(p.entity_type), p.external_id)
+                for p in self.participants}) < 3:
+            raise ValueError("An n-ary event requires three distinct participants")
+        for field in ("event_time", "valid_from", "valid_to"):
+            value = getattr(self, field)
+            if value:
+                datetime.fromisoformat(value.replace("Z", "+00:00"))
+        if self.valid_from and self.valid_to and self.valid_from > self.valid_to:
+            raise ValueError("Reversed validity interval")
+        if predicate(self.relation_type) in {
+            "BETWEEN", "IS_BETWEEN", "LIES_BETWEEN", "LIE_BETWEEN", "SITUATED_BETWEEN",
+            "LOCATED_BETWEEN", "POSITIONED_BETWEEN", "IS_SITUATED_BETWEEN", "IS_LOCATED_BETWEEN",
+        }:
+            roles = [p.role for p in self.participants]
+            if roles.count("subject") != 1 or roles.count("anchor") < 2 or set(roles) != {"subject", "anchor"}:
+                raise ValueError("BETWEEN requires one subject and at least two anchors")
+        return self
+
+
 class Extraction(Strict):
     relations: list[Candidate] = Field(max_length=60)
+    events: list[RelationEventCandidate] = Field(default_factory=list, max_length=12)
 
 
 class CompactRelation(Strict):
@@ -155,6 +212,7 @@ class CompactRelation(Strict):
 
 class CompactExtraction(Strict):
     relations: list[CompactRelation] = Field(max_length=12)
+    events: list[RelationEventCandidate] = Field(default_factory=list, max_length=6)
 
 
 class Verdict(Strict):

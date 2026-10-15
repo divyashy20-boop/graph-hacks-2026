@@ -8,7 +8,7 @@
 <div class="panel"><label>Dataset <input id="dataset" value="demo" maxlength="60"> Access key <input id="access" type="password" autocomplete="off" placeholder="Local mode: leave empty"></label><span class="badge" id="backend"></span></div>
 <div class="grid"><section class="panel"><h2>1 · Add evidence</h2><p>CSV, JSON, JSONL, TXT or text PDF. Upload the supplied incident fixture to begin.</p><input type="file" id="file" accept=".csv,.json,.jsonl,.txt,.pdf"><button id="upload">Upload</button><div id="uploadstatus" class="status" role="status"></div><details><summary>Ingestion result</summary><pre id="ingestion"></pre></details></section>
 <section class="panel"><h2>2 · Investigate and act</h2><p>The agent follows incoming dependencies, checks evidence conflicts and creates a persistent case with review tasks.</p><input id="target" value="Cache" aria-label="Investigation target"><button id="investigate">Create investigation</button><div id="actionstatus" class="status" role="status"></div><details><summary>Tool trace and saved case</summary><pre id="action"></pre></details></section></div>
-<section class="panel"><h2>Evidence graph</h2><p id="counts"></p><svg id="graph" role="img" aria-label="Claim graph"></svg><p>Click an edge label to inspect its exact source evidence.</p><pre id="evidence"></pre></section>
+<section class="panel"><h2>Evidence graph</h2><p id="counts"></p><svg id="graph" role="img" aria-label="Claim and role-labelled event graph"></svg><p>Circles are entities; diamonds are whole events. Event spokes show participant roles, never separate binary facts. Amber marks uncertain events; red marks source negation. Click a claim or event to read its exact evidence.</p><pre id="evidence"></pre></section>
 <section class="panel"><h2>3 · Check a relationship</h2><input id="subject" value="Checkout" aria-label="Subject"><input id="predicate" value="TRANSITIVELY_DEPENDS_ON" aria-label="Predicate"><input id="object" value="Cache" aria-label="Object"><label>Historical date (optional) <input id="asof" type="date"></label><label><input id="hypothesis" type="checkbox"> Allow a separately labelled risk hypothesis</label><button id="query">Evaluate evidence</button><div id="querystatus" class="status" role="status"></div><pre id="answer"></pre></section>
 <div class="grid"><section class="panel"><h2>Saved investigations</h2><div id="cases"></div></section><section class="panel"><h2>Review queue</h2><p>Review decisions record a human judgement. They do not automatically turn rejected model candidates into facts.</p><div id="tasks"></div></section></div>
 <script>
@@ -19,7 +19,41 @@ $('upload').onclick=()=>run('upload','uploadstatus',async()=>{if(!$('file').file
 $('investigate').onclick=()=>run('investigate','actionstatus',async()=>{show('action',await api('/api/investigations',{target:$('target').value,idempotency_key:crypto.randomUUID(),authorise_action:true,as_of:$('asof').value||null}));await refresh()});
 $('query').onclick=()=>run('query','querystatus',async()=>show('answer',await api('/api/relationships',{subject:$('subject').value,object:$('object').value,predicate:$('predicate').value,as_of:$('asof').value||null,allow_hypothesis:$('hypothesis').checked})));
 function node(tag,attrs,text){let e=document.createElementNS('http://www.w3.org/2000/svg',tag);for(let [k,v]of Object.entries(attrs))e.setAttribute(k,v);if(text)e.textContent=text;return e}
-function draw(data){let svg=$('graph');svg.replaceChildren();svg.setAttribute('viewBox','0 0 1100 370');let entities=data.entities.slice(0,25),pos=new Map();entities.forEach((e,i)=>{let a=2*Math.PI*i/Math.max(1,entities.length);pos.set(e.id,[550+440*Math.cos(a),185+135*Math.sin(a)])});for(let c of data.claims){if(!pos.has(c.subject_id)||!pos.has(c.object_id))continue;let a=pos.get(c.subject_id),b=pos.get(c.object_id);svg.append(node('line',{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:c.polarity==='negative'?'#fa9b86':'#4c8f9c','stroke-width':2}));let label=node('text',{x:(a[0]+b[0])/2,y:(a[1]+b[1])/2,tabindex:0,role:'button',cursor:'pointer'},'→ '+c.predicate);const inspect=async()=>{try{show('evidence',{claim:c,evidence:await api('/api/records/'+c.evidence_id)})}catch(e){$('evidence').textContent=e.message}};label.onclick=inspect;label.onkeydown=e=>{if(e.key==='Enter')inspect()};svg.append(label)}for(let e of entities){let [x,y]=pos.get(e.id);svg.append(node('circle',{cx:x,cy:y,r:10,fill:'#82d1be'}));svg.append(node('text',{x:x+13,y:y+4},e.name))}}
-async function refresh(){let [g,cases,tasks]=await Promise.all([api('/api/graph'),api('/api/investigations'),api('/api/tasks')]);$('counts').textContent=`${g.counts.Entity||0} entities · ${g.counts.Claim||0} source claims · ${g.counts.Hypothesis||0} separate hypotheses (view capped at 25 entities)`;draw(g);$('cases').replaceChildren();for(let c of cases){let d=document.createElement('div');d.className='item';d.textContent=`${c.priority.toUpperCase()} · ${c.affected_entity_ids.length} exposed components · ${c.id.slice(0,12)}`;$('cases').append(d)}$('tasks').replaceChildren();for(let t of tasks.slice(0,30)){let d=document.createElement('div');d.className='item';let text=document.createElement('p');text.textContent=`${t.status} · ${t.reason}`;d.append(text);if(t.status==='open')for(let decision of ['accepted','rejected']){let b=document.createElement('button');b.textContent=decision;b.onclick=async()=>{let reason=prompt('Review reason (at least 5 characters)');if(!reason)return;try{await api('/api/tasks/'+t.id+'/decision',{decision,reason});await refresh()}catch(e){alert(e.message)}};d.append(b)}$('tasks').append(d)}}
+function draw(data){
+  const svg=$('graph');svg.replaceChildren();
+  const entities=data.entities.slice(0,25),pos=new Map();
+  entities.forEach((e,i)=>{let a=2*Math.PI*i/Math.max(1,entities.length);pos.set(e.id,[550+440*Math.cos(a),185+135*Math.sin(a)])});
+  const events=(data.events||[]).filter(e=>e.participants.every(p=>pos.has(p.entity_id))).slice(0,8);
+  const centers=new Map(),placed=new Set(),height=events.length?Math.max(370,Math.ceil(events.length/2)*230+35):370;
+  svg.setAttribute('viewBox',`0 0 1100 ${height}`);
+  svg.style.height=events.length>2?'490px':'370px';
+  events.forEach((event,i)=>{const x=280+(i%2)*530,y=125+Math.floor(i/2)*230;centers.set(event.id,[x,y]);
+    event.participants.forEach((p,j)=>{if(placed.has(p.entity_id))return;const a=2*Math.PI*j/event.participants.length;
+      pos.set(p.entity_id,[x+170*Math.cos(a),y+80*Math.sin(a)]);placed.add(p.entity_id)});
+  });
+  function inspectable(element,record){
+    const inspect=async()=>{try{show('evidence',{record,evidence:await api('/api/records/'+record.evidence_id)})}catch(e){$('evidence').textContent=e.message}};
+    element.setAttribute('tabindex','0');element.setAttribute('role','button');element.style.cursor='pointer';
+    element.onclick=inspect;element.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();inspect()}};
+  }
+  for(const c of data.claims){
+    if(!pos.has(c.subject_id)||!pos.has(c.object_id))continue;
+    const a=pos.get(c.subject_id),b=pos.get(c.object_id),color=c.polarity==='negative'?'#fa9b86':c.modality!=='asserted'?'#f5cf78':'#4c8f9c';
+    svg.append(node('line',{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:color,'stroke-width':2}));
+    const label=node('text',{x:(a[0]+b[0])/2,y:(a[1]+b[1])/2},'→ '+c.predicate);inspectable(label,c);svg.append(label);
+  }
+  events.forEach((event,i)=>{
+    const [x,y]=centers.get(event.id);
+    const color=event.polarity==='negative'?'#fa9b86':event.modality!=='asserted'?'#f5cf78':'#a7b4ff';
+    for(const p of event.participants){const [px,py]=pos.get(p.entity_id);
+      svg.append(node('line',{x1:x,y1:y,x2:px,y2:py,stroke:color,'stroke-width':1.5,'stroke-dasharray':event.historical?'4 4':'none'}));
+      const role=node('text',{x:(x+px)/2,y:(y+py)/2-4},p.role);inspectable(role,event);svg.append(role);
+    }
+    const diamond=node('polygon',{points:`${x},${y-13} ${x+13},${y} ${x},${y+13} ${x-13},${y}`,fill:color});inspectable(diamond,event);svg.append(diamond);
+    const label=node('text',{x:x+17,y:y+4},event.relation_type);inspectable(label,event);svg.append(label);
+  });
+  for(const e of entities){const [x,y]=pos.get(e.id);svg.append(node('circle',{cx:x,cy:y,r:10,fill:'#82d1be'}));svg.append(node('text',{x:x+13,y:y+4},e.name))}
+}
+async function refresh(){let [g,cases,tasks]=await Promise.all([api('/api/graph'),api('/api/investigations'),api('/api/tasks')]);$('counts').textContent=`${g.counts.Entity||0} entities · ${g.counts.Claim||0} binary source claims · ${g.counts.RelationEvent||0} whole events · ${g.counts.Hypothesis||0} separate hypotheses (view capped at 25 entities)`;draw(g);$('cases').replaceChildren();for(let c of cases){let d=document.createElement('div');d.className='item';d.textContent=`${c.priority.toUpperCase()} · ${c.affected_entity_ids.length} exposed components · ${c.id.slice(0,12)}`;$('cases').append(d)}$('tasks').replaceChildren();for(let t of tasks.slice(0,30)){let d=document.createElement('div');d.className='item';let text=document.createElement('p');text.textContent=`${t.status} · ${t.reason}`;d.append(text);if(t.status==='open')for(let decision of ['accepted','rejected']){let b=document.createElement('button');b.textContent=decision;b.onclick=async()=>{let reason=prompt('Review reason (at least 5 characters)');if(!reason)return;try{await api('/api/tasks/'+t.id+'/decision',{decision,reason});await refresh()}catch(e){alert(e.message)}};d.append(b)}$('tasks').append(d)}}
 api('/health').then(h=>$('backend').textContent=`Storage: ${h.backend} · AI provider: ${h.provider}`);refresh().catch(e=>$('counts').textContent=e.message);$('dataset').onchange=()=>refresh().catch(e=>$('counts').textContent=e.message);$('access').onchange=()=>refresh().catch(e=>$('counts').textContent=e.message);
 </script></body></html>
