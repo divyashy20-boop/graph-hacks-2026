@@ -130,3 +130,16 @@ Following the restart, the same dataset header `X-Dataset: incident-demo` was us
 - The Docker-host endpoint is read from validated `UGI_OLLAMA_URL`, with a Windows-host localhost fallback. No remote inference endpoint or Bedrock activation is permitted by this pathway.
 - A new mock-transport test covers the CLI's explicit limit and integration path; **the 4–6 actual model samples have not been run**.
 - [GitHub Actions run 38694742578](https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38694742578) passed: **77 non-integration tests**, **2 live FalkorDB integration tests**, both synthetic evaluation scripts and the 128-example independent FewRel pair diagnostic. All inference was offline/mock-only; do not interpret the green test run as improved relation-extraction quality.
+
+
+## Participant Qwen3 4B first real local probe — October 15, 2026
+
+**Reported actual Windows + Docker + local Ollama results**:
+
+- Model `qwen3:4b-instruct` listed locally (2.5 GB), Ollama `/api/tags` returned normally, and Docker API reached `host.docker.internal:11434` (HTTP 200). Python project was updated from GitHub and Docker rebuilt.
+- FewRel upstream file SHA256 `76bb44c2485b6faed358a3ce040eadafcc8a8835245cd7e6afc1bef672d4a0bf`, first 4 fixed-seed examples: **offline grammar 0/4** target directed pairs, **actual local Qwen 0/4** after 4 model calls, with 0 accepted graph claims and 0 review tasks. User-provided per-sample `predicted` arrays were all empty.
+- Source examples involved recall-election dates, bridge/river description, island/geography description, and a boxer/weight class. The benchmark marks head/tail pairs, not explicit sentence entailment; empty output is not always a semantic error. The model returned no accepted candidates. The original provider raw responses were not captured, so emptiness *at the model JSON level* has not yet been directly observed.
+- Follow-up engineering: `CompactExtraction` schema for local Ollama, non-SVO relation prompt, deterministic noun-phrase copula guard, and opt-in raw model/semantic review diagnostics. These modifications are tested with mock local transport; **no real model quality improvement has been measured since this code was updated**.
+- Regression tests include accepted explicit semantic relation (with a model review), rejection of a false bridge-to-river claim, and a diagnostic distinguishing empty model output from independent grammar candidate creation.
+
+The 4-case comparison is extremely small and not an unbiased precision/recall metric. Do not tune or overfit to the four viewed samples, or force extraction of the FewRel annotated pair when the sentence does not directly support it.
