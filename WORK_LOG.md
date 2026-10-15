@@ -80,3 +80,14 @@ Key implementation constraints: FalkorDB remains required for production/demo pe
 - [x] Guarded false deterministic grammar predicates of the form `is a/an/the...`, preventing copular noun phrases from blocking semantically grounded local-model candidate review.
 - [x] Added `--diagnose` on the capped 4–6-sample local FewRel probe. It exposes raw model JSON, model review outputs, any rejections, and persisted claims **only when explicitly requested**. No production API trace is enabled by default.
 - [x] Mocked end-to-end positive and negative provider review paths now have regression tests. GitHub-hosted code and actual FalkorDB CI passed after fixes. **Actual Qwen before/after improvement remains to be remeasured on the participant laptop**.
+
+
+## Conservative batch-review milestone — October 15, 2026
+
+- [x] Used participant's actual local-model diagnostic output to isolate **8 model calls** and the 4-call-per-sample cap as the cause of at least one skipped semantic review; 4 claims were accepted across 2/4 FewRel examples, but 0/4 annotated directed pairs matched.
+- [x] Identified two semantic soundness hazards in accepted claims: ambiguous agent for a trailing 'entering into' clause; n-ary 'situated between A, B and C' degraded into individual binary claims. A source-quote typo (`Adri-atic`) was correctly rejected and remains a rejection, not an automatic quote rewrite.
+- [x] Replaced local Ollama's per-candidate sequential semantic-review calls with one **typed indexed batch** of up to 12 unresolved candidates per chunk. Grammar and structured input remain deterministic; Bedrock unchanged. Batch omissions/duplicates and overflow candidates produce review tasks.
+- [x] Implemented conservative deterministic guard for n-ary between and ambiguous participial subject attachments.
+- [x] Added targeted `tests/test_batch_review.py`, migrated Ollama mock tests and fixed issues caught by hosted CI.
+- [x] [CI run 38702438378](https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38702438378) passed **86 non-integration tests and 2 live FalkorDB integration tests** with synthetic and external offline evaluation. Actual post-change Qwen inference remains untested.
+- [ ] Rerun the same four source examples with the participant's local Ollama model and inspect claim/review trace. Do not make an extraction accuracy claim until new empirical results and human adjudication are available.
