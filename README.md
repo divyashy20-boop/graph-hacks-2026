@@ -53,6 +53,26 @@ python -m pytest -q -m integration
 python -m ugi.evaluate --output evaluation/my_report.json
 ```
 
+### Continuous integration (GitHub Actions)
+
+The workflow [Verify UGI](.github/workflows/verify.yml) is configured for pushes to `main`, pull requests, and manual dispatch. It installs the app, runs unit/API/MCP checks, starts an **actual isolated FalkorDB Docker container**, runs `tests/test_integration.py` and `tests/test_http_integration.py` against it, and runs the small offline fixture. Bedrock and paid calls are disabled. **A workflow file existing does not prove a successful run**; inspect the [Actions tab](https://github.com/divyashy20-boop/graph-hacks-2026/actions) for evidence.
+
+`tests/test_http_integration.py` covers HTTP upload, two-hop relation evidence, persisted investigation, review decision after a new API instance, and tenant isolation using a randomly namespaced test graph. It safely cleans up only its own test graphs.
+
+If GitHub Actions has been disabled for your repository, enable it under GitHub repository **Settings → Actions → General**; then open the Actions tab and run **Verify UGI (unit + real FalkorDB)** with **Run workflow**.
+
+### Keeping your Windows checkout in sync
+
+This repository receives changes from both GitHub and local Windows PowerShell. Before the next local commit, from this repository's folder run:
+
+```powershell
+git status --short
+git pull --ff-only origin main
+docker compose up --build -d
+```
+
+If `git status --short` shows modified files, **do not force pull** or overwrite local work; commit or stash those edits first. After local changes have passed tests: `git add .`, inspect `git status --short` for secrets, `git commit -m "..." `, then `git push`. Never commit `.env`, credentials, or actual private data.
+
 The 20-passage evaluation contains AI-assisted synthetic ground truth from two domains; do not represent its scores as production accuracy. The three offline extraction variants deliberately share the same candidates; no live-model comparison is implied.
 
 ## Model Context Protocol (MCP) adapter
