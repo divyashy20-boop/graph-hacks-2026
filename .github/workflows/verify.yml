@@ -1,0 +1,49 @@
+name: Verify UGI (unit + real FalkorDB)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ugi-verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      UGI_PROVIDER: offline
+      UGI_ALLOW_PAID_CALLS: 'false'
+      UGI_TEST_REDIS_URL: redis://127.0.0.1:6380/0
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Configure Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install application and tests
+        run: python -m pip install -e '.[test]'
+      - name: Check Python syntax
+        run: python -m compileall -q ugi tests
+      - name: Run unit, API, provider and MCP tests
+        run: python -m pytest -q -m 'not integration'
+      - name: Start isolated FalkorDB
+        run: docker compose up -d --wait graph
+      - name: Run real graph integration and HTTP tests
+        run: python -m pytest -q -m integration
+      - name: Verify synthetic benchmark executes
+        run: python -m ugi.evaluate --output /tmp/ugi-ci-evaluation.json
+      - name: Show diagnostics on failure
+        if: failure()
+        run: docker compose logs --tail=100 graph || true
+      - name: Shut down isolated graph
+        if: always()
+        run: docker compose down
