@@ -157,7 +157,7 @@ def test_batch_spatial_predicate_uses_entailment_not_model_wording():
     class Reviewer:
         def request(self, prompt, schema):
             assert schema is BatchVerdicts
-            asked = json.loads(prompt.split("CANDIDATES:\\n")[1]) if "CANDIDATES:\\n" in prompt else json.loads(prompt.split("CANDIDATES:\n")[1])
+            asked = json.loads(prompt.split("CANDIDATES:\n", 1)[1])
             assert asked[0]["predicate"] == "SOUTH_OF"
             return BatchVerdicts(decisions=[
                 {"index": 0, "supported": True,
