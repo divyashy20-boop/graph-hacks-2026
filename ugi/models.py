@@ -152,6 +152,16 @@ class Verdict(Strict):
     reason: str = Field(max_length=1000)
 
 
+class IndexedVerdict(Strict):
+    index: int = Field(ge=0, le=59)
+    supported: bool
+    reason: str = Field(min_length=1, max_length=600)
+
+
+class BatchVerdicts(Strict):
+    decisions: list[IndexedVerdict] = Field(max_length=60)
+
+
 class HypothesisProposal(Strict):
     justified: bool
     explanation: str = Field(min_length=1, max_length=1500)
