@@ -63,16 +63,16 @@ def test_external_benchmark_rejects_bad_samples():
 
 
 def test_local_probe_explicit_limit_and_mocked_execution(monkeypatch):
-    from ugi.models import Extraction
+    from ugi.models import CompactExtraction
     from ugi.provider import Ollama
 
     with pytest.raises(ValueError, match="at most 6"):
         run(tiny(), limit=7, local_model_id="fake-local")
 
     def local_only(self, _prompt, schema):
-        assert schema is Extraction
+        assert schema is CompactExtraction
         self.usage["calls"] += 1
-        return Extraction(relations=[])
+        return CompactExtraction(relations=[])
 
     monkeypatch.setattr(Ollama, "request", local_only)
     report = run(tiny(), limit=2, local_model_id="fake-local")
@@ -80,3 +80,29 @@ def test_local_probe_explicit_limit_and_mocked_execution(monkeypatch):
     assert report["model_calls"] == 2
     assert report["external_paid_calls"] == 0
     assert report["local_model_id"] == "fake-local"
+
+
+
+def test_diagnostic_mode_requires_explicit_model():
+    with pytest.raises(ValueError, match="--local-model"):
+        run(tiny(), limit=1, diagnose=True)
+
+
+def test_diagnostic_trace_records_empty_model_output(monkeypatch):
+    from ugi.provider import Ollama
+    from ugi.models import CompactExtraction
+
+    def fake_request(self, instruction, schema):
+        assert schema is CompactExtraction
+        self.usage["calls"] += 1
+        if self.trace_enabled:
+            self.trace.append({"schema": schema.__name__, "valid": True,
+                               "response": '{"relations":[]}'})
+        return CompactExtraction(relations=[])
+
+    monkeypatch.setattr(Ollama, "request", fake_request)
+    out = run(tiny(), limit=1, local_model_id="fake-local", diagnose=True)
+    d = out["samples"][0]["diagnostics"]
+    assert d["provider_responses"][0]["response"] == '{"relations":[]}'
+    assert d["candidates_persisted"] == 0
+    assert out["external_paid_calls"] == 0
