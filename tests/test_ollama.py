@@ -115,7 +115,7 @@ def test_ollama_engine_route_and_offline_hybrid_verification():
 
 
 def test_local_compact_model_extracts_semantic_relation_after_review():
-    from ugi.models import CompactExtraction, Verdict
+    from ugi.models import BatchVerdicts, CompactExtraction
     from ugi.extract import text_candidates
 
     sentence = "Male Srakane is an island in the Adriatic Sea."
@@ -130,7 +130,8 @@ def test_local_compact_model_extracts_semantic_relation_after_review():
         "object": "Adriatic Sea",
         "evidence": sentence
     }]})
-    review = json.dumps({"supported": True, "reason": "Explicit source location"})
+    review = json.dumps({"decisions": [{"index": 0, "supported": True,
+                                        "reason": "Explicit source location"}]})
     tracked = []
     opts = settings()
     store = Store(opts)
@@ -140,7 +141,7 @@ def test_local_compact_model_extracts_semantic_relation_after_review():
     assert outcome["claims"] == 1 and outcome["review_tasks"] == 0
     assert outcome["usage"]["calls"] == 2
     assert tracked[0][0]["format"] == CompactExtraction.model_json_schema()
-    assert tracked[1][0]["format"] == Verdict.model_json_schema()
+    assert tracked[1][0]["format"] == BatchVerdicts.model_json_schema()
     claim = store.claims()[0]
     assert (claim["subject"], claim["predicate"], claim["object"]) == (
         "Male Srakane", "LOCATED_IN", "Adriatic Sea")
@@ -159,7 +160,8 @@ def test_local_model_unsupported_candidate_requires_review_not_claim():
         "subject": "De Burghs Bridge", "predicate": "CROSSES",
         "object": "Lane Cove River", "evidence": sentence
     }]})
-    denied = json.dumps({"supported": False, "reason": "Only the A3 is said to cross"})
+    denied = json.dumps({"decisions": [{"index": 0, "supported": False,
+                                        "reason": "Only the A3 is said to cross"}]})
     outputs = [unsupported, denied]
     tracked = []
     opts = settings()
