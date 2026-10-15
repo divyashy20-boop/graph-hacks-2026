@@ -87,4 +87,16 @@ The following results are **reported from the participant's PowerShell/HTTP outp
 | `POST /api/investigations` target `Cache`, `authorise_action=true`, idempotency key `first-live-investigation` | `executed=true`, high priority; investigation ID `454db01b874f60081ded5e0c724deda317b3ce0762a9d6ddefe0e44eba51998e` |
 | `GET /api/tasks` for `incident-demo` | 2 open review tasks, both linked to the created investigation |
 
-The investigation's **high priority is dependency exposure, not a verified outage**. These outputs demonstrate live graph-backed service operation and immediately retrievable persisted actions. They **do not yet demonstrate survival across a container/database restart**; a separate restart-and-read check is required. Results concern small synthetic demo data, not measured general-purpose AI extraction performance.
+The investigation's **high priority is dependency exposure, not a verified outage**. These outputs demonstrate live graph-backed service operation and immediately retrievable persisted actions. A **subsequent** participant test now demonstrates survival across a coordinated API and FalkorDB container restart, detailed below. Results concern small synthetic demo data, not measured general-purpose AI extraction performance.
+
+
+## Participant container-restart persistence test — October 15, 2026
+
+**Evidence basis:** PowerShell output supplied in the conversation, not an independently remote-controlled Windows run. On the same installation, the participant ran `docker compose restart`, then `docker compose ps`. After a 5-second pause, the FalkorDB container was **healthy** and the API container was **starting** its health check; API HTTP calls nevertheless succeeded immediately afterward.
+
+Following the restart, the same dataset header `X-Dataset: incident-demo` was used for:
+
+- `GET /api/investigations` => exactly **one** saved investigation, ID `454db01b874f60081ded5e0c724deda317b3ce0762a9d6ddefe0e44eba51998e`, status `open`, target unchanged, priority `high`. The previously created dependency paths, claim identifiers and five-step action trace were still present, including its authorised `create_investigation_and_reviews` step.
+- `GET /api/tasks` => exactly **two** original `open` review tasks, IDs `621078a5bc51044c198dd6235f851718a5752c203011d95ded2053c05ddb9946` and `7186f9a68e274f77988829fb0e4ba5888fe4f6e6270ca4a06bd2384aab30b48a`, both referencing the same investigation and the same original claim IDs.
+
+**Result: PASS, restart-and-read durability smoke test.** This provides participant-observed evidence of graph-backed action retention after both app and database containers were restarted. It does **not** test removing the Docker volume, restoring from a backup, abrupt disk failure, concurrent write safety under load or production-grade reliability. Synthetic demonstration data only; no external-world validation of the source claims is implied.
