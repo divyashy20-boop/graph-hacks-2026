@@ -40,7 +40,7 @@ Key implementation constraints: FalkorDB remains required for production/demo pe
 - [x] Re-ran local non-integration checks: 47 passed; the two real-server integration checks are skipped locally because this environment lacks Docker/Redis. GitHub Actions run result is not yet verified.
 - [x] Updated README with CI behavior and Windows checkout sync instructions.
 - [x] Verified GitHub Actions run 38684951348: 47 non-integration tests plus 2 real FalkorDB integration tests passed on hosted Docker, benchmark command completed. See TEST_REPORT.md.
-- [ ] Run a full local end-to-end walkthrough on the participant's Windows Docker Desktop.
+- [x] Participant Windows Docker Desktop walkthrough: uploaded employer and incident graph, observed RULE_DERIVED versus CONNECTED_ONLY, executed authorised investigation, and retrieved two persisted review tasks. Subsequent API+FalkorDB container restart retained the exact investigation ID, action trace, paths, and both review-task IDs. See TEST_REPORT.md; this is a restart/read smoke test, not backup/disaster recovery.
 
 
 ## Evidence-aware relation milestone — October 15, 2026
@@ -51,3 +51,11 @@ Key implementation constraints: FalkorDB remains required for production/demo pe
 - [x] Added regression examples and a `demo/shared_employer.json` walkthrough.
 - [x] Local non-integration suite: 54 passing tests, 0 failures. Actual real-FalkorDB CI outcome for this final commit is checked separately.
 - [ ] Independently benchmark these changes on novel documents and live Bedrock before making broader accuracy claims.
+
+## Restart persistence verification — October 15, 2026
+
+- [x] Both containers restarted with `docker compose restart` on the participant's Windows host. FalkorDB reported healthy, and API requests immediately after startup succeeded.
+- [x] Read back the **same** investigation `454db01b874f60081ded5e0c724deda317b3ce0762a9d6ddefe0e44eba51998e` plus both original review tasks. Review/action trace and source claim IDs persisted.
+- [x] Logged the exact test and its limitations to `TEST_REPORT.md`, and updated the `README.md` submission checklist.
+- [ ] Complete an independently annotated unseen-document evaluation and verify model-backed semantic extraction separately, before broader accuracy claims.
+- [ ] Record hackathon demo video and submit form after final review.
