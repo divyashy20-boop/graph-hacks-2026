@@ -1,0 +1,361 @@
+{
+  "version": "challenge-synthetic-v1",
+  "created": "2026-10-15",
+  "licence": "CC0-1.0",
+  "provenance": "New AI-assisted synthetic stress examples authored for the second milestone. Not an independently annotated real-world corpus. Do not mix into the 20-passage development fixture or advertise as an unseen external benchmark.",
+  "gold_policy": "Only explicitly source-expressed named-entity directed relations, including polarity/modality; empty gold is intentional abstention. Multi-clause references manually authored, not adjudicated by an independent annotator.",
+  "samples": [
+    {
+      "id": "ch01",
+      "domain": "operations",
+      "text": "Argo depends on Beacon.",
+      "gold": [
+        [
+          "Argo",
+          "DEPENDS_ON",
+          "Beacon",
+          "positive",
+          "asserted"
+        ]
+      ]
+    },
+    {
+      "id": "ch02",
+      "domain": "operations",
+      "text": "Dawn does not trust Ember.",
+      "gold": [
+        [
+          "Dawn",
+          "TRUST",
+          "Ember",
+          "negative",
+          "asserted"
+        ]
+      ]
+    },
+    {
+      "id": "ch03",
+      "domain": "operations",
+      "text": "Grove may supervise Harbor.",
+      "gold": [
+        [
+          "Grove",
+          "SUPERVISE",
+          "Harbor",
+          "positive",
+          "possible"
+        ]
+      ]
+    },
+    {
+      "id": "ch04",
+      "domain": "retail",
+      "text": "Iris owns Juniper and Kestrel.",
+      "gold": [
+        [
+          "Iris",
+          "OWNS",
+          "Juniper",
+          "positive",
+          "asserted"
+        ],
+        [
+          "Iris",
+          "OWNS",
+          "Kestrel",
+          "positive",
+          "asserted"
+        ]
+      ]
+    },
+    {
+      "id": "ch05",
+      "domain": "finance",
+      "text": "Lumen was acquired by Mesa.",
+      "gold": [
+        [
+          "Lumen",
+          "ACQUIRED_BY",
+          "Mesa",
+          "positive",
+          "asserted"
+        ]
+      ]
+    },
+    {
+      "id": "ch06",
+      "domain": "supply",
+      "text": "Nora supplied Onyx.",
+      "gold": [
+        [
+          "Nora",
+          "SUPPLIED",
+          "Onyx",
+          "positive",
+          "asserted"
+        ]
+      ]
+    },
+    {
+      "id": "ch07",
+      "domain": "operations",
+      "text": "Pine sends records to Quartz.",
+      "gold": [
+        [
+          "Pine",
+          "SENDS_RECORDS_TO",
+          "Quartz",
+          "positive",
+          "asserted"
+        ]
+      ]
+    },
+    {
+      "id": "ch08",
+      "domain": "people",
+      "text": "Rhea has 20 users.",
+      "gold": []
+    },
+    {
+      "id": "ch09",
+      "domain": "finance",
+      "text": "If Alice owns Acme, Bob manages Gamma.",
+      "gold": []
+    },
+    {
+      "id": "ch10",
+      "domain": "people",
+      "text": "Cedar and Delta are competitors.",
+      "gold": []
+    },
+    {
+      "id": "ch11",
+      "domain": "operations",
+      "text": "Eagle depends on Finch; Gable monitors Hawk.",
+      "gold": [
+        [
+          "Eagle",
+          "DEPENDS_ON",
+          "Finch",
+          "positive",
+          "asserted"
+        ],
+        [
+          "Gable",
+          "MONITORS",
+          "Hawk",
+          "positive",
+          "asserted"
+        ]
+      ]
+    },
+    {
+      "id": "ch12",
+      "domain": "finance",
+      "text": "In 2022, Acme acquired Beta.",
+      "gold": [
+        [
+          "Acme",
+          "ACQUIRED",
+          "Beta",
+          "positive",
+          "asserted"
+        ]
+      ]
+    },
+    {
+      "id": "ch13",
+      "domain": "operations",
+      "text": "Lily was deployed by Maple.",
+      "gold": [
+        [
+          "Lily",
+          "DEPLOYED_BY",
+          "Maple",
+          "positive",
+          "asserted"
+        ]
+      ]
+    },
+    {
+      "id": "ch14",
+      "domain": "science",
+      "text": "Orion is part of Pegasus.",
+      "gold": [
+        [
+          "Orion",
+          "PART_OF",
+          "Pegasus",
+          "positive",
+          "asserted"
+        ]
+      ]
+    },
+    {
+      "id": "ch15",
+      "domain": "finance",
+      "text": "Rill was not acquired by Spruce.",
+      "gold": [
+        [
+          "Rill",
+          "ACQUIRED_BY",
+          "Spruce",
+          "negative",
+          "asserted"
+        ]
+      ]
+    },
+    {
+      "id": "ch16",
+      "domain": "finance",
+      "text": "Nimbus allegedly owns Orbit.",
+      "gold": [
+        [
+          "Nimbus",
+          "OWNS",
+          "Orbit",
+          "positive",
+          "alleged"
+        ]
+      ]
+    },
+    {
+      "id": "ch17",
+      "domain": "operations",
+      "text": "Quill monitors River on 2026-10-15.",
+      "gold": [
+        [
+          "Quill",
+          "MONITORS",
+          "River",
+          "positive",
+          "asserted"
+        ]
+      ]
+    },
+    {
+      "id": "ch18",
+      "domain": "people",
+      "text": "The report says Stella bribed Taurus.",
+      "gold": []
+    },
+    {
+      "id": "ch19",
+      "domain": "retail",
+      "text": "Vega used to own Willow.",
+      "gold": [
+        [
+          "Vega",
+          "OWN",
+          "Willow",
+          "positive",
+          "asserted"
+        ]
+      ]
+    },
+    {
+      "id": "ch20",
+      "domain": "people",
+      "text": "Alice, who leads Acme, advised Beta.",
+      "gold": [
+        [
+          "Alice",
+          "LEADS",
+          "Acme",
+          "positive",
+          "asserted"
+        ],
+        [
+          "Alice",
+          "ADVISED",
+          "Beta",
+          "positive",
+          "asserted"
+        ]
+      ]
+    },
+    {
+      "id": "ch21",
+      "domain": "supply",
+      "text": "Northport supplies Harbor. Harbor supplies Orchard.",
+      "gold": [
+        [
+          "Northport",
+          "SUPPLIES",
+          "Harbor",
+          "positive",
+          "asserted"
+        ],
+        [
+          "Harbor",
+          "SUPPLIES",
+          "Orchard",
+          "positive",
+          "asserted"
+        ]
+      ]
+    },
+    {
+      "id": "ch22",
+      "domain": "finance",
+      "text": "Sable reportedly acquired Timber.",
+      "gold": [
+        [
+          "Sable",
+          "ACQUIRED",
+          "Timber",
+          "positive",
+          "alleged"
+        ]
+      ]
+    },
+    {
+      "id": "ch23",
+      "domain": "science",
+      "text": "The laboratory reported no new partnership between Umbra and Vega.",
+      "gold": []
+    },
+    {
+      "id": "ch24",
+      "domain": "supply",
+      "text": "Northland bought Oakwood in 2021.",
+      "gold": [
+        [
+          "Northland",
+          "BOUGHT",
+          "Oakwood",
+          "positive",
+          "asserted"
+        ]
+      ]
+    },
+    {
+      "id": "ch25",
+      "domain": "people",
+      "text": "Tern did not manage Ursa.",
+      "gold": [
+        [
+          "Tern",
+          "MANAGE",
+          "Ursa",
+          "negative",
+          "asserted"
+        ]
+      ]
+    },
+    {
+      "id": "ch26",
+      "domain": "operations",
+      "text": "Hawthorn might replace Ibis.",
+      "gold": [
+        [
+          "Hawthorn",
+          "REPLACE",
+          "Ibis",
+          "positive",
+          "possible"
+        ]
+      ]
+    }
+  ]
+}
