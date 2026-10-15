@@ -59,3 +59,24 @@ def test_external_benchmark_rejects_bad_samples():
     with pytest.raises(ValueError, match="head/tail"):
         run(json.dumps({"P1": [{"tokens": ["Alice", "owns", "Acme"], "h": [],
                                 "t": ["Acme"]}]}).encode())
+
+
+
+def test_local_probe_explicit_limit_and_mocked_execution(monkeypatch):
+    from ugi.models import Extraction
+    from ugi.provider import Ollama
+
+    with pytest.raises(ValueError, match="at most 6"):
+        run(tiny(), limit=7, local_model_id="fake-local")
+
+    def local_only(self, _prompt, schema):
+        assert schema is Extraction
+        self.usage["calls"] += 1
+        return Extraction(relations=[])
+
+    monkeypatch.setattr(Ollama, "request", local_only)
+    report = run(tiny(), limit=2, local_model_id="fake-local")
+    assert report["sampled"] == 2
+    assert report["model_calls"] == 2
+    assert report["external_paid_calls"] == 0
+    assert report["local_model_id"] == "fake-local"
