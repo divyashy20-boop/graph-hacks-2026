@@ -75,6 +75,18 @@ If `git status --short` shows modified files, **do not force pull** or overwrite
 
 The 20-passage evaluation contains AI-assisted synthetic ground truth from two domains; do not represent its scores as production accuracy. The three offline extraction variants deliberately share the same candidates; no live-model comparison is implied.
 
+### Evidence-aware multi-hop inference example
+
+Upload `demo/shared_employer.json` into a fresh dataset (such as `people`), then submit:
+
+```json
+{"subject":"Alice","object":"Bob","predicate":"SHARES_EMPLOYER","as_of":"2021-06-01"}
+```
+
+The expected `RULE_DERIVED` response includes rule `shared_employer_temporal_overlap_v1`, two exact source-backed employment claims, and the connecting graph path. The same identities with `FRIENDS_WITH` return **CONNECTED_ONLY**, not proof of friendship. Asking `SHARES_EMPLOYER` for `2023-06-01` returns **UNKNOWN** because Alice's supplied employment ends in 2022. Undated employment records **do not** establish overlapping dated employment. These are deductions about what the uploaded sources assert, not external employment verification.
+
+The verifier also now separates contradictory grammar for the **same entity pair** (still rejected) from an **unrelated, unparsed clause** in the evidence passage (eligible for opt-in LLM review). This reduces false rejections without removing the deterministic contradiction guard. The offline parser remains conservative; no universal extraction accuracy claim is made.
+
 ## Model Context Protocol (MCP) adapter
 
 UGI provides an application-level MCP **stdio** server, separate from FalkorDB's general-purpose MCP implementation. It exposes typed graph investigations and evidence, *not arbitrary Cypher*.
