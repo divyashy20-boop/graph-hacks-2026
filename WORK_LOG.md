@@ -31,3 +31,13 @@ Docker engine was initially stopped in the original Codex workspace; Codex repor
 - [ ] Record demo and submit the repository as required by organisers.
 
 Key implementation constraints: FalkorDB remains required for production/demo persistent graph mode; in-memory backend is for tests only. No GNN training was attempted, and no AWS resources were changed.
+
+## GitHub integration verification update — October 15, 2026
+
+- [x] Verified public repository main contains the event source, sample data and docs.
+- [x] Added `tests/test_http_integration.py`: real HTTP upload → FalkorDB evidence/reasoning → saved investigation → fresh API instance → review workflow → isolation, with temporary test-only graphs.
+- [x] Added `.github/workflows/verify.yml` to run unit/MCP/API tests and real FalkorDB integration tests on push or manual dispatch. Provider is offline; no AWS usage is triggered.
+- [x] Re-ran local non-integration checks: 47 passed; the two real-server integration checks are skipped locally because this environment lacks Docker/Redis. GitHub Actions run result is not yet verified.
+- [x] Updated README with CI behavior and Windows checkout sync instructions.
+- [ ] Verify GitHub Actions workflow completes successfully against a real FalkorDB container; diagnose any failures.
+- [ ] Run a full local end-to-end walkthrough on the participant's Windows Docker Desktop.
