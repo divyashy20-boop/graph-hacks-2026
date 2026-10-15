@@ -122,6 +122,19 @@ docker compose exec api python -m ugi.eval_fewrel --download --limit 4 --seed 17
 docker compose exec api python -m ugi.eval_fewrel --download --limit 4 --seed 17 --local-model qwen3:4b-instruct
 ```
 
+For deeper debugging, run the bounded model diagnostic with **public FewRel text only**:
+
+```powershell
+docker compose exec api python -m ugi.eval_fewrel --download --limit 4 --seed 17 --local-model qwen3:4b-instruct --diagnose --output /tmp/fewrel-debug.json
+docker compose exec api python -c "import json; d=json.load(open('/tmp/fewrel-debug.json')); [print(json.dumps({'text':r['text'],'model_json':r['diagnostics']['provider_responses'],'reviews':r['diagnostics']['review_reasons'],'accepted':r['predicted']},ensure_ascii=False,indent=2)) for r in d['samples']]"
+```
+
+The diagnostic exposes the *local model's structured JSON* (including empty relation arrays), semantic review responses and rejections, and the final accepted graph claims. This is **explicit opt-in** because model JSON may contain source text. It stays in the user's Docker container; the normal API does not log/return this trace. Do not enable diagnostic output for private or regulated documents without access controls.
+
+**Do not optimize for all four FewRel annotated head/tail pairs blindly.** A FewRel relational label may need information outside the explicit sentence; some pairs (e.g. distinct election years) are not stated as direct relations in the sentence. Conservative abstention can be correct even when pair-coverage is zero. Use per-sample source entailment review and independent annotations before interpreting apparent improvements.
+
+The local-model extraction now uses a smaller constrained schema (subject, predicate, object, exact quote plus polarity/modality), and a second model-mediated review before novel semantic edges can be accepted. Pure copular noun descriptions are no longer treated as deterministic verb predicates. These are **implementation changes only**, not a measured gain from your Qwen model.
+
 The first command is the grammar baseline; the second makes real local Ollama calls to process **the same four source examples**. Neither command uses AWS. Ollama must be installed and started separately; the container connects through the restricted `UGI_OLLAMA_URL`.
 
 If Ollama is not accessible from the container despite working on Windows localhost, an alternative is to run the model probe on **Windows host Python** after `py -m pip install -e ".[test]"`:
