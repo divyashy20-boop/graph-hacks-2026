@@ -43,6 +43,8 @@ jobs:
         run: python -m ugi.evaluate --output /tmp/ugi-ci-evaluation.json
       - name: Audit unseen-style challenge (offline, synthetic)
         run: python -m ugi.eval_challenge --output /tmp/ugi-challenge-evaluation.json
+      - name: External human-annotated FewRel directed-pair diagnostic (not F1)
+        run: python -m ugi.eval_fewrel --download --limit 128 --seed 17 --output /tmp/ugi-fewrel-evaluation.json
       - name: Upload evaluation diagnostics
         uses: actions/upload-artifact@v4
         with:
@@ -50,6 +52,7 @@ jobs:
           path: |
             /tmp/ugi-ci-evaluation.json
             /tmp/ugi-challenge-evaluation.json
+            /tmp/ugi-fewrel-evaluation.json
           retention-days: 14
       - name: Show diagnostics on failure
         if: failure()
