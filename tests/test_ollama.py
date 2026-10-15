@@ -111,3 +111,62 @@ def test_ollama_engine_route_and_offline_hybrid_verification():
     assert report["claims"] == 1 and report["review_tasks"] == 0
     assert report["usage"]["calls"] == 1
     assert store.claims()[0]["predicate"] == "OWNS"
+
+
+
+def test_local_compact_model_extracts_semantic_relation_after_review():
+    from ugi.models import CompactExtraction, Verdict
+    from ugi.extract import text_candidates
+
+    sentence = "Male Srakane is an island in the Adriatic Sea."
+    # Copular noun phrases are not automatically meaningful S-V-O grammar.
+    assert text_candidates(sentence) == []
+    assert [(x.subject, x.object) for x in text_candidates("Orion is part of Pegasus.")] == [
+        ("Orion", "Pegasus")
+    ]
+    raw = json.dumps({"relations": [{
+        "subject": "Male Srakane",
+        "predicate": "LOCATED_IN",
+        "object": "Adriatic Sea",
+        "evidence": sentence
+    }]})
+    review = json.dumps({"supported": True, "reason": "Explicit source location"})
+    tracked = []
+    opts = settings()
+    store = Store(opts)
+    provider = Ollama(opts, store, transport=fake_transport([raw, review], tracked))
+    engine = Engine(store, provider_factory=lambda: provider)
+    outcome = engine.ingest("geography.txt", sentence.encode(), use_ai=True)
+    assert outcome["claims"] == 1 and outcome["review_tasks"] == 0
+    assert outcome["usage"]["calls"] == 2
+    assert tracked[0][0]["format"] == CompactExtraction.model_json_schema()
+    assert tracked[1][0]["format"] == Verdict.model_json_schema()
+    claim = store.claims()[0]
+    assert (claim["subject"], claim["predicate"], claim["object"]) == (
+        "Male Srakane", "LOCATED_IN", "Adriatic Sea")
+    quote = store.get(claim["evidence_id"])
+    assert quote["quote"] == sentence
+
+
+def test_local_model_unsupported_candidate_requires_review_not_claim():
+    from ugi.extract import text_candidates
+
+    # Exact entity names are in evidence but source does not say the
+    # bridge directly crosses the river: semantic support still required.
+    sentence = ("Lane Cove Road ends north of De Burghs Bridge and where the A3 "
+                "crosses the Lane Cove River.")
+    unsupported = json.dumps({"relations": [{
+        "subject": "De Burghs Bridge", "predicate": "CROSSES",
+        "object": "Lane Cove River", "evidence": sentence
+    }]})
+    denied = json.dumps({"supported": False, "reason": "Only the A3 is said to cross"})
+    outputs = [unsupported, denied]
+    tracked = []
+    opts = settings()
+    store = Store(opts)
+    provider = Ollama(opts, store, transport=fake_transport(outputs, tracked))
+    e = Engine(store, provider_factory=lambda: provider)
+    report = e.ingest("roads.txt", sentence.encode(), use_ai=True)
+    assert not any(c["subject"] == "De Burghs Bridge" and c["object"] == "Lane Cove River"
+                   for c in store.claims())
+    assert report["review_tasks"] >= 1
