@@ -4,7 +4,7 @@ from collections import deque
 from datetime import date
 from time import perf_counter
 
-from .extract import discover, parse, verify
+from .extract import discover, parse, verify, verify_local_batch
 from .models import HypothesisProposal, RelationQuery, key, now, predicate, uid
 from .provider import Bedrock, Ollama, ProviderError
 
@@ -71,13 +71,18 @@ class Engine:
                     reviews.append(dict(id=uid(chunk["id"], "extraction_failure"), kind="ReviewTask",
                                         chunk_id=chunk["id"], source_id=source["id"], status="open",
                                         reason=str(exc), recorded_at=now()))
-                for candidate in candidates:
+                local_reviews = None
+                if provider and getattr(provider, "is_local", False) and semantic_verification:
+                    local_reviews = verify_local_batch(candidates, chunk, provider)
+                for candidate_index, candidate in enumerate(candidates):
                     identity = uid(chunk["id"], candidate.model_dump())
                     if identity in seen:
                         continue
                     seen.add(identity)
                     try:
-                        accepted, reason = verify(candidate, chunk, provider)
+                        accepted, reason = (local_reviews[candidate_index]
+                                            if local_reviews is not None
+                                            else verify(candidate, chunk, provider))
                     except (ValueError, ProviderError) as exc:
                         accepted, reason = False, "Review unavailable: " + str(exc)
                     if not semantic_verification:
