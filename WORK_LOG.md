@@ -70,3 +70,13 @@ Key implementation constraints: FalkorDB remains required for production/demo pe
 - [x] GitHub CI verified syntax, unit/adapter tests, live FalkorDB integration, synthetic and upstream validation diagnostics. `README.md` documents the poor external grammar baseline and local Ollama setup.
 - [ ] Run a real model locally on Windows with explicit user setup. **No claim of improved extraction precision/recall/F1 yet.**
 - [ ] Develop a separate truly independent evaluation split to avoid overfitting after reviewing FewRel results.
+
+
+## Local Qwen3 real probe diagnosis and remediation — October 15, 2026
+
+- [x] Participant pulled `qwen3:4b-instruct` (2.5 GB) on Ollama 0.40.4, verified host Ollama `/api/tags` and Docker-host API connectivity. Windows Git checkout fast-forwarded and Docker API rebuilt without errors.
+- [x] Participant ran the first 4 deterministic FewRel validation examples against the actual local Qwen model: **4 model calls, 0 emitted claims, 0 review tasks, 0/4 directed head/tail pairs**. Offline grammar on the same four examples also emitted 0 claims. This is observed behavior, not proof that every target relation is directly entailed by its sentence.
+- [x] Diagnosed that the full Candidate JSON schema exposes many unneeded fields to the small local model; compact schema and clear non-SVO extraction instructions now used **only** for Ollama. Bedrock's schema unchanged.
+- [x] Guarded false deterministic grammar predicates of the form `is a/an/the...`, preventing copular noun phrases from blocking semantically grounded local-model candidate review.
+- [x] Added `--diagnose` on the capped 4–6-sample local FewRel probe. It exposes raw model JSON, model review outputs, any rejections, and persisted claims **only when explicitly requested**. No production API trace is enabled by default.
+- [x] Mocked end-to-end positive and negative provider review paths now have regression tests. GitHub-hosted code and actual FalkorDB CI passed after fixes. **Actual Qwen before/after improvement remains to be remeasured on the participant laptop**.
