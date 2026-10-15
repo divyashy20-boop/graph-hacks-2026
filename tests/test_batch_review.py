@@ -76,9 +76,10 @@ def test_batch_missing_or_duplicate_index_abstains():
 
 
 def test_batch_review_failure_does_not_drop_deterministic_grammar():
-    sentence = "Alice owns Acme. Delta lies near Echo."
+    sentence = "Alice owns Acme. Delta, the coastal town, lies near Echo."
     data = [candidate("Alice", "owns", "Acme", "Alice owns Acme."),
-            candidate("Delta", "LOCATED_NEAR", "Echo", "Delta lies near Echo.")]
+            candidate("Delta", "LOCATED_NEAR", "Echo",
+                      "Delta, the coastal town, lies near Echo.")]
 
     class Failure:
         def request(self, *_):
