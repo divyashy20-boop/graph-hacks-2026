@@ -134,3 +134,55 @@ def test_engine_multi_candidate_uses_two_calls_not_one_per_candidate():
     assert store.counts()["Claim"] == 2
     predicates = {c["predicate"] for c in store.claims()}
     assert predicates == {"LOCATED_NEAR", "SOUTH_OF"}
+
+
+def test_spatial_direction_normalization_is_weaker_but_grounded():
+    from ugi.models import predicate
+
+    for direction in ("NORTH", "SOUTH", "EAST", "WEST"):
+        assert predicate("SITUATED_JUST_" + direction + "_OF") == direction + "_OF"
+        assert predicate("LOCATED_" + direction + "_OF") == direction + "_OF"
+        assert predicate("JUST_" + direction + "_OF") == direction + "_OF"
+        assert predicate(direction + "_OF") == direction + "_OF"
+    assert predicate("SITUATED_BETWEEN") == "SITUATED_BETWEEN"
+    assert predicate("SOUTH_OF_COURSE") == "SOUTH_OF_COURSE"
+
+
+def test_batch_spatial_predicate_uses_entailment_not_model_wording():
+    from ugi.models import predicate
+
+    text = "Delta is a coastal settlement, just south of Echo."
+    c = candidate("Delta", "SITUATED_JUST_SOUTH_OF", "Echo", text)
+
+    class Reviewer:
+        def request(self, prompt, schema):
+            assert schema is BatchVerdicts
+            asked = json.loads(prompt.split("CANDIDATES:\\n")[1]) if "CANDIDATES:\\n" in prompt else json.loads(prompt.split("CANDIDATES:\n")[1])
+            assert asked[0]["predicate"] == "SOUTH_OF"
+            return BatchVerdicts(decisions=[
+                {"index": 0, "supported": True,
+                 "reason": "Explicit just south of entails south of with grounded names"}
+            ])
+
+    outcomes = verify_local_batch([c], {"text": text, "record": None}, Reviewer())
+    assert outcomes[0][0] is True
+    assert predicate(c.predicate) == "SOUTH_OF"
+    assert c.evidence == text
+
+
+def test_negated_direction_cannot_be_canonicalized_into_positive_fact():
+    from ugi.models import predicate
+
+    text = "Delta is not south of Echo."
+    c = candidate("Delta", "SITUATED_JUST_SOUTH_OF", "Echo", text)
+
+    class Rejector:
+        def request(self, prompt, schema):
+            assert schema is BatchVerdicts
+            return BatchVerdicts(decisions=[
+                {"index": 0, "supported": False, "reason": "Source explicitly negates south of"}
+            ])
+
+    outcomes = verify_local_batch([c], {"text": text, "record": None}, Rejector())
+    assert predicate(c.predicate) == "SOUTH_OF"
+    assert outcomes[0][0] is False
