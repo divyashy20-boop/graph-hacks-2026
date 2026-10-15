@@ -270,6 +270,24 @@ class Engine:
             return {**base, "status": "RULE_DERIVED", "rules": ["dependency_reachability_v1"],
                     "explanation": "A forward dependency chain entails dependency reachability; "
                                    "it does not prove a direct dependency or incident cause"}
+        # Only infer a shared employer from two directed, typed employment
+        # claims with temporal anchors. A generic shared node proves nothing.
+        if p == "SHARES_EMPLOYER":
+            shared = next((path for path in paths
+                           if len(path["claims"]) == 2
+                           and path["directions"] == [True, False]
+                           and all(c["predicate"] == "WORKS_AT" for c in path["claims"])
+                           and path["claims"][0]["object_id"] == path["claims"][1]["object_id"]
+                           and all(c.get("valid_from") for c in path["claims"])
+                           and same_interval(path["claims"])), None)
+            if shared:
+                # This is a derivation about overlapping source assertions,
+                # never independent proof of acquaintance or collaboration.
+                return {**base, "status": "RULE_DERIVED",
+                        "rules": ["shared_employer_temporal_overlap_v1"],
+                        "explanation": "Both source-backed employment assertions refer to "
+                        "the same employer during an overlapping supported period; "
+                        "this does not establish acquaintance or collaboration"}
         if paths:
             base.update(status="CONNECTED_ONLY", explanation="A supported graph connection exists; "
                         "the requested predicate is not established")
