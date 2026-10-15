@@ -143,3 +143,27 @@ Following the restart, the same dataset header `X-Dataset: incident-demo` was us
 - Regression tests include accepted explicit semantic relation (with a model review), rejection of a false bridge-to-river claim, and a diagnostic distinguishing empty model output from independent grammar candidate creation.
 
 The 4-case comparison is extremely small and not an unbiased precision/recall metric. Do not tune or overfit to the four viewed samples, or force extraction of the FewRel annotated pair when the sentence does not directly support it.
+
+
+## Participant Qwen3 diagnostic and conservative batch-verification fix — October 15, 2026
+
+### Observed Windows run before batch fix (participant-provided, real local model)
+
+After pulling current `main` and rebuilding the Docker API, the participant ran `qwen3:4b-instruct` on **four** FewRel validation examples (`--seed 17 --limit 4 --diagnose`).
+
+- **8 actual local-model requests**, 2 open review tasks, **4 accepted graph claims** across 2/4 sentences, exact evidence-span check 4/4, **0/4 matching annotated FewRel head→tail pairs**. This is *not* predicate accuracy or relation F1.
+- Election-year and boxer sentences returned valid `{"relations":[]}` arrays. Neither alone proves Qwen failed to extract a directly entailed FewRel relation.
+- Road/bridge sentence: model proposed `Lane Cove Road ENTERS Ku-ring-gai local government area`; a second independent model prompt approved this interpretation. However, the sentence contains the distinct subordinate subject **A3**, and the participial clause's subject assignment is ambiguous. The model's approval is **not independent evidence**, so this needs human review, not automatic graph assertion.
+- Island sentence: model produced `LOCATED_IN` and several `SITUATED_BETWEEN` pairs. `LOCATED_IN Croatian part of the Adriatic Sea` is source-grounded; decomposing a **multi-anchor 'between Lošinj, Unije and Susak'** relation into separate binary `BETWEEN` facts loses semantic qualifiers and should not be silently asserted.
+- One response modified exact source quote `Adriatic` into `Adri-atic` and was **correctly rejected**. Another review was skipped when the per-invocation model call ceiling was exhausted.
+
+### Implemented response (GitHub)
+
+- **Single batched semantic-review request** for up to twelve unresolved candidates per local-model passage; deterministic source-span, pronoun, temporal and grammar checks run before the batch. Missing/duplicate indices and candidates beyond the batch budget are held for review, **not accepted**. Structured ingestion and Bedrock review behavior are unchanged.
+- Explicit conservative block on flattened binary `SITUATED_BETWEEN` / `LOCATED_BETWEEN` claims; unmodelled n-ary semantics remain human-review tasks rather than false facts.
+- Explicit ambiguity guard for agent assignment in participial `entering/crossing` clauses introduced by `where/which/who`; this is a narrow heuristic, **not a general syntax parser**. Ambiguous statements abstain.
+- Exact-quote mismatch continues to **reject**, never silently repair or rewrite evidence. Tests assert this rule.
+- Added `tests/test_batch_review.py` with batch call-count, valid spatial relation, contradictory relation, quote, group relation, ambiguous subject, incomplete verdict and failed-provider cases. Updated prior Ollama mocked contract tests for the batched schema.
+- [GitHub Actions run 38702438378](https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38702438378) **passed 86 non-integration tests + 2 actual FalkorDB integration tests**, original synthetic test and 128-case FewRel offline diagnostic. These CI tests use mocked local Ollama responses. The real Qwen **after** this batch fix has **not** yet been run, so no actual before/after model-quality improvement is claimed.
+
+**Limitation:** the current one-object graph edge schema cannot represent genuinely n-ary relations; proper group/event hyperedges remain future work.
