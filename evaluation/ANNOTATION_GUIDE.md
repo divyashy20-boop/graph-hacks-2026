@@ -1,5 +1,47 @@
 # Evaluation and annotation protocol
 
+## Milestone C: source-aware frozen corpus and human derivative
+
+`c_development.json` contains14 AI-provisional development cases (seven public,
+seven synthetic). `c_evaluation.json` contains23 unreviewed public cases,
+including20 previously uninspected queue records. Their original source freeze
+is in `c_manifest.json`; **do not edit or silently regenerate it**. They have now
+been run at the final checkpoint and are not unseen for future development.
+No independently human-reviewed labels have been supplied. No score is produced
+for incomplete/unreviewed cases. The prior B protocol below is historical;
+C redistributes selected FewRel excerpts under the explicit [data terms](../DATA_LICENSES.md).
+
+Copy the evaluation file to a local editable derivative. Annotate `binary`,
+`events` (entire participant-role set), `entities` and `entity_spans` with exact
+`start`/`end` character offsets. Each relationship's `evidence` must be an exact
+substring containing its participant surfaces. Preserve qualifiers including
+negative/possible/historical, explicit event/interval dates and precision. Do
+not invent dates or infer a binary pair from membership in an n-ary event.
+Schema defaults are not permission to omit a supported qualifier. Incomplete
+ontologies/uncertain scopes must remain `complete=false` and be described in notes.
+
+Only a real reviewer may set `annotation_status=human_reviewed`, populate their
+actual nonblank `reviewers` names and declare completeness. Prefer two blind
+reviewers plus adjudication; preserve alternatives/notes. Metadata validation
+cannot certify reviewer identity or label truth. Original URLs, source hashes,
+licences, locator and text must remain unchanged. The promotion tool requires
+review declarations and a new output directory, never overwriting the source.
+
+```powershell
+Copy-Item evaluation/c_evaluation.json .evaluation-local/c_human_edits.json
+# Humans edit the copy; do NOT automatically relabel all cases human_reviewed.
+python -m ugi.review_conversion_annotations --edited .evaluation-local/c_human_edits.json --output-dir evaluation/c_reviewed_v1
+python -m ugi.conversion_audit --fixture evaluation/c_reviewed_v1/c_evaluation.json --development evaluation/c_development.json --final-checkpoint --output evaluation/c_reviewed_v1/offline.json
+```
+
+The tool rejects a copy without review declarations. Canonical hashes and source
+leakage checks protect provenance, not semantic independence: near duplicates
+are checked lexically; FewRel's original Wikipedia-article identity is unknown.
+Full source-aware graph audit commands and limits are in
+[CONVERTER_AUDIT](../CONVERTER_AUDIT.md).
+
+## Historical B annotation protocol
+
 There are three distinct evidence sources. Do not pool their numbers.
 
 1. `intelligence_dev.json`: six authored development passages; provisional

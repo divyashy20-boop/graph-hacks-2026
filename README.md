@@ -4,7 +4,36 @@ An **event-time Graph Hacks 2026 Track 1 implementation** of a multi-format, evi
 
 **Status:** functional local prototype and demo, **not production-ready**. This repository contains a code-first implementation and a small synthetic evaluation, not a proven universally accurate graph extractor.
 
-## Milestone B: recovered, measured, demonstrable
+## Milestone C: measured conversion quality, not universal accuracy
+
+**169 tests passed locally: 162 unit/API/provider/MCP + 7 actual FalkorDB tests.**
+The new audit exercises extraction, persistent records, reconnected retrieval
+and graph incidence. Actual Ollama/Qwen and a text-PDF smoke ran locally;
+cloud/paid services remain disabled. All prior work and user graph volumes were
+preserved. See [CONVERTER_AUDIT](CONVERTER_AUDIT.md) for reproduction commands,
+domain failures, source attribution and the capability/readiness matrix.
+
+Important quality gate results:
+
+- Mixed **provisional development** binary F1 improved 22.22% -> 42.11%, but the
+  public-only complete subset recovered just **1/12 targets**, F1 **15.38%**.
+  These AI-authored labels are not independently adjudicated human truth.
+- All 23 frozen public cases remain unreviewed: **no semantic accuracy/F1 claim**.
+- Latest actual four-source Qwen probe: 5 calls, 3 accepted claims, 1 exact
+  predicate match; no extra exact recall over rules, lower exact precision.
+- 100-record CSV/JSON persistence, repeat and two-hop checks passed. Both
+  1,000/2,000-record formats **timed out** under current graph budgets despite
+  fitting upload quotas; existing data was preserved in the tested rollback case.
+  The 2,000-record quota is a validation ceiling, not demonstrated capacity.
+- Three structured synthetic demonstrations remain working. They do not establish
+  general public-document conversion quality. No UI redesign was made in C.
+
+[TEST_REPORT](TEST_REPORT.md), [WORK_LOG](WORK_LOG.md),
+[human annotation workflow](evaluation/ANNOTATION_GUIDE.md),
+[data licences](DATA_LICENSES.md). Human adjudication and scalable atomic writes
+remain follow-ups; do not present this prototype as production-ready.
+
+## Milestone B: recovered, measured, demonstrable (historical)
 
 The interrupted work was preserved and completed on October 15. The dashboard
 now has an interactive evidence graph, role-labelled whole events, historical
@@ -151,7 +180,7 @@ For a private externally annotated JSON benchmark, supply the same `evaluation/c
 
 ## Optional local Ollama extraction (zero cloud API billing)
 
-UGI has an **opt-in local Ollama provider**, separate from AWS Bedrock. It sends source text only to the explicitly configured local Ollama server, requests schema-constrained JSON, and still subjects every relationship to the same exact-span, directional, polarity, temporal and semantic checks. A failed or ambiguous model response goes to review, not directly into the graph as established truth. This integration has been tested with **mocked local HTTP responses**; **no actual model-quality gain has been verified yet**.
+UGI has an **opt-in local Ollama provider**, separate from AWS Bedrock. It sends source text only to the explicitly configured local Ollama server, requests schema-constrained JSON, and subjects candidates to exact-span, directional, polarity, temporal and semantic checks. Mock transport tests and actual Windows Qwen probes were run. Model approval is fallible and not independent truth verification; no consistent public-prose quality gain has been established. See the Milestone C audit for accepted/rejected claims and limitations.
 
 To experiment on your own Windows computer:
 
@@ -296,11 +325,11 @@ the limit is applied before filtering, and the endpoint reports this explicitly.
 ## Known limitations
 
 - Offline text extraction is a conservative grammar/rule system, not universal natural-language understanding. In particular, ambiguous pronouns are deliberately not assigned to a person/entity.
-- Local Ollama integration is schema/transport tested with mocks only; there is no verified improvement on FewRel or unseen prose yet.
+- Local Ollama has mock transport tests and actual bounded Windows Qwen probes. Exact public predicate recall has not improved over rules in the latest matched subset; review can both accept underspecified claims and reject supported ones.
 - The main incident agent follows a bounded deterministic investigation policy. It is **not** an unrestricted conversational LLM planner; tool interfaces are available for external agents.
 - Entity linking is conservative across documents and may fragment true identities unless a stable explicit ID is available.
 - Nontext/scanned PDFs need OCR; OCR is not bundled.
-- JSON and CSV must fit the configured ingestion limits. Large-scale real-world benchmarks have not been run.
+- JSON and CSV must fit configured limits; even within quotas, 1,000/2,000-record synthetic local writes timed out. 100-record CSV/JSON checks passed. No production-scale guarantee is made.
 - Updated package verification includes a successful GitHub-hosted Docker/FalkorDB integration run and participant-supplied Windows Docker Desktop results showing real upload, graph inference, persisted agent action and recovery after an API + graph container restart. See `TEST_REPORT.md` for scoped evidence. This is a prototype smoke test, not production-grade durability testing.
 - API keys and application-specific quotas are not substitutes for robust IAM, TLS, tenant policies, WAF controls, global cloud spending caps or independent security audit. Do not publicly expose the demo container as-is.
 - The synthetic held-out fixture may not generalise to open-ended unseen text or documents; quantitative scores in `evaluation/current_report.json` apply **only to that fixture**.

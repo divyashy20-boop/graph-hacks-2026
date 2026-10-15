@@ -62,7 +62,7 @@ class Engine:
                 self.store.consume("ai:" + self.store.owner + ":" + now()[:10],
                                    self.settings.daily_ai_queries)
             records, links, entities, claims, reviews, seen = [source, *chunks], [], {}, [], [], set()
-            warnings, events = [], []
+            warnings, events, candidate_free = [], [], []
             for chunk in chunks:
                 links.append((source["id"], chunk["id"], "HAS_CHUNK", chunk["id"]))
                 chunk_events = []
@@ -74,6 +74,8 @@ class Engine:
                     reviews.append(dict(id=uid(chunk["id"], "extraction_failure"), kind="ReviewTask",
                                         chunk_id=chunk["id"], source_id=source["id"], status="open",
                                         reason=str(exc), recorded_at=now()))
+                if chunk.get("record") is None and not candidates and not chunk_events:
+                    candidate_free.append(chunk["id"])
                 local_reviews = None
                 if provider and getattr(provider, "is_local", False) and semantic_verification:
                     local_reviews = verify_local_batch(candidates, chunk, provider)
@@ -189,6 +191,9 @@ class Engine:
                           review_tasks=len(reviews), duplicate=False,
                           warnings=warnings, elapsed_ms=round((perf_counter() - started) * 1000, 3),
                           provider=self.settings.provider if provider else "offline",
+                          candidate_free_text_chunks=candidate_free,
+                          coverage_note="No candidates does not prove the source contains no relationships; "
+                                        "semantic completeness requires annotation/review",
                           usage=getattr(provider, "usage", {"calls": 0, "estimated_usd": 0}))
             source["report"] = report
             records.extend([*entities.values(), *reviews])
@@ -218,7 +223,7 @@ class Engine:
         if (claim["polarity"] != "positive" or claim["modality"] != "asserted"
                 or claim["review_status"] != "supported" or not active(claim, as_of)):
             return False
-        return not any(c["predicate"] == claim["predicate"] and c["polarity"] == "negative"
+        return not any(predicate(c["predicate"]) == predicate(claim["predicate"]) and c["polarity"] == "negative"
                        and c["modality"] == "asserted" and active(c, as_of)
                        and same_interval([c, claim])
                        for c in self.store.claims(claim["subject_id"], claim["object_id"]))
@@ -321,7 +326,7 @@ class Engine:
                         "recommended_action": "Search entity candidates and select their exact IDs",
                         "safety_note": "Do not merge similar names without identity evidence"}}
         pair = [c for c in self.store.claims(subject["id"], object_entity["id"])
-                if c["predicate"] == p and active(c, query.as_of)
+                if predicate(c["predicate"]) == p and active(c, query.as_of)
                 and c["modality"] == "asserted" and c["review_status"] == "supported"]
         negatives = [c for c in pair if c["polarity"] == "negative"]
         positives = [c for c in pair if c["polarity"] == "positive"]
@@ -456,7 +461,7 @@ class Engine:
         uncertain = [c for c in changes if c["modality"] != "asserted"]
         conflicts = tool("find_conflicts", {"id": target["id"]}, lambda: [
             c for c in changes if c["polarity"] == "negative"
-            and any(o["predicate"] == c["predicate"] and o["polarity"] == "positive"
+            and any(predicate(o["predicate"]) == predicate(c["predicate"]) and o["polarity"] == "positive"
                     and active(o, request.as_of) and same_interval([c, o])
                     for o in self.store.claims(c["subject_id"], c["object_id"]))
             and active(c, request.as_of)

@@ -1,0 +1,822 @@
+{
+  "version": "conversion-audit-v1",
+  "recorded_at": "2026-10-15T18:15:31.279042+00:00",
+  "split": "development",
+  "fixture_sha256": "44862ce81022f36925e6191146b5a44eafef2f9aedd83dadb26f752437f14861",
+  "backend": "falkordb",
+  "model": null,
+  "actual_model_inference": false,
+  "scope": "Curated public excerpts plus separately identified synthetic safety controls. AI-authored provisional development labels, not human gold. Named relationship participants only; no exhaustive concept/entity NER claim. Public evaluation remains unreviewed. HTML whitespace normalized; no paraphrasing. Not a whole-document general accuracy benchmark.",
+  "cases": 14,
+  "annotation_counts": {
+    "provisional": 14
+  },
+  "metrics": {
+    "binary": {
+      "tp": 4,
+      "predicted": 4,
+      "gold": 15,
+      "precision": 1.0,
+      "recall": 0.26666666666666666,
+      "f1": 0.4210526315789474
+    },
+    "qualified_binary": {
+      "tp": 4,
+      "predicted": 4,
+      "gold": 15,
+      "precision": 1.0,
+      "recall": 0.26666666666666666,
+      "f1": 0.4210526315789474
+    },
+    "events": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "qualified_events": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "participant_roles": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 4,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "entity_surfaces": {
+      "tp": 8,
+      "predicted": 8,
+      "gold": 27,
+      "precision": 1.0,
+      "recall": 0.2962962962962963,
+      "f1": 0.45714285714285713
+    },
+    "directed_pairs": {
+      "tp": 4,
+      "predicted": 4,
+      "gold": 15,
+      "precision": 1.0,
+      "recall": 0.26666666666666666,
+      "f1": 0.4210526315789474
+    }
+  },
+  "by_domain": {
+    "operations": {
+      "tp": 1,
+      "predicted": 1,
+      "gold": 2,
+      "f1": 0.6666666666666666
+    },
+    "supply": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 5,
+      "f1": 0.0
+    },
+    "research": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 1,
+      "f1": 0.0
+    },
+    "organization": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 2,
+      "f1": 0.0
+    },
+    "temporal": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 3,
+      "f1": 0.0
+    },
+    "safety": {
+      "tp": 3,
+      "predicted": 3,
+      "gold": 3,
+      "f1": 1.0
+    }
+  },
+  "failure_categories": {
+    "missed_binary": 11,
+    "unsupported_event": 0,
+    "missed_event": 1,
+    "temporal_or_historical_mismatch": 0
+  },
+  "evidence": {
+    "exact": 5,
+    "emitted": 5
+  },
+  "abstention": {
+    "correct": 2,
+    "controls": 2
+  },
+  "unassessed_predictions": 1,
+  "model_calls": 0,
+  "review_tasks": 0,
+  "attempted_model_calls": 0,
+  "retrieval_checks": 58,
+  "retrieval_consistent": true,
+  "graph_incidence_checks": 29,
+  "graph_incidence_consistent": true,
+  "per_case": [
+    {
+      "id": "public-operations",
+      "domain": "operations",
+      "source_url": "https://www.nasa.gov/history/nasa-lewis-aided-apollo-13-investigation/",
+      "source_title": "NASA Lewis Aided Apollo 13 Investigation",
+      "licence": "US-Government-work",
+      "licence_url": "https://www.usa.gov/government-copyright",
+      "source_locator": "Paragraph beginning Edgar Cortright",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [
+        {
+          "subject": "Edgar Cortright",
+          "object": "Apollo 13 investigation",
+          "evidence": "Edgar Cortright, a former Lewis engineer, led the Apollo 13 investigation.",
+          "subject_type": "Entity",
+          "object_type": "Entity",
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "time_precision": "unknown",
+          "temporal_source": null,
+          "historical": true,
+          "attribution": null,
+          "event_id": null,
+          "id": "390deb2ba56be53aa5898c6e4ba04c8b6b077c5d05edc3a3932c3041b5b7548a",
+          "kind": "Claim",
+          "subject_id": "033e0906d0b738f4239ff8173e338a9efca0960bceb701b648e20fc733fe6139",
+          "object_id": "e834c5d762f8133ea29cfd16f9269efbeb3c51b01d6faecad487ac482ed34618",
+          "original_predicate": "led",
+          "predicate": "LED",
+          "original_claim": "Edgar Cortright, a former Lewis engineer, led the Apollo 13 investigation.",
+          "evidence_id": "bea0fa8af82edb2b59674ed13869b9132d2c34998e4f42faa395d4e5e88703b3",
+          "source_id": "8b9434af2b88294eb58aef95f3c0bb3a355f19c007f984fa532dcffd12c1d757",
+          "chunk_id": "2d983243296066d75a2a6f2f071f85259d7e72b6de8b1e9a2ee884aad5efbbe3",
+          "recorded_at": "2026-10-15T18:15:30.595050+00:00",
+          "extraction_method": "grammar",
+          "extraction_model": "grammar-v1",
+          "review_status": "supported",
+          "review_reason": "Directional grammar, polarity, modality and temporal agreement",
+          "verification_level": "source_assertion",
+          "independently_verified": false
+        }
+      ],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [
+        [
+          "edgar cortright",
+          "FORMER_ENGINEER_AT",
+          "lewis",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [],
+      "ingestion_ms": 12.762,
+      "persisted_records": 8,
+      "graph_incidence_edges": 4,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "public-supply",
+      "domain": "supply",
+      "source_url": "https://science.nasa.gov/mission/webb/faqs-full/",
+      "source_title": "Webb FAQs",
+      "licence": "US-Government-work",
+      "licence_url": "https://www.usa.gov/government-copyright",
+      "source_locator": "Northrop Grumman main industrial contractor",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [
+        [
+          "northrop grumman",
+          "RESPONSIBLE_FOR_BUILDING",
+          "optical telescope",
+          "positive",
+          "asserted"
+        ],
+        [
+          "northrop grumman",
+          "RESPONSIBLE_FOR_BUILDING",
+          "sunshield",
+          "positive",
+          "asserted"
+        ],
+        [
+          "northrop grumman",
+          "CONTRACTOR_FOR",
+          "nasa",
+          "positive",
+          "asserted"
+        ],
+        [
+          "northrop grumman",
+          "RESPONSIBLE_FOR_PREPARING_FOR_LAUNCH",
+          "observatory",
+          "positive",
+          "asserted"
+        ],
+        [
+          "northrop grumman",
+          "RESPONSIBLE_FOR_BUILDING",
+          "spacecraft bus",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "5bc8756a0f0fc34f2ebe1f9ec721baf22711f21da1c1705c6c278cca17c06234"
+      ],
+      "ingestion_ms": 4.514,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "public-research",
+      "domain": "research",
+      "source_url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0329302",
+      "source_title": "Cunningham E, Greene D (2025). Knowledge transfer, knowledge gaps, and knowledge silos in citation networks. PLOS One 20(8):e0329302",
+      "licence": "CC-BY-4.0",
+      "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source_locator": "Abstract, case-study sentence",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "841640d99b7fd3564f6284dc2d482e287ba01fefbd95d40811c8c1f76ce29fa3"
+      ],
+      "ingestion_ms": 3.778,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "public-employment",
+      "domain": "organization",
+      "source_url": "https://www.nasa.gov/humans-in-space/astronauts/former-astronauts/former-astronaut-neil-a-armstrong/",
+      "source_title": "Former Astronaut Neil A. Armstrong",
+      "licence": "US-Government-work",
+      "licence_url": "https://www.usa.gov/government-copyright",
+      "source_locator": "First biography paragraph, opening sentence",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [
+        [
+          "neil a. armstrong",
+          "JOINED",
+          "national advisory committee for aeronautics",
+          "positive",
+          "asserted"
+        ],
+        [
+          "neil a. armstrong",
+          "WORKED_AT",
+          "lewis flight propulsion laboratory",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "0888a559a53cb2e4e9bd094845dd50814226bd86d5e4f852e0718454066344f0"
+      ],
+      "ingestion_ms": 3.875,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "public-history",
+      "domain": "temporal",
+      "source_url": "https://www.nasa.gov/history/50-years-ago-apollo-13-review-board-report/",
+      "source_title": "50 Years Ago: Apollo 13 Review Board Report",
+      "licence": "US-Government-work",
+      "licence_url": "https://www.usa.gov/government-copyright",
+      "source_locator": "Tank installation paragraph",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [
+        [
+          "oxygen tank assembly",
+          "INSTALLED_IN",
+          "sm",
+          "positive",
+          "asserted"
+        ],
+        [
+          "oxygen tank assembly",
+          "ABOARD",
+          "apollo 13",
+          "positive",
+          "asserted"
+        ],
+        [
+          "sm",
+          "ASSIGNED_TO",
+          "apollo 10",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "37a84edb15e161554d073b407bb0ff52941b3d64e59f689efbfddf59b9d77ce8"
+      ],
+      "ingestion_ms": 3.838,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "public-finance",
+      "domain": "finance",
+      "source_url": "https://www.ftc.gov/news-events/news/press-releases/2024/05/ftc-order-bans-former-pioneer-ceo-exxon-board-seat-exxon-pioneer-deal",
+      "source_title": "FTC Order Bans Former Pioneer CEO from Exxon Board Seat in Exxon-Pioneer Deal (2024)",
+      "licence": "US-Government-work",
+      "licence_url": "https://www.usa.gov/government-copyright",
+      "source_locator": "Opening paragraph",
+      "annotation_status": "provisional",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "688e8c9172300b899e9c365cf04d9bb79cacb5884db9bdab0282f9bc49c60013"
+      ],
+      "ingestion_ms": 3.951,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "public-spatial",
+      "domain": "spatial",
+      "source_url": "https://www.nps.gov/grca/learn/nature/geologicformations.htm?fullweb=1",
+      "source_title": "Geologic Formations - Grand Canyon National Park",
+      "licence": "US-Government-work",
+      "licence_url": "https://www.usa.gov/government-copyright",
+      "source_locator": "Colorado River paragraph",
+      "annotation_status": "provisional",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "93d6d0b96aecf9ef0d47d212e927975a806aeb025c4d232dbf2bf58965a9d8e0"
+      ],
+      "ingestion_ms": 4.63,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "safety-tail",
+      "domain": "safety",
+      "source_url": "synthetic://ugi/milestone-c/safety-tail",
+      "source_title": "AI-authored synthetic safety regression",
+      "licence": "CC0-1.0",
+      "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_locator": "Entire stored excerpt; whitespace normalized from HTML",
+      "annotation_status": "provisional",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "21ee752fa6b2b4e2cd10271955259ec3a612ee5080f9422ada32a5fcfab755e6"
+      ],
+      "ingestion_ms": 4.471,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "safety-modal-negation",
+      "domain": "safety",
+      "source_url": "synthetic://ugi/milestone-c/safety-modal-negation",
+      "source_title": "AI-authored synthetic safety regression",
+      "licence": "CC0-1.0",
+      "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_locator": "Entire stored excerpt; whitespace normalized from HTML",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [
+        {
+          "subject": "Aster",
+          "object": "Boreal",
+          "evidence": "Aster might not own Boreal.",
+          "subject_type": "Entity",
+          "object_type": "Entity",
+          "polarity": "negative",
+          "modality": "possible",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "time_precision": "unknown",
+          "temporal_source": null,
+          "historical": false,
+          "attribution": null,
+          "event_id": null,
+          "id": "214de61492115309a5a791a9891459e3d919eec746ec2b3217c392232c17ed70",
+          "kind": "Claim",
+          "subject_id": "0965974834e209bdf27d8082f295840e2fd13f8474e1797db93a7c3f982c399b",
+          "object_id": "5c50c854fc99337df2fb7503ad03ecef0d38ca258975c7512b21a9523eae19bf",
+          "original_predicate": "own",
+          "predicate": "OWNS",
+          "original_claim": "Aster might not own Boreal.",
+          "evidence_id": "7161c3675ca109201a681d119b630e2575c9822cb94af9dd5edf436e8cd009e3",
+          "source_id": "f4e739412dfde617b89b91b98f02bdf18f03b0ece6fb4e22708be7225347651e",
+          "chunk_id": "1612a42c5f05c39c2045176544e683afa3fb5868667ba6c2a6edc34289e864a7",
+          "recorded_at": "2026-10-15T18:15:30.971553+00:00",
+          "extraction_method": "grammar",
+          "extraction_model": "grammar-v1",
+          "review_status": "supported",
+          "review_reason": "Directional grammar, polarity, modality and temporal agreement",
+          "verification_level": "source_assertion",
+          "independently_verified": false
+        }
+      ],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [],
+      "ingestion_ms": 11.15,
+      "persisted_records": 8,
+      "graph_incidence_edges": 4,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "safety-appositive",
+      "domain": "safety",
+      "source_url": "synthetic://ugi/milestone-c/safety-appositive",
+      "source_title": "AI-authored synthetic safety regression",
+      "licence": "CC0-1.0",
+      "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_locator": "Entire stored excerpt; whitespace normalized from HTML",
+      "annotation_status": "provisional",
+      "scored": false,
+      "claims": [
+        {
+          "subject": "Mira",
+          "object": "Delta Project",
+          "evidence": "Mira, a former Cedar engineer, led Delta Project.",
+          "subject_type": "Entity",
+          "object_type": "Entity",
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "time_precision": "unknown",
+          "temporal_source": null,
+          "historical": true,
+          "attribution": null,
+          "event_id": null,
+          "id": "c01e50dfea4390fd8b639b753ae581c77b4413f96e173ea64e87d545bde2d3a8",
+          "kind": "Claim",
+          "subject_id": "8b10156dd976abe6b4c901f67f94f45ca1687c4570fd2e16ea21d86dd35c2e22",
+          "object_id": "fad6c95ef39fa21086d768dc884e100fa7361337fe586aca8202e2d00fbf483e",
+          "original_predicate": "led",
+          "predicate": "LED",
+          "original_claim": "Mira, a former Cedar engineer, led Delta Project.",
+          "evidence_id": "ce05c6a7b2b07b4a65787a8ccc8bfc0ae38fc8ade72ec0a264652961a5439233",
+          "source_id": "7be7b4786dc3c63b8a099a42db1f5bc1714fad173b84a47925f441c54db111f1",
+          "chunk_id": "59117f4844af58c75afda97b203d4ec4e5c56d2b6461e7c54f87969f0de9eafa",
+          "recorded_at": "2026-10-15T18:15:31.053460+00:00",
+          "extraction_method": "grammar",
+          "extraction_model": "grammar-v1",
+          "review_status": "supported",
+          "review_reason": "Directional grammar, polarity, modality and temporal agreement",
+          "verification_level": "source_assertion",
+          "independently_verified": false
+        }
+      ],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [],
+      "ingestion_ms": 9.218,
+      "persisted_records": 8,
+      "graph_incidence_edges": 4,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "safety-appositive-condition",
+      "domain": "safety",
+      "source_url": "synthetic://ugi/milestone-c/safety-appositive-condition",
+      "source_title": "AI-authored synthetic safety regression",
+      "licence": "CC0-1.0",
+      "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_locator": "Entire stored excerpt; whitespace normalized from HTML",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "44adfea566ebbb59f3e2ad4860fac8442e23b6ca0e381524942393d98c954a19"
+      ],
+      "ingestion_ms": 6.36,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "safety-coreference",
+      "domain": "safety",
+      "source_url": "synthetic://ugi/milestone-c/safety-coreference",
+      "source_title": "AI-authored synthetic safety regression",
+      "licence": "CC0-1.0",
+      "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_locator": "Entire stored excerpt; whitespace normalized from HTML",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [
+        {
+          "subject": "Aster",
+          "object": "Boreal",
+          "evidence": "Aster met Boreal.",
+          "subject_type": "Entity",
+          "object_type": "Entity",
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "time_precision": "unknown",
+          "temporal_source": null,
+          "historical": false,
+          "attribution": null,
+          "event_id": null,
+          "id": "2100ce1b4b1b413324487d4776cdd444dbc3941cb1045f038e95aefa2f770078",
+          "kind": "Claim",
+          "subject_id": "b87e231b7c74da94f2265ceb6bffeb97ca0869d53a483a90b2a7416dda4e516d",
+          "object_id": "b0ba17d6fba4c6359bda3750020ecd6b01f4f377c2a972f73543347a1f05a264",
+          "original_predicate": "met",
+          "predicate": "MET",
+          "original_claim": "Aster met Boreal.",
+          "evidence_id": "268159fe26ab0515c8ee8b956666081cfa42c2eb68b4ab00dce7184043714d52",
+          "source_id": "dbae2ddcebea204a13f00f4f004b731836f022330a4da86567dd751dabf90807",
+          "chunk_id": "2fb09ef223ab027f80e4fa89c2a408258c88c06e65704225beee449345150439",
+          "recorded_at": "2026-10-15T18:15:31.153629+00:00",
+          "extraction_method": "grammar",
+          "extraction_model": "grammar-v1",
+          "review_status": "supported",
+          "review_reason": "Directional grammar, polarity, modality and temporal agreement",
+          "verification_level": "source_assertion",
+          "independently_verified": false
+        }
+      ],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [],
+      "ingestion_ms": 10.116,
+      "persisted_records": 8,
+      "graph_incidence_edges": 4,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "safety-instructions",
+      "domain": "safety",
+      "source_url": "synthetic://ugi/milestone-c/safety-instructions",
+      "source_title": "AI-authored synthetic safety regression",
+      "licence": "CC0-1.0",
+      "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_locator": "Entire stored excerpt; whitespace normalized from HTML",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "56756ee202ef07f0ff7678bafb5bd8e8d1a9bf2cce6a5b9601a0cbed024dd4dc"
+      ],
+      "ingestion_ms": 5.376,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "safety-valid-time",
+      "domain": "safety",
+      "source_url": "synthetic://ugi/milestone-c/safety-valid-time",
+      "source_title": "AI-authored synthetic safety regression",
+      "licence": "CC0-1.0",
+      "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_locator": "Entire stored excerpt; whitespace normalized from HTML",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [
+        {
+          "subject": "Vega",
+          "object": "Willow",
+          "evidence": "Vega works at Willow from 2017 until 2021.",
+          "subject_type": "Entity",
+          "object_type": "Entity",
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": "2017-01-01",
+          "valid_to": "2021-12-31",
+          "time_precision": "year",
+          "temporal_source": "until 2021",
+          "historical": false,
+          "attribution": null,
+          "event_id": null,
+          "id": "d173743f9831a0ac3de5fc97b60c2a9eda4e898b32816e15d76e5fbf620153a9",
+          "kind": "Claim",
+          "subject_id": "42d605fa1e809fd52fad69dfe16c73e1de118f0d13652cb9b9c47cde187c6565",
+          "object_id": "984e4472dbe4def8da1d9bad642668a82b580c939f6311f1edc933448c8f1d94",
+          "original_predicate": "works at",
+          "predicate": "WORKS_AT",
+          "original_claim": "Vega works at Willow from 2017 until 2021.",
+          "evidence_id": "3b4503a9a46fdaf19fd73538436e54cc0f0ea2b676bb512bf6d7a9a391b40c27",
+          "source_id": "bd90f327cb1a7069eeb342f71eea8932e0830e171d09be5e6b022a992cbe0169",
+          "chunk_id": "10880dc8e8babaad6d837cd530d480a4d99c56d8a393134dbfbc5c4044bc239f",
+          "recorded_at": "2026-10-15T18:15:31.249087+00:00",
+          "extraction_method": "grammar",
+          "extraction_model": "grammar-v1",
+          "review_status": "supported",
+          "review_reason": "Directional grammar, polarity, modality and temporal agreement",
+          "verification_level": "source_assertion",
+          "independently_verified": false
+        }
+      ],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [],
+      "ingestion_ms": 10.41,
+      "persisted_records": 8,
+      "graph_incidence_edges": 4,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    }
+  ],
+  "cloud_api_charge_usd": 0,
+  "limitations": [
+    "AI-authored provisional labels are not independent human truth",
+    "Entity surfaces are relation participants, not exhaustive span-level NER",
+    "No semantic F1 for unreviewed/incomplete public documents",
+    "Cross-document identity assessed by separate controlled robustness tests",
+    "Small curated corpus; lexical split guard cannot exclude semantic leakage"
+  ]
+}

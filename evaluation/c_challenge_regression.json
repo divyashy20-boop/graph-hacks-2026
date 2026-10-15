@@ -1,0 +1,862 @@
+{
+  "recorded_at": "2026-10-15T18:12:31.437150+00:00",
+  "fixture_sha256": "7b1de60a1928a8f66e2c2dd8cc4ff6e92ffa16715d2b8524fd86ed9636e8ed2a",
+  "fixture_version": "challenge-synthetic-v1",
+  "scope": "New AI-assisted synthetic stress examples authored for the second milestone. Not an independently annotated real-world corpus. Do not mix into the 20-passage development fixture or advertise as an unseen external benchmark.",
+  "cases": 26,
+  "relation": {
+    "tp": 17,
+    "predicted": 18,
+    "gold": 25,
+    "precision": 0.9444444444444444,
+    "recall": 0.68,
+    "f1": 0.7906976744186047
+  },
+  "strict_relation": {
+    "tp": 17,
+    "predicted": 18,
+    "gold": 25,
+    "precision": 0.9444444444444444,
+    "recall": 0.68,
+    "f1": 0.7906976744186047
+  },
+  "abstention": {
+    "gold_empty": 5,
+    "correct": 5,
+    "false_alarm": 0,
+    "correct_abstention_rate": 1.0
+  },
+  "evidence_span": {
+    "correct": 18,
+    "checked": 18,
+    "accuracy": 1.0
+  },
+  "review_tasks": 1,
+  "by_domain": {
+    "finance": {
+      "relation": {
+        "tp": 2,
+        "predicted": 3,
+        "gold": 5,
+        "precision": 0.6666666666666666,
+        "recall": 0.4,
+        "f1": 0.5
+      },
+      "strict_relation": {
+        "tp": 2,
+        "predicted": 3,
+        "gold": 5,
+        "precision": 0.6666666666666666,
+        "recall": 0.4,
+        "f1": 0.5
+      },
+      "negative_cases": 1,
+      "false_alarm_cases": 0
+    },
+    "operations": {
+      "relation": {
+        "tp": 7,
+        "predicted": 7,
+        "gold": 9,
+        "precision": 1.0,
+        "recall": 0.7777777777777778,
+        "f1": 0.8750000000000001
+      },
+      "strict_relation": {
+        "tp": 7,
+        "predicted": 7,
+        "gold": 9,
+        "precision": 1.0,
+        "recall": 0.7777777777777778,
+        "f1": 0.8750000000000001
+      },
+      "negative_cases": 0,
+      "false_alarm_cases": 0
+    },
+    "people": {
+      "relation": {
+        "tp": 1,
+        "predicted": 1,
+        "gold": 3,
+        "precision": 1.0,
+        "recall": 0.3333333333333333,
+        "f1": 0.5
+      },
+      "strict_relation": {
+        "tp": 1,
+        "predicted": 1,
+        "gold": 3,
+        "precision": 1.0,
+        "recall": 0.3333333333333333,
+        "f1": 0.5
+      },
+      "negative_cases": 3,
+      "false_alarm_cases": 0
+    },
+    "retail": {
+      "relation": {
+        "tp": 3,
+        "predicted": 3,
+        "gold": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "strict_relation": {
+        "tp": 3,
+        "predicted": 3,
+        "gold": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "negative_cases": 0,
+      "false_alarm_cases": 0
+    },
+    "science": {
+      "relation": {
+        "tp": 1,
+        "predicted": 1,
+        "gold": 1,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "strict_relation": {
+        "tp": 1,
+        "predicted": 1,
+        "gold": 1,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "negative_cases": 1,
+      "false_alarm_cases": 0
+    },
+    "supply": {
+      "relation": {
+        "tp": 3,
+        "predicted": 3,
+        "gold": 4,
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1": 0.8571428571428571
+      },
+      "strict_relation": {
+        "tp": 3,
+        "predicted": 3,
+        "gold": 4,
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1": 0.8571428571428571
+      },
+      "negative_cases": 0,
+      "false_alarm_cases": 0
+    }
+  },
+  "per_sample": [
+    {
+      "id": "ch01",
+      "domain": "operations",
+      "text": "Argo depends on Beacon.",
+      "expected": [
+        [
+          "Argo",
+          "DEPENDS_ON",
+          "Beacon",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "predicted": [
+        [
+          "Argo",
+          "DEPENDS_ON",
+          "Beacon",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "false_positive": [],
+      "false_negative": [],
+      "review_tasks": 0,
+      "correct_abstention": false
+    },
+    {
+      "id": "ch02",
+      "domain": "operations",
+      "text": "Dawn does not trust Ember.",
+      "expected": [
+        [
+          "Dawn",
+          "TRUST",
+          "Ember",
+          "negative",
+          "asserted"
+        ]
+      ],
+      "predicted": [
+        [
+          "Dawn",
+          "TRUST",
+          "Ember",
+          "negative",
+          "asserted"
+        ]
+      ],
+      "false_positive": [],
+      "false_negative": [],
+      "review_tasks": 0,
+      "correct_abstention": false
+    },
+    {
+      "id": "ch03",
+      "domain": "operations",
+      "text": "Grove may supervise Harbor.",
+      "expected": [
+        [
+          "Grove",
+          "SUPERVISE",
+          "Harbor",
+          "positive",
+          "possible"
+        ]
+      ],
+      "predicted": [
+        [
+          "Grove",
+          "SUPERVISE",
+          "Harbor",
+          "positive",
+          "possible"
+        ]
+      ],
+      "false_positive": [],
+      "false_negative": [],
+      "review_tasks": 0,
+      "correct_abstention": false
+    },
+    {
+      "id": "ch04",
+      "domain": "retail",
+      "text": "Iris owns Juniper and Kestrel.",
+      "expected": [
+        [
+          "Iris",
+          "OWNS",
+          "Juniper",
+          "positive",
+          "asserted"
+        ],
+        [
+          "Iris",
+          "OWNS",
+          "Kestrel",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "predicted": [
+        [
+          "Iris",
+          "OWNS",
+          "Juniper",
+          "positive",
+          "asserted"
+        ],
+        [
+          "Iris",
+          "OWNS",
+          "Kestrel",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "false_positive": [],
+      "false_negative": [],
+      "review_tasks": 0,
+      "correct_abstention": false
+    },
+    {
+      "id": "ch05",
+      "domain": "finance",
+      "text": "Lumen was acquired by Mesa.",
+      "expected": [
+        [
+          "Lumen",
+          "ACQUIRED_BY",
+          "Mesa",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "predicted": [
+        [
+          "Lumen",
+          "ACQUIRED_BY",
+          "Mesa",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "false_positive": [],
+      "false_negative": [],
+      "review_tasks": 0,
+      "correct_abstention": false
+    },
+    {
+      "id": "ch06",
+      "domain": "supply",
+      "text": "Nora supplied Onyx.",
+      "expected": [
+        [
+          "Nora",
+          "SUPPLIED",
+          "Onyx",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "predicted": [
+        [
+          "Nora",
+          "SUPPLIED",
+          "Onyx",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "false_positive": [],
+      "false_negative": [],
+      "review_tasks": 0,
+      "correct_abstention": false
+    },
+    {
+      "id": "ch07",
+      "domain": "operations",
+      "text": "Pine sends records to Quartz.",
+      "expected": [
+        [
+          "Pine",
+          "SENDS_RECORDS_TO",
+          "Quartz",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "predicted": [
+        [
+          "Pine",
+          "SENDS_RECORDS_TO",
+          "Quartz",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "false_positive": [],
+      "false_negative": [],
+      "review_tasks": 0,
+      "correct_abstention": false
+    },
+    {
+      "id": "ch08",
+      "domain": "people",
+      "text": "Rhea has 20 users.",
+      "expected": [],
+      "predicted": [],
+      "false_positive": [],
+      "false_negative": [],
+      "review_tasks": 0,
+      "correct_abstention": true
+    },
+    {
+      "id": "ch09",
+      "domain": "finance",
+      "text": "If Alice owns Acme, Bob manages Gamma.",
+      "expected": [],
+      "predicted": [],
+      "false_positive": [],
+      "false_negative": [],
+      "review_tasks": 0,
+      "correct_abstention": true
+    },
+    {
+      "id": "ch10",
+      "domain": "people",
+      "text": "Cedar and Delta are competitors.",
+      "expected": [],
+      "predicted": [],
+      "false_positive": [],
+      "false_negative": [],
+      "review_tasks": 0,
+      "correct_abstention": true
+    },
+    {
+      "id": "ch11",
+      "domain": "operations",
+      "text": "Eagle depends on Finch; Gable monitors Hawk.",
+      "expected": [
+        [
+          "Eagle",
+          "DEPENDS_ON",
+          "Finch",
+          "positive",
+          "asserted"
+        ],
+        [
+          "Gable",
+          "MONITORS",
+          "Hawk",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "predicted": [],
+      "false_positive": [],
+      "false_negative": [
+        [
+          "Eagle",
+          "DEPENDS_ON",
+          "Finch",
+          "positive",
+          "asserted"
+        ],
+        [
+          "Gable",
+          "MONITORS",
+          "Hawk",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "review_tasks": 0,
+      "correct_abstention": false
+    },
+    {
+      "id": "ch12",
+      "domain": "finance",
+      "text": "In 2022, Acme acquired Beta.",
+      "expected": [
+        [
+          "Acme",
+          "ACQUIRED",
+          "Beta",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "predicted": [],
+      "false_positive": [],
+      "false_negative": [
+        [
+          "Acme",
+          "ACQUIRED",
+          "Beta",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "review_tasks": 0,
+      "correct_abstention": false
+    },
+    {
+      "id": "ch13",
+      "domain": "operations",
+      "text": "Lily was deployed by Maple.",
+      "expected": [
+        [
+          "Lily",
+          "DEPLOYED_BY",
+          "Maple",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "predicted": [
+        [
+          "Lily",
+          "DEPLOYED_BY",
+          "Maple",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "false_positive": [],
+      "false_negative": [],
+      "review_tasks": 0,
+      "correct_abstention": false
+    },
+    {
+      "id": "ch14",
+      "domain": "science",
+      "text": "Orion is part of Pegasus.",
+      "expected": [
+        [
+          "Orion",
+          "PART_OF",
+          "Pegasus",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "predicted": [
+        [
+          "Orion",
+          "PART_OF",
+          "Pegasus",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "false_positive": [],
+      "false_negative": [],
+      "review_tasks": 0,
+      "correct_abstention": false
+    },
+    {
+      "id": "ch15",
+      "domain": "finance",
+      "text": "Rill was not acquired by Spruce.",
+      "expected": [
+        [
+          "Rill",
+          "ACQUIRED_BY",
+          "Spruce",
+          "negative",
+          "asserted"
+        ]
+      ],
+      "predicted": [
+        [
+          "Rill",
+          "WAS_NOT_ACQUIRED_BY",
+          "Spruce",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "false_positive": [
+        [
+          "Rill",
+          "WAS_NOT_ACQUIRED_BY",
+          "Spruce",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "false_negative": [
+        [
+          "Rill",
+          "ACQUIRED_BY",
+          "Spruce",
+          "negative",
+          "asserted"
+        ]
+      ],
+      "review_tasks": 0,
+      "correct_abstention": false
+    },
+    {
+      "id": "ch16",
+      "domain": "finance",
+      "text": "Nimbus allegedly owns Orbit.",
+      "expected": [
+        [
+          "Nimbus",
+          "OWNS",
+          "Orbit",
+          "positive",
+          "alleged"
+        ]
+      ],
+      "predicted": [
+        [
+          "Nimbus",
+          "OWNS",
+          "Orbit",
+          "positive",
+          "alleged"
+        ]
+      ],
+      "false_positive": [],
+      "false_negative": [],
+      "review_tasks": 0,
+      "correct_abstention": false
+    },
+    {
+      "id": "ch17",
+      "domain": "operations",
+      "text": "Quill monitors River on 2026-10-15.",
+      "expected": [
+        [
+          "Quill",
+          "MONITORS",
+          "River",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "predicted": [
+        [
+          "Quill",
+          "MONITORS",
+          "River",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "false_positive": [],
+      "false_negative": [],
+      "review_tasks": 0,
+      "correct_abstention": false
+    },
+    {
+      "id": "ch18",
+      "domain": "people",
+      "text": "The report says Stella bribed Taurus.",
+      "expected": [],
+      "predicted": [],
+      "false_positive": [],
+      "false_negative": [],
+      "review_tasks": 0,
+      "correct_abstention": true
+    },
+    {
+      "id": "ch19",
+      "domain": "retail",
+      "text": "Vega used to own Willow.",
+      "expected": [
+        [
+          "Vega",
+          "OWNS",
+          "Willow",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "predicted": [
+        [
+          "Vega",
+          "OWNS",
+          "Willow",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "false_positive": [],
+      "false_negative": [],
+      "review_tasks": 0,
+      "correct_abstention": false
+    },
+    {
+      "id": "ch20",
+      "domain": "people",
+      "text": "Alice, who leads Acme, advised Beta.",
+      "expected": [
+        [
+          "Alice",
+          "ADVISED",
+          "Beta",
+          "positive",
+          "asserted"
+        ],
+        [
+          "Alice",
+          "LEADS",
+          "Acme",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "predicted": [],
+      "false_positive": [],
+      "false_negative": [
+        [
+          "Alice",
+          "ADVISED",
+          "Beta",
+          "positive",
+          "asserted"
+        ],
+        [
+          "Alice",
+          "LEADS",
+          "Acme",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "review_tasks": 0,
+      "correct_abstention": false
+    },
+    {
+      "id": "ch21",
+      "domain": "supply",
+      "text": "Northport supplies Harbor. Harbor supplies Orchard.",
+      "expected": [
+        [
+          "Harbor",
+          "SUPPLIES",
+          "Orchard",
+          "positive",
+          "asserted"
+        ],
+        [
+          "Northport",
+          "SUPPLIES",
+          "Harbor",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "predicted": [
+        [
+          "Harbor",
+          "SUPPLIES",
+          "Orchard",
+          "positive",
+          "asserted"
+        ],
+        [
+          "Northport",
+          "SUPPLIES",
+          "Harbor",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "false_positive": [],
+      "false_negative": [],
+      "review_tasks": 0,
+      "correct_abstention": false
+    },
+    {
+      "id": "ch22",
+      "domain": "finance",
+      "text": "Sable reportedly acquired Timber.",
+      "expected": [
+        [
+          "Sable",
+          "ACQUIRED",
+          "Timber",
+          "positive",
+          "alleged"
+        ]
+      ],
+      "predicted": [],
+      "false_positive": [],
+      "false_negative": [
+        [
+          "Sable",
+          "ACQUIRED",
+          "Timber",
+          "positive",
+          "alleged"
+        ]
+      ],
+      "review_tasks": 1,
+      "correct_abstention": false
+    },
+    {
+      "id": "ch23",
+      "domain": "science",
+      "text": "The laboratory reported no new partnership between Umbra and Vega.",
+      "expected": [],
+      "predicted": [],
+      "false_positive": [],
+      "false_negative": [],
+      "review_tasks": 0,
+      "correct_abstention": true
+    },
+    {
+      "id": "ch24",
+      "domain": "supply",
+      "text": "Northland bought Oakwood in 2021.",
+      "expected": [
+        [
+          "Northland",
+          "BOUGHT",
+          "Oakwood",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "predicted": [],
+      "false_positive": [],
+      "false_negative": [
+        [
+          "Northland",
+          "BOUGHT",
+          "Oakwood",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "review_tasks": 0,
+      "correct_abstention": false
+    },
+    {
+      "id": "ch25",
+      "domain": "people",
+      "text": "Tern did not manage Ursa.",
+      "expected": [
+        [
+          "Tern",
+          "MANAGE",
+          "Ursa",
+          "negative",
+          "asserted"
+        ]
+      ],
+      "predicted": [
+        [
+          "Tern",
+          "MANAGE",
+          "Ursa",
+          "negative",
+          "asserted"
+        ]
+      ],
+      "false_positive": [],
+      "false_negative": [],
+      "review_tasks": 0,
+      "correct_abstention": false
+    },
+    {
+      "id": "ch26",
+      "domain": "operations",
+      "text": "Hawthorn might replace Ibis.",
+      "expected": [
+        [
+          "Hawthorn",
+          "REPLACE",
+          "Ibis",
+          "positive",
+          "possible"
+        ]
+      ],
+      "predicted": [
+        [
+          "Hawthorn",
+          "REPLACE",
+          "Ibis",
+          "positive",
+          "possible"
+        ]
+      ],
+      "false_positive": [],
+      "false_negative": [],
+      "review_tasks": 0,
+      "correct_abstention": false
+    }
+  ],
+  "model_calls": 0,
+  "paid_api_calls": 0,
+  "limitations": [
+    "Exact surface/predicate match after the same fixed alias policy on predictions and labels",
+    "Evidence span equality is provenance correctness, not entailment correctness",
+    "No independent real-world benchmark is implied by bundled synthetic fixture",
+    "Predicted relations rejected into review are not counted as extracted",
+    "Unannotated relations in an external fixture may appear as false positives"
+  ]
+}

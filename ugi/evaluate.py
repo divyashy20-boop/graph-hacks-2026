@@ -9,7 +9,7 @@ from pathlib import Path
 from time import perf_counter
 
 from .engine import Engine
-from .models import RelationQuery, Settings, now
+from .models import RelationQuery, Settings, now, predicate
 from .store import Store
 
 
@@ -41,7 +41,7 @@ def evaluate(root):
                                    semantic_verification=semantic)
             claims = engine.store.claims()
             sid = sample["id"]
-            sample_gold = {tuple(g) for g in sample["gold"]}
+            sample_gold = {(g[0], predicate(g[1]), *g[2:]) for g in sample["gold"]}
             sample_pred = {(c["subject"], c["predicate"], c["object"], c["polarity"], c["modality"])
                            for c in claims}
             predicted |= {(sid, *v[:3]) for v in sample_pred}
@@ -110,6 +110,7 @@ def evaluate(root):
                      confusion=dict(confusion), results=answers,
                      llm_comparison="Not run: live paid model calls not authorised"),
         limitations=["B/C/D share offline candidates; no learned extraction comparison measured",
+                     "Predicates in predictions and labels share the fixed canonical alias policy",
                      "Entity metric is surface-set F1, not strict span NER F1",
                      "Gold authored with AI assistance, no independent human adjudication",
                      "Small synthetic set has wide uncertainty and limited language coverage"],

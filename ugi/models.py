@@ -32,6 +32,7 @@ ALIASES = {
     "WORK_FOR": "WORKS_AT", "WORK_AT": "WORKS_AT",
     "IS_PART_OF": "PART_OF", "IS_LOCATED_IN": "LOCATED_IN",
     "SUPPLY": "SUPPLIES", "SUPPLIED_BY": "SUPPLIED_BY",
+    "OWN": "OWNS", "USE": "USES",
 }
 
 
@@ -129,6 +130,9 @@ class Candidate(Strict):
 
     @model_validator(mode="after")
     def intervals(self):
+        if not all(getattr(self, f).strip() for f in
+                   ("subject", "predicate", "object", "subject_type", "object_type")):
+            raise ValueError("Entity names, types and predicate must be nonempty")
         for field in ("event_time", "valid_from", "valid_to"):
             value = getattr(self, field)
             if value:

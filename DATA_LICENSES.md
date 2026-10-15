@@ -1,0 +1,61 @@
+# Audit data attribution and reuse
+
+Source material is not automatically covered by the repository code's licence.
+Preserve each case's source URL, title, locator, excerpt hash and licence fields.
+No source publisher endorses UGI. Labels added here are provisional AI work,
+not annotations produced or validated by the cited publishers.
+
+## FewRel material
+
+Twenty Wikipedia-derived validation excerpts in `evaluation/c_evaluation.json`
+come from **Xu Han, Hao Zhu, Pengfei Yu, Ziyun Wang, Yuan Yao, Zhiyuan Liu and
+Maosong Sun (2018), FewRel: A Large-Scale Supervised Few-Shot Relation
+Classification Dataset with State-of-the-Art Evaluation, EMNLP,4803–4809**.
+[Paper](https://aclanthology.org/D18-1514/),
+[THUNLP repository](https://github.com/thunlp/FewRel),
+[dataset licence declaration](https://thunlp.github.io/1/fewrel1.html).
+The dataset is distributed under [CC BY-SA4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+The upstream validation file SHA256 and sampling/exclusion parameters are in
+`c_manifest.json`. Changes: token-joined/whitespace-normalized excerpts,
+selection of records, UGI provenance/annotation fields; source-entailment labels
+are still unreviewed. Upstream relation-classification labels are not exhaustive
+source-supported graph annotations. Original Wikipedia page/author identity is
+not available in this queue; the dataset-record URL is not an article URL.
+
+The FewRel-derived portion, and our copyrightable additions to its redistributed
+derivative fixture, are supplied under CC BY-SA4.0. Keep this attribution and
+licence when redistributing/adapting it; do not relabel it CC0 or as code-only
+data. Other independently licensed records in the same JSON collection retain
+their own terms; this notice does not relicense third-party material. Reports
+that reproduce these excerpts/evidence retain the same source terms.
+
+## Other source excerpts
+
+The public cases identify the following agency-authored body-text sources:
+NASA Lewis/Apollo13 investigation history, Webb FAQ, Armstrong biography,
+Apollo13 review-board history, NIST CHIPS semiconductor-materials vision,
+NASA Webb international partnership and NASA SVS integration description;
+FTC's May2024 Exxon/Pioneer release; NPS Grand Canyon geological formations.
+Exact URLs/titles are preserved per case in `c_source_recipe.json`,
+`c_development.json` and `c_evaluation.json`. Excerpts are whitespace-normalized;
+provisional relations/roles and surface spans are UGI additions.
+
+The `US-Government-work` metadata describes selected agency-authored text, not
+a blanket licence for every asset on those websites. Third-party text, logos,
+photographs, privacy/publicity rights and non-US reuse can have separate rules.
+See [USAGov guidance](https://www.usa.gov/government-copyright) and
+[NASA media policy](https://www.nasa.gov/nasa-brand-center/images-and-media/).
+No agency logo or downloaded PDF is redistributed in this commit. The PDF smoke
+report references the NASA biography and records a hash; its downloaded photo/
+page and rendered preview remain in ignored local files, not repo assets.
+
+The research abstract excerpt comes from **Eoghan Cunningham and Derek Greene,
+Knowledge transfer, knowledge gaps, and knowledge silos in citation networks,
+PLOS One20(8):e0329302 (2025)**,
+[article and licence](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0329302),
+under [CC BY4.0](https://creativecommons.org/licenses/by/4.0/).
+Changes: selected normalized abstract sentence, provisional UGI event/role labels
+and entity spans. This does not imply the authors endorse the event ontology.
+
+Synthetic safety/demo records are identified separately as CC0-1.0. Do not pool
+their provenance or accuracy scores with independently authored public sources.

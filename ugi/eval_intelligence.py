@@ -34,7 +34,8 @@ class AnnotationCase(Strict):
     def labels(self):
         if self.annotation_status not in {"unreviewed", "provisional", "human_reviewed"}:
             raise ValueError("Invalid annotation status")
-        if self.annotation_status == "human_reviewed" and not self.reviewers:
+        if self.annotation_status == "human_reviewed" and (
+                not self.reviewers or any(not name.strip() for name in self.reviewers)):
             raise ValueError("Human-reviewed labels need named reviewer metadata")
         for label in self.binary:
             if not all(label.get(k) for k in ("subject", "predicate", "object")):

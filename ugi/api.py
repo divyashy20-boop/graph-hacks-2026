@@ -47,7 +47,10 @@ def create_app(settings=None):
 
     @app.exception_handler(RedisError)
     def graph_unavailable(_, exc):
-        return JSONResponse(status_code=503, content={"detail": "Graph storage unavailable",
+        message = ("Graph execution budget exceeded; reduce upload size or query scope. "
+                   "No successful write has been confirmed; inspect the dataset before retrying."
+                   if "timed out" in str(exc).lower() else "Graph storage unavailable")
+        return JSONResponse(status_code=503, content={"detail": message,
                                                      "error_type": type(exc).__name__})
 
     @app.get("/", response_class=HTMLResponse)

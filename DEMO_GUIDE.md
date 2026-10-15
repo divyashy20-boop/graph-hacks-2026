@@ -4,6 +4,12 @@ Track 1: Agents That Act on Connected Data. All demo records are synthetic CC0.
 The same engine, graph store, resolver and investigation policy serve all domains.
 No model or internet service is needed for the core presentation.
 
+Milestone C quality gate: use these small structured synthetic examples to show
+evidence/roles/actions, not universal extraction accuracy. Public complete-subset
+recall is only1/12 (provisional);23 frozen sources await human review.100-record
+local CSV/JSON passed,1,000/2,000 timed out. Keep uploads small and explain
+UNKNOWN honestly. See [CONVERTER_AUDIT](CONVERTER_AUDIT.md).
+
 ## Prepare on Windows
 
 From the repository root containing `ugi/` and `compose.yaml`:

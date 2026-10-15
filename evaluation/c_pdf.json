@@ -1,0 +1,35 @@
+{
+  "recorded_at": "2026-10-15T13:36:13.393405+00:00",
+  "source_url": "https://www.nasa.gov/wp-content/uploads/2016/01/armstrong_neil.pdf",
+  "source_sha256": "afc7f8e287ca3658d778bff695184bc5ee1cd203a8b118b111a31b6dc52f9c7e",
+  "licence": "NASA-authored biography; US Government work, third-party media excluded",
+  "licence_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+  "pages": 1,
+  "backend": "falkordb",
+  "ingestion": {
+    "source_id": "6a41490ac45c81867187c6fe6c56bcc21bf359ef67425b7fd91818e5c79ba4aa",
+    "chunks": 1,
+    "entities": 2,
+    "claims": 1,
+    "relation_events": 0,
+    "review_tasks": 0,
+    "duplicate": false,
+    "warnings": [],
+    "elapsed_ms": 276.336,
+    "provider": "offline",
+    "usage": {
+      "calls": 0,
+      "estimated_usd": 0
+    }
+  },
+  "exact_quotes": 1,
+  "emitted": 1,
+  "layout": "Single page with photo, text wrapping, section headers and line breaks",
+  "semantic_accuracy": null,
+  "ocr_supported": false,
+  "limitations": [
+    "Extraction order/layout may break prose; exact quote does not prove entailment",
+    "No exhaustive human labels for this PDF; no semantic F1",
+    "Scanned-image, encrypted, >40-page and oversized PDFs unsupported"
+  ]
+}

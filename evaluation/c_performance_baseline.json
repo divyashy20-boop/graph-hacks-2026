@@ -1,0 +1,120 @@
+{
+  "recorded_at": "2026-10-15T13:35:30.438670+00:00",
+  "backend": "falkordb",
+  "results": [
+    {
+      "format": "csv",
+      "records": 100,
+      "input_bytes": 2608,
+      "success": true,
+      "initialization_ms": 50.473,
+      "ingestion_ms": 1106.545,
+      "total_wall_ms": 1157.024,
+      "graph_write_ms": 389.847,
+      "client_process_cpu_ms": 296.875,
+      "python_allocations_peak_bytes": 3091556,
+      "counts": {
+        "Evidence": 100,
+        "Mention": 200,
+        "Source": 1,
+        "Claim": 100,
+        "Entity": 101,
+        "Chunk": 100
+      },
+      "duplicate_wall_ms": 4.266,
+      "duplicate_no_new_records": true,
+      "query_observations_ms": [
+        12.73,
+        16.67,
+        12.687,
+        12.859,
+        13.664
+      ],
+      "query_median_ms": 12.859,
+      "reconnect_counts_equal": true,
+      "repeated_claim_ids_equal": true,
+      "model_calls": 0
+    },
+    {
+      "format": "csv",
+      "records": 1000,
+      "success": false,
+      "error_type": "ResponseError",
+      "error": "Query timed out",
+      "elapsed_ms": 16309.285,
+      "counts_after_failure": {},
+      "model_calls": 0
+    },
+    {
+      "format": "csv",
+      "records": 2000,
+      "success": false,
+      "error_type": "ResponseError",
+      "error": "Query timed out",
+      "elapsed_ms": 36264.098,
+      "counts_after_failure": {},
+      "model_calls": 0
+    },
+    {
+      "format": "json",
+      "records": 100,
+      "input_bytes": 6383,
+      "success": true,
+      "initialization_ms": 50.487,
+      "ingestion_ms": 2408.862,
+      "total_wall_ms": 2459.354,
+      "graph_write_ms": 869.754,
+      "client_process_cpu_ms": 953.125,
+      "python_allocations_peak_bytes": 2857080,
+      "counts": {
+        "Claim": 100,
+        "Mention": 200,
+        "Source": 1,
+        "Entity": 101,
+        "Chunk": 100,
+        "Evidence": 100
+      },
+      "duplicate_wall_ms": 18.562,
+      "duplicate_no_new_records": true,
+      "query_observations_ms": [
+        39.72,
+        31.071,
+        32.165,
+        39.819,
+        30.167
+      ],
+      "query_median_ms": 32.165,
+      "reconnect_counts_equal": true,
+      "repeated_claim_ids_equal": true,
+      "model_calls": 0
+    },
+    {
+      "format": "json",
+      "records": 1000,
+      "success": false,
+      "error_type": "ResponseError",
+      "error": "Query timed out",
+      "elapsed_ms": 15996.53,
+      "counts_after_failure": {},
+      "model_calls": 0
+    },
+    {
+      "format": "json",
+      "records": 2000,
+      "success": false,
+      "error_type": "ResponseError",
+      "error": "Query timed out",
+      "elapsed_ms": 29319.475,
+      "counts_after_failure": {},
+      "model_calls": 0
+    }
+  ],
+  "model_calls": 0,
+  "limitations": [
+    "Single local machine, one traced ingestion per size/format, not throughput/p95",
+    "Python allocation peak is not process RSS/GPU/server memory",
+    "CPU time covers Python client, not FalkorDB process or Docker host",
+    "Five queries over a bounded synthetic chain; no production scalability claim",
+    "Write time includes client serialization and synchronous graph roundtrip"
+  ]
+}

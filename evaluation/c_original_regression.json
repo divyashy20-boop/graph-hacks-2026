@@ -1,0 +1,1796 @@
+{
+  "recorded_at": "2026-10-15T18:12:31.834305+00:00",
+  "fixture_sha256": "15639981546610c0aa956e283a35a643f5674a0bf1f96097ac4b555ea1f4dd02",
+  "scope": "20 synthetic held-out passages across two domains; not independent external accuracy",
+  "variants": {
+    "B_deterministic": {
+      "relation": {
+        "tp": 22,
+        "predicted": 22,
+        "gold": 24,
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1": 0.9565217391304348
+      },
+      "strict_relation": {
+        "tp": 22,
+        "predicted": 22,
+        "gold": 24,
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1": 0.9565217391304348
+      },
+      "entity_surface": {
+        "tp": 42,
+        "predicted": 42,
+        "gold": 44,
+        "precision": 1.0,
+        "recall": 0.9545454545454546,
+        "f1": 0.9767441860465117
+      },
+      "samples": 20,
+      "qualifier_accuracy": {
+        "correct": 22,
+        "total": 22
+      },
+      "temporal_accuracy": {
+        "correct": 6,
+        "total": 6
+      },
+      "evidence_semantic_precision": 1.0,
+      "unsupported_relationship_rate": 0.0,
+      "elapsed_ms": 16.22,
+      "model_calls": 0,
+      "estimated_usd": 0,
+      "per_sample": [
+        {
+          "id": "ops01",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Aster",
+              "DEPENDS_ON",
+              "Beacon",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Aster",
+              "DEPENDS_ON",
+              "Beacon",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 2.303
+        },
+        {
+          "id": "ops02",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Cinder",
+              "CACHE_ENTRIES_FOR",
+              "Dune",
+              "positive",
+              "possible"
+            ]
+          ],
+          "gold": [
+            [
+              "Cinder",
+              "CACHE_ENTRIES_FOR",
+              "Dune",
+              "positive",
+              "possible"
+            ]
+          ],
+          "elapsed_ms": 0.302
+        },
+        {
+          "id": "ops03",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Elm",
+              "USES",
+              "Fen",
+              "negative",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Elm",
+              "USE",
+              "Fen",
+              "negative",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.285
+        },
+        {
+          "id": "ops04",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Grove",
+              "OWNED_BY",
+              "Harbor",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Grove",
+              "OWNED_BY",
+              "Harbor",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.275
+        },
+        {
+          "id": "ops05",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Iris",
+              "DEPENDS_ON",
+              "Juniper",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Iris",
+              "DEPENDS_ON",
+              "Juniper",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.293
+        },
+        {
+          "id": "ops06",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Kestrel",
+              "RESTARTED",
+              "Lumen",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Kestrel",
+              "RESTARTED",
+              "Lumen",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.308
+        },
+        {
+          "id": "ops07",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Mesa",
+              "DEPENDS_ON",
+              "Nora",
+              "positive",
+              "asserted"
+            ],
+            [
+              "Mesa",
+              "DEPENDS_ON",
+              "Onyx",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Mesa",
+              "DEPENDS_ON",
+              "Nora",
+              "positive",
+              "asserted"
+            ],
+            [
+              "Mesa",
+              "DEPENDS_ON",
+              "Onyx",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.422
+        },
+        {
+          "id": "ops08",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Pine",
+              "DEPLOYED_BY",
+              "Quartz",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Pine",
+              "DEPLOYED_BY",
+              "Quartz",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.25
+        },
+        {
+          "id": "ops09",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Spruce",
+              "ALERTED",
+              "Tern",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Spruce",
+              "ALERTED",
+              "Tern",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.25
+        },
+        {
+          "id": "ops10",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Umbra",
+              "OBSERVES",
+              "Vega",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Umbra",
+              "OBSERVES",
+              "Vega",
+              "positive",
+              "asserted"
+            ],
+            [
+              "Umbra",
+              "ALERTS",
+              "Willow",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.255
+        },
+        {
+          "id": "ret01",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Amber",
+              "SUPPLIES",
+              "Birch",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Amber",
+              "SUPPLIES",
+              "Birch",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.24
+        },
+        {
+          "id": "ret02",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Cedar",
+              "SHIPS_THROUGH",
+              "Dahlia",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Cedar",
+              "SHIPS_THROUGH",
+              "Dahlia",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.234
+        },
+        {
+          "id": "ret03",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Ember",
+              "LOCATED_IN",
+              "Fjord",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Ember",
+              "LOCATED_IN",
+              "Fjord",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.246
+        },
+        {
+          "id": "ret04",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Garnet",
+              "CERTIFIES",
+              "Hazel",
+              "positive",
+              "alleged"
+            ]
+          ],
+          "gold": [
+            [
+              "Garnet",
+              "CERTIFIES",
+              "Hazel",
+              "positive",
+              "alleged"
+            ]
+          ],
+          "elapsed_ms": 0.245
+        },
+        {
+          "id": "ret05",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Indigo",
+              "DISTRIBUTE",
+              "Jade",
+              "negative",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Indigo",
+              "DISTRIBUTE",
+              "Jade",
+              "negative",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.234
+        },
+        {
+          "id": "ret06",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Kelpie",
+              "PARTNERS_WITH",
+              "Lotus",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Kelpie",
+              "PARTNERS_WITH",
+              "Lotus",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.283
+        },
+        {
+          "id": "ret07",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Marigold",
+              "STOCKS",
+              "Opal",
+              "positive",
+              "asserted"
+            ],
+            [
+              "Marigold",
+              "STOCKS",
+              "Nectar",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Marigold",
+              "STOCKS",
+              "Nectar",
+              "positive",
+              "asserted"
+            ],
+            [
+              "Marigold",
+              "STOCKS",
+              "Opal",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.4
+        },
+        {
+          "id": "ret08",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Pearl",
+              "ACQUIRED_BY",
+              "Russet",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Pearl",
+              "ACQUIRED_BY",
+              "Russet",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.226
+        },
+        {
+          "id": "ret09",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Topaz",
+              "SUPPLIES",
+              "Umber",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Topaz",
+              "SUPPLIES",
+              "Umber",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.259
+        },
+        {
+          "id": "ret10",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Violet",
+              "OWNS",
+              "Wisteria",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Violet",
+              "OWNS",
+              "Wisteria",
+              "positive",
+              "asserted"
+            ],
+            [
+              "Violet",
+              "MANAGES",
+              "Xenon",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.249
+        }
+      ]
+    },
+    "C_hybrid_offline": {
+      "relation": {
+        "tp": 22,
+        "predicted": 22,
+        "gold": 24,
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1": 0.9565217391304348
+      },
+      "strict_relation": {
+        "tp": 22,
+        "predicted": 22,
+        "gold": 24,
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1": 0.9565217391304348
+      },
+      "entity_surface": {
+        "tp": 42,
+        "predicted": 42,
+        "gold": 44,
+        "precision": 1.0,
+        "recall": 0.9545454545454546,
+        "f1": 0.9767441860465117
+      },
+      "samples": 20,
+      "qualifier_accuracy": {
+        "correct": 22,
+        "total": 22
+      },
+      "temporal_accuracy": {
+        "correct": 6,
+        "total": 6
+      },
+      "evidence_semantic_precision": 1.0,
+      "unsupported_relationship_rate": 0.0,
+      "elapsed_ms": 11.953,
+      "model_calls": 0,
+      "estimated_usd": 0,
+      "per_sample": [
+        {
+          "id": "ops01",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Aster",
+              "DEPENDS_ON",
+              "Beacon",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Aster",
+              "DEPENDS_ON",
+              "Beacon",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.172
+        },
+        {
+          "id": "ops02",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Cinder",
+              "CACHE_ENTRIES_FOR",
+              "Dune",
+              "positive",
+              "possible"
+            ]
+          ],
+          "gold": [
+            [
+              "Cinder",
+              "CACHE_ENTRIES_FOR",
+              "Dune",
+              "positive",
+              "possible"
+            ]
+          ],
+          "elapsed_ms": 0.19
+        },
+        {
+          "id": "ops03",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Elm",
+              "USES",
+              "Fen",
+              "negative",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Elm",
+              "USE",
+              "Fen",
+              "negative",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.178
+        },
+        {
+          "id": "ops04",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Grove",
+              "OWNED_BY",
+              "Harbor",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Grove",
+              "OWNED_BY",
+              "Harbor",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.169
+        },
+        {
+          "id": "ops05",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Iris",
+              "DEPENDS_ON",
+              "Juniper",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Iris",
+              "DEPENDS_ON",
+              "Juniper",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.18
+        },
+        {
+          "id": "ops06",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Kestrel",
+              "RESTARTED",
+              "Lumen",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Kestrel",
+              "RESTARTED",
+              "Lumen",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.2
+        },
+        {
+          "id": "ops07",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Mesa",
+              "DEPENDS_ON",
+              "Nora",
+              "positive",
+              "asserted"
+            ],
+            [
+              "Mesa",
+              "DEPENDS_ON",
+              "Onyx",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Mesa",
+              "DEPENDS_ON",
+              "Nora",
+              "positive",
+              "asserted"
+            ],
+            [
+              "Mesa",
+              "DEPENDS_ON",
+              "Onyx",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.283
+        },
+        {
+          "id": "ops08",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Pine",
+              "DEPLOYED_BY",
+              "Quartz",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Pine",
+              "DEPLOYED_BY",
+              "Quartz",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.211
+        },
+        {
+          "id": "ops09",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Spruce",
+              "ALERTED",
+              "Tern",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Spruce",
+              "ALERTED",
+              "Tern",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.211
+        },
+        {
+          "id": "ops10",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Umbra",
+              "OBSERVES",
+              "Vega",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Umbra",
+              "OBSERVES",
+              "Vega",
+              "positive",
+              "asserted"
+            ],
+            [
+              "Umbra",
+              "ALERTS",
+              "Willow",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.204
+        },
+        {
+          "id": "ret01",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Amber",
+              "SUPPLIES",
+              "Birch",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Amber",
+              "SUPPLIES",
+              "Birch",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.179
+        },
+        {
+          "id": "ret02",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Cedar",
+              "SHIPS_THROUGH",
+              "Dahlia",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Cedar",
+              "SHIPS_THROUGH",
+              "Dahlia",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.175
+        },
+        {
+          "id": "ret03",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Ember",
+              "LOCATED_IN",
+              "Fjord",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Ember",
+              "LOCATED_IN",
+              "Fjord",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.194
+        },
+        {
+          "id": "ret04",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Garnet",
+              "CERTIFIES",
+              "Hazel",
+              "positive",
+              "alleged"
+            ]
+          ],
+          "gold": [
+            [
+              "Garnet",
+              "CERTIFIES",
+              "Hazel",
+              "positive",
+              "alleged"
+            ]
+          ],
+          "elapsed_ms": 0.187
+        },
+        {
+          "id": "ret05",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Indigo",
+              "DISTRIBUTE",
+              "Jade",
+              "negative",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Indigo",
+              "DISTRIBUTE",
+              "Jade",
+              "negative",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.183
+        },
+        {
+          "id": "ret06",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Kelpie",
+              "PARTNERS_WITH",
+              "Lotus",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Kelpie",
+              "PARTNERS_WITH",
+              "Lotus",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.209
+        },
+        {
+          "id": "ret07",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Marigold",
+              "STOCKS",
+              "Opal",
+              "positive",
+              "asserted"
+            ],
+            [
+              "Marigold",
+              "STOCKS",
+              "Nectar",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Marigold",
+              "STOCKS",
+              "Nectar",
+              "positive",
+              "asserted"
+            ],
+            [
+              "Marigold",
+              "STOCKS",
+              "Opal",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.313
+        },
+        {
+          "id": "ret08",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Pearl",
+              "ACQUIRED_BY",
+              "Russet",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Pearl",
+              "ACQUIRED_BY",
+              "Russet",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.168
+        },
+        {
+          "id": "ret09",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Topaz",
+              "SUPPLIES",
+              "Umber",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Topaz",
+              "SUPPLIES",
+              "Umber",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.201
+        },
+        {
+          "id": "ret10",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Violet",
+              "OWNS",
+              "Wisteria",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Violet",
+              "OWNS",
+              "Wisteria",
+              "positive",
+              "asserted"
+            ],
+            [
+              "Violet",
+              "MANAGES",
+              "Xenon",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.182
+        }
+      ]
+    },
+    "D_hybrid_offline_verified": {
+      "relation": {
+        "tp": 22,
+        "predicted": 22,
+        "gold": 24,
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1": 0.9565217391304348
+      },
+      "strict_relation": {
+        "tp": 22,
+        "predicted": 22,
+        "gold": 24,
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1": 0.9565217391304348
+      },
+      "entity_surface": {
+        "tp": 42,
+        "predicted": 42,
+        "gold": 44,
+        "precision": 1.0,
+        "recall": 0.9545454545454546,
+        "f1": 0.9767441860465117
+      },
+      "samples": 20,
+      "qualifier_accuracy": {
+        "correct": 22,
+        "total": 22
+      },
+      "temporal_accuracy": {
+        "correct": 6,
+        "total": 6
+      },
+      "evidence_semantic_precision": 1.0,
+      "unsupported_relationship_rate": 0.0,
+      "elapsed_ms": 11.621,
+      "model_calls": 0,
+      "estimated_usd": 0,
+      "per_sample": [
+        {
+          "id": "ops01",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Aster",
+              "DEPENDS_ON",
+              "Beacon",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Aster",
+              "DEPENDS_ON",
+              "Beacon",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.178
+        },
+        {
+          "id": "ops02",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Cinder",
+              "CACHE_ENTRIES_FOR",
+              "Dune",
+              "positive",
+              "possible"
+            ]
+          ],
+          "gold": [
+            [
+              "Cinder",
+              "CACHE_ENTRIES_FOR",
+              "Dune",
+              "positive",
+              "possible"
+            ]
+          ],
+          "elapsed_ms": 0.18
+        },
+        {
+          "id": "ops03",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Elm",
+              "USES",
+              "Fen",
+              "negative",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Elm",
+              "USE",
+              "Fen",
+              "negative",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.161
+        },
+        {
+          "id": "ops04",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Grove",
+              "OWNED_BY",
+              "Harbor",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Grove",
+              "OWNED_BY",
+              "Harbor",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.171
+        },
+        {
+          "id": "ops05",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Iris",
+              "DEPENDS_ON",
+              "Juniper",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Iris",
+              "DEPENDS_ON",
+              "Juniper",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.168
+        },
+        {
+          "id": "ops06",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Kestrel",
+              "RESTARTED",
+              "Lumen",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Kestrel",
+              "RESTARTED",
+              "Lumen",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.191
+        },
+        {
+          "id": "ops07",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Mesa",
+              "DEPENDS_ON",
+              "Nora",
+              "positive",
+              "asserted"
+            ],
+            [
+              "Mesa",
+              "DEPENDS_ON",
+              "Onyx",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Mesa",
+              "DEPENDS_ON",
+              "Nora",
+              "positive",
+              "asserted"
+            ],
+            [
+              "Mesa",
+              "DEPENDS_ON",
+              "Onyx",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.274
+        },
+        {
+          "id": "ops08",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Pine",
+              "DEPLOYED_BY",
+              "Quartz",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Pine",
+              "DEPLOYED_BY",
+              "Quartz",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.18
+        },
+        {
+          "id": "ops09",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Spruce",
+              "ALERTED",
+              "Tern",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Spruce",
+              "ALERTED",
+              "Tern",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.185
+        },
+        {
+          "id": "ops10",
+          "domain": "operations",
+          "predicted": [
+            [
+              "Umbra",
+              "OBSERVES",
+              "Vega",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Umbra",
+              "OBSERVES",
+              "Vega",
+              "positive",
+              "asserted"
+            ],
+            [
+              "Umbra",
+              "ALERTS",
+              "Willow",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.173
+        },
+        {
+          "id": "ret01",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Amber",
+              "SUPPLIES",
+              "Birch",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Amber",
+              "SUPPLIES",
+              "Birch",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.155
+        },
+        {
+          "id": "ret02",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Cedar",
+              "SHIPS_THROUGH",
+              "Dahlia",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Cedar",
+              "SHIPS_THROUGH",
+              "Dahlia",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.172
+        },
+        {
+          "id": "ret03",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Ember",
+              "LOCATED_IN",
+              "Fjord",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Ember",
+              "LOCATED_IN",
+              "Fjord",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.166
+        },
+        {
+          "id": "ret04",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Garnet",
+              "CERTIFIES",
+              "Hazel",
+              "positive",
+              "alleged"
+            ]
+          ],
+          "gold": [
+            [
+              "Garnet",
+              "CERTIFIES",
+              "Hazel",
+              "positive",
+              "alleged"
+            ]
+          ],
+          "elapsed_ms": 0.166
+        },
+        {
+          "id": "ret05",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Indigo",
+              "DISTRIBUTE",
+              "Jade",
+              "negative",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Indigo",
+              "DISTRIBUTE",
+              "Jade",
+              "negative",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.189
+        },
+        {
+          "id": "ret06",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Kelpie",
+              "PARTNERS_WITH",
+              "Lotus",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Kelpie",
+              "PARTNERS_WITH",
+              "Lotus",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.215
+        },
+        {
+          "id": "ret07",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Marigold",
+              "STOCKS",
+              "Opal",
+              "positive",
+              "asserted"
+            ],
+            [
+              "Marigold",
+              "STOCKS",
+              "Nectar",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Marigold",
+              "STOCKS",
+              "Nectar",
+              "positive",
+              "asserted"
+            ],
+            [
+              "Marigold",
+              "STOCKS",
+              "Opal",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.333
+        },
+        {
+          "id": "ret08",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Pearl",
+              "ACQUIRED_BY",
+              "Russet",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Pearl",
+              "ACQUIRED_BY",
+              "Russet",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.186
+        },
+        {
+          "id": "ret09",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Topaz",
+              "SUPPLIES",
+              "Umber",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Topaz",
+              "SUPPLIES",
+              "Umber",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.201
+        },
+        {
+          "id": "ret10",
+          "domain": "retail",
+          "predicted": [
+            [
+              "Violet",
+              "OWNS",
+              "Wisteria",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "gold": [
+            [
+              "Violet",
+              "OWNS",
+              "Wisteria",
+              "positive",
+              "asserted"
+            ],
+            [
+              "Violet",
+              "MANAGES",
+              "Xenon",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "elapsed_ms": 0.182
+        }
+      ]
+    },
+    "A_historical_rules": {
+      "relation": {
+        "tp": 2,
+        "predicted": 2,
+        "gold": 24,
+        "precision": 1.0,
+        "recall": 0.08333333333333333,
+        "f1": 0.15384615384615385
+      },
+      "samples": 20,
+      "note": "Historical four-predicate rules; not baseline LLM"
+    }
+  },
+  "unknown": {
+    "correct": 12,
+    "total": 12,
+    "confusion": {
+      "SOURCE_ASSERTED->SOURCE_ASSERTED": 3,
+      "RULE_DERIVED->RULE_DERIVED": 1,
+      "CONNECTED_ONLY->CONNECTED_ONLY": 3,
+      "HYPOTHESIS->HYPOTHESIS": 1,
+      "CONTRADICTED->CONTRADICTED": 1,
+      "UNKNOWN->UNKNOWN": 3
+    },
+    "results": [
+      {
+        "query": {
+          "subject": "Checkout",
+          "object": "Gateway",
+          "predicate": "DEPENDS_ON",
+          "expected": "SOURCE_ASSERTED"
+        },
+        "actual": "SOURCE_ASSERTED",
+        "correct": true
+      },
+      {
+        "query": {
+          "subject": "Cache",
+          "object": "Platform Team",
+          "predicate": "OWNED_BY",
+          "expected": "SOURCE_ASSERTED"
+        },
+        "actual": "SOURCE_ASSERTED",
+        "correct": true
+      },
+      {
+        "query": {
+          "subject": "Checkout",
+          "object": "Cache",
+          "predicate": "TRANSITIVELY_DEPENDS_ON",
+          "expected": "RULE_DERIVED"
+        },
+        "actual": "RULE_DERIVED",
+        "correct": true
+      },
+      {
+        "query": {
+          "subject": "Checkout",
+          "object": "Cache",
+          "predicate": "DEPENDS_ON",
+          "expected": "CONNECTED_ONLY"
+        },
+        "actual": "CONNECTED_ONLY",
+        "correct": true
+      },
+      {
+        "query": {
+          "subject": "Checkout",
+          "object": "Cache",
+          "predicate": "FRIENDS_WITH",
+          "expected": "CONNECTED_ONLY"
+        },
+        "actual": "CONNECTED_ONLY",
+        "correct": true
+      },
+      {
+        "query": {
+          "subject": "Cache",
+          "object": "Checkout",
+          "predicate": "MAY_AFFECT",
+          "allow_hypothesis": true,
+          "expected": "HYPOTHESIS"
+        },
+        "actual": "HYPOTHESIS",
+        "correct": true
+      },
+      {
+        "query": {
+          "subject": "Cache",
+          "object": "Redis",
+          "predicate": "USES",
+          "expected": "CONTRADICTED"
+        },
+        "actual": "CONTRADICTED",
+        "correct": true
+      },
+      {
+        "query": {
+          "subject": "Cache",
+          "object": "Incident 7",
+          "predicate": "CAUSED",
+          "expected": "UNKNOWN"
+        },
+        "actual": "UNKNOWN",
+        "correct": true
+      },
+      {
+        "query": {
+          "subject": "Missing",
+          "object": "Cache",
+          "predicate": "KNOWS",
+          "expected": "UNKNOWN"
+        },
+        "actual": "UNKNOWN",
+        "correct": true
+      },
+      {
+        "query": {
+          "subject": "Cache",
+          "object": "Legacy Store",
+          "predicate": "USES",
+          "expected": "UNKNOWN"
+        },
+        "actual": "UNKNOWN",
+        "correct": true
+      },
+      {
+        "query": {
+          "subject": "Cache",
+          "object": "Legacy Store",
+          "predicate": "USES",
+          "as_of": "2021-06-01",
+          "expected": "SOURCE_ASSERTED"
+        },
+        "actual": "SOURCE_ASSERTED",
+        "correct": true
+      },
+      {
+        "query": {
+          "subject": "Cache",
+          "object": "Checkout",
+          "predicate": "CAUSED",
+          "allow_hypothesis": true,
+          "expected": "CONNECTED_ONLY"
+        },
+        "actual": "CONNECTED_ONLY",
+        "correct": true
+      }
+    ],
+    "llm_comparison": "Not run: live paid model calls not authorised"
+  },
+  "limitations": [
+    "B/C/D share offline candidates; no learned extraction comparison measured",
+    "Predicates in predictions and labels share the fixed canonical alias policy",
+    "Entity metric is surface-set F1, not strict span NER F1",
+    "Gold authored with AI assistance, no independent human adjudication",
+    "Small synthetic set has wide uncertainty and limited language coverage"
+  ]
+}

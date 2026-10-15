@@ -1,0 +1,756 @@
+{
+  "version": "conversion-audit-v1",
+  "recorded_at": "2026-10-15T18:15:42.937449+00:00",
+  "split": "evaluation",
+  "fixture_sha256": "b154cf6ec455e9e3658833f36c8bcc5e39d12e773a8763dc3decb5501b0f07fe",
+  "backend": "falkordb",
+  "model": null,
+  "actual_model_inference": false,
+  "scope": "Curated public excerpts plus separately identified synthetic safety controls. AI-authored provisional development labels, not human gold. Named relationship participants only; no exhaustive concept/entity NER claim. Public evaluation remains unreviewed. HTML whitespace normalized; no paraphrasing. Not a whole-document general accuracy benchmark.",
+  "cases": 23,
+  "annotation_counts": {
+    "unreviewed": 23
+  },
+  "metrics": {},
+  "by_domain": {},
+  "failure_categories": {},
+  "evidence": {
+    "exact": 0,
+    "emitted": 0
+  },
+  "abstention": {
+    "correct": 0,
+    "controls": 0
+  },
+  "unassessed_predictions": 0,
+  "model_calls": 0,
+  "review_tasks": 0,
+  "attempted_model_calls": 0,
+  "retrieval_checks": 46,
+  "retrieval_consistent": true,
+  "graph_incidence_checks": 23,
+  "graph_incidence_consistent": true,
+  "per_case": [
+    {
+      "id": "reserved-nist-supply",
+      "domain": "supply",
+      "source_url": "https://www.nist.gov/chips/vision-success-facilities-semiconductor-materials-and-manufacturing-equipment",
+      "source_title": "Vision for Success: Facilities for Semiconductor Materials and Manufacturing Equipment",
+      "licence": "US-Government-work",
+      "licence_url": "https://www.usa.gov/government-copyright",
+      "source_locator": "Photolithography machine paragraph",
+      "annotation_status": "unreviewed",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "1bc8272f0bf2447f5eb9e486edec4093fb9b65423da5e6fed132dfab56f40f55"
+      ],
+      "ingestion_ms": 8.883,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "reserved-webb-partners",
+      "domain": "research",
+      "source_url": "https://science.nasa.gov/missions/webb/nasas-webb-telescope-is-an-international-endeavor/",
+      "source_title": "NASA’s Webb Telescope is an International Endeavor",
+      "licence": "US-Government-work",
+      "licence_url": "https://www.usa.gov/government-copyright",
+      "source_locator": "Final program description",
+      "annotation_status": "unreviewed",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "cb68f5a9631ee900056ec4782b9c9551b283547a09b8b7674d34d5eadf891304"
+      ],
+      "ingestion_ms": 4.743,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "reserved-webb-operations",
+      "domain": "operations",
+      "source_url": "https://svs.gsfc.nasa.gov/13337/",
+      "source_title": "The James Webb Space Telescope is now an Assembled Observatory",
+      "licence": "US-Government-work",
+      "licence_url": "https://www.usa.gov/government-copyright",
+      "source_locator": "Opening description",
+      "annotation_status": "unreviewed",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "75921177e88c5fe2ac58c298d1e77a46f8d89c57ae481b3333e8de3027cad3ff"
+      ],
+      "ingestion_ms": 7.823,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "fewrel_f8407c3974e200a9",
+      "domain": "public_wikipedia",
+      "source_url": "https://github.com/thunlp/FewRel/blob/master/data/val_wiki.json#fewrel_f8407c3974e200a9",
+      "source_title": "Han et al. (2018), FewRel Wikipedia validation excerpt",
+      "licence": "CC-BY-SA-4.0",
+      "licence_url": "https://thunlp.github.io/1/fewrel1.html",
+      "source_locator": "Upstream human relation-class annotation: P641; head=jean todt; tail=formula one; original index=179. Review ALL source-supported relations/events; do not assume that every Wikidata relation is directly evidenced by this sentence.",
+      "annotation_status": "unreviewed",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "09d481b922802ab08b304a440b229b4d031959700854123fe62b66be29e5f8d5"
+      ],
+      "ingestion_ms": 4.887,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "fewrel_d5abeb2be447d6a5",
+      "domain": "public_wikipedia",
+      "source_url": "https://github.com/thunlp/FewRel/blob/master/data/val_wiki.json#fewrel_d5abeb2be447d6a5",
+      "source_title": "Han et al. (2018), FewRel Wikipedia validation excerpt",
+      "licence": "CC-BY-SA-4.0",
+      "licence_url": "https://thunlp.github.io/1/fewrel1.html",
+      "source_locator": "Upstream human relation-class annotation: P40; head=qin shi huang; tail=huhai; original index=279. Review ALL source-supported relations/events; do not assume that every Wikidata relation is directly evidenced by this sentence.",
+      "annotation_status": "unreviewed",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "94002f6dc6c09944b0b00d98321de363d1936cd60f8a885a476cddb9f499da53"
+      ],
+      "ingestion_ms": 4.998,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "fewrel_6304836446ed5486",
+      "domain": "public_wikipedia",
+      "source_url": "https://github.com/thunlp/FewRel/blob/master/data/val_wiki.json#fewrel_6304836446ed5486",
+      "source_title": "Han et al. (2018), FewRel Wikipedia validation excerpt",
+      "licence": "CC-BY-SA-4.0",
+      "licence_url": "https://thunlp.github.io/1/fewrel1.html",
+      "source_locator": "Upstream human relation-class annotation: P25; head=giada de laurentiis; tail=veronica de laurentiis; original index=351. Review ALL source-supported relations/events; do not assume that every Wikidata relation is directly evidenced by this sentence.",
+      "annotation_status": "unreviewed",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "87451ebc002dd80a9492d8f81682ede49a528dec2e3b1cba6637a111dd3395a0"
+      ],
+      "ingestion_ms": 5.123,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "fewrel_c927cd67b35c4436",
+      "domain": "public_wikipedia",
+      "source_url": "https://github.com/thunlp/FewRel/blob/master/data/val_wiki.json#fewrel_c927cd67b35c4436",
+      "source_title": "Han et al. (2018), FewRel Wikipedia validation excerpt",
+      "licence": "CC-BY-SA-4.0",
+      "licence_url": "https://thunlp.github.io/1/fewrel1.html",
+      "source_locator": "Upstream human relation-class annotation: P59; head=omicron boötis; tail=boötes; original index=155. Review ALL source-supported relations/events; do not assume that every Wikidata relation is directly evidenced by this sentence.",
+      "annotation_status": "unreviewed",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "6bd73bc1f92325b11f455198983e1de16b870bacc238545ea6d4049d96941ffd"
+      ],
+      "ingestion_ms": 4.629,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "fewrel_df958897b4f6d96b",
+      "domain": "public_wikipedia",
+      "source_url": "https://github.com/thunlp/FewRel/blob/master/data/val_wiki.json#fewrel_df958897b4f6d96b",
+      "source_title": "Han et al. (2018), FewRel Wikipedia validation excerpt",
+      "licence": "CC-BY-SA-4.0",
+      "licence_url": "https://thunlp.github.io/1/fewrel1.html",
+      "source_locator": "Upstream human relation-class annotation: P413; head=cameron marshall; tail=running back; original index=322. Review ALL source-supported relations/events; do not assume that every Wikidata relation is directly evidenced by this sentence.",
+      "annotation_status": "unreviewed",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "0ebfbd54d7c61329d48f0d2707798fa302960340be9ab1b998fe4223b6a9c956"
+      ],
+      "ingestion_ms": 3.74,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "fewrel_b7ec7da9e2b415f6",
+      "domain": "public_wikipedia",
+      "source_url": "https://github.com/thunlp/FewRel/blob/master/data/val_wiki.json#fewrel_b7ec7da9e2b415f6",
+      "source_title": "Han et al. (2018), FewRel Wikipedia validation excerpt",
+      "licence": "CC-BY-SA-4.0",
+      "licence_url": "https://thunlp.github.io/1/fewrel1.html",
+      "source_locator": "Upstream human relation-class annotation: P155; head=fastlane; tail=elimination chamber; original index=202. Review ALL source-supported relations/events; do not assume that every Wikidata relation is directly evidenced by this sentence.",
+      "annotation_status": "unreviewed",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "c11533fbbff47c22e293c506325e8f48f2e9f8443678d817012cb3b7171895e6"
+      ],
+      "ingestion_ms": 4.427,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "fewrel_31127878dd6cd8b7",
+      "domain": "public_wikipedia",
+      "source_url": "https://github.com/thunlp/FewRel/blob/master/data/val_wiki.json#fewrel_31127878dd6cd8b7",
+      "source_title": "Han et al. (2018), FewRel Wikipedia validation excerpt",
+      "licence": "CC-BY-SA-4.0",
+      "licence_url": "https://thunlp.github.io/1/fewrel1.html",
+      "source_locator": "Upstream human relation-class annotation: P361; head=nótt; tail=norse mythology; original index=485. Review ALL source-supported relations/events; do not assume that every Wikidata relation is directly evidenced by this sentence.",
+      "annotation_status": "unreviewed",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "aa475c34d6f81aa4e4fbc569796bfd69e427eb9b62892cae1708af2bf5f9177a"
+      ],
+      "ingestion_ms": 4.201,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "fewrel_8e7d2ab5b9d50a24",
+      "domain": "public_wikipedia",
+      "source_url": "https://github.com/thunlp/FewRel/blob/master/data/val_wiki.json#fewrel_8e7d2ab5b9d50a24",
+      "source_title": "Han et al. (2018), FewRel Wikipedia validation excerpt",
+      "licence": "CC-BY-SA-4.0",
+      "licence_url": "https://thunlp.github.io/1/fewrel1.html",
+      "source_locator": "Upstream human relation-class annotation: P177; head=vietnam veterans memorial bridge; tail=james river; original index=497. Review ALL source-supported relations/events; do not assume that every Wikidata relation is directly evidenced by this sentence.",
+      "annotation_status": "unreviewed",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "eb96b7f4a7c9b9e63ecdf3b6b6f159ca47d6d7cfdbece730bab9de8e82fd552a"
+      ],
+      "ingestion_ms": 5.355,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "fewrel_b8da3e637528915b",
+      "domain": "public_wikipedia",
+      "source_url": "https://github.com/thunlp/FewRel/blob/master/data/val_wiki.json#fewrel_b8da3e637528915b",
+      "source_title": "Han et al. (2018), FewRel Wikipedia validation excerpt",
+      "licence": "CC-BY-SA-4.0",
+      "licence_url": "https://thunlp.github.io/1/fewrel1.html",
+      "source_locator": "Upstream human relation-class annotation: P412; head=nolan van way; tail=tenor; original index=420. Review ALL source-supported relations/events; do not assume that every Wikidata relation is directly evidenced by this sentence.",
+      "annotation_status": "unreviewed",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "ce6a78d3afc212238365e2342fc2f64435ef69a6f1c5ca81248d124c0eb1d9e9"
+      ],
+      "ingestion_ms": 6.678,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "fewrel_5f866d7b68333b55",
+      "domain": "public_wikipedia",
+      "source_url": "https://github.com/thunlp/FewRel/blob/master/data/val_wiki.json#fewrel_5f866d7b68333b55",
+      "source_title": "Han et al. (2018), FewRel Wikipedia validation excerpt",
+      "licence": "CC-BY-SA-4.0",
+      "licence_url": "https://thunlp.github.io/1/fewrel1.html",
+      "source_locator": "Upstream human relation-class annotation: P40; head=agnes of poitou; tail=henry iv; original index=171. Review ALL source-supported relations/events; do not assume that every Wikidata relation is directly evidenced by this sentence.",
+      "annotation_status": "unreviewed",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "d06a94b12f6cd4d6e9367a5544c86fb36a5cca64a660e6f79ada66f8d2639f1e"
+      ],
+      "ingestion_ms": 4.557,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "fewrel_329ab3f302f727eb",
+      "domain": "public_wikipedia",
+      "source_url": "https://github.com/thunlp/FewRel/blob/master/data/val_wiki.json#fewrel_329ab3f302f727eb",
+      "source_title": "Han et al. (2018), FewRel Wikipedia validation excerpt",
+      "licence": "CC-BY-SA-4.0",
+      "licence_url": "https://thunlp.github.io/1/fewrel1.html",
+      "source_locator": "Upstream human relation-class annotation: P177; head=cogan house covered bridge; tail=larrys creek; original index=611. Review ALL source-supported relations/events; do not assume that every Wikidata relation is directly evidenced by this sentence.",
+      "annotation_status": "unreviewed",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "6854357496c884ef699aa6c6cbb7f6b0b53fa0b6d0142fbfe5bf9c3c3c858d1f"
+      ],
+      "ingestion_ms": 3.784,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "fewrel_4264bdbf658e8535",
+      "domain": "public_wikipedia",
+      "source_url": "https://github.com/thunlp/FewRel/blob/master/data/val_wiki.json#fewrel_4264bdbf658e8535",
+      "source_title": "Han et al. (2018), FewRel Wikipedia validation excerpt",
+      "licence": "CC-BY-SA-4.0",
+      "licence_url": "https://thunlp.github.io/1/fewrel1.html",
+      "source_locator": "Upstream human relation-class annotation: P410; head=charles graham boyd; tail=general; original index=123. Review ALL source-supported relations/events; do not assume that every Wikidata relation is directly evidenced by this sentence.",
+      "annotation_status": "unreviewed",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "ee17f3a326204b407eb0dd6ebb89d5816b6c42b289133b6b96b6847e554c07c3"
+      ],
+      "ingestion_ms": 6.005,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "fewrel_7e919b9ad3f64d2d",
+      "domain": "public_wikipedia",
+      "source_url": "https://github.com/thunlp/FewRel/blob/master/data/val_wiki.json#fewrel_7e919b9ad3f64d2d",
+      "source_title": "Han et al. (2018), FewRel Wikipedia validation excerpt",
+      "licence": "CC-BY-SA-4.0",
+      "licence_url": "https://thunlp.github.io/1/fewrel1.html",
+      "source_locator": "Upstream human relation-class annotation: P463; head=kujō yoritsugu; tail=kamakura shogunate; original index=444. Review ALL source-supported relations/events; do not assume that every Wikidata relation is directly evidenced by this sentence.",
+      "annotation_status": "unreviewed",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "16c289037fdb1fe70e4c20b278644fc97d97c325b467475a7ae0acc4944bc955"
+      ],
+      "ingestion_ms": 4.586,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "fewrel_f2247443e04cffee",
+      "domain": "public_wikipedia",
+      "source_url": "https://github.com/thunlp/FewRel/blob/master/data/val_wiki.json#fewrel_f2247443e04cffee",
+      "source_title": "Han et al. (2018), FewRel Wikipedia validation excerpt",
+      "licence": "CC-BY-SA-4.0",
+      "licence_url": "https://thunlp.github.io/1/fewrel1.html",
+      "source_locator": "Upstream human relation-class annotation: P641; head=pro; tail=soccer; original index=667. Review ALL source-supported relations/events; do not assume that every Wikidata relation is directly evidenced by this sentence.",
+      "annotation_status": "unreviewed",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "64334910b2d79bd83895c4efb979370be55fce655a8e9092dc81f62dbd4255b5"
+      ],
+      "ingestion_ms": 4.365,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "fewrel_a25900921e14effb",
+      "domain": "public_wikipedia",
+      "source_url": "https://github.com/thunlp/FewRel/blob/master/data/val_wiki.json#fewrel_a25900921e14effb",
+      "source_title": "Han et al. (2018), FewRel Wikipedia validation excerpt",
+      "licence": "CC-BY-SA-4.0",
+      "licence_url": "https://thunlp.github.io/1/fewrel1.html",
+      "source_locator": "Upstream human relation-class annotation: P25; head=leopold; tail=maria theresa; original index=110. Review ALL source-supported relations/events; do not assume that every Wikidata relation is directly evidenced by this sentence.",
+      "annotation_status": "unreviewed",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "126bf653adac3620ee18580dc6c150f9a23126736f68716c8eaceac1277089b4"
+      ],
+      "ingestion_ms": 5.925,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "fewrel_2568d5ca5203e761",
+      "domain": "public_wikipedia",
+      "source_url": "https://github.com/thunlp/FewRel/blob/master/data/val_wiki.json#fewrel_2568d5ca5203e761",
+      "source_title": "Han et al. (2018), FewRel Wikipedia validation excerpt",
+      "licence": "CC-BY-SA-4.0",
+      "licence_url": "https://thunlp.github.io/1/fewrel1.html",
+      "source_locator": "Upstream human relation-class annotation: P206; head=washington; tail=strait of juan de fuca; original index=283. Review ALL source-supported relations/events; do not assume that every Wikidata relation is directly evidenced by this sentence.",
+      "annotation_status": "unreviewed",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "111f4296ecd717b1a2fd3d4f290bce741f48230ed53f508f35cacc318761ab4e"
+      ],
+      "ingestion_ms": 11.989,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "fewrel_fa6b60e5ac8995d2",
+      "domain": "public_wikipedia",
+      "source_url": "https://github.com/thunlp/FewRel/blob/master/data/val_wiki.json#fewrel_fa6b60e5ac8995d2",
+      "source_title": "Han et al. (2018), FewRel Wikipedia validation excerpt",
+      "licence": "CC-BY-SA-4.0",
+      "licence_url": "https://thunlp.github.io/1/fewrel1.html",
+      "source_locator": "Upstream human relation-class annotation: P40; head=takeda nobutora; tail=takeda shingen; original index=190. Review ALL source-supported relations/events; do not assume that every Wikidata relation is directly evidenced by this sentence.",
+      "annotation_status": "unreviewed",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "a698b1ab8a3dfcee78059e9168f0b5027c58888692805eb3659109281000971e"
+      ],
+      "ingestion_ms": 5.036,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "fewrel_d0de98029703d464",
+      "domain": "public_wikipedia",
+      "source_url": "https://github.com/thunlp/FewRel/blob/master/data/val_wiki.json#fewrel_d0de98029703d464",
+      "source_title": "Han et al. (2018), FewRel Wikipedia validation excerpt",
+      "licence": "CC-BY-SA-4.0",
+      "licence_url": "https://thunlp.github.io/1/fewrel1.html",
+      "source_locator": "Upstream human relation-class annotation: P2094; head=johnny armour; tail=flyweight; original index=25. Review ALL source-supported relations/events; do not assume that every Wikidata relation is directly evidenced by this sentence.",
+      "annotation_status": "unreviewed",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "b9ca3135fea605d5390d12ba25bb4a810af8b493f6e10d482ba96015f15cc3c3"
+      ],
+      "ingestion_ms": 3.869,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "fewrel_104afb82cf19d988",
+      "domain": "public_wikipedia",
+      "source_url": "https://github.com/thunlp/FewRel/blob/master/data/val_wiki.json#fewrel_104afb82cf19d988",
+      "source_title": "Han et al. (2018), FewRel Wikipedia validation excerpt",
+      "licence": "CC-BY-SA-4.0",
+      "licence_url": "https://thunlp.github.io/1/fewrel1.html",
+      "source_locator": "Upstream human relation-class annotation: P25; head=valerian ii; tail=conrelia solenina; original index=441. Review ALL source-supported relations/events; do not assume that every Wikidata relation is directly evidenced by this sentence.",
+      "annotation_status": "unreviewed",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "8efa000fd26e7e985112ae363effbe148ba9baf095d81aa142325e80ee68caf3"
+      ],
+      "ingestion_ms": 5.256,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "fewrel_35042ca0d14bf1fe",
+      "domain": "public_wikipedia",
+      "source_url": "https://github.com/thunlp/FewRel/blob/master/data/val_wiki.json#fewrel_35042ca0d14bf1fe",
+      "source_title": "Han et al. (2018), FewRel Wikipedia validation excerpt",
+      "licence": "CC-BY-SA-4.0",
+      "licence_url": "https://thunlp.github.io/1/fewrel1.html",
+      "source_locator": "Upstream human relation-class annotation: P364; head=poraali; tail=tamil; original index=661. Review ALL source-supported relations/events; do not assume that every Wikidata relation is directly evidenced by this sentence.",
+      "annotation_status": "unreviewed",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "attempted_model_calls": 0,
+      "candidate_free_text_chunks": [
+        "2ad3def255cc4b369360af1e2f0c53eee798c776ad59fb0e406a6258e4206b35"
+      ],
+      "ingestion_ms": 3.828,
+      "persisted_records": 2,
+      "graph_incidence_edges": 1,
+      "graph_incidence_consistent": true,
+      "graph_retrieval_consistent": true
+    }
+  ],
+  "cloud_api_charge_usd": 0,
+  "limitations": [
+    "AI-authored provisional labels are not independent human truth",
+    "Entity surfaces are relation participants, not exhaustive span-level NER",
+    "No semantic F1 for unreviewed/incomplete public documents",
+    "Cross-document identity assessed by separate controlled robustness tests",
+    "Small curated corpus; lexical split guard cannot exclude semantic leakage"
+  ]
+}

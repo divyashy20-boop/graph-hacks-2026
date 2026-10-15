@@ -183,3 +183,77 @@ Key implementation constraints: FalkorDB remains required for production/demo pe
 - [ ] Independent human adjudication, improved general public-prose coverage,
   recorded video, production hardening/public deployment, paid provider validation.
   None is represented as completed by the passing synthetic/test suites.
+
+## Milestone C — conversion accuracy and reliability gate, October 15, 2026
+
+- [x] Continued verified B `4799c328f0c4cfdfd611390afa07042ffbc1ce08` in the
+  existing repository; inspected history/status and preserved every interrupted C
+  change. No replacement project, force/reset, source-mirror edits or paid service.
+- [x] Inspected original24-source FewRel queue and excluded4 already-inspected
+  sources. Prepared source-attributed14-case provisional development and23-case
+  unreviewed frozen evaluation partitions. Preserved public URLs, licence terms,
+  locators, exact text/excerpt hashes and spans. Frozen canonical hashes are in
+  `c_manifest.json`; lexical overlap guards are not proof of semantic independence.
+- [x] Built full actual-Falkor conversion audit including reconnect payloads and
+  exact graph incidence/roles, separate binary/qualified/event/role/surface/pair
+  metrics, domain/failure categories, abstention/review observations and timings.
+  Unreviewed/incomplete cases never become empty gold. Human-edit promotion writes
+  a new version and validates declarations/provenance; no human labels fabricated.
+- [x] Before fixes, mixed provisional binary2/3/15,F122.22%; after4/4/15,F142.11%.
+  Public-only complete subset remains weak:1/1/12,F115.38%,recall8.33%. Whole
+  public research event0/1 and roles0/4. Entity surface F136.36%->45.71%, not
+  exhaustive NER. Exact quotes5/5 final do not establish semantic correctness.
+  Added standalone independent arithmetic recheck without scorer-helper imports.
+- [x] Focused general regressions: bounded appositive/main-clause recovery,
+  numeric names/determiners; modal negation; strict temporal tails and declared
+  precision; whole-word entity/attribution grounding; structured preflight before
+  any document writes; malformed PDF/JSON/CSV safety; canonical OWN/USE aliases
+  and legacy read comparisons. No dataset-specific entity lookup or relaxed model
+  evidence gate. Candidate-free chunks explicitly disclose unassessed completeness.
+- [x] Older synthetic20 retains22/24,F195.65%; B12 retains6/8,F185.71%,4 events,
+ 14 roles. Prior26 challenge17/19/25->17/18/25,F177.27%->79.07%: one attributed
+  false acceptance removed. Fixed evaluator gold normalization to apply the same
+  canonical aliases as predictions; no gold edits/threshold reductions.
+- [x] Actual Windows Ollama Qwen probes, not mocks: matched4 public dev sources,
+  baseline4calls/0claims; latestfinal5calls/3claims/2reviews, exact1/3/9,F116.67%.
+  Rules alone on identical sources1/1/9,F120%; no extra exact recall. Two accepted
+  predicates omit provisional building qualifiers; supported preparing-for-launch
+  candidate wrongly rejected by reviewer. Prior reruns differed; latest observation
+  retained, not best-run cherry-picking. Raw intermediate traces not all retained.
+- [x] Frozen final checkpoint, after extraction fixes:23 offline sources,0claims,
+ 46 records/23 incidence edges consistent; four-source Qwen probe6calls,2 accepted
+  unassessed claims,6reviews,2/2 quotes. All frozen sources remain unreviewed, so
+  no F1 or hallucination/correct-abstention rate. Published C model reports retain
+ 15 calls; other bounded development probes ran too. Cloud$0, local compute unknown.
+- [x] Actual CSV/JSON100/1000/2000 capacity measurements:100 passes both formats;
+  1,000 and2,000 time out despite fitting quotas, fresh graphs empty afterwards.
+  Separate actual graph rollback test protects seeded existing data. Measured
+  client allocation/CPU/write/query/duplicate/repeat/reconnect behavior. No p95,
+  server CPU/RSS or scalability promise. HTTP503 explains execution budget failure.
+- [x] Tried a bounded single-query bulk-writer optimization on isolated test
+  graphs. Real integration checks caught label/payload/persistence failures;
+  rejected it and restored `ugi/store.py` byte-for-byte. Known-good writer retained;
+  capacity issue not hidden with longer timeout or partial-document commits.
+- [x] Actual public one-page NASA PDF ingestion and rendered visual inspection,
+  one claim/two entities/exact quote. Not a multi-column or OCR benchmark;14.3MB
+  newsletter exceeds quota and was not ingested. Download/render remain ignored.
+- [x] Full local suite169 passed (162 non-integration +7 real FalkorDB),0 skipped
+  or failed; existing TestClient deprecation remains. Three actual persistent demo
+  domains rerun idempotently. Python/JS syntax and new-file lint checked. Updated
+  README/TEST_REPORT/DEMO_GUIDE/annotation protocol and added CONVERTER_AUDIT and
+  source-specific DATA_LICENSES. CI now verifies source-aware real graph audit,
+  frozen unreviewed checkpoint, arithmetic and100-record capacity, no model calls.
+- [ ] Independent human adjudication and reliable full public-prose/event recall.
+- [ ] Safe atomic bulk-write scaling at1,000/2,000 under existing resource budgets;
+  do not mistake validation quota for demonstrated throughput.
+- [ ] Broad PDF layout/OCR, production/security/load certification, public hosting
+  and paid provider validation. User volumes and unrelated Khoj AWS untouched.
+- Delivery gate: final commit/push and hosted Actions conclusion must be verified
+  for the delivered SHA and recorded in the handoff; local test success/workflow
+  text alone is not hosted CI evidence.
+- [x] Final combined rerun169/169 passed; independent arithmetic counts match
+  (floating-point F1 equality uses1e-12 tolerance). Docker API rebuilt/healthy.
+  Packaged HTTP smoke passed: two opposing claims,422 malformed upload/no graph
+  mutation, CONTRADICTED query, duplicate upload and dashboard asset. Initial
+  singular endpoint typo produced404 and was corrected to `/api/relationships`;
+  removed only both owned synthetic test graphs after verification.

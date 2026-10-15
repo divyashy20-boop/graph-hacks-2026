@@ -1,0 +1,285 @@
+{
+  "version": "conversion-audit-v1",
+  "recorded_at": "2026-10-15T13:27:47.786912+00:00",
+  "split": "development",
+  "fixture_sha256": "44862ce81022f36925e6191146b5a44eafef2f9aedd83dadb26f752437f14861",
+  "backend": "falkordb",
+  "model": "qwen3:4b-instruct",
+  "actual_model_inference": true,
+  "scope": "Curated public excerpts plus separately identified synthetic safety controls. AI-authored provisional development labels, not human gold. Named relationship participants only; no exhaustive concept/entity NER claim. Public evaluation remains unreviewed. HTML whitespace normalized; no paraphrasing. Not a whole-document general accuracy benchmark.",
+  "cases": 4,
+  "annotation_counts": {
+    "provisional": 4
+  },
+  "metrics": {
+    "binary": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 9,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "qualified_binary": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 9,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "events": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "qualified_events": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "participant_roles": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 4,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "entity_surfaces": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 16,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "directed_pairs": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 9,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    }
+  },
+  "by_domain": {
+    "operations": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 2,
+      "f1": 0.0
+    },
+    "supply": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 5,
+      "f1": 0.0
+    },
+    "research": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 1,
+      "f1": 0.0
+    },
+    "organization": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 2,
+      "f1": 0.0
+    }
+  },
+  "failure_categories": {
+    "missed_binary": 9,
+    "unsupported_event": 0,
+    "missed_event": 1,
+    "temporal_or_historical_mismatch": 0
+  },
+  "evidence": {
+    "exact": 0,
+    "emitted": 0
+  },
+  "abstention": {
+    "correct": 0,
+    "controls": 0
+  },
+  "unassessed_predictions": 0,
+  "model_calls": 4,
+  "review_tasks": 0,
+  "retrieval_checks": 4,
+  "retrieval_consistent": true,
+  "per_case": [
+    {
+      "id": "public-operations",
+      "domain": "operations",
+      "source_url": "https://www.nasa.gov/history/nasa-lewis-aided-apollo-13-investigation/",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [
+        [
+          "edgar cortright",
+          "LED",
+          "apollo 13 investigation",
+          "positive",
+          "asserted"
+        ],
+        [
+          "edgar cortright",
+          "FORMER_ENGINEER_AT",
+          "lewis",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 1,
+        "input_tokens": 305,
+        "output_tokens": 12,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "ingestion_ms": 5635.277,
+      "persisted_records": 1,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "public-supply",
+      "domain": "supply",
+      "source_url": "https://science.nasa.gov/mission/webb/faqs-full/",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [
+        [
+          "northrop grumman",
+          "RESPONSIBLE_FOR_BUILDING",
+          "optical telescope",
+          "positive",
+          "asserted"
+        ],
+        [
+          "northrop grumman",
+          "RESPONSIBLE_FOR_BUILDING",
+          "sunshield",
+          "positive",
+          "asserted"
+        ],
+        [
+          "northrop grumman",
+          "CONTRACTOR_FOR",
+          "nasa",
+          "positive",
+          "asserted"
+        ],
+        [
+          "northrop grumman",
+          "RESPONSIBLE_FOR_PREPARING_FOR_LAUNCH",
+          "observatory",
+          "positive",
+          "asserted"
+        ],
+        [
+          "northrop grumman",
+          "RESPONSIBLE_FOR_BUILDING",
+          "spacecraft bus",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 1,
+        "input_tokens": 322,
+        "output_tokens": 12,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "ingestion_ms": 478.428,
+      "persisted_records": 1,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "public-research",
+      "domain": "research",
+      "source_url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0329302",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 1,
+        "input_tokens": 324,
+        "output_tokens": 12,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "ingestion_ms": 454.816,
+      "persisted_records": 1,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "public-employment",
+      "domain": "organization",
+      "source_url": "https://www.nasa.gov/humans-in-space/astronauts/former-astronauts/former-astronaut-neil-a-armstrong/",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [
+        [
+          "neil a. armstrong",
+          "WORKED_AT",
+          "lewis flight propulsion laboratory",
+          "positive",
+          "asserted"
+        ],
+        [
+          "neil a. armstrong",
+          "JOINED",
+          "national advisory committee for aeronautics",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 1,
+        "input_tokens": 334,
+        "output_tokens": 12,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "ingestion_ms": 496.738,
+      "persisted_records": 1,
+      "graph_retrieval_consistent": true
+    }
+  ],
+  "cloud_api_charge_usd": 0,
+  "limitations": [
+    "AI-authored provisional labels are not independent human truth",
+    "Entity surfaces are relation participants, not exhaustive span-level NER",
+    "No semantic F1 for unreviewed/incomplete public documents",
+    "Cross-document identity assessed by separate controlled robustness tests",
+    "Small curated corpus; lexical split guard cannot exclude semantic leakage"
+  ]
+}

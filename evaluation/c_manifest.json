@@ -1,0 +1,11 @@
+{
+  "version": "c-freeze-v1",
+  "development_sha256": "44862ce81022f36925e6191146b5a44eafef2f9aedd83dadb26f752437f14861",
+  "evaluation_sha256": "b154cf6ec455e9e3658833f36c8bcc5e39d12e773a8763dc3decb5501b0f07fe",
+  "queue_provenance": "THUNLP FewRel (Han et al., EMNLP 2018), https://raw.githubusercontent.com/thunlp/FewRel/master/data/val_wiki.json; original data SHA256=76bb44c2485b6faed358a3ce040eadafcc8a8835245cd7e6afc1bef672d4a0bf; seed=20261015; excludes seed-17 128 diagnostic sentences. Human upstream PID labels retained as notes; source-entailment annotations pending.",
+  "queue_cases": 24,
+  "previously_inspected_queue_cases": 4,
+  "development_cases": 14,
+  "evaluation_cases": 23,
+  "policy": "No human-reviewed labels. Evaluation labels not used for development; only run frozen split at explicit final checkpoint. Four-token shingle containment >=0.65, repeated URLs/IDs/exact text rejected."
+}

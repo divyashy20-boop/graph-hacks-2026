@@ -13,7 +13,7 @@ from pathlib import Path
 
 from .engine import Engine
 from .evaluate import scores
-from .models import Settings, now
+from .models import Settings, now, predicate
 from .store import Store
 
 
@@ -49,7 +49,7 @@ def run(fixture: Path) -> dict:
         claims = engine.store.claims()
         observations = {(c["subject"], c["predicate"], c["object"],
                          c["polarity"], c["modality"]) for c in claims}
-        expected = {tuple(r) for r in annotations}
+        expected = {(r[0], predicate(r[1]), *r[2:]) for r in annotations}
         observed3 = {(ident, *v[:3]) for v in observations}
         expected3 = {(ident, *v[:3]) for v in expected}
         observed5 = {(ident, *v) for v in observations}
@@ -106,7 +106,7 @@ def run(fixture: Path) -> dict:
         "review_tasks": reviews, "by_domain": grouped, "per_sample": rows,
         "model_calls": 0, "paid_api_calls": 0,
         "limitations": [
-            "Exact surface/predicate match; synonyms are not automatically credited",
+            "Exact surface/predicate match after the same fixed alias policy on predictions and labels",
             "Evidence span equality is provenance correctness, not entailment correctness",
             "No independent real-world benchmark is implied by bundled synthetic fixture",
             "Predicted relations rejected into review are not counted as extracted",

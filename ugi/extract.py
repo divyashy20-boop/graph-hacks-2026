@@ -10,15 +10,35 @@ from pathlib import PurePath
 from .models import (BatchVerdicts, Candidate, CompactExtraction, Extraction,
                      Settings, Verdict, key, predicate, uid)
 
-NAME = r'(?:"[^"\n]{1,160}"|[A-Z][\w-]*(?:\s+[A-Z][\w-]*){0,4})'
+NAME = (r'(?:"[^"\n]{1,160}"|[A-Z][\w-]*(?:\s+(?:[A-Z][\w-]*|\d{1,4})){0,4}'
+        r'(?:\s+(?:investigation|mission|project))?)')
 SENTENCE = re.compile(r"[^\n.!?]+(?:[.!?]|$)")
 RELATION = re.compile(
     rf"(?P<s>{NAME})\s+(?P<neg>does not |did not |never )?"
     r"(?P<modal>may |might |possibly |allegedly )?"
+    r"(?P<modal_neg>not )?"
     r"(?P<p>[a-z][a-z -]{0,65}?)\s+"
     rf"(?P<o>{NAME})(?P<tail>.*)$"
 )
 STOP_PREDICATES = {"and", "or", "is", "was", "said", "mentioned", "compared with"}
+REPORTED_SCOPE = re.compile(r"\b(?:said|says|claims|claimed|alleges|according to|speculated|reportedly)\b", re.I)
+
+
+def unique_object(pairs):
+    result = {}
+    for name, value in pairs:
+        if name in result:
+            raise ValueError("Duplicate JSON object key: " + name)
+        result[name] = value
+    return result
+
+
+def reject_constant(value):
+    raise ValueError("Non-finite JSON number: " + value)
+
+
+def read_json(text):
+    return json.loads(text, object_pairs_hook=unique_object, parse_constant=reject_constant)
 
 
 def parse(filename, content: bytes, settings: Settings):
@@ -35,12 +55,16 @@ def parse(filename, content: bytes, settings: Settings):
     pieces = []
     if ext == ".pdf":
         from pypdf import PdfReader
+        from pypdf.errors import PdfReadError
 
-        reader = PdfReader(io.BytesIO(content))
-        if reader.is_encrypted or len(reader.pages) > 40:
-            raise ValueError("Encrypted PDF or page limit exceeded")
-        pieces = [(p.extract_text() or "", {"page": i + 1}, None)
-                  for i, p in enumerate(reader.pages)]
+        try:
+            reader = PdfReader(io.BytesIO(content))
+            if reader.is_encrypted or len(reader.pages) > 40:
+                raise ValueError("Encrypted PDF or page limit exceeded")
+            pieces = [(p.extract_text() or "", {"page": i + 1}, None)
+                      for i, p in enumerate(reader.pages)]
+        except PdfReadError as exc:
+            raise ValueError("Unreadable or malformed PDF") from exc
     else:
         try:
             text = content.decode("utf-8-sig")
@@ -60,15 +84,34 @@ def parse(filename, content: bytes, settings: Settings):
                 pieces.append((json.dumps(record, ensure_ascii=False), {"row": row}, record))
         else:
             try:
-                data = ([json.loads(line) for line in text.splitlines() if line.strip()]
-                        if ext == ".jsonl" else json.loads(text))
-            except json.JSONDecodeError as exc:
+                data = ([read_json(line) for line in text.splitlines() if line.strip()]
+                        if ext == ".jsonl" else read_json(text))
+            except (json.JSONDecodeError, RecursionError) as exc:
                 raise ValueError("Malformed JSON") from exc
             data = data if isinstance(data, list) else [data]
             if len(data) > settings.max_records:
                 raise ValueError("Record limit exceeded")
             pieces = [(json.dumps(record, ensure_ascii=False), {"json_pointer": f"/{i}"}, record)
                       for i, record in enumerate(data)]
+    if ext in {".csv", ".json", ".jsonl"}:
+        # Preflight ALL rows before a transaction/model request: a malformed
+        # row must not cause valid neighbouring rows to be partially committed.
+        for _, _, record in pieces:
+            if not isinstance(record, dict):
+                raise ValueError("Structured records must be objects")
+            if "participants" in record or "relation_type" in record:
+                from .models import RelationEventCandidate
+
+                RelationEventCandidate.model_validate({
+                    k: v for k, v in {**record, "evidence": json.dumps(record)}.items()
+                    if k in RelationEventCandidate.model_fields})
+            elif any(k in record for k in ("subject", "predicate", "object")):
+                if not all(record.get(k) not in (None, "") for k in ("subject", "predicate", "object")):
+                    raise ValueError("Partial triple: subject, predicate and object are required")
+                # Reuse the same type/boolean/interval checks as ingestion.
+                structured_candidates({"record": record, "text": json.dumps(record)})
+            elif not record.get("name"):
+                raise ValueError("Structured row needs a triple, event or named attribute record")
     if sum(len(t) for t, _, _ in pieces) > settings.max_chars:
         raise ValueError("Extracted text limit exceeded")
     chunks = []
@@ -118,6 +161,14 @@ CLAUSE_LEAD = re.compile(
 COORDINATED_OBJECT = re.compile(
     rf"^\s+and\s+(?P<object>{NAME})\s*$"
 )
+APPOSITIVE = re.compile(
+    rf"^(?P<s>{NAME}),\s+(?:a|an) (?:former )?(?:{NAME} )?"
+    r"(?:engineer|researcher|scientist|professor|manager|director),\s+(?P<main>.+)$"
+)
+TEMPORAL_TAIL = re.compile(
+    r"\s+(?:on|from|since|until|through|to)\s+\d{4}(?:-\d{2}-\d{2})?"
+    r"(?:\s+(?:until|through|to)\s+\d{4}(?:-\d{2}-\d{2})?)?\s*"
+)
 
 
 def text_candidates(text):
@@ -133,6 +184,11 @@ def text_candidates(text):
         lead = CLAUSE_LEAD.fullmatch(clause)
         if lead:
             clause = lead["main"]
+        appositive = APPOSITIVE.fullmatch(clause)
+        if appositive:
+            # Only a constrained noun-phrase parenthesis; never erase a
+            # relative/conditional/negated subordinate clause to create a fact.
+            clause = appositive["s"] + " " + appositive["main"]
         match = RELATION.fullmatch(clause)
         if not match:
             continue
@@ -148,10 +204,16 @@ def text_candidates(text):
         if raw_p in STOP_PREDICATES or any(w in raw_p for w in [" said ", " claims "]):
             continue
         p = re.sub(r"^(?:formerly |previously |used to )", "", raw_p)
+        # Lowercase determiners introduce the following object, not a new
+        # predicate: "led the Project" / "works at the Institute".
+        # The earlier noun-phrase copula guard remains authoritative.
+        p = re.sub(r"\s+(?:the|a|an)$", "", p)
         # A constrained open predicate grammar, NOT a complete language model.
         if not re.fullmatch(r"[a-z]+(?:[- ][a-z]+){0,4}", p):
             continue
-        polarity = "negative" if match["neg"] else "positive"
+        if match["modal_neg"] and not match["modal"]:
+            continue
+        polarity = "negative" if match["neg"] or match["modal_neg"] else "positive"
         modal = match["modal"] or ""
         modality = "alleged" if "allegedly" in modal else "possible" if modal else "asserted"
         objects = [match["o"].strip('"')]
@@ -164,13 +226,16 @@ def text_candidates(text):
         elif tail.strip():
             # Permitted tail is explicit temporal context. Other trailing text is not
             # silently discarded because that could change the meaning of the claim.
-            if not re.match(r"^(?:\s+(?:on|from|since|until|through|to)\s+\d{4}\b)", tail):
+            if not TEMPORAL_TAIL.fullmatch(tail):
                 continue
+        dates = temporal(clause if appositive else evidence)
+        if appositive and p == "led":
+            dates["historical"] = True
         for object_name in objects:
             result.append(Candidate(
                 subject=match["s"].strip('"'), predicate=p, object=object_name,
                 evidence=evidence, polarity=polarity, modality=modality,
-                **temporal(evidence),
+                **dates,
             ))
     return result
 
@@ -212,15 +277,20 @@ def grounded(candidate: Candidate, chunk):
     start = chunk["text"].find(quote)
     if start < 0:
         return False, "Evidence is not an exact source span"
-    if chunk.get("record") is None and (
-        candidate.subject.casefold() not in quote.casefold()
-        or candidate.object.casefold() not in quote.casefold()
+    if chunk.get("record") is None and not all(
+        re.search(r"(?<!\w)" + re.escape(name) + r"(?!\w)", quote, re.I)
+        for name in (candidate.subject, candidate.object)
     ):
         return False, "Entity surfaces absent from cited passage"
+    if (candidate.attribution and chunk.get("record") is None and not re.search(
+            r"(?<!\w)" + re.escape(candidate.attribution) + r"(?!\w)", quote, re.I)):
+        return False, "Attribution absent from exact evidence"
     for field in ("event_time", "valid_from", "valid_to"):
         value = getattr(candidate, field)
-        if value and value[:4] not in quote:
-            return False, "Temporal value lacks evidence"
+        width = {"year": 4, "month": 7, "day": 10, "instant": len(value or "")}.get(
+            candidate.time_precision, len(value or ""))
+        if value and value[:width] not in quote:
+            return False, "Temporal value lacks evidence at declared precision"
     return True, "Exact passage grounded"
 
 
@@ -230,6 +300,8 @@ def verify(candidate, chunk, provider=None):
         return False, reason
     if chunk.get("record") is not None:
         return True, "Deterministic mapping from explicit structured fields"
+    if REPORTED_SCOPE.search(candidate.evidence) and candidate.modality == "asserted" and not candidate.attribution:
+        return False, "Attributed statement needs explicit attribution or non-asserted modality"
     if key(candidate.subject) in {"he", "she", "it", "they", "this", "that"} or key(
         candidate.object
     ) in {"he", "she", "it", "they", "this", "that"}:
@@ -308,7 +380,11 @@ def verify_local_batch(candidates, chunk, provider):
          "predicate": predicate(candidates[i].predicate),
          "object": candidates[i].object, "polarity": candidates[i].polarity,
          "modality": candidates[i].modality,
-         "historical": candidates[i].historical}
+         "historical": candidates[i].historical,
+         "attribution": candidates[i].attribution,
+         "event_time": candidates[i].event_time,
+         "valid_from": candidates[i].valid_from, "valid_to": candidates[i].valid_to,
+         "time_precision": candidates[i].time_precision}
         for i in batch
     ]
     instruction = (

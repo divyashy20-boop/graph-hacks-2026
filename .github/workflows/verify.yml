@@ -55,6 +55,16 @@ jobs:
         run: python -m ugi.eval_intelligence --fixture evaluation/intelligence_eval.json --development evaluation/intelligence_dev.json --output /tmp/ugi-intelligence-evaluation.json
       - name: Verify three-domain persistent FalkorDB action workflow
         run: python -m ugi.demo --execute --dataset-prefix ci-showcase --output /tmp/ugi-showcase.json
+      - name: Verify source-aware conversion and persisted graph incidence
+        run: python -m ugi.conversion_audit --fixture evaluation/c_development.json --output /tmp/ugi-c-development.json
+      - name: Verify frozen public checkpoint (unreviewed, no accuracy claim)
+        run: python -m ugi.conversion_audit --fixture evaluation/c_evaluation.json --development evaluation/c_development.json --final-checkpoint --output /tmp/ugi-c-evaluation.json
+      - name: Independently recheck recorded provisional metric arithmetic
+        run: python evaluation/recheck_c_metrics.py
+      - name: Measure bounded 100-record real graph smoke
+        run: |
+          python -m ugi.benchmark_conversion --sizes 100 --output /tmp/ugi-c-capacity.json
+          python -c "import json; r=json.load(open('/tmp/ugi-c-capacity.json')); assert all(x['success'] for x in r['results'])"
       - name: External human-annotated FewRel directed-pair diagnostic (not F1)
         run: python -m ugi.eval_fewrel --download --limit 128 --seed 17 --output /tmp/ugi-fewrel-evaluation.json
       - name: Upload evaluation diagnostics
@@ -67,6 +77,9 @@ jobs:
             /tmp/ugi-fewrel-evaluation.json
             /tmp/ugi-intelligence-evaluation.json
             /tmp/ugi-showcase.json
+            /tmp/ugi-c-development.json
+            /tmp/ugi-c-evaluation.json
+            /tmp/ugi-c-capacity.json
           retention-days: 14
       - name: Show diagnostics on failure
         if: failure()

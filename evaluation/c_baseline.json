@@ -1,0 +1,678 @@
+{
+  "version": "conversion-audit-v1",
+  "recorded_at": "2026-10-15T13:27:40.080459+00:00",
+  "split": "development",
+  "fixture_sha256": "44862ce81022f36925e6191146b5a44eafef2f9aedd83dadb26f752437f14861",
+  "backend": "falkordb",
+  "model": null,
+  "actual_model_inference": false,
+  "scope": "Curated public excerpts plus separately identified synthetic safety controls. AI-authored provisional development labels, not human gold. Named relationship participants only; no exhaustive concept/entity NER claim. Public evaluation remains unreviewed. HTML whitespace normalized; no paraphrasing. Not a whole-document general accuracy benchmark.",
+  "cases": 14,
+  "annotation_counts": {
+    "provisional": 14
+  },
+  "metrics": {
+    "binary": {
+      "tp": 2,
+      "predicted": 3,
+      "gold": 15,
+      "precision": 0.6666666666666666,
+      "recall": 0.13333333333333333,
+      "f1": 0.2222222222222222
+    },
+    "qualified_binary": {
+      "tp": 2,
+      "predicted": 3,
+      "gold": 15,
+      "precision": 0.6666666666666666,
+      "recall": 0.13333333333333333,
+      "f1": 0.2222222222222222
+    },
+    "events": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "qualified_events": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "participant_roles": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 4,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "entity_surfaces": {
+      "tp": 6,
+      "predicted": 6,
+      "gold": 27,
+      "precision": 1.0,
+      "recall": 0.2222222222222222,
+      "f1": 0.3636363636363636
+    },
+    "directed_pairs": {
+      "tp": 3,
+      "predicted": 3,
+      "gold": 15,
+      "precision": 1.0,
+      "recall": 0.2,
+      "f1": 0.33333333333333337
+    }
+  },
+  "by_domain": {
+    "operations": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 2,
+      "f1": 0.0
+    },
+    "supply": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 5,
+      "f1": 0.0
+    },
+    "research": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 1,
+      "f1": 0.0
+    },
+    "organization": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 2,
+      "f1": 0.0
+    },
+    "temporal": {
+      "tp": 0,
+      "predicted": 0,
+      "gold": 3,
+      "f1": 0.0
+    },
+    "safety": {
+      "tp": 2,
+      "predicted": 3,
+      "gold": 3,
+      "f1": 0.6666666666666666
+    }
+  },
+  "failure_categories": {
+    "missed_binary": 13,
+    "unsupported_event": 0,
+    "missed_event": 1,
+    "temporal_or_historical_mismatch": 0,
+    "wrong_qualifier_or_predicate": 1
+  },
+  "evidence": {
+    "exact": 4,
+    "emitted": 4
+  },
+  "abstention": {
+    "correct": 2,
+    "controls": 2
+  },
+  "unassessed_predictions": 1,
+  "model_calls": 0,
+  "review_tasks": 0,
+  "retrieval_checks": 30,
+  "retrieval_consistent": true,
+  "per_case": [
+    {
+      "id": "public-operations",
+      "domain": "operations",
+      "source_url": "https://www.nasa.gov/history/nasa-lewis-aided-apollo-13-investigation/",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [
+        [
+          "edgar cortright",
+          "FORMER_ENGINEER_AT",
+          "lewis",
+          "positive",
+          "asserted"
+        ],
+        [
+          "edgar cortright",
+          "LED",
+          "apollo 13 investigation",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "ingestion_ms": 8.791,
+      "persisted_records": 1,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "public-supply",
+      "domain": "supply",
+      "source_url": "https://science.nasa.gov/mission/webb/faqs-full/",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [
+        [
+          "northrop grumman",
+          "RESPONSIBLE_FOR_PREPARING_FOR_LAUNCH",
+          "observatory",
+          "positive",
+          "asserted"
+        ],
+        [
+          "northrop grumman",
+          "RESPONSIBLE_FOR_BUILDING",
+          "optical telescope",
+          "positive",
+          "asserted"
+        ],
+        [
+          "northrop grumman",
+          "CONTRACTOR_FOR",
+          "nasa",
+          "positive",
+          "asserted"
+        ],
+        [
+          "northrop grumman",
+          "RESPONSIBLE_FOR_BUILDING",
+          "sunshield",
+          "positive",
+          "asserted"
+        ],
+        [
+          "northrop grumman",
+          "RESPONSIBLE_FOR_BUILDING",
+          "spacecraft bus",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "ingestion_ms": 5.817,
+      "persisted_records": 1,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "public-research",
+      "domain": "research",
+      "source_url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0329302",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "ingestion_ms": 6.328,
+      "persisted_records": 1,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "public-employment",
+      "domain": "organization",
+      "source_url": "https://www.nasa.gov/humans-in-space/astronauts/former-astronauts/former-astronaut-neil-a-armstrong/",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [
+        [
+          "neil a. armstrong",
+          "JOINED",
+          "national advisory committee for aeronautics",
+          "positive",
+          "asserted"
+        ],
+        [
+          "neil a. armstrong",
+          "WORKED_AT",
+          "lewis flight propulsion laboratory",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "ingestion_ms": 5.764,
+      "persisted_records": 1,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "public-history",
+      "domain": "temporal",
+      "source_url": "https://www.nasa.gov/history/50-years-ago-apollo-13-review-board-report/",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [
+        [
+          "oxygen tank assembly",
+          "INSTALLED_IN",
+          "sm",
+          "positive",
+          "asserted"
+        ],
+        [
+          "oxygen tank assembly",
+          "ABOARD",
+          "apollo 13",
+          "positive",
+          "asserted"
+        ],
+        [
+          "sm",
+          "ASSIGNED_TO",
+          "apollo 10",
+          "positive",
+          "asserted"
+        ]
+      ],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "ingestion_ms": 5.92,
+      "persisted_records": 1,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "public-finance",
+      "domain": "finance",
+      "source_url": "https://www.ftc.gov/news-events/news/press-releases/2024/05/ftc-order-bans-former-pioneer-ceo-exxon-board-seat-exxon-pioneer-deal",
+      "annotation_status": "provisional",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "ingestion_ms": 6.617,
+      "persisted_records": 1,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "public-spatial",
+      "domain": "spatial",
+      "source_url": "https://www.nps.gov/grca/learn/nature/geologicformations.htm?fullweb=1",
+      "annotation_status": "provisional",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "ingestion_ms": 5.65,
+      "persisted_records": 1,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "safety-tail",
+      "domain": "safety",
+      "source_url": "synthetic://ugi/milestone-c/safety-tail",
+      "annotation_status": "provisional",
+      "scored": false,
+      "claims": [
+        {
+          "subject": "Aster",
+          "object": "Boreal",
+          "evidence": "Aster uses Boreal from 2020 but does not use Boreal now.",
+          "subject_type": "Entity",
+          "object_type": "Entity",
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": "2020-01-01",
+          "valid_to": null,
+          "time_precision": "year",
+          "temporal_source": "from 2020",
+          "historical": false,
+          "attribution": null,
+          "event_id": null,
+          "id": "65643cbb58b75e3756b4bdfc1d5483c6e8debe29abed0fe48d27e8d3de926bda",
+          "kind": "Claim",
+          "subject_id": "9d329cacc195d0c50cae8e4d04e68cbc6c13027f2c2b0cfacd80f763a0f8bf46",
+          "object_id": "b6156332748ea4b50ceddc691166677cf7d429ce00f734e14ea3499e175bb932",
+          "original_predicate": "uses",
+          "predicate": "USES",
+          "original_claim": "Aster uses Boreal from 2020 but does not use Boreal now.",
+          "evidence_id": "dffad35fd875a262c4a5b6612dbb18e6edc0ccd3b29d76ee628a0c34ae117f31",
+          "source_id": "abd6fbf22101c8124a19611f66d6a8667b25c14bcf8e88f098c675cd53438779",
+          "chunk_id": "21ee752fa6b2b4e2cd10271955259ec3a612ee5080f9422ada32a5fcfab755e6",
+          "recorded_at": "2026-10-15T13:27:39.614052+00:00",
+          "extraction_method": "grammar",
+          "extraction_model": "grammar-v1",
+          "review_status": "supported",
+          "review_reason": "Directional grammar, polarity, modality and temporal agreement",
+          "verification_level": "source_assertion",
+          "independently_verified": false
+        }
+      ],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "ingestion_ms": 12.278,
+      "persisted_records": 5,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "safety-modal-negation",
+      "domain": "safety",
+      "source_url": "synthetic://ugi/milestone-c/safety-modal-negation",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [
+        {
+          "subject": "Aster",
+          "object": "Boreal",
+          "evidence": "Aster might not own Boreal.",
+          "subject_type": "Entity",
+          "object_type": "Entity",
+          "polarity": "positive",
+          "modality": "possible",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "time_precision": "unknown",
+          "temporal_source": null,
+          "historical": false,
+          "attribution": null,
+          "event_id": null,
+          "id": "8a2880dd6cf8a36147aebbb76e6c5671191a00f20e812724b7e4b5df401593e7",
+          "kind": "Claim",
+          "subject_id": "0965974834e209bdf27d8082f295840e2fd13f8474e1797db93a7c3f982c399b",
+          "object_id": "5c50c854fc99337df2fb7503ad03ecef0d38ca258975c7512b21a9523eae19bf",
+          "original_predicate": "not own",
+          "predicate": "NOT_OWN",
+          "original_claim": "Aster might not own Boreal.",
+          "evidence_id": "368c761dc4f9eab1119f54a8e55037c783f78d86aa4f93ef7c8cedc91574c904",
+          "source_id": "f4e739412dfde617b89b91b98f02bdf18f03b0ece6fb4e22708be7225347651e",
+          "chunk_id": "1612a42c5f05c39c2045176544e683afa3fb5868667ba6c2a6edc34289e864a7",
+          "recorded_at": "2026-10-15T13:27:39.683831+00:00",
+          "extraction_method": "grammar",
+          "extraction_model": "grammar-v1",
+          "review_status": "supported",
+          "review_reason": "Directional grammar, polarity, modality and temporal agreement",
+          "verification_level": "source_assertion",
+          "independently_verified": false
+        }
+      ],
+      "events": [],
+      "incorrect_binary": [
+        [
+          "aster",
+          "NOT_OWN",
+          "boreal",
+          "positive",
+          "possible"
+        ]
+      ],
+      "missed_binary": [
+        [
+          "aster",
+          "OWN",
+          "boreal",
+          "negative",
+          "possible"
+        ]
+      ],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "ingestion_ms": 14.542,
+      "persisted_records": 5,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "safety-appositive",
+      "domain": "safety",
+      "source_url": "synthetic://ugi/milestone-c/safety-appositive",
+      "annotation_status": "provisional",
+      "scored": false,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "ingestion_ms": 6.207,
+      "persisted_records": 1,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "safety-appositive-condition",
+      "domain": "safety",
+      "source_url": "synthetic://ugi/milestone-c/safety-appositive-condition",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "ingestion_ms": 5.206,
+      "persisted_records": 1,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "safety-coreference",
+      "domain": "safety",
+      "source_url": "synthetic://ugi/milestone-c/safety-coreference",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [
+        {
+          "subject": "Aster",
+          "object": "Boreal",
+          "evidence": "Aster met Boreal.",
+          "subject_type": "Entity",
+          "object_type": "Entity",
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "time_precision": "unknown",
+          "temporal_source": null,
+          "historical": false,
+          "attribution": null,
+          "event_id": null,
+          "id": "2100ce1b4b1b413324487d4776cdd444dbc3941cb1045f038e95aefa2f770078",
+          "kind": "Claim",
+          "subject_id": "b87e231b7c74da94f2265ceb6bffeb97ca0869d53a483a90b2a7416dda4e516d",
+          "object_id": "b0ba17d6fba4c6359bda3750020ecd6b01f4f377c2a972f73543347a1f05a264",
+          "original_predicate": "met",
+          "predicate": "MET",
+          "original_claim": "Aster met Boreal.",
+          "evidence_id": "268159fe26ab0515c8ee8b956666081cfa42c2eb68b4ab00dce7184043714d52",
+          "source_id": "dbae2ddcebea204a13f00f4f004b731836f022330a4da86567dd751dabf90807",
+          "chunk_id": "2fb09ef223ab027f80e4fa89c2a408258c88c06e65704225beee449345150439",
+          "recorded_at": "2026-10-15T13:27:39.899247+00:00",
+          "extraction_method": "grammar",
+          "extraction_model": "grammar-v1",
+          "review_status": "supported",
+          "review_reason": "Directional grammar, polarity, modality and temporal agreement",
+          "verification_level": "source_assertion",
+          "independently_verified": false
+        }
+      ],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "ingestion_ms": 20.233,
+      "persisted_records": 5,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "safety-instructions",
+      "domain": "safety",
+      "source_url": "synthetic://ugi/milestone-c/safety-instructions",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "ingestion_ms": 6.561,
+      "persisted_records": 1,
+      "graph_retrieval_consistent": true
+    },
+    {
+      "id": "safety-valid-time",
+      "domain": "safety",
+      "source_url": "synthetic://ugi/milestone-c/safety-valid-time",
+      "annotation_status": "provisional",
+      "scored": true,
+      "claims": [
+        {
+          "subject": "Vega",
+          "object": "Willow",
+          "evidence": "Vega works at Willow from 2017 until 2021.",
+          "subject_type": "Entity",
+          "object_type": "Entity",
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": "2017-01-01",
+          "valid_to": "2021-12-31",
+          "time_precision": "year",
+          "temporal_source": "until 2021",
+          "historical": false,
+          "attribution": null,
+          "event_id": null,
+          "id": "d173743f9831a0ac3de5fc97b60c2a9eda4e898b32816e15d76e5fbf620153a9",
+          "kind": "Claim",
+          "subject_id": "42d605fa1e809fd52fad69dfe16c73e1de118f0d13652cb9b9c47cde187c6565",
+          "object_id": "984e4472dbe4def8da1d9bad642668a82b580c939f6311f1edc933448c8f1d94",
+          "original_predicate": "works at",
+          "predicate": "WORKS_AT",
+          "original_claim": "Vega works at Willow from 2017 until 2021.",
+          "evidence_id": "3b4503a9a46fdaf19fd73538436e54cc0f0ea2b676bb512bf6d7a9a391b40c27",
+          "source_id": "bd90f327cb1a7069eeb342f71eea8932e0830e171d09be5e6b022a992cbe0169",
+          "chunk_id": "10880dc8e8babaad6d837cd530d480a4d99c56d8a393134dbfbc5c4044bc239f",
+          "recorded_at": "2026-10-15T13:27:40.029871+00:00",
+          "extraction_method": "grammar",
+          "extraction_model": "grammar-v1",
+          "review_status": "supported",
+          "review_reason": "Directional grammar, polarity, modality and temporal agreement",
+          "verification_level": "source_assertion",
+          "independently_verified": false
+        }
+      ],
+      "events": [],
+      "incorrect_binary": [],
+      "missed_binary": [],
+      "supported_but_rejected": 0,
+      "reviews": [],
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "warnings": [],
+      "ingestion_ms": 17.248,
+      "persisted_records": 5,
+      "graph_retrieval_consistent": true
+    }
+  ],
+  "cloud_api_charge_usd": 0,
+  "limitations": [
+    "AI-authored provisional labels are not independent human truth",
+    "Entity surfaces are relation participants, not exhaustive span-level NER",
+    "No semantic F1 for unreviewed/incomplete public documents",
+    "Cross-document identity assessed by separate controlled robustness tests",
+    "Small curated corpus; lexical split guard cannot exclude semantic leakage"
+  ]
+}

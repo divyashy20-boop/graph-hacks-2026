@@ -1,5 +1,56 @@
 # Verified follow-up report — October 15, 2026
 
+## Milestone C: latest local verification
+
+Continued clean Milestone B base `4799c328f0c4cfdfd611390afa07042ffbc1ce08`;
+all interrupted C changes preserved. **169 passed, 0 failed, 0 skipped**, including
+**7 real FalkorDB integration tests and 162 non-integration tests**. One existing
+Starlette/httpx TestClient deprecation warning remains. Actual graph tests cover
+reconnect/incidence, malformed-upload atomicity, identity/time/contradictions and
+timeout preservation of pre-existing records. API/MCP/provider safety tests also
+pass. Unit mocks are not counted as actual local inference.
+
+Detailed methodology, domain tables, commands and five readiness answers:
+[CONVERTER_AUDIT](CONVERTER_AUDIT.md). Source terms: [DATA_LICENSES](DATA_LICENSES.md).
+
+| Executed measurement | Result and boundary |
+|---|---|
+| Actual-Falkor dev14 baseline -> final | Binary 2/3/15 -> 4/4/15 (TP/predicted/labelled), F1 22.22% -> 42.11%; AI provisional, mixed public/synthetic |
+| Public-only complete subset | 1/1/12 final, recall 8.33%, F1 15.38%; not independent accuracy |
+| Entity participant surfaces | 6/6/27 -> 8/8/27, F1 36.36% -> 45.71%; not span NER |
+| Whole public event / roles | 0/1 events and 0/4 roles recovered, both baseline/final |
+| Final exact quotes | 5/5 emitted records, including unscored cases; provenance only |
+| Frozen public23 | All unreviewed; offline 0 claims, metrics empty, 46 records/23 incidence edges consistent; **no F1** |
+| Actual Qwen matched4 public dev sources | Baseline 4 calls/0 claims; latest final 5 calls/3 claims/2 reviews; 1/3/9 exact binary, F1 16.67%; offline same texts 1/1/9 F1 20% |
+| Actual Qwen frozen4-source probe | 6 calls, 2 accepted/unassessed claims, 6 reviews, 2/2 exact quotes; no semantic score |
+| Older inspected synthetic regressions | B12: 6/8 F1 85.71%, 4 events/14 roles; original20: 22/24 F1 95.65%; 26 challenge 17/18/25 F1 79.07% |
+| Real100-record CSV / JSON chains | Both passed, 100 claims/101 entities, duplicates/reconnect/repeated IDs consistent; ingest 736.480/744.238ms, write 263.021/303.609ms, two-hop median 6.884/8.372ms |
+| Real1,000 and2,000 CSV / JSON chains | All four timed out within upload quotas; empty fresh graphs after failure; no ingestion/query success metric |
+| Real public PDF | NASA 1-page biography, 1 claim/2 entities/1 exact quote; rendered layout inspected, no OCR/semantic accuracy claim |
+| Three persistent demo domains | Incident/supply authorized action idempotency; research historical/ambiguous identity checks passed; no paid calls |
+
+Final Docker rebuild is healthy (`/ready=true`, backend FalkorDB, provider offline).
+Actual packaged HTTP smoke: two contradictory claims uploaded; malformed adjacent
+JSON rows returned422 with graph unchanged; `/api/relationships` returned
+CONTRADICTED; repeat upload was duplicate; dashboard JavaScript served14634 bytes.
+An initial singular-route typo returned404, then the correct plural route passed.
+Only the two owned random smoke graphs were removed after checks, not user data.
+`/health.live_inference_verified=false` is a static application disclaimer, not
+evidence of the host-side Qwen probe; the actual inference reports are separate.
+
+Reports are named `evaluation/c_*.json`; baseline observations are retained.
+Independent arithmetic uses `python evaluation/recheck_c_metrics.py`, importing
+no scorer helpers. Published model reports contain 15 real calls plus additional
+development probes; output variability is disclosed, not best-run cherry-picking.
+Exact predicate disagreements are not automatically adjudicated hallucinations.
+The final full suite is distinct from the baseline B 130 below. Hosted CI status
+must be checked for the pushed SHA; workflow definitions alone are not evidence.
+
+Remaining: independent human annotations, robust broad-prose/event recall,
+scalable atomic writes at1,000/2,000, full document/multi-column/OCR support,
+production/security/load certification and paid provider validation. None is
+represented as done. No unrelated infrastructure or user Docker volume changed.
+
 ## Milestone B continuation: final local verification
 
 Recovered the entire interrupted working tree on base `487435f9df92a472a4ad38f29ce970f11a4da1a2`.
