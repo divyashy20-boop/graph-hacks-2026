@@ -167,3 +167,25 @@ After pulling current `main` and rebuilding the Docker API, the participant ran 
 - [GitHub Actions run 38702438378](https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38702438378) **passed 86 non-integration tests + 2 actual FalkorDB integration tests**, original synthetic test and 128-case FewRel offline diagnostic. These CI tests use mocked local Ollama responses. The real Qwen **after** this batch fix has **not** yet been run, so no actual before/after model-quality improvement is claimed.
 
 **Limitation:** the current one-object graph edge schema cannot represent genuinely n-ary relations; proper group/event hyperedges remain future work.
+
+
+## Qwen3 4B real batch review A/B and follow-up — October 15, 2026
+
+**Participant Windows/Docker observations** using the same upstream FewRel `val_wiki.json` SHA256 `76bb44c2485b6faed358a3ce040eadafcc8a8835245cd7e6afc1bef672d4a0bf`, fixed seed=17, sample size=4, local model `qwen3:4b-instruct`:
+
+| Measure | Pre-batch (real Qwen) | After batch (real Qwen) |
+|---|---:|---:|
+| Actual local model calls | 8 | 5 |
+| Sentences with accepted claims | 2 | 1 |
+| Accepted graph claims | 4 | 1 |
+| Human review tasks | 2 | 5 |
+| Correct annotated directed head-tail pairs | 0/4 | 0/4 |
+| Exact accepted evidence spans | 4/4 | 1/1 |
+
+The reduction **8 to 5 calls is 37.5%** on these exact four examples, not a representative latency or cost estimate. The only accepted post-batch claim was `Male Srakane LOCATED_IN Croatian part of the Adriatic Sea`. The previously accepted ambiguous `Lane Cove Road ENTERS Ku-ring-gai local government area` was now held for review as an ambiguous participial attachment. Individual flattened `SITUATED_BETWEEN` claims were likewise held, and a verbatim evidence typo (`Adri-atic` versus `Adriatic`) failed exact-span grounding. The subject of the road's trailing participial phrase remains uncertain.
+
+**New false-negative evidence:** The source states that Male Srakane is *just south of Vele Srakane*, yet the small model's batched reviewer rejected `SITUATED_JUST_SOUTH_OF` with a self-contradictory justification. Exact lexical directional entailment should be represented using the weaker base `SOUTH_OF` while retaining the exact source quote, not accepted solely because the LLM asserts it. Following this finding, the predicate normalizer maps directly directional `SITUATED_JUST_SOUTH_OF` and analogous north/east/west variants to their base direction for semantic review. Explicit-source, negation and ambiguity checks still apply.
+
+**Engineering verification:** New direction-normalization regression tests and the original conservative batch tests were run in GitHub Actions; [run 38704185238](https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38704185238) completed successfully with all non-integration tests and both real FalkorDB integration tests green. Actual Qwen inference **has not yet been rerun after direction canonicalization**, so any recovery of the one false-negative claim remains unmeasured.
+
+**Interpretation:** FewRel head-tail pair coverage is not the same metric as semantic relation precision, and the sample includes labels not necessarily entailed by the provided sentence. These four inspected examples are now a *development diagnostic*, **not an unseen benchmark**. Further meaningful evaluation requires held-out examples and independently checked relation-level annotations.
