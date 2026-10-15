@@ -133,3 +133,53 @@ Key implementation constraints: FalkorDB remains required for production/demo pe
 - [x] Added tests for direction variants and negative/spatial verification; CI run 38704185238 was green with real FalkorDB integration.
 - [ ] Rerun *new* spatial normalization on the participant's real local model; no actual post-change accuracy claims.
 - [ ] Annotate an independent source-supported relation set (not FewRel pair labels alone), with negative controls and linguistic group relations.
+
+## Milestone B recovery and completion — October 15, 2026
+
+- [x] Inspected status, tracked diffs, every pending new module/fixture and base
+  `487435f9df92a472a4ad38f29ce970f11a4da1a2`. Preserved all interrupted work;
+  no reset, replacement implementation or graph-volume removal.
+- [x] Recovered date extraction/deduplication, provisional evaluation, public
+  annotation preparation and shared-engine incident/supply/research demos.
+  Completed dashboard assets, evidence/timeline/identity inspection, labelled
+  query results, real authorized investigations, saved cases and review queue.
+- [x] Correctness follow-up: dates tied to the matching grammar relation, not
+  unrelated earlier sentences; wrong event-time/historical flags vetoed;
+  event/graph year/month/day filtering consistent. Context changes clear UI
+  authorization, result panels and idempotency state. Versioned assets prevent
+  old dashboard scripts surviving an update. Added regression coverage.
+- [x] Final local suites: **126 non-integration + 4 actual FalkorDB = 130 passed**,
+  no failed/skipped tests; one TestClient deprecation warning. JavaScript syntax,
+  Python compilation, targeted Ruff and Docker packaging checked. Actual graph
+  tests use isolated random namespaces and clean only their own graphs.
+- [x] Reran frozen provisional evaluation: 6/8 binary targets, 6 predictions,
+  P100/R75/F1 **85.71%**, four/four whole events, 14/14 roles, surface entities
+  25/29, exact quotes 10/10, empty control 1/1. Independent arithmetic cross-check
+  confirmed counts/macro93.1973 without evaluator helpers. No claim of independent
+  human gold or general real-world accuracy. Two missed final cases not tuned.
+- [x] Reran older challenge: 17/25 targets with 19 predictions, F1 **77.27%**;
+  five/five empty controls, exact quotes 19/19. Inspected/tiny provisional data
+  remains a limitation. Canonical content hash locked across OS line endings.
+- [x] Actual Qwen final-code recheck: four local development calls, 1193 input /
+  197 output tokens, three binary + one event (also rule-covered), no extraction
+  F1 gain, review-document rate25% versus50% in pre-fix observation. Earlier
+  four-public-source/five-call probe accepted no claims. Seventeen actual local
+  calls across before/after/final development and public probes; cloud$0, local
+  compute unmeasured. Human annotations for the24-source public queue pending.
+- [x] Real persistent three-domain runner repeated successfully with original
+  dataset prefix `showcase-b`: incident/supply each expose two dependencies and
+  persist idempotent cases/reviews; role events do not invent binary dependencies;
+  research exact-ID overlap RULE_DERIVED in2021, UNKNOWN in2023/name collision.
+- [x] Manual browser checks: graph-backed counts, incident query/preview/authorized
+  write, supply source-role inspection/query/zoom, research date filter/ambiguous
+  identity. API graph+app containers healthy; no paid/cloud services enabled and
+  unrelated Khoj infrastructure untouched. Broader browser automation/load/mobile
+  certification not claimed.
+- [x] Updated README, TEST_REPORT, annotation guide, three-minute DEMO_GUIDE and
+  CI checks for frozen evaluation, actual three-domain graph runner, JavaScript
+  syntax and packaged Docker API. User directly authorized commit/push of verified
+  Milestone B changes to main. Exact pushed SHA and hosted Actions result must
+  be verified in the final handoff, not inferred from a workflow file.
+- [ ] Independent human adjudication, improved general public-prose coverage,
+  recorded video, production hardening/public deployment, paid provider validation.
+  None is represented as completed by the passing synthetic/test suites.

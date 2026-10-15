@@ -6,7 +6,7 @@ from pathlib import Path
 from threading import BoundedSemaphore
 
 from fastapi import Depends, FastAPI, File, Header, HTTPException, Query, UploadFile
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
 from redis.exceptions import RedisError
 
 from .engine import Engine
@@ -54,6 +54,12 @@ def create_app(settings=None):
     def home():
         return Path(__file__).with_name("index.html").read_text(encoding="utf-8")
 
+    @app.get("/assets/{filename}")
+    def asset(filename: str):
+        if filename not in {"app.js", "style.css"}:
+            raise HTTPException(404, "Asset not found")
+        return FileResponse(Path(__file__).with_name("assets") / filename)
+
     @app.get("/health")
     def health():
         return {"service": "ugi", "backend": settings.backend,
@@ -81,16 +87,26 @@ def create_app(settings=None):
         return await run_in_threadpool(ingest_bounded)
 
     @app.get("/api/graph")
-    def graph(limit: int = Query(250, ge=1, le=500), engine=Depends(context)):
+    def graph(limit: int = Query(250, ge=1, le=500),
+              as_of: str | None = Query(default=None, max_length=10), engine=Depends(context)):
+        from datetime import date
+
+        from .engine import active
+
+        if as_of:
+            date.fromisoformat(as_of)
         entities = engine.store.list("Entity", limit)
         ids = {e["id"] for e in entities}
         claims = [c for c in engine.store.list("Claim", limit) if c["subject_id"] in ids
-                  and c["object_id"] in ids]
+                  and c["object_id"] in ids and (not as_of or active(c, as_of))]
         events = [e for e in engine.store.events(limit=limit)
-                  if all(p["entity_id"] in ids for p in e["participants"])]
+                  if all(p["entity_id"] in ids for p in e["participants"])
+                  and (not as_of or active(e, as_of))]
         return {"entities": entities, "claims": claims, "events": events,
                 "counts": engine.store.counts(),
-                "truncated": engine.store.counts().get("Entity", 0) > limit}
+                "as_of": as_of, "unknown_dates_excluded": bool(as_of),
+                "truncated": any(engine.store.counts().get(kind, 0) > limit
+                                 for kind in ("Entity", "Claim", "RelationEvent"))}
 
     @app.get("/api/events")
     def events(entity_id: str | None = Query(default=None, max_length=160),
@@ -103,15 +119,7 @@ def create_app(settings=None):
         if as_of:
             date.fromisoformat(as_of)
         records = engine.store.events(entity_id, limit)
-        def applicable(event):
-            if not as_of:
-                return True
-            if event.get("event_time") and not event.get("valid_from"):
-                width = {"year": 4, "month": 7}.get(event.get("time_precision"), 10)
-                return event["event_time"][:width] == as_of[:width]
-            return active(event, as_of)
-
-        return {"events": [e for e in records if applicable(e)],
+        return {"events": [e for e in records if not as_of or active(e, as_of)],
                 "limit": limit, "filtered_after_limit": bool(as_of),
                 "semantics": "Whole source events; participation does not prove binary predicates"}
 

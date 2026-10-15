@@ -1,0 +1,309 @@
+{
+  "version": "intelligence-dev-v1",
+  "split": "development",
+  "fixture_sha256": "2e638cce9f5448365071cedf0f912b6b0b5daf69a1bdcd9ff61eef676bba23e3",
+  "recorded_at": "2026-10-15T13:01:21.088718+00:00",
+  "provenance": "AI-authored provisional development annotations. Not independent human ground truth. All named binary/event relations in these short passages are annotated; entities are relation participants only.",
+  "licence": "CC0-1.0",
+  "cases": 4,
+  "provider": "ollama",
+  "model": "qwen3:4b-instruct",
+  "annotation_counts": {
+    "provisional": 4
+  },
+  "metrics": {
+    "binary": {
+      "tp": 3,
+      "predicted": 3,
+      "gold": 3,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "binary_temporal": {
+      "tp": 3,
+      "predicted": 3,
+      "gold": 3,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "event": {
+      "tp": 1,
+      "predicted": 1,
+      "gold": 1,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "event_temporal": {
+      "tp": 1,
+      "predicted": 1,
+      "gold": 1,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "entities": {
+      "tp": 9,
+      "predicted": 9,
+      "gold": 9,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "pair": {
+      "tp": 3,
+      "predicted": 3,
+      "gold": 3,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "participant_roles": {
+      "tp": 3,
+      "predicted": 3,
+      "gold": 3,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "by_domain": {
+    "people": {
+      "cases": 1,
+      "tp": 1,
+      "predicted": 1,
+      "gold": 1,
+      "f1": 1.0
+    },
+    "operations": {
+      "cases": 1,
+      "tp": 1,
+      "predicted": 1,
+      "gold": 1,
+      "f1": 1.0
+    },
+    "retail": {
+      "cases": 1,
+      "tp": 1,
+      "predicted": 1,
+      "gold": 1,
+      "f1": 1.0
+    },
+    "geography": {
+      "cases": 1,
+      "tp": 1,
+      "predicted": 1,
+      "gold": 1,
+      "f1": 1.0
+    }
+  },
+  "macro_domain_f1": 1.0,
+  "unsupported_against_complete_labels": {
+    "count": 0,
+    "checked": 4,
+    "rate": 0.0
+  },
+  "unassessed_predictions": 0,
+  "evidence": {
+    "exact": 4,
+    "checked": 4
+  },
+  "abstention": {
+    "correct": 0,
+    "controls": 0
+  },
+  "review_document_rate": 0.25,
+  "failed_documents": 0,
+  "latency_ms": {
+    "median": 2844.481700005417,
+    "max": 7363.610200001858
+  },
+  "model_usage": {
+    "calls": 4,
+    "calls_per_document": 1.0,
+    "input_tokens": 1193,
+    "output_tokens": 197,
+    "cloud_api_charge_usd": 0,
+    "local_compute_cost": "not measured"
+  },
+  "per_case": [
+    {
+      "id": "dev-job",
+      "domain": "people",
+      "annotation_status": "provisional",
+      "assessable": true,
+      "binary": [
+        {
+          "subject": "Mara",
+          "predicate": "WORKS_AT",
+          "object": "Nacre",
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": "2018-01-01",
+          "valid_to": "2020-12-31",
+          "historical": false
+        }
+      ],
+      "events": [],
+      "warnings": [],
+      "review_reasons": [],
+      "elapsed_ms": 7363.61,
+      "usage": {
+        "calls": 1,
+        "input_tokens": 306,
+        "output_tokens": 68,
+        "estimated_usd": 0
+      },
+      "exact_binary_matches": 1,
+      "expected_binary": 1,
+      "predicted_binary": 1,
+      "exact_event_matches": 0,
+      "expected_events": 0,
+      "predicted_events": 0
+    },
+    {
+      "id": "dev-uncertain",
+      "domain": "operations",
+      "annotation_status": "provisional",
+      "assessable": true,
+      "binary": [
+        {
+          "subject": "Orion",
+          "predicate": "DEPENDS_ON",
+          "object": "Polaris",
+          "polarity": "positive",
+          "modality": "possible",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "historical": false
+        }
+      ],
+      "events": [],
+      "warnings": [],
+      "review_reasons": [],
+      "elapsed_ms": 424.56,
+      "usage": {
+        "calls": 1,
+        "input_tokens": 295,
+        "output_tokens": 12,
+        "estimated_usd": 0
+      },
+      "exact_binary_matches": 1,
+      "expected_binary": 1,
+      "predicted_binary": 1,
+      "exact_event_matches": 0,
+      "expected_events": 0,
+      "predicted_events": 0
+    },
+    {
+      "id": "dev-negated",
+      "domain": "retail",
+      "annotation_status": "provisional",
+      "assessable": true,
+      "binary": [
+        {
+          "subject": "Rubin",
+          "predicate": "OWN",
+          "object": "Sable",
+          "polarity": "negative",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "historical": false
+        }
+      ],
+      "events": [],
+      "warnings": [],
+      "review_reasons": [],
+      "elapsed_ms": 451.28,
+      "usage": {
+        "calls": 1,
+        "input_tokens": 295,
+        "output_tokens": 12,
+        "estimated_usd": 0
+      },
+      "exact_binary_matches": 1,
+      "expected_binary": 1,
+      "predicted_binary": 1,
+      "exact_event_matches": 0,
+      "expected_events": 0,
+      "predicted_events": 0
+    },
+    {
+      "id": "dev-between",
+      "domain": "geography",
+      "annotation_status": "provisional",
+      "assessable": true,
+      "binary": [],
+      "events": [
+        {
+          "relation_type": "BETWEEN",
+          "participants": [
+            {
+              "role": "anchor",
+              "name": "Umber",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "1cdfce0cd0026104f982057107b1240d3889f6c62c53b511632cdf2b35a8dda7"
+            },
+            {
+              "role": "anchor",
+              "name": "Verdant",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "6929fa9e214c5b2dca00f37e1525d18bab668c420b2a0c7dd05f3a4f007be35a"
+            },
+            {
+              "role": "subject",
+              "name": "Tamar",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "ae1f040ccf649d48cd4a43f4fca5f11ce5c630cdbfad30932e6b798cf54e8123"
+            }
+          ],
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "historical": false
+        }
+      ],
+      "warnings": [],
+      "review_reasons": [
+        "Multi-participant event requires whole role mapping; binary assertion withheld",
+        "Multi-participant event requires whole role mapping; binary assertion withheld"
+      ],
+      "elapsed_ms": 5237.68,
+      "usage": {
+        "calls": 1,
+        "input_tokens": 297,
+        "output_tokens": 105,
+        "estimated_usd": 0
+      },
+      "exact_binary_matches": 0,
+      "expected_binary": 0,
+      "predicted_binary": 0,
+      "exact_event_matches": 1,
+      "expected_events": 1,
+      "predicted_events": 1
+    }
+  ],
+  "limitations": [
+    "Provisional annotations are AI-authored, not independent human ground truth",
+    "Human review metadata is self-reported, not independently certified",
+    "Entity metric is exact surface-set coverage/F1, not span-level NER",
+    "Unsupported rate is label disagreement, not independently adjudicated hallucination",
+    "Only complete, reviewed/provisional cases contribute precision/recall; unreviewed excluded",
+    "Predicate aliases are fixed before evaluation; exact canonical matching may undercount synonyms",
+    "In-memory extraction evaluation; real graph/workflow checks run separately"
+  ]
+}

@@ -1,0 +1,5 @@
+[
+  {"subject":"Lina","subject_id":"lina-main","subject_type":"Person","predicate":"WORKS_AT","object":"Meridian Institute","object_id":"meridian","object_type":"Institution","valid_from":"2019-01-01","valid_to":"2022-12-31","time_precision":"year"},
+  {"subject":"Noor","subject_id":"noor","subject_type":"Person","predicate":"WORKS_AT","object":"Meridian Institute","object_id":"meridian","object_type":"Institution","valid_from":"2020-01-01","valid_to":"2024-12-31","time_precision":"year"},
+  {"relation_type":"COLLABORATION","participants":[{"role":"researcher","name":"Lina","entity_type":"Person","external_id":"lina-main"},{"role":"researcher","name":"Noor","entity_type":"Person","external_id":"noor"},{"role":"project","name":"Atlas Project","entity_type":"Project","external_id":"atlas"},{"role":"institution","name":"Meridian Institute","entity_type":"Institution","external_id":"meridian"}],"valid_from":"2021-01-01","valid_to":"2021-12-31","time_precision":"year","attribution":"Synthetic project register"}
+]

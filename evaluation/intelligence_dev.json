@@ -1,0 +1,12 @@
+{
+  "version":"intelligence-dev-v1","split":"development","licence":"CC0-1.0",
+  "provenance":"AI-authored provisional development annotations. Not independent human ground truth. All named binary/event relations in these short passages are annotated; entities are relation participants only.",
+  "cases":[
+    {"id":"dev-job","domain":"people","text":"Mara works at Nacre from 2018 until 2020.","entities":["Mara","Nacre"],"binary":[{"subject":"Mara","predicate":"WORKS_AT","object":"Nacre","valid_from":"2018-01-01","valid_to":"2020-12-31"}]},
+    {"id":"dev-uncertain","domain":"operations","text":"Orion may depend on Polaris.","entities":["Orion","Polaris"],"binary":[{"subject":"Orion","predicate":"DEPENDS_ON","object":"Polaris","modality":"possible"}]},
+    {"id":"dev-negated","domain":"retail","text":"Rubin does not own Sable.","entities":["Rubin","Sable"],"binary":[{"subject":"Rubin","predicate":"OWN","object":"Sable","polarity":"negative"}]},
+    {"id":"dev-between","domain":"geography","text":"Tamar lies between Umber and Verdant.","entities":["Tamar","Umber","Verdant"],"events":[{"relation_type":"BETWEEN","participants":[{"role":"subject","name":"Tamar"},{"role":"anchor","name":"Umber"},{"role":"anchor","name":"Verdant"}]}]},
+    {"id":"dev-complex","domain":"research","text":"In 2019, Wren, an advisor to Xenia, joined the collaboration.","entities":["Wren","Xenia"],"binary":[{"subject":"Wren","predicate":"ADVISOR_TO","object":"Xenia","historical":true}]},
+    {"id":"dev-control","domain":"people","text":"Yarrow and Zinnia appear in different sections; no relationship between them is described.","entities":[],"notes":"No sourced relation. Co-occurrence alone is not friendship."}
+  ]
+}

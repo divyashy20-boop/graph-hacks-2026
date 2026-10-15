@@ -12,3 +12,4 @@ venv/
 *.log
 *.pem
 *.key
+.evaluation-local/

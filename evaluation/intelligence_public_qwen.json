@@ -1,0 +1,159 @@
+{
+  "version": "fewrel-annotation-queue-v1",
+  "split": "annotation_queue",
+  "fixture_sha256": "3bfb3b39de997ffa93fbac7ac2602cdf78139665bf79ab02e0f5f2141c9ca9a4",
+  "recorded_at": "2026-10-15T08:54:04.078776+00:00",
+  "provenance": "THUNLP FewRel (Han et al., EMNLP 2018), https://raw.githubusercontent.com/thunlp/FewRel/master/data/val_wiki.json; original data SHA256=76bb44c2485b6faed358a3ce040eadafcc8a8835245cd7e6afc1bef672d4a0bf; seed=20261015; excludes seed-17 128 diagnostic sentences. Human upstream PID labels retained as notes; source-entailment annotations pending.",
+  "licence": "CC-BY-SA-4.0",
+  "cases": 4,
+  "provider": "ollama",
+  "model": "qwen3:4b-instruct",
+  "annotation_counts": {
+    "unreviewed": 4
+  },
+  "metrics": {},
+  "by_domain": {
+    "public_wikipedia": {
+      "cases": 4,
+      "tp": 0,
+      "predicted": 0,
+      "gold": 0,
+      "f1": null
+    }
+  },
+  "macro_domain_f1": null,
+  "unsupported_against_complete_labels": {
+    "count": 0,
+    "checked": 0,
+    "rate": null
+  },
+  "unassessed_predictions": 0,
+  "evidence": {
+    "exact": 0,
+    "checked": 0
+  },
+  "abstention": {
+    "correct": 0,
+    "controls": 0
+  },
+  "review_document_rate": 0.25,
+  "failed_documents": 0,
+  "latency_ms": {
+    "median": 306.074649997754,
+    "max": 3318.5080000112066
+  },
+  "model_usage": {
+    "calls": 5,
+    "calls_per_document": 1.25,
+    "input_tokens": 1555,
+    "output_tokens": 280,
+    "cloud_api_charge_usd": 0,
+    "local_compute_cost": "not measured"
+  },
+  "per_case": [
+    {
+      "id": "fewrel_eb8963e4a629d137",
+      "domain": "public_wikipedia",
+      "annotation_status": "unreviewed",
+      "assessable": false,
+      "binary": [],
+      "events": [],
+      "warnings": [],
+      "review_reasons": [
+        "Local batch review (not independent truth): The source states that 'the Torridon Hills which includes such peaks as Beinn Eighe and Liathach'. This indicates that Beinn Eighe is a peak within the Torridon Hills, not that Torridon Hills includes Beinn Eighe. The predicate 'INCLUDES' is reversed. Therefore, the relationship is incorrect as stated. Supported=false.",
+        "Entity surfaces absent from cited passage"
+      ],
+      "elapsed_ms": 3318.51,
+      "usage": {
+        "calls": 2,
+        "input_tokens": 593,
+        "output_tokens": 244,
+        "estimated_usd": 0
+      },
+      "exact_binary_matches": 0,
+      "expected_binary": 0,
+      "predicted_binary": 0,
+      "exact_event_matches": 0,
+      "expected_events": 0,
+      "predicted_events": 0
+    },
+    {
+      "id": "fewrel_094bcf4a2ecde549",
+      "domain": "public_wikipedia",
+      "annotation_status": "unreviewed",
+      "assessable": false,
+      "binary": [],
+      "events": [],
+      "warnings": [],
+      "review_reasons": [],
+      "elapsed_ms": 329.56,
+      "usage": {
+        "calls": 1,
+        "input_tokens": 303,
+        "output_tokens": 12,
+        "estimated_usd": 0
+      },
+      "exact_binary_matches": 0,
+      "expected_binary": 0,
+      "predicted_binary": 0,
+      "exact_event_matches": 0,
+      "expected_events": 0,
+      "predicted_events": 0
+    },
+    {
+      "id": "fewrel_a31f5f790f331a45",
+      "domain": "public_wikipedia",
+      "annotation_status": "unreviewed",
+      "assessable": false,
+      "binary": [],
+      "events": [],
+      "warnings": [],
+      "review_reasons": [],
+      "elapsed_ms": 282.59,
+      "usage": {
+        "calls": 1,
+        "input_tokens": 327,
+        "output_tokens": 12,
+        "estimated_usd": 0
+      },
+      "exact_binary_matches": 0,
+      "expected_binary": 0,
+      "predicted_binary": 0,
+      "exact_event_matches": 0,
+      "expected_events": 0,
+      "predicted_events": 0
+    },
+    {
+      "id": "fewrel_c52d6bb7d98afd8b",
+      "domain": "public_wikipedia",
+      "annotation_status": "unreviewed",
+      "assessable": false,
+      "binary": [],
+      "events": [],
+      "warnings": [],
+      "review_reasons": [],
+      "elapsed_ms": 279.32,
+      "usage": {
+        "calls": 1,
+        "input_tokens": 332,
+        "output_tokens": 12,
+        "estimated_usd": 0
+      },
+      "exact_binary_matches": 0,
+      "expected_binary": 0,
+      "predicted_binary": 0,
+      "exact_event_matches": 0,
+      "expected_events": 0,
+      "predicted_events": 0
+    }
+  ],
+  "limitations": [
+    "Provisional annotations are AI-authored, not independent human ground truth",
+    "Human review metadata is self-reported, not independently certified",
+    "Entity metric is exact surface-set coverage/F1, not span-level NER",
+    "Unsupported rate is label disagreement, not independently adjudicated hallucination",
+    "Only complete, reviewed/provisional cases contribute precision/recall; unreviewed excluded",
+    "Predicate aliases are fixed before evaluation; exact canonical matching may undercount synonyms",
+    "In-memory extraction evaluation; real graph/workflow checks run separately"
+  ]
+}

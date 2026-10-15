@@ -4,6 +4,51 @@ An **event-time Graph Hacks 2026 Track 1 implementation** of a multi-format, evi
 
 **Status:** functional local prototype and demo, **not production-ready**. This repository contains a code-first implementation and a small synthetic evaluation, not a proven universally accurate graph extractor.
 
+## Milestone B: recovered, measured, demonstrable
+
+The interrupted work was preserved and completed on October 15. The dashboard
+now has an interactive evidence graph, role-labelled whole events, historical
+filter, exact-source inspector, labelled conclusions and explicitly authorized
+persistent investigations/review tasks. Counts and traces come from the backend,
+not display-only examples. Changing dataset/date clears action authorization.
+
+**Local verification: 130 passed (126 unit/API/provider/MCP + 4 real FalkorDB
+integration tests), no failures/skips.** Docker API and graph rebuilt/healthy;
+incident, supply and research/identity demos ran on the real persistent graph.
+See [TEST_REPORT](TEST_REPORT.md), [WORK_LOG](WORK_LOG.md) and the
+[three-minute demonstration guide](DEMO_GUIDE.md).
+
+```powershell
+# Repository root; Docker Desktop running, app/test dependencies installed
+docker compose up --build -d
+python -m ugi.demo --execute --dataset-prefix showcase-b --output evaluation/showcase_local.json
+# Open http://localhost:8001 and choose a seeded demonstration
+$env:UGI_TEST_REDIS_URL='redis://127.0.0.1:6380/0'
+python -m pytest -o addopts= -q
+python -m ugi.eval_intelligence --fixture evaluation/intelligence_eval.json --development evaluation/intelligence_dev.json --output evaluation/intelligence_local.json
+```
+
+`--execute` authorizes local investigation writes. The seed command uses the
+no-key local tenant; configured API-key tenants must ingest their own sources.
+No cloud model calls are needed. Do not remove the Docker volume to update.
+
+The frozen **AI-authored provisional** 12-passage evaluation recovered 6/8
+binary relations: precision 100%, recall 75%, F1 **85.71%**; 4/4 whole events and
+14/14 participant roles. Independent recalculation from labels/predictions
+confirmed the arithmetic, **not the truth of the labels**. Two complex prose
+relations were missed. Similar grammar templates and tiny samples limit
+generalization. Exact quote matches (10/10) establish provenance, not truth.
+
+Actual local Qwen development probes reduced the document-review rate from
+50% to 25% after date recovery/deduplication; extraction F1 was unchanged, with
+rules already covering these examples. Four new public FewRel sentences used
+five local calls and yielded **zero accepted relations**. Their source-entailment
+labels are unreviewed, so no public F1 is claimed. The broader prior 128-source
+offline diagnostic also remains poor (0/128 target pairs). See the
+[annotation protocol](evaluation/ANNOTATION_GUIDE.md) to prepare 24 fresh public
+sources and complete independent human adjudication. Paid Bedrock/AWS and any
+public hosting remain disabled/unverified; this is not production readiness.
+
 ## What is included
 
 - CSV, JSON, JSONL, TXT and text-based PDF ingestion, with source/chunk locations and size limits.

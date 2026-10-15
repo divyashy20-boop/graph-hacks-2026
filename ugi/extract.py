@@ -258,6 +258,7 @@ def verify(candidate, chunk, provider=None):
             and predicate(c.predicate) == predicate(candidate.predicate)
             and c.polarity == candidate.polarity and c.modality == candidate.modality
             and c.valid_from == candidate.valid_from and c.valid_to == candidate.valid_to
+            and c.event_time == candidate.event_time and c.historical == candidate.historical
             for c in grammar
         )
         if supported:
@@ -390,7 +391,32 @@ def discover(chunk, provider=None, event_sink=None):
         instruction = instruction.replace("\nSOURCE:\n", event_instruction + "\nSOURCE:\n", 1)
         extraction = provider.request(instruction, schema)
         event_sink.extend(extraction.events)
-        extracted = ([Candidate.model_validate(item.model_dump())
-                      for item in extraction.relations] if local else extraction.relations)
-        return candidates + extracted, "hybrid"
+        if local:
+            extracted = []
+            for item in extraction.relations:
+                data = item.model_dump()
+                if item.evidence in chunk["text"]:
+                    # Associate dates with the parsed relation, not the first date
+                    # anywhere in a multi-sentence quote about unrelated entities.
+                    matches = [c for c in text_candidates(item.evidence)
+                               if key(c.subject) == key(item.subject)
+                               and key(c.object) == key(item.object)
+                               and predicate(c.predicate) == predicate(item.predicate)
+                               and c.polarity == item.polarity and c.modality == item.modality]
+                    fields = ("event_time", "valid_from", "valid_to", "time_precision",
+                              "temporal_source", "historical")
+                    signatures = {tuple(getattr(c, f) for f in fields) for c in matches}
+                    if len(signatures) == 1:
+                        data.update(zip(fields, signatures.pop()))
+                extracted.append(Candidate.model_validate(data))
+        else:
+            extracted = extraction.relations
+        # Equivalent grammar/model candidates share one verification decision and claim.
+        # Identity fields and qualifiers stay in the key; names alone never merge entities.
+        unique = {}
+        for candidate in candidates + extracted:
+            semantic = candidate.model_dump(exclude={"predicate", "subject_aliases", "object_aliases"})
+            semantic["predicate"] = predicate(candidate.predicate)
+            unique.setdefault(uid(semantic), candidate)
+        return list(unique.values()), "hybrid"
     return candidates, "grammar"

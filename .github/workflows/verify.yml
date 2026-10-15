@@ -33,16 +33,28 @@ jobs:
         run: python -m pip install -e '.[test]'
       - name: Check Python syntax
         run: python -m compileall -q ugi tests
+      - name: Check dashboard JavaScript syntax
+        run: node --check ugi/assets/app.js
       - name: Run unit, API, provider and MCP tests
         run: python -m pytest -q -m 'not integration'
       - name: Start isolated FalkorDB
         run: docker compose up -d --wait graph
       - name: Run real graph integration and HTTP tests
         run: python -m pytest -q -m integration
+      - name: Verify packaged Docker dashboard and API
+        run: |
+          docker compose up -d --build --wait api
+          curl --fail http://127.0.0.1:8001/ready
+          curl --fail http://127.0.0.1:8001/assets/app.js --output /tmp/ugi-app.js
+          node --check /tmp/ugi-app.js
       - name: Verify synthetic benchmark executes
         run: python -m ugi.evaluate --output /tmp/ugi-ci-evaluation.json
       - name: Audit unseen-style challenge (offline, synthetic)
         run: python -m ugi.eval_challenge --output /tmp/ugi-challenge-evaluation.json
+      - name: Verify frozen relation and n-ary evaluation (provisional labels)
+        run: python -m ugi.eval_intelligence --fixture evaluation/intelligence_eval.json --development evaluation/intelligence_dev.json --output /tmp/ugi-intelligence-evaluation.json
+      - name: Verify three-domain persistent FalkorDB action workflow
+        run: python -m ugi.demo --execute --dataset-prefix ci-showcase --output /tmp/ugi-showcase.json
       - name: External human-annotated FewRel directed-pair diagnostic (not F1)
         run: python -m ugi.eval_fewrel --download --limit 128 --seed 17 --output /tmp/ugi-fewrel-evaluation.json
       - name: Upload evaluation diagnostics
@@ -53,6 +65,8 @@ jobs:
             /tmp/ugi-ci-evaluation.json
             /tmp/ugi-challenge-evaluation.json
             /tmp/ugi-fewrel-evaluation.json
+            /tmp/ugi-intelligence-evaluation.json
+            /tmp/ugi-showcase.json
           retention-days: 14
       - name: Show diagnostics on failure
         if: failure()

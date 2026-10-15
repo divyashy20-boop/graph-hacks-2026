@@ -1,5 +1,124 @@
 # Verified follow-up report — October 15, 2026
 
+## Milestone B continuation: final local verification
+
+Recovered the entire interrupted working tree on base `487435f9df92a472a4ad38f29ce970f11a4da1a2`.
+No pending source/report/UI changes were discarded or recreated from scratch.
+All results below distinguish mocks, provisional labels and real integrations.
+
+| Check | Observed result |
+|---|---|
+| Unit/API/provider/MCP suite | **126 passed**, 4 integration tests deselected |
+| Real FalkorDB suite | **4 passed**, 126 non-integration tests deselected |
+| Combined suite | **130 passed**, 0 failed, 0 skipped |
+| JavaScript / Python syntax | `node --check` and compile checks passed |
+| Targeted new-file Ruff checks | Passed |
+| Docker packaging | API rebuilt; API and graph healthy on loopback; no volume removed |
+| Real three-domain runner | Incident + supply cases persisted; research time/identity assertions passed; repeat execution idempotent |
+
+One non-fatal Starlette/httpx TestClient deprecation warning remains. Dependency
+versions are not fully locked; the successful local environment is not a
+guarantee for every future dependency release. Live Bedrock/cloud inference,
+production security/load and an externally hosted service are untested.
+
+### Backend corrections and UI
+
+Compact local-model extraction now recovers explicit dates from the matching
+grammar relation rather than the first date in an entire multi-sentence quote.
+Equivalent grammar/model candidates are deduplicated without collapsing
+different external identities or qualifiers. Grammar vetoes wrong event dates
+and historical flags. Graph/event endpoint date filters share the same
+year/month/day applicability rule; unknown-date claims are excluded from a
+historical view. Regression tests cover these cases and a canonical frozen
+evaluation-content hash across Windows line endings.
+
+The browser dashboard was exercised against the real Docker API: incident
+RULE_DERIVED path, no-write preview, explicitly authorized persistent case
+(one saved case became two; open reviews two became four), supply PROVISION
+roles/source JSON pointer/exact offsets, dependency path highlighting, zoom/reset,
+and research historical filter/name-ambiguity UNKNOWN. Dataset/date changes
+reset authorization and stale results. Static asset URLs carry a milestone
+version to avoid stale pre-update scripts. Browser console inspection found no
+errors. These are manual browser checks, not a committed browser-test suite;
+upload/API behavior is covered by automated HTTP tests. Node dragging/panning
+and a comprehensive mobile/accessibility matrix are not certified.
+
+### Independently recalculated provisional evaluation
+
+Report: `evaluation/intelligence_final.json`; 12 AI-authored synthetic passages
+in seven domains, frozen separately from six development passages. No human
+adjudication; similar templates across splits constrain independence. No model
+calls in this extraction evaluation. Its storage is memory; actual FalkorDB
+workflow correctness is tested separately, not inferred from these scores.
+
+| Metric | TP / predicted / labelled | Result |
+|---|---|---|
+| Exact binary (direction/predicate/polarity/modality) | 6 / 6 / 8 | P 100%, R 75%, F1 **85.71%** |
+| Temporal-strict binary | 6 / 6 / 8 | F1 **85.71%** |
+| Whole role-labelled events, including temporal fields | 4 / 4 / 4 | F1 **100%**, very small synthetic sample |
+| Participant roles | 14 / 14 / 14 | F1 **100%** |
+| Entity surface-set coverage | 25 / 25 / 29 | R 86.21%, F1 **92.59%**; not span NER |
+| Exact source quote equality | 10 / 10 emitted records | Provenance only, not independent entailment |
+| Empty control abstention | 1 / 1 | Too small for a general safety claim |
+
+A separate calculation using fixture labels and per-case predictions, without
+importing evaluator signature/scoring helpers, confirmed temporal binary counts,
+whole-event counts, entity counts and macro domain F1 **93.1973%**. This is an
+independent arithmetic cross-check, not independent human/model annotation.
+Misses: `eval-complex` (appositive employment) and `eval-ambiguous` (complex main
+clause). They were not patched to raise evaluation scores. Domain combined F1:
+operations 85.71%, research 66.67%; retail/people/geography/supply/finance 100%.
+Domains with neither predictions nor labels are omitted from macro scoring. Label disagreement is
+0/10; calling that a real-world zero hallucination rate would be misleading.
+
+The prior 26-case challenge was rerun: **17 TP / 19 predictions / 25 labels**,
+P 89.47%, R 68%, F1 **77.27%**, five/five empty controls and 19/19 exact quotes.
+These are older inspected provisional stress labels, not an unseen test.
+
+### Actual local model observations (not paid/cloud calls)
+
+Stored before/after Qwen development probes each used four documents/four calls,
+1,193 input + 197 output tokens. Both yielded three correct binary relations
+and one whole event **in the combined rule/model pipeline**, already covered by
+rules: no extraction F1 gain. The review-document rate changed **50% -> 25%**:
+the dated-employment duplicate no longer becomes a review; flattened BETWEEN
+proposals still do. Reports retain original observations/timestamps.
+
+Final-code recheck `intelligence_qwen_verified.json`: four actual local calls,
+same token counts and extraction results, 25% review-document rate, zero failed
+documents; observed median 2,844 ms / maximum 7,364 ms. Four observations cannot
+support p95 or throughput claims. These are development-only probes, not a
+held-out model benchmark.
+
+`intelligence_public_qwen.json`: four newly sampled public FewRel sources,
+**five actual calls**, 1,555 input + 280 output tokens, **zero accepted claims**,
+one document with review tasks. Zero runtime failures does not mean extraction
+success. A 24-source queue excludes all previous seed-17 128 sources; all labels
+remain unreviewed/incomplete and are excluded from semantic scoring. The four
+inspected sources are now development, not unseen. FewRel upstream human
+classification annotations do not supply exhaustive sentence-entailment gold.
+
+Across the three development probes and one public probe: **17 actual local
+calls**, no paid cloud API charges; local electricity/compute costs unmeasured.
+Canonical JSON fixture hashes in current reports differ in format from earlier
+raw-file hashes; see `evaluation/ANNOTATION_GUIDE.md`. No hidden data relabelling
+or post-hoc score optimization is implied.
+
+### Reproduction and remaining work
+
+```powershell
+$env:UGI_TEST_REDIS_URL='redis://127.0.0.1:6380/0'
+python -m pytest -o addopts= -q
+python -m ugi.eval_intelligence --fixture evaluation/intelligence_eval.json --development evaluation/intelligence_dev.json --output evaluation/intelligence_local.json
+python -m ugi.demo --execute --dataset-prefix showcase-b --output evaluation/showcase_local.json
+```
+
+Independent human source-entailment adjudication, broader real-world extraction
+improvement, recorded demonstration video, organizer/submission review if desired,
+paid provider validation and production/public deployment remain unfinished.
+No external action or AWS infrastructure was enabled. Hosted CI status must be
+confirmed against the exact pushed SHA; the final handoff supplies that run.
+
 ## Native n-ary milestone: new measured evidence
 
 The October 15 Codex continuation began at remote main `cf07cf5`, whose

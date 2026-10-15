@@ -15,7 +15,9 @@ def active(claim, as_of=None):
         if not claim.get("valid_from") and not claim.get("valid_to") and not claim.get("event_time"):
             return False
         if claim.get("event_time") and not claim.get("valid_from"):
-            return claim["event_time"][:10] == point
+            width = {"year": 4, "month": 7}.get(claim.get("time_precision"), 10)
+            return (claim["event_time"][:width] == point[:width]
+                    and (not claim.get("valid_to") or claim["valid_to"][:10] >= point))
         return ((not claim.get("valid_from") or claim["valid_from"][:10] <= point)
                 and (not claim.get("valid_to") or claim["valid_to"][:10] >= point))
     # Default query means current applicability, not all historical assertions.

@@ -1,0 +1,646 @@
+{
+  "version": "intelligence-eval-v1",
+  "split": "evaluation",
+  "fixture_sha256": "b534b5d70492d113f0400d308bfe00458c28cf7b0ba5bda5f2453075e33e8b73",
+  "recorded_at": "2026-10-15T13:00:21.537799+00:00",
+  "provenance": "Frozen AI-authored provisional evaluation annotations, created before dev runs and algorithm changes for Milestone B. No independent human adjudication. Keep separate from development and do not tune on its errors. This is synthetic stress data, not a real-world accuracy certification.",
+  "licence": "CC0-1.0",
+  "cases": 12,
+  "provider": "offline",
+  "model": null,
+  "annotation_counts": {
+    "provisional": 12
+  },
+  "metrics": {
+    "binary": {
+      "tp": 6,
+      "predicted": 6,
+      "gold": 8,
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.8571428571428571
+    },
+    "binary_temporal": {
+      "tp": 6,
+      "predicted": 6,
+      "gold": 8,
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.8571428571428571
+    },
+    "event": {
+      "tp": 4,
+      "predicted": 4,
+      "gold": 4,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "event_temporal": {
+      "tp": 4,
+      "predicted": 4,
+      "gold": 4,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "entities": {
+      "tp": 25,
+      "predicted": 25,
+      "gold": 29,
+      "precision": 1.0,
+      "recall": 0.8620689655172413,
+      "f1": 0.9259259259259259
+    },
+    "pair": {
+      "tp": 6,
+      "predicted": 6,
+      "gold": 8,
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.8571428571428571
+    },
+    "participant_roles": {
+      "tp": 14,
+      "predicted": 14,
+      "gold": 14,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "by_domain": {
+    "operations": {
+      "cases": 3,
+      "tp": 3,
+      "predicted": 3,
+      "gold": 4,
+      "f1": 0.8571428571428571
+    },
+    "retail": {
+      "cases": 1,
+      "tp": 1,
+      "predicted": 1,
+      "gold": 1,
+      "f1": 1.0
+    },
+    "people": {
+      "cases": 3,
+      "tp": 2,
+      "predicted": 2,
+      "gold": 2,
+      "f1": 1.0
+    },
+    "geography": {
+      "cases": 1,
+      "tp": 1,
+      "predicted": 1,
+      "gold": 1,
+      "f1": 1.0
+    },
+    "supply": {
+      "cases": 1,
+      "tp": 1,
+      "predicted": 1,
+      "gold": 1,
+      "f1": 1.0
+    },
+    "research": {
+      "cases": 2,
+      "tp": 1,
+      "predicted": 1,
+      "gold": 2,
+      "f1": 0.6666666666666666
+    },
+    "finance": {
+      "cases": 1,
+      "tp": 1,
+      "predicted": 1,
+      "gold": 1,
+      "f1": 1.0
+    }
+  },
+  "macro_domain_f1": 0.9319727891156463,
+  "unsupported_against_complete_labels": {
+    "count": 0,
+    "checked": 10,
+    "rate": 0.0
+  },
+  "unassessed_predictions": 0,
+  "evidence": {
+    "exact": 10,
+    "checked": 10
+  },
+  "abstention": {
+    "correct": 1,
+    "controls": 1
+  },
+  "review_document_rate": 0.0,
+  "failed_documents": 0,
+  "latency_ms": {
+    "median": 0.3249000001233071,
+    "max": 2.9938999941805378
+  },
+  "model_usage": {
+    "calls": 0,
+    "calls_per_document": 0.0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cloud_api_charge_usd": 0,
+    "local_compute_cost": "not measured"
+  },
+  "per_case": [
+    {
+      "id": "eval-dependency",
+      "domain": "operations",
+      "annotation_status": "provisional",
+      "assessable": true,
+      "binary": [
+        {
+          "subject": "Aquila",
+          "predicate": "DEPENDS_ON",
+          "object": "Bramble",
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "historical": false
+        },
+        {
+          "subject": "Bramble",
+          "predicate": "DEPENDS_ON",
+          "object": "Cirrus",
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "historical": false
+        }
+      ],
+      "events": [],
+      "warnings": [],
+      "review_reasons": [],
+      "elapsed_ms": 2.99,
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "exact_binary_matches": 2,
+      "expected_binary": 2,
+      "predicted_binary": 2,
+      "exact_event_matches": 0,
+      "expected_events": 0,
+      "predicted_events": 0
+    },
+    {
+      "id": "eval-negated",
+      "domain": "operations",
+      "annotation_status": "provisional",
+      "assessable": true,
+      "binary": [
+        {
+          "subject": "Dorian",
+          "predicate": "USE",
+          "object": "Eider",
+          "polarity": "negative",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "historical": false
+        }
+      ],
+      "events": [],
+      "warnings": [],
+      "review_reasons": [],
+      "elapsed_ms": 0.26,
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "exact_binary_matches": 1,
+      "expected_binary": 1,
+      "predicted_binary": 1,
+      "exact_event_matches": 0,
+      "expected_events": 0,
+      "predicted_events": 0
+    },
+    {
+      "id": "eval-modal",
+      "domain": "retail",
+      "annotation_status": "provisional",
+      "assessable": true,
+      "binary": [
+        {
+          "subject": "Fable",
+          "predicate": "SUPPLIES",
+          "object": "Galena",
+          "polarity": "positive",
+          "modality": "possible",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "historical": false
+        }
+      ],
+      "events": [],
+      "warnings": [],
+      "review_reasons": [],
+      "elapsed_ms": 0.24,
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "exact_binary_matches": 1,
+      "expected_binary": 1,
+      "predicted_binary": 1,
+      "exact_event_matches": 0,
+      "expected_events": 0,
+      "predicted_events": 0
+    },
+    {
+      "id": "eval-period",
+      "domain": "people",
+      "annotation_status": "provisional",
+      "assessable": true,
+      "binary": [
+        {
+          "subject": "Hester",
+          "predicate": "WORKS_AT",
+          "object": "Ilex",
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": "2016-01-01",
+          "valid_to": "2017-12-31",
+          "historical": false
+        }
+      ],
+      "events": [],
+      "warnings": [],
+      "review_reasons": [],
+      "elapsed_ms": 0.39,
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "exact_binary_matches": 1,
+      "expected_binary": 1,
+      "predicted_binary": 1,
+      "exact_event_matches": 0,
+      "expected_events": 0,
+      "predicted_events": 0
+    },
+    {
+      "id": "eval-former",
+      "domain": "people",
+      "annotation_status": "provisional",
+      "assessable": true,
+      "binary": [
+        {
+          "subject": "Jasper",
+          "predicate": "PARTNERS_WITH",
+          "object": "Kalmia",
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "historical": true
+        }
+      ],
+      "events": [],
+      "warnings": [],
+      "review_reasons": [],
+      "elapsed_ms": 0.25,
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "exact_binary_matches": 1,
+      "expected_binary": 1,
+      "predicted_binary": 1,
+      "exact_event_matches": 0,
+      "expected_events": 0,
+      "predicted_events": 0
+    },
+    {
+      "id": "eval-control",
+      "domain": "people",
+      "annotation_status": "provisional",
+      "assessable": true,
+      "binary": [],
+      "events": [],
+      "warnings": [],
+      "review_reasons": [],
+      "elapsed_ms": 0.11,
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "exact_binary_matches": 0,
+      "expected_binary": 0,
+      "predicted_binary": 0,
+      "exact_event_matches": 0,
+      "expected_events": 0,
+      "predicted_events": 0
+    },
+    {
+      "id": "eval-between",
+      "domain": "geography",
+      "annotation_status": "provisional",
+      "assessable": true,
+      "binary": [],
+      "events": [
+        {
+          "relation_type": "BETWEEN",
+          "participants": [
+            {
+              "role": "anchor",
+              "name": "Oriel",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "784c299ec46092367661d0d1462c0e2b1dfd3a8d207cd913354ab8ff00a875c3"
+            },
+            {
+              "role": "anchor",
+              "name": "Polder",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "9320c3ba18e6eeacf73eb942eb84205bff25424a28447b675e72508b2ec54816"
+            },
+            {
+              "role": "anchor",
+              "name": "Quinlan",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "482471adf4f21804640e027828deb9b75ea389d2026cb72505bc64ca735a2721"
+            },
+            {
+              "role": "subject",
+              "name": "Nerida",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "de6e89fa7b1b32f8394b9c2121056a98070fac45ee7f1a3760f98d4775a997da"
+            }
+          ],
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "historical": false
+        }
+      ],
+      "warnings": [],
+      "review_reasons": [],
+      "elapsed_ms": 0.82,
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "exact_binary_matches": 0,
+      "expected_binary": 0,
+      "predicted_binary": 0,
+      "exact_event_matches": 1,
+      "expected_events": 1,
+      "predicted_events": 1
+    },
+    {
+      "id": "eval-provision",
+      "domain": "supply",
+      "annotation_status": "provisional",
+      "assessable": true,
+      "binary": [],
+      "events": [
+        {
+          "relation_type": "PROVISION",
+          "participants": [
+            {
+              "role": "item",
+              "name": "Tensioner",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "45dee5b95db1b8cd4ce1398dbd722dee0c1d45430ae24c9eaae1d474ddbd7506"
+            },
+            {
+              "role": "provider",
+              "name": "Rook",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "3d8905a25a89fe3f7291c5c71b6f795899692e5c263e2d8f49fc6cd50788b8d4"
+            },
+            {
+              "role": "recipient",
+              "name": "Sycamore Factory",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "a8daba3a57e334b0a3ca6737d75b92008b15eb5b296bfee67d08e0a72a105c9c"
+            }
+          ],
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "historical": false
+        }
+      ],
+      "warnings": [],
+      "review_reasons": [],
+      "elapsed_ms": 0.52,
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "exact_binary_matches": 0,
+      "expected_binary": 0,
+      "predicted_binary": 0,
+      "exact_event_matches": 1,
+      "expected_events": 1,
+      "predicted_events": 1
+    },
+    {
+      "id": "eval-collaboration",
+      "domain": "research",
+      "annotation_status": "provisional",
+      "assessable": true,
+      "binary": [],
+      "events": [
+        {
+          "relation_type": "COLLABORATION",
+          "participants": [
+            {
+              "role": "institution",
+              "name": "Waverly Institute",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "2bceef5af9fe0b81cb4e050b79186a0bf0f9c5da128b5036f109b71ae5fcb328"
+            },
+            {
+              "role": "project",
+              "name": "Vela Project",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "f995f3ded7257a6428b98397e62c1a8973f56ce28006cbf5fd7cd325bc4f89e1"
+            },
+            {
+              "role": "researcher",
+              "name": "Thalia",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "2a824f7a6a6cb90973226b57765a6e8c2d9a370487fdac912c0e68395ef074c5"
+            },
+            {
+              "role": "researcher",
+              "name": "Ulric",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "5b262739b3626135b18ddbcb89e694519ba25b197fe1956361889db3600a228e"
+            }
+          ],
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "historical": false
+        }
+      ],
+      "warnings": [],
+      "review_reasons": [],
+      "elapsed_ms": 0.6,
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "exact_binary_matches": 0,
+      "expected_binary": 0,
+      "predicted_binary": 0,
+      "exact_event_matches": 1,
+      "expected_events": 1,
+      "predicted_events": 1
+    },
+    {
+      "id": "eval-acquisition",
+      "domain": "finance",
+      "annotation_status": "provisional",
+      "assessable": true,
+      "binary": [],
+      "events": [
+        {
+          "relation_type": "ACQUISITION",
+          "participants": [
+            {
+              "role": "acquired",
+              "name": "Yew Labs",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "6927cf5fc8511e1159d2b439e6c0ad0245093b112687233869c7eed73c14bcb5"
+            },
+            {
+              "role": "buyer",
+              "name": "Xanthus",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "b0cd478a73abe9eda1bf7eb88e9b2764535804e3facd765a8506cdfd24294917"
+            },
+            {
+              "role": "consideration",
+              "name": "EUR 8 million",
+              "entity_type": "Amount",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "1755a2a79aba589c22be98c4ecced930b7250f0b9c067ecfbd0fbb71e6ddc119"
+            }
+          ],
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": "2023-01-01",
+          "valid_from": null,
+          "valid_to": null,
+          "historical": true
+        }
+      ],
+      "warnings": [],
+      "review_reasons": [],
+      "elapsed_ms": 0.55,
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "exact_binary_matches": 0,
+      "expected_binary": 0,
+      "predicted_binary": 0,
+      "exact_event_matches": 1,
+      "expected_events": 1,
+      "predicted_events": 1
+    },
+    {
+      "id": "eval-complex",
+      "domain": "research",
+      "annotation_status": "provisional",
+      "assessable": true,
+      "binary": [],
+      "events": [],
+      "warnings": [],
+      "review_reasons": [],
+      "elapsed_ms": 0.1,
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "exact_binary_matches": 0,
+      "expected_binary": 1,
+      "predicted_binary": 0,
+      "exact_event_matches": 0,
+      "expected_events": 0,
+      "predicted_events": 0
+    },
+    {
+      "id": "eval-ambiguous",
+      "domain": "operations",
+      "annotation_status": "provisional",
+      "assessable": true,
+      "binary": [],
+      "events": [],
+      "warnings": [],
+      "review_reasons": [],
+      "elapsed_ms": 0.11,
+      "usage": {
+        "calls": 0,
+        "estimated_usd": 0
+      },
+      "exact_binary_matches": 0,
+      "expected_binary": 1,
+      "predicted_binary": 0,
+      "exact_event_matches": 0,
+      "expected_events": 0,
+      "predicted_events": 0
+    }
+  ],
+  "limitations": [
+    "Provisional annotations are AI-authored, not independent human ground truth",
+    "Human review metadata is self-reported, not independently certified",
+    "Entity metric is exact surface-set coverage/F1, not span-level NER",
+    "Unsupported rate is label disagreement, not independently adjudicated hallucination",
+    "Only complete, reviewed/provisional cases contribute precision/recall; unreviewed excluded",
+    "Predicate aliases are fixed before evaluation; exact canonical matching may undercount synonyms",
+    "In-memory extraction evaluation; real graph/workflow checks run separately"
+  ]
+}

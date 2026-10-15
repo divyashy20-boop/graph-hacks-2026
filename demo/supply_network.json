@@ -1,0 +1,7 @@
+[
+  {"relation_type":"PROVISION","participants":[{"role":"provider","name":"Nova Supply","entity_type":"Organization","external_id":"nova"},{"role":"item","name":"Sensor Unit","entity_type":"Component","external_id":"sensor"},{"role":"recipient","name":"Harbor Factory","entity_type":"Facility","external_id":"harbor"}],"occurrence_id":"contract-2026","valid_from":"2026-01-01","valid_to":"2026-12-31","time_precision":"day"},
+  {"subject":"Harbor Factory","subject_id":"harbor","subject_type":"Facility","predicate":"DEPENDS_ON","object":"Sensor Unit","object_id":"sensor","object_type":"Component"},
+  {"subject":"Sensor Unit","subject_id":"sensor","subject_type":"Component","predicate":"DEPENDS_ON","object":"Nova Supply","object_id":"nova","object_type":"Organization"},
+  {"subject":"Nova Supply","subject_id":"nova","subject_type":"Organization","predicate":"CAUSES","object":"Supply Delay","object_id":"delay","object_type":"Incident","modality":"possible"},
+  {"subject":"Harbor Factory","subject_id":"harbor","subject_type":"Facility","predicate":"LOCATED_IN","object":"Northport","object_id":"northport","object_type":"Place"}
+]
