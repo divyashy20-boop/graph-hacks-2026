@@ -33,9 +33,12 @@ def _name(value):
     return ""
 
 
-def run(raw: bytes, limit: int = 128, seed: int = 17) -> dict:
+def run(raw: bytes, limit: int = 128, seed: int = 17,
+        local_model_id: str | None = None) -> dict:
     if not 1 <= limit <= 2000:
         raise ValueError("Limit must be 1..2000")
+    if local_model_id is not None and (not local_model_id or limit > 6):
+        raise ValueError("Local model probes require model ID and at most 6 examples")
     dataset = json.loads(raw)
     if not isinstance(dataset, dict) or not dataset:
         raise ValueError("Expected FewRel PID -> annotated examples mapping")
@@ -60,6 +63,7 @@ def run(raw: bytes, limit: int = 128, seed: int = 17) -> dict:
         offset += 1
 
     hit = reverse = any_claim = surface = quote_ok = quote_total = 0
+    model_calls = review_tasks = 0
     examples = []
     by_pid = Counter()
     for i, (pid, item) in enumerate(chosen):
@@ -73,9 +77,19 @@ def run(raw: bytes, limit: int = 128, seed: int = 17) -> dict:
             raise ValueError("FewRel sample is missing head/tail mention")
         visible = key(head) in key(sentence) and key(tail) in key(sentence)
         surface += int(visible)
-        engine = Engine(Store(Settings(backend="memory", provider="offline",
-                                       allow_paid_calls=False)))
-        engine.ingest(f"fewrel_{i:04d}.txt", sentence.encode())
+        settings = Settings(backend="memory",
+                            provider="ollama" if local_model_id else "offline",
+                            model_id=local_model_id or "",
+                            ollama_url="http://127.0.0.1:11434",
+                            allow_paid_calls=False)
+        engine = Engine(Store(settings))
+        ingest_report = engine.ingest(f"fewrel_{i:04d}.txt", sentence.encode(),
+                                      use_ai=bool(local_model_id))
+        if local_model_id and ingest_report["warnings"]:
+            raise ValueError("Local model failed extraction: "
+                             + "; ".join(ingest_report["warnings"]))
+        model_calls += ingest_report["usage"].get("calls", 0)
+        review_tasks += ingest_report["review_tasks"]
         claims = engine.store.claims()
         any_claim += bool(claims)
         matched = any(key(c["subject"]) == key(head) and key(c["object"]) == key(tail)
@@ -105,7 +119,9 @@ def run(raw: bytes, limit: int = 128, seed: int = 17) -> dict:
             "reverse_pair_hits": reverse,
             "evidence_span": {"correct": quote_ok, "checked": quote_total},
             "by_pid_directed_hits": dict(sorted(by_pid.items())),
-            "model_calls": 0, "external_paid_calls": 0, "samples": examples,
+            "model_calls": model_calls, "external_paid_calls": 0,
+            "review_tasks": review_tasks, "local_model_id": local_model_id,
+            "samples": examples,
             "limitations": [
                 "Wikipedia-derived public FewRel *validation* dataset, not its hidden test set",
                 "No Wikidata relation-label mapping or predicate correctness scored",
@@ -123,6 +139,8 @@ def main():
                         help="Explicit network fetch from the upstream public GitHub repository")
     parser.add_argument("--limit", type=int, default=128)
     parser.add_argument("--seed", type=int, default=17)
+    parser.add_argument("--local-model", metavar="MODEL_ID",
+                        help="EXPLICIT opt-in: invoke a model in localhost Ollama; limit <= 6")
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     if args.download == bool(args.input):
@@ -137,7 +155,8 @@ def main():
         raw = args.input.read_bytes()
         if len(raw) > 15 * 1024 * 1024:
             raise ValueError("External dataset exceeds 15 MB limit")
-    report = run(raw, limit=args.limit, seed=args.seed)
+    report = run(raw, limit=args.limit, seed=args.seed,
+                 local_model_id=args.local_model)
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2)+"\n",
@@ -145,7 +164,7 @@ def main():
     print(json.dumps({k: report[k] for k in ("source_url", "sha256", "sampled",
           "available_pids", "surface_present", "samples_with_any_claim",
           "head_tail_directed_pair_hits", "directed_pair_rate", "reverse_pair_hits",
-          "evidence_span", "model_calls")}, indent=2))
+          "evidence_span", "model_calls", "review_tasks", "local_model_id")}, indent=2))
 
 
 if __name__ == "__main__":
