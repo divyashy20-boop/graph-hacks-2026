@@ -11,6 +11,17 @@ This report describes the **ChatGPT continuation** of the event implementation s
 - Real FalkorDB was **not** independently tested in this environment: no Docker engine or Redis driver was available. The missing Redis import was bridged by an **external temporary test-only import shim**, not included in the deliverable. All passing results involving graph writes here used the project's in-memory test backend. This distinction must not be removed from future demo statements.
 - No live Bedrock calls, no paid inference, no AWS deployment.
 
+## GitHub Actions independent live integration — October 15, 2026
+
+**Verified successful run:** https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38684951348
+
+- GitHub-hosted Ubuntu runner with Python 3.12.15 and installed Redis client.
+- **47 non-integration tests passed**, including API/MCP unit and simulated provider checks.
+- Docker Compose launched the pinned FalkorDB image and reported the graph container **Healthy**.
+- **2 real FalkorDB integration tests passed**, including `test_real_http_persistence_and_isolation`, which exercises actual HTTP upload, two-hop relationship, persisted investigation, review after constructing a fresh API instance, and tenant isolation.
+- Synthetic fixture evaluator executed successfully in offline mode.
+- No AWS or Bedrock calls were made. The tests establish the listed integration paths on CI infrastructure, **not** production readiness or comprehensive inference accuracy.
+
 ## Synthetic evaluation (20 passages; 24 annotated relations; 2 domains)
 
 | Measurement | Initial recovered offline rules | Updated offline rules |
