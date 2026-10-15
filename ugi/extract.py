@@ -234,8 +234,8 @@ def verify(candidate, chunk, provider=None):
         # lose the other anchors and must not be represented as proof.
         return False, "Between relation requires multiple anchors; binary assertion withheld"
     if (normalized in {"ENTERS", "ENTER", "ENTERED", "CROSSES", "CROSS"}
-            and re.search(r"\b(?:entering|crossing)\\b", candidate.evidence, re.I)
-            and re.search(r"\b(?:where|which|who)\\b", candidate.evidence, re.I)):
+            and re.search(r"\b(?:entering|crossing)\b", candidate.evidence, re.I)
+            and re.search(r"\b(?:where|which|who)\b", candidate.evidence, re.I)):
         # Attachment to the original subject versus a subordinate subject is
         # ambiguous; do not promote a participial phrase into an entity edge.
         return False, "Ambiguous participial subject attachment; human review required"
