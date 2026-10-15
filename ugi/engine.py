@@ -94,10 +94,20 @@ class Engine:
                         external_id = getattr(candidate, side + "_id")
                         entity_type = getattr(candidate, side + "_type")
                         # No fuzzy automatic merges: explicit identifiers or document-local identity.
-                        identity_key = "id:" + external_id if external_id else (
-                            "document:" + source["id"] + ":" + key(name) + ":" + entity_type
+                        # IDs are namespaced by entity type: Person:123 must
+                        # never silently merge with Organisation:123.
+                        identity_key = ("id:" + key(entity_type) + ":" + external_id) if external_id else (
+                            "document:" + source["id"] + ":" + key(name) + ":" + key(entity_type)
                         )
                         eid = uid("entity", identity_key)
+                        # Preserve legacy pre-namespace IDs only if their type
+                        # matches. Do not create duplicate nodes during upgrades.
+                        if external_id and not (entities.get(eid) or self.store.get(eid)):
+                            legacy_id = uid("entity", "id:" + external_id)
+                            legacy = entities.get(legacy_id) or self.store.get(legacy_id)
+                            if legacy and legacy.get("entity_type") == entity_type:
+                                eid = legacy_id
+                                identity_key = legacy.get("identity_key", "id:" + external_id)
                         previous = entities.get(eid) or self.store.get(eid)
                         aliases = getattr(candidate, side + "_aliases")
                         if previous:
