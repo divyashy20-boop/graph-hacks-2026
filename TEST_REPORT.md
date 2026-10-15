@@ -72,3 +72,19 @@ Additional coverage:
 - IDs such as `Person:123` and `Organisation:123` remain separate. Prior untyped IDs in an existing graph can be reused when their stored entity type matches.
 - **54 local non-integration tests passed**, 0 failed. See GitHub Actions for live FalkorDB verification on the latest commit. No changes were made to the 20-passage synthetic evaluation fixture; the previously reported F1 score must not be attributed to these new features.
 
+
+
+## Participant Windows Docker Desktop smoke test — October 15, 2026
+
+The following results are **reported from the participant's PowerShell/HTTP output**, separate from independently verified GitHub Actions CI. Windows Docker Compose showed both `ugi-event-api-1` and `ugi-event-graph-1` **healthy** with loopback-bound ports `8001` and `6380` respectively.
+
+| Check | Observed result |
+|---|---|
+| `POST /api/uploads` with `demo/shared_employer.json`, dataset `people` | 2 chunks, 3 entities, 2 claims, 0 reviews; offline provider; no model calls |
+| `POST /api/relationships` for `Alice SHARES_EMPLOYER Bob` as of `2021-06-01` | `RULE_DERIVED`, rule `shared_employer_temporal_overlap_v1`, 2 evidence entries |
+| Same names/date queried with `FRIENDS_WITH` | `CONNECTED_ONLY`, no friendship asserted |
+| `POST /api/uploads` with `demo/incident.json`, dataset `incident-demo` | 8 chunks, 8 entities, 8 claims, 0 extraction reviews |
+| `POST /api/investigations` target `Cache`, `authorise_action=true`, idempotency key `first-live-investigation` | `executed=true`, high priority; investigation ID `454db01b874f60081ded5e0c724deda317b3ce0762a9d6ddefe0e44eba51998e` |
+| `GET /api/tasks` for `incident-demo` | 2 open review tasks, both linked to the created investigation |
+
+The investigation's **high priority is dependency exposure, not a verified outage**. These outputs demonstrate live graph-backed service operation and immediately retrievable persisted actions. They **do not yet demonstrate survival across a container/database restart**; a separate restart-and-read check is required. Results concern small synthetic demo data, not measured general-purpose AI extraction performance.
