@@ -59,9 +59,10 @@ class Settings(BaseSettings):
     requests_per_minute: int = Field(default=120, ge=1)
     daily_ai_queries: int = Field(default=15, ge=1)
     global_daily_calls: int = Field(default=100, ge=1)
-    provider: Literal["offline", "bedrock"] = "offline"
+    provider: Literal["offline", "bedrock", "ollama"] = "offline"
     allow_paid_calls: bool = False
     model_id: str = ""
+    ollama_url: str = "http://host.docker.internal:11434"
     aws_region: str = "us-east-1"
     input_price: float = Field(default=0, ge=0)
     output_price: float = Field(default=0, ge=0)
@@ -78,6 +79,15 @@ class Settings(BaseSettings):
             self.allow_paid_calls and self.model_id and self.input_price and self.output_price
         ):
             raise ValueError("Bedrock requires explicit paid opt-in, model ID and verified prices")
+        if self.provider == "ollama":
+            from urllib.parse import urlsplit
+
+            url = urlsplit(self.ollama_url)
+            if (not self.model_id or url.scheme != "http"
+                    or url.hostname not in {"localhost", "127.0.0.1", "host.docker.internal"}
+                    or url.port != 11434 or url.username or url.password
+                    or url.path not in {"", "/"} or url.query or url.fragment):
+                raise ValueError("Local Ollama requires model ID and restricted localhost:11434 URL")
         return self
 
 
