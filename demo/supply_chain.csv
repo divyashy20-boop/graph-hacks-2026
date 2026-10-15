@@ -1,0 +1,5 @@
+subject,subject_id,subject_type,predicate,object,object_id,object_type
+Orchard Cooperative,supplier:orchard,Organization,supplies,Fresh Market,retailer:fresh,Organization
+Fresh Market,retailer:fresh,Organization,ships through,Harbor Depot,depot:harbor,Facility
+Harbor Depot,depot:harbor,Facility,located in,Northport,city:northport,Place
+Orchard Cooperative,supplier:orchard,Organization,certified by,Green Council,org:green,Organization

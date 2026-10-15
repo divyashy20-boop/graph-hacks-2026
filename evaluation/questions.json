@@ -1,0 +1,19 @@
+{
+  "version":"unknown-status-v1",
+  "licence":"CC0-1.0",
+  "dataset":"demo/incident.json",
+  "questions":[
+    {"subject":"Checkout","object":"Gateway","predicate":"DEPENDS_ON","expected":"SOURCE_ASSERTED"},
+    {"subject":"Cache","object":"Platform Team","predicate":"OWNED_BY","expected":"SOURCE_ASSERTED"},
+    {"subject":"Checkout","object":"Cache","predicate":"TRANSITIVELY_DEPENDS_ON","expected":"RULE_DERIVED"},
+    {"subject":"Checkout","object":"Cache","predicate":"DEPENDS_ON","expected":"CONNECTED_ONLY"},
+    {"subject":"Checkout","object":"Cache","predicate":"FRIENDS_WITH","expected":"CONNECTED_ONLY"},
+    {"subject":"Cache","object":"Checkout","predicate":"MAY_AFFECT","allow_hypothesis":true,"expected":"HYPOTHESIS"},
+    {"subject":"Cache","object":"Redis","predicate":"USES","expected":"CONTRADICTED"},
+    {"subject":"Cache","object":"Incident 7","predicate":"CAUSED","expected":"UNKNOWN"},
+    {"subject":"Missing","object":"Cache","predicate":"KNOWS","expected":"UNKNOWN"},
+    {"subject":"Cache","object":"Legacy Store","predicate":"USES","expected":"UNKNOWN"},
+    {"subject":"Cache","object":"Legacy Store","predicate":"USES","as_of":"2021-06-01","expected":"SOURCE_ASSERTED"},
+    {"subject":"Cache","object":"Checkout","predicate":"CAUSED","allow_hypothesis":true,"expected":"CONNECTED_ONLY"}
+  ]
+}

@@ -1,0 +1,10 @@
+[
+  {"subject":"Checkout","subject_id":"svc:checkout","subject_type":"Service","predicate":"depends on","object":"Gateway","object_id":"svc:gateway","object_type":"Service"},
+  {"subject":"Gateway","subject_id":"svc:gateway","subject_type":"Service","predicate":"depends on","object":"Cache","object_id":"svc:cache","object_type":"Service"},
+  {"subject":"Cache","subject_id":"svc:cache","subject_type":"Service","predicate":"owned by","object":"Platform Team","object_id":"team:platform","object_type":"Team"},
+  {"subject":"Cache","subject_id":"svc:cache","subject_type":"Service","predicate":"deployed version","object":"Release 42","object_id":"release:42","object_type":"Release","event_time":"2026-10-15","time_precision":"day","temporal_source":"event_time field"},
+  {"subject":"Cache","subject_id":"svc:cache","subject_type":"Service","predicate":"caused","object":"Incident 7","object_id":"incident:7","object_type":"Incident","modality":"possible"},
+  {"subject":"Cache","subject_id":"svc:cache","subject_type":"Service","predicate":"uses","object":"Legacy Store","object_id":"svc:legacy","object_type":"Service","valid_from":"2020-01-01","valid_to":"2022-12-31","time_precision":"year","historical":true},
+  {"subject":"Cache","subject_id":"svc:cache","subject_type":"Service","predicate":"uses","object":"Redis","object_id":"svc:redis","object_type":"Service"},
+  {"subject":"Cache","subject_id":"svc:cache","subject_type":"Service","predicate":"uses","object":"Redis","object_id":"svc:redis","object_type":"Service","polarity":"negative","modality":"asserted"}
+]

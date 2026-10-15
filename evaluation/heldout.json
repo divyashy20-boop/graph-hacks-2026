@@ -1,0 +1,28 @@
+{
+  "version": "synthetic-heldout-v1",
+  "created": "2026-10-15",
+  "licence": "CC0-1.0",
+  "annotation": "Author-created synthetic examples; gold authored before benchmark execution, not a public independent human benchmark. Development demos are separate. Named triples only; labels are exhaustive for this small set.",
+  "samples": [
+    {"id":"ops01","domain":"operations","text":"Aster depends on Beacon.","gold":[["Aster","DEPENDS_ON","Beacon","positive","asserted"]]},
+    {"id":"ops02","domain":"operations","text":"Cinder may cache entries for Dune.","gold":[["Cinder","CACHE_ENTRIES_FOR","Dune","positive","possible"]]},
+    {"id":"ops03","domain":"operations","text":"Elm does not use Fen.","gold":[["Elm","USE","Fen","negative","asserted"]]},
+    {"id":"ops04","domain":"operations","text":"Grove is owned by Harbor.","gold":[["Grove","OWNED_BY","Harbor","positive","asserted"]]},
+    {"id":"ops05","domain":"operations","text":"Iris formerly depends on Juniper.","gold":[["Iris","DEPENDS_ON","Juniper","positive","asserted"]],"historical":true},
+    {"id":"ops06","domain":"operations","text":"Kestrel restarted Lumen on 2026-10-15.","gold":[["Kestrel","RESTARTED","Lumen","positive","asserted"]],"event_time":"2026-10-15"},
+    {"id":"ops07","domain":"operations","text":"Mesa depends on Nora and Onyx.","gold":[["Mesa","DEPENDS_ON","Nora","positive","asserted"],["Mesa","DEPENDS_ON","Onyx","positive","asserted"]]},
+    {"id":"ops08","domain":"operations","text":"Pine was deployed by Quartz.","gold":[["Pine","DEPLOYED_BY","Quartz","positive","asserted"]],"historical":true},
+    {"id":"ops09","domain":"operations","text":"After Rill failed, Spruce alerted Tern.","gold":[["Spruce","ALERTED","Tern","positive","asserted"]]},
+    {"id":"ops10","domain":"operations","text":"Umbra observes Vega. It alerts Willow.","gold":[["Umbra","OBSERVES","Vega","positive","asserted"],["Umbra","ALERTS","Willow","positive","asserted"]]},
+    {"id":"ret01","domain":"retail","text":"Amber supplies Birch.","gold":[["Amber","SUPPLIES","Birch","positive","asserted"]]},
+    {"id":"ret02","domain":"retail","text":"Cedar ships through Dahlia.","gold":[["Cedar","SHIPS_THROUGH","Dahlia","positive","asserted"]]},
+    {"id":"ret03","domain":"retail","text":"Ember is located in Fjord.","gold":[["Ember","LOCATED_IN","Fjord","positive","asserted"]]},
+    {"id":"ret04","domain":"retail","text":"Garnet allegedly certifies Hazel.","gold":[["Garnet","CERTIFIES","Hazel","positive","alleged"]]},
+    {"id":"ret05","domain":"retail","text":"Indigo does not distribute Jade.","gold":[["Indigo","DISTRIBUTE","Jade","negative","asserted"]]},
+    {"id":"ret06","domain":"retail","text":"Kelpie partners with Lotus from 2019 until 2021.","gold":[["Kelpie","PARTNERS_WITH","Lotus","positive","asserted"]],"valid_from":"2019-01-01","valid_to":"2021-12-31"},
+    {"id":"ret07","domain":"retail","text":"Marigold stocks Nectar and Opal.","gold":[["Marigold","STOCKS","Nectar","positive","asserted"],["Marigold","STOCKS","Opal","positive","asserted"]]},
+    {"id":"ret08","domain":"retail","text":"Pearl was acquired by Russet.","gold":[["Pearl","ACQUIRED_BY","Russet","positive","asserted"]],"historical":true},
+    {"id":"ret09","domain":"retail","text":"Because Saffron closed, Topaz supplies Umber.","gold":[["Topaz","SUPPLIES","Umber","positive","asserted"]]},
+    {"id":"ret10","domain":"retail","text":"Violet owns Wisteria. She manages Xenon.","gold":[["Violet","OWNS","Wisteria","positive","asserted"],["Violet","MANAGES","Xenon","positive","asserted"]]}
+  ]
+}

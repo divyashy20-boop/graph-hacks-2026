@@ -1,0 +1,41 @@
+name: ugi-event
+services:
+  graph:
+    image: falkordb/falkordb@sha256:107455e862a824e45e8e9f5a7fbfdf5e00a08b14e13eae2577c72fd9e3f59ba6
+    environment:
+      REDIS_ARGS: --appendonly yes --appendfsync everysec --maxmemory 1gb --maxmemory-policy noeviction
+      FALKORDB_ARGS: THREAD_COUNT 2 TIMEOUT_MAX 5000
+    ports:
+      - "127.0.0.1:6380:6379"
+      - "127.0.0.1:3001:3000"
+    volumes:
+      - event-graph:/data
+    restart: unless-stopped
+    mem_limit: 2g
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  api:
+    build: .
+    environment:
+      UGI_BACKEND: falkordb
+      UGI_REDIS_URL: redis://graph:6379/0
+      UGI_PROVIDER: offline
+      UGI_ALLOW_PAID_CALLS: "false"
+      UGI_API_KEYS: ${UGI_API_KEYS:-}
+    ports:
+      - "127.0.0.1:8001:8000"
+    depends_on:
+      graph:
+        condition: service_healthy
+    restart: unless-stopped
+    mem_limit: 1g
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health',timeout=5)"]
+      interval: 10s
+      timeout: 6s
+      retries: 10
+volumes:
+  event-graph:
