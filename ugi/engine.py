@@ -291,7 +291,14 @@ class Engine:
                     explanation="Insufficient supported evidence", hypotheses=[],
                     confidence_note="No numeric truth probability is claimed")
         if not subject or not object_entity:
-            return {**base, "explanation": "Identity missing or ambiguous; use an exact entity ID"}
+            return {**base, "explanation": "Identity missing or ambiguous; use an exact entity ID",
+                    "resolution": {
+                        "assessment": "MISSING_OR_AMBIGUOUS_IDENTITY",
+                        "requested_predicate": p,
+                        "path_summaries": [],
+                        "missing_evidence": ["Unique, verified identities for subject and object"],
+                        "recommended_action": "Search entity candidates and select their exact IDs",
+                        "safety_note": "Do not merge similar names without identity evidence"}}
         pair = [c for c in self.store.claims(subject["id"], object_entity["id"])
                 if c["predicate"] == p and active(c, query.as_of)
                 and c["modality"] == "asserted" and c["review_status"] == "supported"]
