@@ -20,6 +20,7 @@ from pathlib import Path
 
 from .engine import Engine
 from .models import Settings, key, now
+from .provider import Ollama
 from .store import Store
 
 VALIDATION_URL = ("https://raw.githubusercontent.com/thunlp/FewRel/"
@@ -35,11 +36,13 @@ def _name(value):
 
 
 def run(raw: bytes, limit: int = 128, seed: int = 17,
-        local_model_id: str | None = None) -> dict:
+        local_model_id: str | None = None, diagnose: bool = False) -> dict:
     if not 1 <= limit <= 2000:
         raise ValueError("Limit must be 1..2000")
     if local_model_id is not None and (not local_model_id or limit > 6):
         raise ValueError("Local model probes require model ID and at most 6 examples")
+    if diagnose and not local_model_id:
+        raise ValueError("Model diagnostics require --local-model")
     dataset = json.loads(raw)
     if not isinstance(dataset, dict) or not dataset:
         raise ValueError("Expected FewRel PID -> annotated examples mapping")
@@ -84,7 +87,11 @@ def run(raw: bytes, limit: int = 128, seed: int = 17,
                             ollama_url=os.environ.get(
                                 "UGI_OLLAMA_URL", "http://127.0.0.1:11434"),
                             allow_paid_calls=False)
-        engine = Engine(Store(settings))
+        store = Store(settings)
+        provider = Ollama(settings, store) if local_model_id else None
+        if provider:
+            provider.trace_enabled = diagnose
+        engine = Engine(store, provider_factory=(lambda: provider) if provider else None)
         ingest_report = engine.ingest(f"fewrel_{i:04d}.txt", sentence.encode(),
                                       use_ai=bool(local_model_id))
         if local_model_id and ingest_report["warnings"]:
@@ -111,7 +118,13 @@ def run(raw: bytes, limit: int = 128, seed: int = 17,
                          "head": head, "tail": tail, "surfaces_visible": visible,
                          "directed_pair_detected": matched, "reverse_pair_detected": backwards,
                          "predicted": [{"subject": c["subject"], "predicate": c["predicate"],
-                                        "object": c["object"]} for c in claims]})
+                                        "object": c["object"]} for c in claims],
+                         **({"diagnostics": {
+                             "provider_responses": provider.trace if provider else [],
+                             "review_reasons": [r.get("reason", "") for r in
+                                                store.list("ReviewTask")],
+                             "candidates_persisted": len(claims),
+                         }} if diagnose else {})})
     return {"recorded_at": now(), "source_url": VALIDATION_URL,
             "sha256": sha256(raw).hexdigest(), "seed": seed,
             "sampled": len(chosen), "available_pids": len(grouped),
@@ -143,6 +156,8 @@ def main():
     parser.add_argument("--seed", type=int, default=17)
     parser.add_argument("--local-model", metavar="MODEL_ID",
                         help="EXPLICIT opt-in: invoke a model in localhost Ollama; limit <= 6")
+    parser.add_argument("--diagnose", action="store_true",
+                        help="Include ephemeral local-model JSON output/review reasons in the saved report")
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     if args.download == bool(args.input):
@@ -158,7 +173,7 @@ def main():
         if len(raw) > 15 * 1024 * 1024:
             raise ValueError("External dataset exceeds 15 MB limit")
     report = run(raw, limit=args.limit, seed=args.seed,
-                 local_model_id=args.local_model)
+                 local_model_id=args.local_model, diagnose=args.diagnose)
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2)+"\n",
