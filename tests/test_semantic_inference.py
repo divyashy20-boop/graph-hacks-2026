@@ -82,3 +82,34 @@ def test_grammar_reversal_is_not_overridden_by_provider():
                           predicate="owns", evidence=text)
     accepted, _ = verify(candidate, {"text":text, "record":None}, Reviewer())
     assert not accepted
+
+
+def test_same_external_id_different_entity_types_does_not_merge():
+    e = system([{
+        "subject": "Alice", "subject_id": "shared-123", "subject_type": "Person",
+        "predicate": "works_at", "object": "Acme", "object_id": "shared-123",
+        "object_type": "Organisation"
+    }])
+    assert e.store.counts()["Entity"] == 2
+    c = e.store.claims()[0]
+    assert c["subject_id"] != c["object_id"]
+    assert e.relationship(RelationQuery(subject="Alice", object="Acme",
+                                        predicate="WORKS_AT"))["status"] == "SOURCE_ASSERTED"
+
+
+def test_legacy_identifiers_preserved_if_types_match():
+    from ugi.models import uid, key
+    e = Engine(Store(Settings(backend="memory")))
+    old_id = uid("entity", "id:person-legacy")
+    e.store.commit([{
+        "id": old_id, "kind": "Entity", "identity_key": "id:person-legacy",
+        "name": "Alice", "name_key": key("Alice"), "entity_type": "Person",
+        "aliases": [], "alias_keys": [], "external_id": "person-legacy"
+    }])
+    e.ingest("legacy.json", json.dumps([{
+        "subject": "Alice", "subject_type": "Person", "subject_id": "person-legacy",
+        "predicate": "works_at", "object": "Acme", "object_type": "Organisation",
+        "object_id": "organisation-1"
+    }]).encode())
+    assert e.resolve("Alice")["id"] == old_id
+    assert e.store.counts()["Entity"] == 2
