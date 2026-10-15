@@ -41,3 +41,13 @@ Key implementation constraints: FalkorDB remains required for production/demo pe
 - [x] Updated README with CI behavior and Windows checkout sync instructions.
 - [x] Verified GitHub Actions run 38684951348: 47 non-integration tests plus 2 real FalkorDB integration tests passed on hosted Docker, benchmark command completed. See TEST_REPORT.md.
 - [ ] Run a full local end-to-end walkthrough on the participant's Windows Docker Desktop.
+
+
+## Evidence-aware relation milestone — October 15, 2026
+
+- [x] Added a typed two-hop `SHARES_EMPLOYER` derivation that requires evidence-backed `WORKS_AT` edges through the same employer, both temporally anchored, and overlapping validity. Other shared-node paths and undated relations remain CONNECTED_ONLY or UNKNOWN, not relationships invented by proximity.
+- [x] Fixed overbroad grammar rejection: an unrelated parsed clause no longer vetoes a separate grounded LLM extraction candidate; mismatched same-pair predicate/direction/polarity remains rejected.
+- [x] Namespaced explicit entity identifiers by declared type to prevent cross-type false merges, with safe reuse of existing legacy IDs when their stored type matches.
+- [x] Added regression examples and a `demo/shared_employer.json` walkthrough.
+- [x] Local non-integration suite: 54 passing tests, 0 failures. Actual real-FalkorDB CI outcome for this final commit is checked separately.
+- [ ] Independently benchmark these changes on novel documents and live Bedrock before making broader accuracy claims.
