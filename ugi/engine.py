@@ -6,7 +6,7 @@ from time import perf_counter
 
 from .extract import discover, parse, verify
 from .models import HypothesisProposal, RelationQuery, key, now, predicate, uid
-from .provider import Bedrock, ProviderError
+from .provider import Bedrock, Ollama, ProviderError
 
 
 def active(claim, as_of=None):
@@ -42,6 +42,8 @@ class Engine:
             return self.provider_factory()
         if self.settings.provider == "bedrock":
             return Bedrock(self.settings, self.store)
+        if self.settings.provider == "ollama":
+            return Ollama(self.settings, self.store)
         return None
 
     def ingest(self, filename, content, use_ai=False, semantic_verification=True):
@@ -167,7 +169,7 @@ class Engine:
             report = dict(source_id=source["id"], chunks=len(chunks), entities=len(entities),
                           claims=len(claims), review_tasks=len(reviews), duplicate=False,
                           warnings=warnings, elapsed_ms=round((perf_counter() - started) * 1000, 3),
-                          provider="bedrock" if provider else "offline",
+                          provider=self.settings.provider if provider else "offline",
                           usage=getattr(provider, "usage", {"calls": 0, "estimated_usd": 0}))
             source["report"] = report
             records.extend([*entities.values(), *reviews])
