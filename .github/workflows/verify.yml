@@ -41,6 +41,16 @@ jobs:
         run: python -m pytest -q -m integration
       - name: Verify synthetic benchmark executes
         run: python -m ugi.evaluate --output /tmp/ugi-ci-evaluation.json
+      - name: Audit unseen-style challenge (offline, synthetic)
+        run: python -m ugi.eval_challenge --output /tmp/ugi-challenge-evaluation.json
+      - name: Upload evaluation diagnostics
+        uses: actions/upload-artifact@v4
+        with:
+          name: ugi-evaluation-diagnostics
+          path: |
+            /tmp/ugi-ci-evaluation.json
+            /tmp/ugi-challenge-evaluation.json
+          retention-days: 14
       - name: Show diagnostics on failure
         if: failure()
         run: docker compose logs --tail=100 graph || true
