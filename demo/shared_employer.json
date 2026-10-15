@@ -1,0 +1,24 @@
+[
+  {
+    "subject": "Alice",
+    "subject_id": "alice",
+    "subject_type": "Person",
+    "predicate": "works_for",
+    "object": "Acme",
+    "object_id": "acme",
+    "object_type": "Organisation",
+    "valid_from": "2020-01-01",
+    "valid_to": "2022-12-31"
+  },
+  {
+    "subject": "Bob",
+    "subject_id": "bob",
+    "subject_type": "Person",
+    "predicate": "works_at",
+    "object": "Acme",
+    "object_id": "acme",
+    "object_type": "Organisation",
+    "valid_from": "2021-01-01",
+    "valid_to": "2023-12-31"
+  }
+]
