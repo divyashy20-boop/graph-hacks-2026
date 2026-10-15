@@ -122,3 +122,11 @@ Following the restart, the same dataset header `X-Dataset: incident-demo` was us
 - Conclusion: Conservative grammar rules are insufficient for ordinary Wikipedia prose. Do not market offline extraction as generally accurate.
 
 **Optional local Ollama implementation**: bounded `/api/chat` calls with schema-constrained results, default provider remains offline, local endpoint validated, no AWS opt-in, failures and invalid JSON persisted for review. Mock-transport tests cover transport/schema/errors, quota, allowed endpoints and integration with offline grammar. **No actual local inference success, latency or accuracy has been measured.** Run a real Ollama sample before public demonstration of that feature.
+
+
+## Bounded local-model A/B probe and final CI — October 15, 2026
+
+- `ugi.eval_fewrel --local-model MODEL_ID --limit 4 --seed 17 --download` now invokes a **local loopback Ollama endpoint**, contrasting directly with the offline grammar's identically sampled four examples. Up to six examples per run; reports model calls and review tasks, and aborts if the local extraction provider reports failure.
+- The Docker-host endpoint is read from validated `UGI_OLLAMA_URL`, with a Windows-host localhost fallback. No remote inference endpoint or Bedrock activation is permitted by this pathway.
+- A new mock-transport test covers the CLI's explicit limit and integration path; **the 4–6 actual model samples have not been run**.
+- [GitHub Actions run 38694742578](https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38694742578) passed: **77 non-integration tests**, **2 live FalkorDB integration tests**, both synthetic evaluation scripts and the 128-example independent FewRel pair diagnostic. All inference was offline/mock-only; do not interpret the green test run as improved relation-extraction quality.
