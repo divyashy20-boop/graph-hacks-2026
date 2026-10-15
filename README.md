@@ -115,13 +115,22 @@ To experiment on your own Windows computer:
 3. Run `docker compose up --build -d`. Confirm connectivity from the API container using `docker compose exec api python -c "import urllib.request; print(urllib.request.urlopen('http://host.docker.internal:11434/api/tags',timeout=5).status)"`. If Windows Ollama is only loopback-bound and inaccessible from Docker, do not expose it to the internet to fix this; run UGI directly on the Windows host with `UGI_OLLAMA_URL=http://127.0.0.1:11434`, reusing the existing local FalkorDB `127.0.0.1:6380`.
 4. Use `POST /api/uploads?use_ai=true` with a **new dataset name** and a short text sample. Normal uploads (`use_ai=false`) remain deterministic and do not call a model. The API caps model calls and writes usage/review records.
 
-**Controlled FewRel local-model probe (Windows host Python):** Because the existing Docker image does not run the local Ollama model, this CLI is deliberately launched on the Windows host, where Ollama uses loopback. First install project dependencies with `py -m pip install -e ".[test]"`, pull the model, then from the repo root run:
+**Controlled FewRel local-model probe (Docker Desktop preferred):** After Ollama is reachable from the Docker API container, execute these commands from the project folder:
+
+```powershell
+docker compose exec api python -m ugi.eval_fewrel --download --limit 4 --seed 17
+docker compose exec api python -m ugi.eval_fewrel --download --limit 4 --seed 17 --local-model qwen3:4b-instruct
+```
+
+The first command is the grammar baseline; the second makes real local Ollama calls to process **the same four source examples**. Neither command uses AWS. Ollama must be installed and started separately; the container connects through the restricted `UGI_OLLAMA_URL`.
+
+If Ollama is not accessible from the container despite working on Windows localhost, an alternative is to run the model probe on **Windows host Python** after `py -m pip install -e ".[test]"`:
 
 ```powershell
 py -m ugi.eval_fewrel --download --limit 4 --seed 17 --local-model qwen3:4b-instruct --output "$env:TEMP/ugi-fewrel-local.json"
 ```
 
-Compare it with the **same 4 examples** using `py -m ugi.eval_fewrel --download --limit 4 --seed 17` (not the 128-example figure). The model probe permits **at most six examples per invocation**, is entirely opt-in, and reports real local model calls, review-task counts and directed entity-pair hits; it **does not** calculate semantic predicate correctness or relation F1. The model download and model execution have *not* been performed in project CI; the adapter/probe have mock tests only. If a provider call fails, the run stops rather than returning a misleading score.
+Compare only runs with **matching seeds, sample counts and upstream SHA**, not the 128-example offline figure. The model probe permits **at most six examples per invocation**, is entirely opt-in, and reports real local model calls, review-task counts and directed entity-pair hits; it **does not** calculate semantic predicate correctness or relation F1. The model download and model execution have *not* been performed in project CI; the adapter/probe have mock tests only. If a provider call fails, the run stops rather than returning a misleading score.
 
 Ollama must already be running and the selected model downloaded; Docker does **not** download or start it. The URL is restricted to loopback or Docker Desktop's `host.docker.internal:11434`; remote/cloud endpoints are rejected. `UGI_ALLOW_PAID_CALLS=false` stays locked in Docker Compose, so opting into Ollama does **not** enable Bedrock. Inference can still consume local CPU/GPU/RAM and time. Keep private inputs on machines you trust.
 
