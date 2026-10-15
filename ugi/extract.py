@@ -229,7 +229,18 @@ def verify(candidate, chunk, provider=None):
             and c.valid_from == candidate.valid_from and c.valid_to == candidate.valid_to
             for c in grammar
         )
-        return supported, "Directional grammar, polarity, modality and temporal agreement"
+        if supported:
+            return True, "Directional grammar, polarity, modality and temporal agreement"
+        # A grammar-recognised pair provides a deterministic veto for flipped
+        # direction, wrong predicate, lost negation, and modality mismatch.
+        # Parsing an unrelated clause must not veto a grounded LLM candidate
+        # concerning different entities in the same evidence span.
+        matched_pair = any(
+            {key(c.subject), key(c.object)} == {key(candidate.subject), key(candidate.object)}
+            for c in grammar
+        )
+        if matched_pair:
+            return False, "Conflicts with grounded predicate/direction/polarity grammar"
     if provider:
         verdict = provider.request(
             "Decide semantic entailment ONLY from evidence. Entity co-occurrence, shared context "
