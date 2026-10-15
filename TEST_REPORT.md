@@ -60,3 +60,15 @@ Only a **small synthetic fixture** was evaluated. It is not independently annota
 7. **MCP compatibility:** Run protocol conformance tests and a real MCP client integration before claiming full interoperability.
 
 The software was not tested in a production-like environment; **a green local unit test suite is not a production-readiness certification**.
+
+
+## Semantic/identity follow-up — October 15, 2026
+
+Additional coverage:
+
+- `SHARES_EMPLOYER` is RULE_DERIVED only if a two-hop, correctly directed pair of `WORKS_AT` assertions shares one employer and provides temporal anchors with overlap. The returned result includes both supporting claim/evidence records. It is **not** evidence of friendship or direct collaboration.
+- Undated employment, nonoverlapping periods and merely co-attending an event do not prove shared employment.
+- For provider-assisted extraction, exact same-pair grammar contradictions are still rejected; unrelated parsed clauses no longer suppress independent grounded candidates that require semantic model review. These are mock-provider tests, **not** live Bedrock measurements.
+- IDs such as `Person:123` and `Organisation:123` remain separate. Prior untyped IDs in an existing graph can be reused when their stored entity type matches.
+- **54 local non-integration tests passed**, 0 failed. See GitHub Actions for live FalkorDB verification on the latest commit. No changes were made to the 20-passage synthetic evaluation fixture; the previously reported F1 score must not be attributed to these new features.
+
