@@ -104,5 +104,7 @@ def test_diagnostic_trace_records_empty_model_output(monkeypatch):
     out = run(tiny(), limit=1, local_model_id="fake-local", diagnose=True)
     d = out["samples"][0]["diagnostics"]
     assert d["provider_responses"][0]["response"] == '{"relations":[]}'
-    assert d["candidates_persisted"] == 0
+    # The mocked model returned no relations, but the deliberately simple
+    # fixture has a valid deterministic grammar claim (Alice owns Acme).
+    assert d["candidates_persisted"] == 1
     assert out["external_paid_calls"] == 0
