@@ -85,6 +85,8 @@ Upload `demo/shared_employer.json` into a fresh dataset (such as `people`), then
 
 The expected `RULE_DERIVED` response includes rule `shared_employer_temporal_overlap_v1`, two exact source-backed employment claims, and the connecting graph path. The same identities with `FRIENDS_WITH` return **CONNECTED_ONLY**, not proof of friendship. Asking `SHARES_EMPLOYER` for `2023-06-01` returns **UNKNOWN** because Alice's supplied employment ends in 2022. Undated employment records **do not** establish overlapping dated employment. These are deductions about what the uploaded sources assert, not external employment verification.
 
+Entity identifiers are now **scoped by entity type**: a person and an organisation with the same external ID remain separate nodes. Previously stored untyped IDs are reused when their existing declared type matches, avoiding unnecessary duplicate entities during local upgrades. Conflicting types are never automatically merged.
+
 The verifier also now separates contradictory grammar for the **same entity pair** (still rejected) from an **unrelated, unparsed clause** in the evidence passage (eligible for opt-in LLM review). This reduces false rejections without removing the deterministic contradiction guard. The offline parser remains conservative; no universal extraction accuracy claim is made.
 
 ## Model Context Protocol (MCP) adapter
