@@ -117,9 +117,9 @@ function svg(tag, attributes, text) {
 }
 
 function typeColor(entity) {
-  if (/service|component/i.test(entity.entity_type)) return "#d6ff4f";
-  if (/person/i.test(entity.entity_type)) return "#c2a8ff";
-  return "#8db7ff";
+  if (/service|component/i.test(entity.entity_type)) return "#ff5c70";
+  if (/person/i.test(entity.entity_type)) return "#ae8cff";
+  return "#5ea8ff";
 }
 
 function setView() {
@@ -273,7 +273,7 @@ function markerDefinitions() {
     id: "evidence-arrow", viewBox: "0 -4 8 8", refX: 14, refY: 0,
     markerWidth: 7, markerHeight: 7, orient: "auto", markerUnits: "strokeWidth",
   });
-  marker.append(svg("path", {d: "M0,-4L8,0L0,4Z", fill: "#607282"}));
+  marker.append(svg("path", {d: "M0,-4L8,0L0,4Z", fill: "#735689"}));
   defs.append(marker);
   return defs;
 }
@@ -310,8 +310,8 @@ function render(reset = true) {
       <= [peer.valid_to || "9999", claim.valid_to || "9999"].sort()[0]);
     const queryActive = queryHighlights.has(claim.id);
     const selected = focus.claims.has(claim.id);
-    const color = selected || queryActive ? "#f0f3ee" : claim.polarity === "negative" || conflict ? "#ff9e9b"
-      : claim.modality !== "asserted" ? "#ffd17d" : "#607282";
+    const color = selected || queryActive ? "#fff7f2" : claim.polarity === "negative" || conflict ? "#ff8d9d"
+      : claim.modality !== "asserted" ? "#ffb84c" : "#735689";
     const opacity = focusOpacity(focus, "claims", claim.id);
     const line = svg("line", {
       x1: from[0], y1: from[1], x2: to[0], y2: to[1], stroke: color,
@@ -332,7 +332,7 @@ function render(reset = true) {
   for (const event of events) {
     const [x, y] = positions.get(event.id);
     const opacity = focusOpacity(focus, "events", event.id);
-    const color = event.polarity === "negative" ? "#ff9e9b" : event.modality !== "asserted" ? "#ffd17d" : "#c2a8ff";
+    const color = event.polarity === "negative" ? "#ff8d9d" : event.modality !== "asserted" ? "#ffb84c" : "#ae8cff";
     for (const participant of event.participants) {
       const [px, py] = positions.get(participant.entity_id);
       const connector = svg("line", {
@@ -347,7 +347,7 @@ function render(reset = true) {
     }
     const diamond = svg("polygon", {
       points: `${x},${y - 14} ${x + 14},${y} ${x},${y + 14} ${x - 14},${y}`,
-      fill: color, stroke: focus.events.has(event.id) ? "#f0f3ee" : "#0b1015", "stroke-width": 2, opacity,
+      fill: color, stroke: focus.events.has(event.id) ? "#fff7f2" : "#10061d", "stroke-width": 2, opacity,
     });
     bindPick(diamond, event);
     makeDraggable(diamond, event);
@@ -363,7 +363,7 @@ function render(reset = true) {
     const opacity = focusOpacity(focus, "entities", entity.id);
     const node = svg("circle", {
       cx: x, cy: y, r: selected ? 13 : 11, fill: typeColor(entity),
-      stroke: selected ? "#f0f3ee" : "#0b1015", "stroke-width": selected ? 3 : 2, opacity,
+      stroke: selected ? "#fff7f2" : "#10061d", "stroke-width": selected ? 3 : 2, opacity,
     });
     bindPick(node, entity);
     makeDraggable(node, entity);

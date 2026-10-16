@@ -54,11 +54,30 @@ direct-neighbour highlighting, and clear dimming of unrelated context.
   legible without implying unsupported facts.
 - Pan, zoom, drag, refresh, and keyboard selection remain reliable.
 
-## UI-003 — Local 3D orbit graph
+## UI-003 — Spatial interface art direction
 
-**Status:** Queued
+**Status:** Complete
 **Priority:** P0  
 **Depends on:** UI-002
+
+Reframe the existing dashboard with an immersive spatial-tech direction inspired
+by the supplied 5G AR reference: deep-violet depth, oversized typography,
+red/blue signal accents, and a sculptural header composition. Adapt the visual
+grammar; do not copy the original brand, content, illustration, or assets.
+
+**Acceptance criteria:**
+
+- All functional controls and evidence semantics remain unchanged.
+- The visual system feels like one authored experience, not a generic dark
+  dashboard or a pasted marketing template.
+- Decorative depth remains optional, responsive, and suppressed for
+  reduced-motion users.
+
+## UI-004 — Local 3D orbit graph
+
+**Status:** Queued
+**Priority:** P0
+**Depends on:** UI-003
 
 Add a `3D Orbit` mode beside the 2D evidence map. It must use a pinned,
 locally served WebGL dependency with licence/provenance recorded in the repo;
@@ -72,11 +91,11 @@ the demo cannot depend on a CDN.
 - Orbit, pan, zoom, focus, auto-rotate, resize, WebGL fallback, and
   reduced-motion paths are deliberately handled.
 
-## UI-004 — Investigation storytelling and provenance
+## UI-005 — Investigation storytelling and provenance
 
 **Status:** Queued
 **Priority:** P1  
-**Depends on:** UI-002, UI-003
+**Depends on:** UI-004
 
 Make the source inspector, relationship verdict, action preview, saved cases,
 and review queue presentation-ready for a live walkthrough.
@@ -88,11 +107,11 @@ and review queue presentation-ready for a live walkthrough.
 - Preview and authorized persistence cannot be confused.
 - The three supplied demonstrations work consistently in both graph modes.
 
-## UI-005 — Responsive demo quality gate
+## UI-006 — Responsive demo quality gate
 
 **Status:** Queued
 **Priority:** P0  
-**Depends on:** UI-004
+**Depends on:** UI-005
 
 Validate the final UI locally and in Docker, including desktop/mobile layouts,
 keyboard paths, empty/loading/error states, and the complete demo walkthrough.
