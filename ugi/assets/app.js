@@ -59,6 +59,31 @@ function field(parent, label, value) {
   parent.append(row);
 }
 
+function metric(label, value) {
+  const item = element("div");
+  item.append(element("b", label), element("span", value === undefined || value === null || value === "" ? "—" : String(value)));
+  return item;
+}
+
+function storySection(title, detail) {
+  const section = element("section", undefined, "story-section");
+  const heading = element("div", undefined, "story-heading");
+  heading.append(element("span", title));
+  if (detail) heading.append(element("span", detail));
+  section.append(heading);
+  return section;
+}
+
+function statusTone(status) {
+  if (status === "CONTRADICTED" || status === "SOURCE_NEGATED") return "var(--red)";
+  if (status === "UNKNOWN" || status === "HYPOTHESIS" || status === "CONNECTED_ONLY") return "var(--amber)";
+  return "var(--signal)";
+}
+
+function statusTitle(status) {
+  return ({SOURCE_ASSERTED: "Direct source assertion", RULE_DERIVED: "Rule-derived conclusion", CONNECTED_ONLY: "Connection is not enough", SOURCE_NEGATED: "Source negates the relation", CONTRADICTED: "Source evidence conflicts", HYPOTHESIS: "Stored risk hypothesis", UNKNOWN: "No supported conclusion"})[status] || status.replaceAll("_", " ");
+}
+
 function recordById(id) {
   return [...graphData.entities, ...graphData.claims, ...graphData.events].find((record) => record.id === id);
 }
@@ -67,43 +92,53 @@ async function inspect(record) {
   $("inspectkind").textContent = record.kind || "Entity";
   const box = $("inspector");
   box.replaceChildren();
-  field(box, "Name / relation", record.name || record.relation_type || record.predicate);
-  field(box, "Entity type", record.entity_type);
-  field(box, "Polarity / modality", [record.polarity, record.modality].filter(Boolean).join(" · "));
-  if (record.kind !== "Entity") {
-    field(box, "Valid interval", [record.valid_from || "unknown", record.valid_to || "unknown"].join(" → "));
-  }
-  field(box, "Event time", record.event_time);
-  field(box, "Record ID", record.id);
+  const lead = element("div", undefined, "inspector-lead");
+  lead.append(element("strong", record.name || record.relation_type || record.predicate || "Stored record"));
+  lead.append(element("p", record.kind === "Entity" ? "Identity record in the active dataset." : "Inspect the exact supporting source before treating this as a conclusion."));
+  box.append(lead);
+  const facts = element("div", undefined, "provenance-grid");
+  facts.append(metric("Record type", record.kind || "Entity"), metric("Entity type", record.entity_type || "—"), metric("Polarity / modality", [record.polarity, record.modality].filter(Boolean).join(" · ") || "—"), metric("Event time", record.event_time || "—"));
+  box.append(facts);
+  if (record.kind !== "Entity") box.append(element("p", `Valid interval: ${record.valid_from || "unknown"} → ${record.valid_to || "unknown"}`, "small"));
 
   if (record.participants) {
-    for (const participant of record.participants) field(box, participant.role, participant.name);
+    const participants = storySection("Whole-event participants", `${record.participants.length} roles`);
+    const list = element("div", undefined, "provenance-grid");
+    for (const participant of record.participants) list.append(metric(participant.role, participant.name));
+    participants.append(list);
+    box.append(participants);
   }
 
   if (record.evidence_id) {
     try {
       const evidence = await api(`/api/records/${record.evidence_id}`);
-      box.append(element("div", evidence.quote, "quote"));
       const source = await api(`/api/records/${evidence.source_id}`);
-      field(box, "Source", source.filename);
-      field(box, "Location", JSON.stringify(evidence.location));
-      field(box, "Exact chunk offsets", `${evidence.start}–${evidence.end}`);
-      field(box, "Verification", record.review_reason);
-      field(box, "World verification", record.independently_verified ? "Independently verified" : "Source assertion only");
+      const sourceSection = storySection("Exact supporting source", source.filename || "Stored source");
+      sourceSection.append(element("div", evidence.quote, "quote"));
+      const provenance = element("div", undefined, "provenance-grid");
+      provenance.append(metric("Source file", source.filename || "Unknown"), metric("Offsets", `${evidence.start}–${evidence.end}`), metric("Location", evidence.location ? JSON.stringify(evidence.location) : "—"), metric("Record check", record.review_reason || "Source-backed"));
+      sourceSection.append(provenance);
+      box.append(sourceSection);
+      const limit = element("p", undefined, "limit-note");
+      limit.append(element("strong", "Scope of this evidence"), document.createTextNode(record.independently_verified ? "Independently verified." : "This is a source assertion, not independent world verification."));
+      box.append(limit);
     } catch (error) {
       box.append(element("p", error.message, "error"));
     }
   } else if (record.kind === "Entity") {
     const matches = await api(`/api/entities?name=${encodeURIComponent(record.name)}`);
-    field(box, "Matching name identities", matches.length);
-    if (matches.length > 1) box.append(element("p", "Ambiguous name: select an exact ID when querying."));
     const events = await api(`/api/events?entity_id=${encodeURIComponent(record.id)}`);
-    field(box, "Whole-event participation", events.events.length);
+    const identity = storySection("Identity and participation");
+    const provenance = element("div", undefined, "provenance-grid");
+    provenance.append(metric("Matching identities", matches.length), metric("Whole events", events.events.length));
+    identity.append(provenance);
+    if (matches.length > 1) identity.append(element("p", "Ambiguous name: select an exact ID when querying.", "limit-note"));
     for (const event of events.events) {
       const button = element("button", event.relation_type);
       button.onclick = () => selectRecord(event);
-      box.append(button);
+      identity.append(button);
     }
+    box.append(identity);
   }
 
   const details = element("details");
@@ -428,20 +463,32 @@ async function refresh() {
   $("cases").replaceChildren();
   if (!cases.length) $("cases").append(element("p", "No saved investigations. Preview a target to begin."));
   for (const item of cases) {
-    const entry = element("div", undefined, "entry");
-    entry.append(element("strong", `${item.priority.toUpperCase()} · ${item.affected_entity_ids.length} exposed components`), element("p", `${item.status} · ${item.id.slice(0, 12)}`, "small"));
+    const entry = element("article", undefined, "case-card");
+    const head = element("div", undefined, "case-card-head");
+    const copy = element("div");
+    copy.append(element("h3", `Investigation · ${item.priority || "unknown"} priority`), element("p", item.explanation || "Stored investigation", "small"));
+    head.append(copy, element("span", item.status || "saved", "badge"));
+    const metrics = element("div", undefined, "story-metrics");
+    metrics.append(metric("Exposure", `${(item.affected_entity_ids || []).length} components`), metric("Claims", (item.supporting_claim_ids || []).length), metric("As of", item.as_of || "Current"), metric("Case ID", item.id.slice(0, 12)));
     const button = element("button", "Inspect saved case");
-    button.onclick = () => { show("action", item); $("actionbrief").textContent = item.explanation; };
-    entry.append(button);
+    button.onclick = () => { show("action", item); renderInvestigationBrief({...item, executed: true}); };
+    entry.append(head, metrics, button);
     $("cases").append(entry);
   }
 
   $("tasks").replaceChildren();
   if (!tasks.length) $("tasks").append(element("p", "No review tasks."));
   for (const task of tasks.slice(0, 30)) {
-    const entry = element("div", undefined, "entry");
-    entry.append(element("span", task.status.toUpperCase(), "badge"), element("p", task.reason, "small"));
+    const entry = element("article", undefined, "task-card");
+    const head = element("div", undefined, "task-card-head");
+    const copy = element("div");
+    copy.append(element("h3", task.status === "open" ? "Review required" : "Review resolved"), element("p", task.reason, "small"));
+    head.append(copy, element("span", task.status.toUpperCase(), "badge"));
+    entry.append(head);
+    const meta = element("p", `Claim ${task.claim_id ? task.claim_id.slice(0, 12) : "impact assessment"} · Case ${task.investigation_id ? task.investigation_id.slice(0, 12) : "not linked"}`, "small muted");
+    entry.append(meta);
     if (task.status === "open") {
+      const actions = element("div", undefined, "task-actions");
       for (const decision of ["accepted", "rejected"]) {
         const button = element("button", decision);
         button.onclick = () => busy("refresh", "globalstatus", async () => {
@@ -451,8 +498,9 @@ async function refresh() {
           await refresh();
           return "Review decision persisted";
         });
-        entry.append(button);
+        actions.append(button);
       }
+      entry.append(actions);
     }
     $("tasks").append(entry);
   }
@@ -467,6 +515,7 @@ function resetAction() {
   $("answer").hidden = true;
   show("answerjson", {});
   $("actionbrief").textContent = "";
+  $("actionmode").textContent = "Preview is read only";
   show("action", {});
   $("inspectkind").textContent = "Select a record";
   $("inspector").replaceChildren(element("p", "Select a node, relation, or whole event to inspect its source record."));
@@ -505,22 +554,110 @@ $("upload").onclick = () => busy("upload", "uploadstatus", async () => {
   return `${report.duplicate ? "Already ingested" : "Stored"} · ${report.claims} claims · ${report.relation_events || 0} events · ${report.review_tasks} reviews`;
 });
 
+async function renderVerdict(result) {
+  const box = $("answer");
+  box.hidden = false;
+  box.replaceChildren();
+  const tone = statusTone(result.status);
+  const verdict = element("div", undefined, "verdict-head");
+  const copy = element("div");
+  copy.append(element("span", "Completed relationship verdict", "panel-kicker"), element("h3", statusTitle(result.status)), element("p", result.explanation));
+  const signal = element("div", undefined, "verdict-status");
+  const badge = element("span", result.status, "result-status");
+  badge.style.color = tone;
+  signal.append(badge, element("small", result.resolution?.assessment || "Final assessment"));
+  verdict.append(copy, signal);
+  box.append(verdict);
+
+  const request = element("div", undefined, "story-metrics");
+  request.append(metric("Subject", $("subject").value), metric("Predicate", result.predicate || $("predicate").value), metric("Object", $("object").value), metric("As of", $("timeline").value || "Current view"));
+  box.append(request);
+
+  const trace = storySection("Reasoning trace", `${(result.rules || []).length} rule${(result.rules || []).length === 1 ? "" : "s"}`);
+  const steps = element("ol", undefined, "trace-list");
+  const traceRows = [];
+  for (const rule of result.rules || []) traceRows.push(["Safe rule applied", rule]);
+  for (const [index, path] of (result.paths || []).entries()) traceRows.push([`Graph path ${index + 1}`, `${path.claim_ids.length} source-backed claim${path.claim_ids.length === 1 ? "" : "s"} · ${path.directions.map((direction) => direction ? "forward" : "reverse").join(" → ")}`]);
+  if (!traceRows.length) traceRows.push(["No inference trace", "The final assessment relies on the displayed direct-source or identity result."]);
+  traceRows.slice(0, 5).forEach(([title, detail], index) => {
+    const row = element("li", undefined, "trace-step");
+    const copy = element("div");
+    copy.append(element("strong", title), element("p", detail));
+    row.append(element("span", String(index + 1), "trace-index"), copy);
+    steps.append(row);
+  });
+  trace.append(steps);
+  box.append(trace);
+
+  const evidenceItems = result.evidence || [];
+  if (evidenceItems.length) {
+    const evidenceSection = storySection("Exact supporting evidence", `${evidenceItems.length} source span${evidenceItems.length === 1 ? "" : "s"}`);
+    const sourceNames = new Map();
+    const resolveSource = async (sourceId) => {
+      if (!sourceId) return "Stored source";
+      if (!sourceNames.has(sourceId)) sourceNames.set(sourceId, api(`/api/records/${sourceId}`).then((source) => source.filename || "Stored source").catch(() => "Source unavailable"));
+      return sourceNames.get(sourceId);
+    };
+    const cards = await Promise.all(evidenceItems.slice(0, 6).map(async (item, index) => {
+      const evidence = item.evidence || {};
+      const card = element("article", undefined, "evidence-card");
+      card.append(element("span", `Evidence ${index + 1}`, "badge"), element("div", evidence.quote || "No quote returned", "quote"));
+      const data = element("div", undefined, "provenance-grid");
+      data.append(metric("Source file", await resolveSource(evidence.source_id)), metric("Offsets", evidence.start === undefined ? "—" : `${evidence.start}–${evidence.end}`), metric("Claim", item.claim?.predicate || "Stored claim"), metric("Validity", [item.claim?.valid_from || "unknown", item.claim?.valid_to || "unknown"].join(" → ")));
+      card.append(data);
+      return card;
+    }));
+    evidenceSection.append(...cards);
+    box.append(evidenceSection);
+  }
+
+  const resolution = result.resolution || {};
+  const limits = storySection("Limits and next evidence");
+  const limitList = [];
+  if (result.confidence_note) limitList.push(result.confidence_note);
+  if (resolution.safety_note) limitList.push(resolution.safety_note);
+  if (resolution.recommended_action) limitList.push(`Next: ${resolution.recommended_action}`);
+  for (const needed of resolution.missing_evidence || []) limitList.push(`Needed: ${needed}`);
+  if (!limitList.length) limitList.push("This presentation reflects stored evidence and the final verdict; it is not an independent real-world verification.");
+  for (const note of limitList.slice(0, 5)) limits.append(element("p", note, "limit-note"));
+  box.append(limits);
+}
+
+function renderInvestigationBrief(result) {
+  const box = $("actionbrief");
+  const executed = Boolean(result.executed);
+  $("actionmode").textContent = executed ? "Persistent action recorded" : "Preview is read only";
+  box.replaceChildren();
+  const brief = element("section", undefined, `action-brief action-brief--${executed ? "executed" : "preview"}`);
+  const badge = element("span", executed ? "Written to graph" : "No write performed", "badge");
+  badge.style.color = executed ? "var(--signal)" : "var(--blue)";
+  brief.append(badge, element("h3", executed ? "Investigation saved" : "Investigation preview"), element("p", result.explanation || "No action was taken."));
+  const metrics = element("div", undefined, "story-metrics");
+  metrics.append(metric("Priority", result.priority || "—"), metric("Exposure", `${(result.affected_entity_ids || []).length} components`), metric("Supporting claims", (result.supporting_claim_ids || []).length), metric("Review tasks", (result.review_task_ids || []).length || (executed ? "Created" : "Pending authorization")));
+  brief.append(metrics);
+  const trace = storySection("Tool execution", `${(result.trace || []).length} steps`);
+  const list = element("ol", undefined, "trace-list");
+  (result.trace || []).forEach((step, index) => {
+    const row = element("li", undefined, "trace-step");
+    const copy = element("div");
+    copy.append(element("strong", step.tool.replaceAll("_", " ")), element("p", step.read_only ? "Read-only inspection" : "Authorized persistent write"));
+    row.append(element("span", String(index + 1), "trace-index"), copy);
+    list.append(row);
+  });
+  if (!(result.trace || []).length) list.append(element("li", "No tool steps were completed.", "trace-step"));
+  trace.append(list);
+  brief.append(trace);
+  if (!executed) brief.append(element("p", "Preview output is not saved. Persistence requires the authorization checkbox and the explicit execute control.", "limit-note"));
+  box.append(brief);
+}
+
 $("query").onclick = () => busy("query", "querystatus", async () => {
   const result = await api("/api/relationships", {
     subject: $("subject").value, object: $("object").value, predicate: $("predicate").value,
     as_of: $("timeline").value || null, allow_hypothesis: $("hypothesis").checked,
   });
   show("answerjson", result);
-  const box = $("answer");
-  box.hidden = false;
-  box.replaceChildren();
-  const badge = element("span", result.status, "result-status");
-  badge.style.color = result.status === "CONTRADICTED" || result.status === "SOURCE_NEGATED" ? "var(--red)"
-    : result.status === "UNKNOWN" || result.status === "HYPOTHESIS" ? "var(--amber)" : "var(--signal)";
-  box.append(badge, element("p", result.explanation));
-  if (result.resolution) {
-    for (const needed of result.resolution.missing_evidence || []) box.append(element("p", `Needed: ${needed}`, "small"));
-  }
+  await renderVerdict(result);
   queryHighlights = new Set((result.evidence || []).map((item) => item.claim.id));
   render(false);
   return "Conclusion labelled; supporting graph paths highlighted";
@@ -533,8 +670,7 @@ async function investigate(execute) {
     target: $("target").value, idempotency_key: caseKey, authorise_action: execute, as_of: $("timeline").value || null,
   });
   show("action", result);
-  $("actionbrief").textContent = result.executed ? `Saved investigation ${result.id} · ${result.priority} priority`
-    : result.priority ? `Preview · ${result.affected_entity_ids.length} exposed components · ${result.priority} priority` : result.explanation;
+  renderInvestigationBrief(result);
   if (execute && result.executed) await refresh();
   return result.executed ? "Persistent investigation and review tasks stored" : "Preview complete; no new action created";
 }

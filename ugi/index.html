@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#0a0414">
   <title>UGI — Spatial evidence operations</title>
-  <link rel="stylesheet" href="/assets/style.css?v=ui-004">
-  <script defer src="/assets/app.js?v=ui-004"></script>
+  <link rel="stylesheet" href="/assets/style.css?v=ui-005">
+  <script defer src="/assets/app.js?v=ui-005"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -113,7 +113,7 @@
         </section>
 
         <aside class="stack">
-          <section class="panel">
+          <section class="panel panel--inspector">
             <div class="panelhead"><div><p class="panel-kicker">Traceability</p><h2>Source inspector</h2></div><span id="inspectkind" class="badge">Select a record</span></div>
             <div class="body" id="inspector"><p>Every supported claim links back to an exact source passage. A shared graph connection does not create a new fact.</p></div>
           </section>
@@ -127,11 +127,11 @@
       <div class="operations-grid">
         <section class="panel">
           <div class="panelhead"><div><p class="panel-kicker">Read only</p><h2>Evaluate a connection</h2></div><span class="badge">Evidence before inference</span></div>
-          <div class="body"><div class="form"><div class="query-row"><label>Subject<input id="subject" value="Checkout" placeholder="Subject or exact ID" aria-label="Subject"></label><label>Predicate<input id="predicate" value="TRANSITIVELY_DEPENDS_ON" placeholder="Predicate" aria-label="Predicate"></label><label>Object<input id="object" value="Cache" placeholder="Object or exact ID" aria-label="Object"></label></div><label class="check"><input id="hypothesis" type="checkbox">Allow a separately stored risk hypothesis</label><button id="query">Evaluate evidence</button></div><div class="status" id="querystatus" role="status"></div><div id="answer" class="answer" hidden></div><details><summary>Evidence paths and rule trace</summary><pre id="answerjson"></pre></details></div>
+          <div class="body"><div class="form"><div class="query-row"><label>Subject<input id="subject" value="Checkout" placeholder="Subject or exact ID" aria-label="Subject"></label><label>Predicate<input id="predicate" value="TRANSITIVELY_DEPENDS_ON" placeholder="Predicate" aria-label="Predicate"></label><label>Object<input id="object" value="Cache" placeholder="Object or exact ID" aria-label="Object"></label></div><label class="check"><input id="hypothesis" type="checkbox">Allow a separately stored risk hypothesis</label><button id="query">Evaluate evidence</button></div><div class="status" id="querystatus" role="status"></div><div id="answer" class="answer" hidden aria-live="polite"></div><details><summary>Raw evidence paths and rule trace</summary><pre id="answerjson"></pre></details></div>
         </section>
         <section class="panel panel--action">
-          <div class="panelhead"><div><p class="panel-kicker">Controlled write</p><h2>Investigate and act</h2></div><span class="badge">Bounded graph policy</span></div>
-          <div class="body"><p class="small">Trace incoming dependencies, inspect conflicts, then create a reviewable case. Exposure is risk, not confirmed causation.</p><div class="form intro"><label>Investigation target<input id="target" value="Cache" aria-label="Investigation target"></label><button id="preview">Preview investigation</button><label class="check"><input id="authorise" type="checkbox">I authorize creating this persistent local investigation and review tasks</label><button id="execute" class="primary">Execute authorized action</button></div><div class="status" id="actionstatus" role="status"></div><div id="actionbrief"></div><details><summary>Actual tool execution trace</summary><pre id="action"></pre></details></div>
+          <div class="panelhead"><div><p class="panel-kicker">Controlled write</p><h2>Investigate and act</h2></div><span class="badge" id="actionmode">Preview is read only</span></div>
+          <div class="body"><p class="small">Trace incoming dependencies, inspect conflicts, then create a reviewable case. Exposure is risk, not confirmed causation.</p><div class="form intro"><label>Investigation target<input id="target" value="Cache" aria-label="Investigation target"></label><button id="preview">Preview investigation</button><label class="check"><input id="authorise" type="checkbox">I authorize creating this persistent local investigation and review tasks</label><button id="execute" class="primary">Execute authorized action</button></div><div class="status" id="actionstatus" role="status"></div><div id="actionbrief" aria-live="polite"></div><details><summary>Actual tool execution trace</summary><pre id="action"></pre></details></div>
         </section>
       </div>
 

@@ -93,12 +93,14 @@ runtime dependency is introduced.
 
 ## UI-005 — Investigation storytelling and provenance
 
-**Status:** Queued
+**Status:** Complete
 **Priority:** P1  
 **Depends on:** UI-004
 
 Make the source inspector, relationship verdict, action preview, saved cases,
-and review queue presentation-ready for a live walkthrough.
+and review queue presentation-ready for a live walkthrough. Lead with one
+consistent completed verdict, then make its trace, source evidence, and limits
+inspectable without changing what the graph asserts.
 
 **Acceptance criteria:**
 
