@@ -5,6 +5,8 @@ October16,2026, after D commit9c319ea2770174747386fc31a054bc0bb9997b5e and
 This extends the working converter; it is not a replacement engine or a claim
 that every component below is implemented. Code and synthetic tests, not diagrams,
 determine capability. No paid model or imported project1 code is required.
+Foundation checkpoint1b4a549f6ce5ab6383e08b99a8ace0b98aa94a97 has
+[verified hosted CI](https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38832961856).
 
 ## 1. Existing versus new
 
@@ -224,3 +226,9 @@ namespaces, append-log retention and tested invalidation workers. Opt-in ledger
 overhead is measured separately; D's six fresh-chain results are **ledger off**.
 No million-record capacity, arbitrary mixed-upsert scaling or general natural
 language identity accuracy is claimed.
+
+Actual dependency plan check: `MATCH (m:Record) WHERE m.id IN $ids ... WITH m`
+anchors the bounded reverse traversal on the existing Record.id index. The real
+integration test asserts GRAPH.EXPLAIN contains Index Scan. The earlier correlated
+UNWIND form did not expose that plan; no timing/scalability gain is claimed from
+this small hardening alone.

@@ -1,0 +1,313 @@
+{
+  "recorded_at": "2026-10-16T01:05:39.244460+00:00",
+  "backend": "falkordb",
+  "graph": "ugi_event_facde85c94069fbe10484d7b",
+  "dataset": "showcase-e-identity",
+  "data_provenance": "Synthetic CC0 controlled demonstration, not entity-linking accuracy",
+  "model_calls": 0,
+  "cloud_api_charge_usd": 0,
+  "renamed_typed_id_card_versions": 2,
+  "before": [
+    {
+      "mention": {
+        "id": "987b296a023638f1b8c47cd5531031262bf812fc8f93e0593732e6ec974f5e51",
+        "kind": "MentionSnapshot",
+        "mention_id": "6d0f9b79b5a441e5810b417adebbda432567c5d38f905b611871d9b284dde71b",
+        "entity_id": "26e0ed0773f154ca97042711cde1d32db8b264a7c9504ae31166494f3442392c",
+        "text": "Rahul Sharma",
+        "entity_type": "Person",
+        "external_id": "synthetic:person:1",
+        "source_id": "b4e60573b7648989490c4fc6bfbfafeca8c666eb56bf68f817b8607df4a20f3f",
+        "chunk_id": "1aac4196ff8c8d9cb80e0ce9e3f2544bbb309dbbdb003493de1bf24a51292702",
+        "dependent_record_id": "46ebcf1b73405ae46c13f4eb7dd9199abdcc44245b3110aba24c1d260fd1ca41",
+        "role": null,
+        "location": {
+          "json_pointer": "/0",
+          "offset": 0
+        },
+        "recorded_at": "2026-10-16T00:58:39.607051+00:00",
+        "identity_basis": "source_supplied_typed_id",
+        "calibrated": false
+      },
+      "revision_id": "90553029c414d22f35cdf33e327a1a369f7f0ec92787f507f2ceea86fe2005ca",
+      "cluster_id": "26e0ed0773f154ca97042711cde1d32db8b264a7c9504ae31166494f3442392c",
+      "status": "provisional",
+      "eligible_for_inference": false,
+      "calibrated": false
+    },
+    {
+      "mention": {
+        "id": "ae114e8be801d578be685e038553a365f214fe1f5ea9ca8a2aa6122804620304",
+        "kind": "MentionSnapshot",
+        "mention_id": "362882a5d884d3774b1667af390d6e0c2024e0c5faa64bcaeab09c65a7acbfe2",
+        "entity_id": "86a8b849f08532e6de1aad65b0d3d25f7bf8d04522e03084b8936f68986b43c4",
+        "text": "Rahul Sharma",
+        "entity_type": "Person",
+        "external_id": "synthetic:person:2",
+        "source_id": "b4e60573b7648989490c4fc6bfbfafeca8c666eb56bf68f817b8607df4a20f3f",
+        "chunk_id": "88e64f0fa4db0b3195210c4f8ef04dc59755d738acbaaf2f3eb6582534a0beaa",
+        "dependent_record_id": "814a203b756a3c3613d7586fadbb3cdeb8d64c6fadbbfbc8fa4fbdef33533ba9",
+        "role": null,
+        "location": {
+          "json_pointer": "/1",
+          "offset": 0
+        },
+        "recorded_at": "2026-10-16T00:58:39.607051+00:00",
+        "identity_basis": "source_supplied_typed_id",
+        "calibrated": false
+      },
+      "revision_id": "90553029c414d22f35cdf33e327a1a369f7f0ec92787f507f2ceea86fe2005ca",
+      "cluster_id": "86a8b849f08532e6de1aad65b0d3d25f7bf8d04522e03084b8936f68986b43c4",
+      "status": "provisional",
+      "eligible_for_inference": false,
+      "calibrated": false
+    }
+  ],
+  "provisional_merge": {
+    "id": "05be11857973be05380faa6f0b5ce30c150bfc2e94e12fbd94991430e245fe6e",
+    "kind": "IdentityRevision",
+    "request_hash": "fd332f15d352448f605456d06b4edbe0724789a9aa0e850b552dcc6553f2e308",
+    "operation": "provisional_merge",
+    "reverts_id": null,
+    "changes": [
+      {
+        "mention_snapshot_id": "987b296a023638f1b8c47cd5531031262bf812fc8f93e0593732e6ec974f5e51",
+        "previous_revision_id": "90553029c414d22f35cdf33e327a1a369f7f0ec92787f507f2ceea86fe2005ca",
+        "old_cluster_id": "26e0ed0773f154ca97042711cde1d32db8b264a7c9504ae31166494f3442392c",
+        "new_cluster_id": "5b5735bc42f39fa5d4f4d02c78e28b37a270e767ba08345c3ac33a6e342d92c1"
+      },
+      {
+        "mention_snapshot_id": "ae114e8be801d578be685e038553a365f214fe1f5ea9ca8a2aa6122804620304",
+        "previous_revision_id": "90553029c414d22f35cdf33e327a1a369f7f0ec92787f507f2ceea86fe2005ca",
+        "old_cluster_id": "86a8b849f08532e6de1aad65b0d3d25f7bf8d04522e03084b8936f68986b43c4",
+        "new_cluster_id": "5b5735bc42f39fa5d4f4d02c78e28b37a270e767ba08345c3ac33a6e342d92c1"
+      }
+    ],
+    "reason": "Deliberately mistaken provisional union for reversible-history demonstration only",
+    "actor": "synthetic_demo",
+    "algorithm": "identity-ledger-v1",
+    "recorded_at": "2026-10-16T01:05:39.191304+00:00",
+    "status": "provisional",
+    "eligible_for_inference": false,
+    "calibrated": false,
+    "source_ids": [
+      "b4e60573b7648989490c4fc6bfbfafeca8c666eb56bf68f817b8607df4a20f3f"
+    ],
+    "identifier_conflict": true,
+    "affected_record_ids": [
+      "46ebcf1b73405ae46c13f4eb7dd9199abdcc44245b3110aba24c1d260fd1ca41",
+      "814a203b756a3c3613d7586fadbb3cdeb8d64c6fadbbfbc8fa4fbdef33533ba9"
+    ],
+    "affected_artifact_ids": [
+      "7b575c240dad0a74c9955df443d58e1c8793dbb9855df560748861343b847781",
+      "ae713a6c46d70522ed3b3bce6f4e9fb9ba832cbc0ddee798f62a244c767ebaf7"
+    ]
+  },
+  "merged": [
+    {
+      "mention": {
+        "id": "987b296a023638f1b8c47cd5531031262bf812fc8f93e0593732e6ec974f5e51",
+        "kind": "MentionSnapshot",
+        "mention_id": "6d0f9b79b5a441e5810b417adebbda432567c5d38f905b611871d9b284dde71b",
+        "entity_id": "26e0ed0773f154ca97042711cde1d32db8b264a7c9504ae31166494f3442392c",
+        "text": "Rahul Sharma",
+        "entity_type": "Person",
+        "external_id": "synthetic:person:1",
+        "source_id": "b4e60573b7648989490c4fc6bfbfafeca8c666eb56bf68f817b8607df4a20f3f",
+        "chunk_id": "1aac4196ff8c8d9cb80e0ce9e3f2544bbb309dbbdb003493de1bf24a51292702",
+        "dependent_record_id": "46ebcf1b73405ae46c13f4eb7dd9199abdcc44245b3110aba24c1d260fd1ca41",
+        "role": null,
+        "location": {
+          "json_pointer": "/0",
+          "offset": 0
+        },
+        "recorded_at": "2026-10-16T00:58:39.607051+00:00",
+        "identity_basis": "source_supplied_typed_id",
+        "calibrated": false
+      },
+      "revision_id": "05be11857973be05380faa6f0b5ce30c150bfc2e94e12fbd94991430e245fe6e",
+      "cluster_id": "5b5735bc42f39fa5d4f4d02c78e28b37a270e767ba08345c3ac33a6e342d92c1",
+      "status": "provisional",
+      "eligible_for_inference": false,
+      "calibrated": false
+    },
+    {
+      "mention": {
+        "id": "ae114e8be801d578be685e038553a365f214fe1f5ea9ca8a2aa6122804620304",
+        "kind": "MentionSnapshot",
+        "mention_id": "362882a5d884d3774b1667af390d6e0c2024e0c5faa64bcaeab09c65a7acbfe2",
+        "entity_id": "86a8b849f08532e6de1aad65b0d3d25f7bf8d04522e03084b8936f68986b43c4",
+        "text": "Rahul Sharma",
+        "entity_type": "Person",
+        "external_id": "synthetic:person:2",
+        "source_id": "b4e60573b7648989490c4fc6bfbfafeca8c666eb56bf68f817b8607df4a20f3f",
+        "chunk_id": "88e64f0fa4db0b3195210c4f8ef04dc59755d738acbaaf2f3eb6582534a0beaa",
+        "dependent_record_id": "814a203b756a3c3613d7586fadbb3cdeb8d64c6fadbbfbc8fa4fbdef33533ba9",
+        "role": null,
+        "location": {
+          "json_pointer": "/1",
+          "offset": 0
+        },
+        "recorded_at": "2026-10-16T00:58:39.607051+00:00",
+        "identity_basis": "source_supplied_typed_id",
+        "calibrated": false
+      },
+      "revision_id": "05be11857973be05380faa6f0b5ce30c150bfc2e94e12fbd94991430e245fe6e",
+      "cluster_id": "5b5735bc42f39fa5d4f4d02c78e28b37a270e767ba08345c3ac33a6e342d92c1",
+      "status": "provisional",
+      "eligible_for_inference": false,
+      "calibrated": false
+    }
+  ],
+  "undo": {
+    "id": "c1470fe8e224b09b006b92bc719caf543971a8a1f47a0d52a58a7edeea25ed36",
+    "kind": "IdentityRevision",
+    "request_hash": "baceff19611ed8ef249a1d0a17c9e5a401409718ada492fc19c514cc49363527",
+    "operation": "revert",
+    "reverts_id": "05be11857973be05380faa6f0b5ce30c150bfc2e94e12fbd94991430e245fe6e",
+    "changes": [
+      {
+        "mention_snapshot_id": "987b296a023638f1b8c47cd5531031262bf812fc8f93e0593732e6ec974f5e51",
+        "previous_revision_id": "05be11857973be05380faa6f0b5ce30c150bfc2e94e12fbd94991430e245fe6e",
+        "old_cluster_id": "5b5735bc42f39fa5d4f4d02c78e28b37a270e767ba08345c3ac33a6e342d92c1",
+        "new_cluster_id": "26e0ed0773f154ca97042711cde1d32db8b264a7c9504ae31166494f3442392c"
+      },
+      {
+        "mention_snapshot_id": "ae114e8be801d578be685e038553a365f214fe1f5ea9ca8a2aa6122804620304",
+        "previous_revision_id": "05be11857973be05380faa6f0b5ce30c150bfc2e94e12fbd94991430e245fe6e",
+        "old_cluster_id": "5b5735bc42f39fa5d4f4d02c78e28b37a270e767ba08345c3ac33a6e342d92c1",
+        "new_cluster_id": "86a8b849f08532e6de1aad65b0d3d25f7bf8d04522e03084b8936f68986b43c4"
+      }
+    ],
+    "reason": "Undo deliberately mistaken provisional demo union; preserve all sources",
+    "actor": "synthetic_demo",
+    "algorithm": "identity-ledger-v1",
+    "recorded_at": "2026-10-16T01:05:39.221353+00:00",
+    "status": "provisional",
+    "eligible_for_inference": false,
+    "calibrated": false,
+    "source_ids": [
+      "b4e60573b7648989490c4fc6bfbfafeca8c666eb56bf68f817b8607df4a20f3f"
+    ],
+    "identifier_conflict": true,
+    "affected_record_ids": [
+      "46ebcf1b73405ae46c13f4eb7dd9199abdcc44245b3110aba24c1d260fd1ca41",
+      "814a203b756a3c3613d7586fadbb3cdeb8d64c6fadbbfbc8fa4fbdef33533ba9"
+    ],
+    "affected_artifact_ids": [
+      "7b575c240dad0a74c9955df443d58e1c8793dbb9855df560748861343b847781",
+      "ae713a6c46d70522ed3b3bce6f4e9fb9ba832cbc0ddee798f62a244c767ebaf7"
+    ]
+  },
+  "restored": [
+    {
+      "mention": {
+        "id": "987b296a023638f1b8c47cd5531031262bf812fc8f93e0593732e6ec974f5e51",
+        "kind": "MentionSnapshot",
+        "mention_id": "6d0f9b79b5a441e5810b417adebbda432567c5d38f905b611871d9b284dde71b",
+        "entity_id": "26e0ed0773f154ca97042711cde1d32db8b264a7c9504ae31166494f3442392c",
+        "text": "Rahul Sharma",
+        "entity_type": "Person",
+        "external_id": "synthetic:person:1",
+        "source_id": "b4e60573b7648989490c4fc6bfbfafeca8c666eb56bf68f817b8607df4a20f3f",
+        "chunk_id": "1aac4196ff8c8d9cb80e0ce9e3f2544bbb309dbbdb003493de1bf24a51292702",
+        "dependent_record_id": "46ebcf1b73405ae46c13f4eb7dd9199abdcc44245b3110aba24c1d260fd1ca41",
+        "role": null,
+        "location": {
+          "json_pointer": "/0",
+          "offset": 0
+        },
+        "recorded_at": "2026-10-16T00:58:39.607051+00:00",
+        "identity_basis": "source_supplied_typed_id",
+        "calibrated": false
+      },
+      "revision_id": "c1470fe8e224b09b006b92bc719caf543971a8a1f47a0d52a58a7edeea25ed36",
+      "cluster_id": "26e0ed0773f154ca97042711cde1d32db8b264a7c9504ae31166494f3442392c",
+      "status": "provisional",
+      "eligible_for_inference": false,
+      "calibrated": false
+    },
+    {
+      "mention": {
+        "id": "ae114e8be801d578be685e038553a365f214fe1f5ea9ca8a2aa6122804620304",
+        "kind": "MentionSnapshot",
+        "mention_id": "362882a5d884d3774b1667af390d6e0c2024e0c5faa64bcaeab09c65a7acbfe2",
+        "entity_id": "86a8b849f08532e6de1aad65b0d3d25f7bf8d04522e03084b8936f68986b43c4",
+        "text": "Rahul Sharma",
+        "entity_type": "Person",
+        "external_id": "synthetic:person:2",
+        "source_id": "b4e60573b7648989490c4fc6bfbfafeca8c666eb56bf68f817b8607df4a20f3f",
+        "chunk_id": "88e64f0fa4db0b3195210c4f8ef04dc59755d738acbaaf2f3eb6582534a0beaa",
+        "dependent_record_id": "814a203b756a3c3613d7586fadbb3cdeb8d64c6fadbbfbc8fa4fbdef33533ba9",
+        "role": null,
+        "location": {
+          "json_pointer": "/1",
+          "offset": 0
+        },
+        "recorded_at": "2026-10-16T00:58:39.607051+00:00",
+        "identity_basis": "source_supplied_typed_id",
+        "calibrated": false
+      },
+      "revision_id": "c1470fe8e224b09b006b92bc719caf543971a8a1f47a0d52a58a7edeea25ed36",
+      "cluster_id": "86a8b849f08532e6de1aad65b0d3d25f7bf8d04522e03084b8936f68986b43c4",
+      "status": "provisional",
+      "eligible_for_inference": false,
+      "calibrated": false
+    }
+  ],
+  "artifact_freshness": {
+    "artifact": {
+      "id": "ae713a6c46d70522ed3b3bce6f4e9fb9ba832cbc0ddee798f62a244c767ebaf7",
+      "kind": "DerivedArtifact",
+      "request_hash": "9aea317d2ac13a1aa0ef508140505613524e7c3983e34ef09e5691970fb16624",
+      "output": "Synthetic unverified plan consuming two distinct identity assignments",
+      "recorded_at": "2026-10-16T01:05:39.172439+00:00",
+      "identity_inputs": [
+        {
+          "mention_snapshot_id": "987b296a023638f1b8c47cd5531031262bf812fc8f93e0593732e6ec974f5e51",
+          "revision_id": "90553029c414d22f35cdf33e327a1a369f7f0ec92787f507f2ceea86fe2005ca"
+        },
+        {
+          "mention_snapshot_id": "ae114e8be801d578be685e038553a365f214fe1f5ea9ca8a2aa6122804620304",
+          "revision_id": "90553029c414d22f35cdf33e327a1a369f7f0ec92787f507f2ceea86fe2005ca"
+        }
+      ],
+      "status": "unverified_output",
+      "eligible_for_inference": false
+    },
+    "state": "stale",
+    "changed_mention_snapshot_ids": [
+      "987b296a023638f1b8c47cd5531031262bf812fc8f93e0593732e6ec974f5e51",
+      "ae114e8be801d578be685e038553a365f214fe1f5ea9ca8a2aa6122804620304"
+    ],
+    "independently_verified": false
+  },
+  "unrelated_freshness": {
+    "artifact": {
+      "id": "ffbdd820f241ed70de522711f4a78969b05304df6787f13d68847e98870c8713",
+      "kind": "DerivedArtifact",
+      "request_hash": "88abbbac48e691830fc1dc9a14538e3e3e0100718c3193b53709603ebd1ffe82",
+      "output": "Unrelated synthetic output",
+      "recorded_at": "2026-10-16T01:05:39.179802+00:00",
+      "identity_inputs": [
+        {
+          "mention_snapshot_id": "38ef0f84f8dc596687e808df38ec7a22ce501923f6df8d869dbc76d0fc38526e",
+          "revision_id": "dd3618841f449cef87fd8fd9aedfaf1acb55a63f5d4bd59dd515e7cc02b54744"
+        }
+      ],
+      "status": "unverified_output",
+      "eligible_for_inference": false
+    },
+    "state": "current_inputs_only",
+    "changed_mention_snapshot_ids": [],
+    "independently_verified": false
+  },
+  "sample_card_versions": 2,
+  "reconnect_equal": true,
+  "limitations": [
+    "Explicitly authorized simulated wrong merge, not automatic mistake detection",
+    "Projection never rewires or participates in definitive Claim inference",
+    "Stale notices do not perform semantic re-evaluation",
+    "Opt-in ledger, bounded200 mentions/upload and per card; no legacy backfill"
+  ]
+}

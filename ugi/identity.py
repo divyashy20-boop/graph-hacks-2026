@@ -14,6 +14,11 @@ MAX_MENTIONS = 200
 MAX_HISTORY = 200
 MAX_DEPENDENTS = 200
 RecordID = Annotated[str, Field(min_length=1, max_length=160)]
+DEPENDENCY_QUERY = (
+    "MATCH (m:Record) WHERE m.id IN $ids AND m.kind='MentionSnapshot' "
+    "WITH m MATCH (a:DerivedArtifact)-[:USES_IDENTITY]->(m) "
+    "RETURN DISTINCT a.id LIMIT 201"
+)
 
 
 class IdentityChange(Strict):
@@ -164,10 +169,7 @@ class IdentityLedger:
 
     def _dependent_artifacts(self, snapshot_ids):
         if self.store.client:
-            rows = self.store.query(
-                "UNWIND $ids AS wanted MATCH (a:DerivedArtifact)-[:USES_IDENTITY]->"
-                "(:MentionSnapshot {id:wanted}) RETURN DISTINCT a.id LIMIT 201",
-                {"ids": snapshot_ids})
+            rows = self.store.query(DEPENDENCY_QUERY, {"ids": snapshot_ids})
             result = {row[0] for row in rows}
         else:
             result = {a for a, b, rel, *_ in self.store.links

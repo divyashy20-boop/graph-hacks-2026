@@ -10,9 +10,9 @@ from fastapi.testclient import TestClient
 
 from ugi.api import create_app
 from ugi.engine import Engine
-from ugi.identity import ArtifactRequest, IdentityChange, IdentityLedger
+from ugi.identity import DEPENDENCY_QUERY, ArtifactRequest, IdentityChange, IdentityLedger
 from ugi.models import RelationQuery, Settings, uid
-from ugi.store import IMMUTABLE_KINDS, Store
+from ugi.store import IMMUTABLE_KINDS, Store, literal
 
 
 def row(name="Rahul Sharma", external_id=None, **kwargs):
@@ -260,6 +260,10 @@ def test_real_identity_reversal_freshness_reconnect_and_isolation():
     isolated = Store(store.settings, dataset="isolated")
     try:
         revision, undo, artifact = check_reversal_and_freshness(store)
+        mids = [m["id"] for m in snapshots(store)]
+        plan = store.client.execute_command("GRAPH.EXPLAIN", store.graph,
+                                            "CYPHER ids="+literal(mids)+" "+DEPENDENCY_QUERY)
+        assert any("index scan" in line.lower() for line in plan), plan
         reader = Store(store.settings)
         assert reader.get(revision["id"]) == revision and reader.get(undo["id"]) == undo
         assert IdentityLedger(reader).freshness(artifact["id"])["state"] == "stale"
@@ -292,6 +296,14 @@ def test_real_cards_preserve_binary_and_nary_mentions_across_sources():
         assert reader.query("MATCH ()-[r:HAS_PARTICIPANT]->() RETURN count(r)")[0][0] > 12
         assert all(reader.get(m["mention_id"]) and reader.get(m["dependent_record_id"])
                    for m in reader.list("MentionSnapshot"))
+        whole = reader.events()[0]
+        evidence = reader.get(whole["evidence_id"])
+        mid = next(m["id"] for m in reader.list("MentionSnapshot")
+                   if m["dependent_record_id"] == whole["id"])
+        revision = IdentityLedger(reader).revise(change("split", [mid]), "test")
+        assert revision["affected_record_ids"] == [whole["id"]]
+        assert reader.get(whole["id"]) == whole  # Every role/qualifier retained, not just counts.
+        assert reader.get(whole["evidence_id"]) == evidence
     finally:
         assert store.graph.startswith(store.settings.graph_prefix+"_")
         store.client.execute_command("GRAPH.DELETE", store.graph)

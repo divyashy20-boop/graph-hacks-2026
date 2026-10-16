@@ -32,7 +32,7 @@ docker compose up -d --build --wait api
 ```
 
 Default is false. Prototype caps:200 mentions/upload and per entity card,
-200 history versions,100 mentions/revision,200 dependent artifacts/revision.
+200 history versions,100 mentions/manual revision,200 dependent artifacts/revision.
 Excess rejects atomically; this is not a million-record identity engine.
 On the actual100-row chain, ledger off/on observed431/661ms ingest and602/1305
 exact records, with400 unchanged core edges. Single observations, not p95.

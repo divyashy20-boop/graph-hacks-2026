@@ -339,6 +339,11 @@ Key implementation constraints: FalkorDB remains required for production/demo pe
   e_identity_final.json. Whole n-ary events and original binary evidence preserved.
 - [x] Rebuilt packaged API; exact payload/edge hashes of all four synthetic demo
   datasets unchanged across actual Docker graph/API restart (e_restart.json).
+- [x] E foundation1b4a549f6ce5ab6383e08b99a8ace0b98aa94a97 pushed; actual CI
+  https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38832961856 passed.
+  Then tightened reverse dependency lookup to Record.id IN +reverse edges: actual
+  plan contains Index Scan, unlike the earlier UNWIND plan. Real event revision
+  test now asserts the full event/evidence payload is unchanged. No new inference.
 - [ ] Domain packs/open predicate registry, autonomous wrong-merge detection,
   trusted identity namespace calibration and semantic invalidation worker remain
   deferred. This is the explicitly permitted ledger/projection-first increment,

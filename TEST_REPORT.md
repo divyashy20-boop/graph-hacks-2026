@@ -42,6 +42,15 @@ rules, automatic re-evaluation worker, independent language/identity annotation,
 large mixed updates and production certification. Ledger writes default off;
 provisional projection never rewires facts or silently joins definitive inference.
 
+E foundation delivered as **1b4a549f6ce5ab6383e08b99a8ace0b98aa94a97**;
+[its actual hosted CI passed](https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38832961856).
+Subsequent narrow hardening anchors reverse dependency lookup on indexed Record.id;
+actual GRAPH.EXPLAIN must contain Index Scan in the real test. The earlier
+correlated UNWIND plan did not display an index scan; no performance guarantee
+was inferred from syntax. A real whole-event split now checks every unchanged
+event/evidence payload plus targeted dependent ID. Counts remain209; final
+hardening commit/CI is verified separately in the handoff.
+
 ## Milestone D increment 2 — October 16, 2026
 
 **191 passed:181 non-integration +10 actual FalkorDB; zero failed/skipped.**
