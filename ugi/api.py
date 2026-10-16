@@ -3,7 +3,7 @@ from __future__ import annotations
 import secrets
 from functools import lru_cache
 from pathlib import Path
-from threading import BoundedSemaphore
+from threading import BoundedSemaphore, RLock
 
 from fastapi import Depends, FastAPI, File, Header, HTTPException, Query, UploadFile
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
@@ -21,10 +21,33 @@ def create_app(settings=None):
     settings = settings or Settings()
     app = FastAPI(title="Universal Graph Intelligence", version="1.0.0")
     ingestion_slots = BoundedSemaphore(2)
+    demo_seed_lock = RLock()
+    demo_sources = {
+        "showcase-b-incident": ("incident.json",),
+        "showcase-b-supply": ("supply_network.json",),
+        "showcase-b-research": ("research_network.json", "research_identity.json"),
+    }
 
     @lru_cache(maxsize=64)
     def store_for(owner, dataset):
         return Store(settings, owner, dataset)
+
+    def seed_memory_demo(store, dataset):
+        """Populate only the selected synthetic showcase in local memory mode.
+
+        In-memory stores live inside the API process, so the CLI seed command
+        cannot populate a separately started local server. This keeps the
+        demonstration selector truthful without affecting FalkorDB datasets.
+        """
+        if settings.backend != "memory" or dataset not in demo_sources or store.list("Source", 1):
+            return
+        with demo_seed_lock:
+            if store.list("Source", 1):
+                return
+            engine = Engine(store)
+            root = Path(__file__).parents[1] / "demo"
+            for filename in demo_sources[dataset]:
+                engine.ingest(filename, (root / filename).read_bytes())
 
     def context(
         x_api_key: str = Header(default=""),
@@ -39,6 +62,7 @@ def create_app(settings=None):
         else:
             owner = "local"
         store = store_for(owner, x_dataset)
+        seed_memory_demo(store, x_dataset)
         store.consume("http:" + owner + ":" + now()[:16], settings.requests_per_minute)
         return Engine(store)
 

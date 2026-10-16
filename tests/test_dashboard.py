@@ -24,6 +24,13 @@ def test_dashboard_assets_and_historical_view_are_real_backend_results():
     assert client.get("/api/graph?as_of=invalid").status_code == 422
 
 
+def test_memory_showcase_selection_populates_the_named_demo_dataset():
+    client = TestClient(create_app(Settings(backend="memory")))
+    graph = client.get("/api/graph", headers={"X-Dataset": "showcase-b-incident"}).json()
+    assert graph["counts"]["Entity"] > 0
+    assert graph["counts"]["Claim"] > 0
+
+
 @pytest.mark.parametrize("precision,point,inside,outside", [
     ("year", "2021-01-01", "2021-06-15", "2022-01-01"),
     ("month", "2021-06-01", "2021-06-15", "2021-07-01"),

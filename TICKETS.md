@@ -127,3 +127,23 @@ honestly at handoff.
   available.
 - No transient local build, browser-test, or visual-review artifact is staged.
 - README/demo material describes the UI capabilities and limitations honestly.
+
+## UI-007 — Editorial interface reset
+
+**Status:** Complete
+**Priority:** P0
+**Depends on:** UI-006
+
+Replace the over-styled spatial-tech treatment with a restrained evidence
+workspace: neutral surfaces, one warm operational accent, readable sans-serif
+utility text, and a composed header that does not compete with the graph.
+Memory-mode demonstration selection must also load the named synthetic dataset
+instead of presenting an empty graph.
+
+**Acceptance criteria:**
+
+- No Impact display treatment, neon-purple field, faux-terminal microtype, or
+  decorative 3D hero remains in the default UI.
+- The initial incident demonstration has visible source-backed graph data in
+  memory mode; production/FalkorDB behavior is unchanged.
+- The 2D and 3D evidence views retain their existing semantics and controls.
