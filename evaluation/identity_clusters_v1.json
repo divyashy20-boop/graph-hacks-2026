@@ -1,0 +1,12 @@
+{
+  "version":"f-cluster-logic-v1", "split":"development", "annotation_status":"ai_authored_provisional", "license":"CC0-1.0",
+  "scope":"Six deliberately assembled policy clusters, not independent wrong-merge accuracy",
+  "cases":[
+    {"id":"consistent-rename", "members":[{"fixture:registry":"one"},{"fixture:registry":"one"},{"fixture:registry":"one"}], "inconsistent":false, "partition":null},
+    {"id":"two-exclusive-identities", "members":[{"fixture:registry":"one"},{"fixture:registry":"two"}], "inconsistent":true, "partition":[[0],[1]]},
+    {"id":"ordinary-change-unresolved", "members":[{},{}], "inconsistent":false, "partition":null},
+    {"id":"abc-negative-cycle", "members":[{"fixture:legacy":"a","fixture:registry":"one"},{"fixture:legacy":"a","fixture:other":"b"},{"fixture:other":"b","fixture:registry":"two"}], "inconsistent":true, "partition":null},
+    {"id":"unknown-member", "members":[{"fixture:registry":"one"},{"fixture:registry":"two"},{}], "inconsistent":true, "partition":null},
+    {"id":"two-complete-subclusters", "members":[{"fixture:registry":"one"},{"fixture:registry":"one"},{"fixture:registry":"two"}], "inconsistent":true, "partition":[[0,1],[2]]}
+  ]
+}

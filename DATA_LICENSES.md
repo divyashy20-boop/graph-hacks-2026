@@ -1,5 +1,18 @@
 # Audit data attribution and reuse
 
+## Milestone F: T2D correspondence diagnostic
+
+Source: [WDC T2D Gold Standard](https://webdatacommons.org/webtables/goldstandard.html),
+entity correspondence archive `entities_instance.tar.gz`. The publisher describes
+these row-to-DBpedia mappings as manually generated and licenses the correspondences
+under Apache2.0. Web tables and the DBpedia dump have separate terms and are not
+downloaded/redistributed by this probe. Archive remains ignored/local; reports
+contain hashed row IDs, derived pair labels and measurements, not source surfaces
+or DBpedia URIs. Original archive SHA is pinned in the adapter/report. See
+MILESTONE_F_REPORT for attribution, sampling and limits; no publisher endorsement.
+Synthetic F pair/cluster fixtures and local demo sources are AI-authored CC0 policy
+tests, not annotations by T2D authors or independently human reviewed.
+
 Source material is not automatically covered by the repository code's licence.
 Preserve each case's source URL, title, locator, excerpt hash and licence fields.
 No source publisher endorses UGI. Labels added here are provisional AI work,

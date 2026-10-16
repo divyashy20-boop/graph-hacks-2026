@@ -17,10 +17,11 @@ KINDS = {
     "MentionSnapshot", "EntityCard", "EntityCardHead", "IdentityAssignment",
     "IdentityRevision", "DerivedArtifact", "KnowledgeRevision",
     "IdentityProfile", "IdentityPosting", "IdentityEvidence", "IdentityEvidenceHead", "IdentityAssessment",
+    "IdentityCluster", "IdentityRun",
 }
 IMMUTABLE_KINDS = {"Mention", "MentionSnapshot", "EntityCard", "IdentityRevision",
                    "DerivedArtifact", "KnowledgeRevision", "IdentityProfile", "IdentityPosting",
-                   "IdentityEvidence", "IdentityAssessment"}
+                   "IdentityEvidence", "IdentityAssessment", "IdentityCluster", "IdentityRun"}
 
 
 def literal(value):

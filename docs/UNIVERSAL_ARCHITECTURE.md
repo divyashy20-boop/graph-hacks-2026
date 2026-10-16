@@ -4,7 +4,17 @@ F increment1 adds an implemented bounded identity blocking/assessment layer;
 see MILESTONE_F_REPORT. Operator-authorized source evidence is separate from
 ordinary upload content. New F-mode initial projection anchors are distinct for
 untrusted IDs. No overlay joins definitive inference; general wrong-merge detection
-and domain-pack concepts below remain unimplemented at this checkpoint.
+and domain-pack concepts below were unimplemented at that checkpoint.
+
+F increment2 now implements manifest-checked indexed cluster audits, bounded
+negative constraints, default dry-run proposals and separately enabled automatic
+provisional merge/partition. Authority evidence is an operator/connector assertion,
+not external registry verification. Unknown/transitively conflicting/incomplete
+clusters abstain; source types alone do not authorize auto splits. Evidence,
+heads, immutable revisions and exact registered stale notices share one atomic
+write. Base facts/events are never rewired. See MILESTONE_F_REPORT for actual
+graph evidence, bounds, zero public positive recall and deferred optional packs.
+Older E sections below remain architectural history, superseded by this F note.
 
 October16,2026, after D commit9c319ea2770174747386fc31a054bc0bb9997b5e and
 [successful CI](https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38831854118).

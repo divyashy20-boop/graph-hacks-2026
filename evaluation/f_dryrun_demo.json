@@ -1,0 +1,134 @@
+{
+  "recorded_at": "2026-10-16T06:32:29.675811+00:00",
+  "backend": "falkordb",
+  "dataset": "showcase-f-dryrun",
+  "graph": "ugi_event_35aa4b3b07e403fd1d716f6a",
+  "data_provenance": "Synthetic CC0; deliberately bad legacy-namespace authority assertion, corrected by later exclusive evidence",
+  "authority_assumptions": "Connector assertions, not real registry lookups; identifiers present in original source, learned in later attestations",
+  "mode": "dry_run",
+  "policy_run": {
+    "id": "275aecfed203ff31596a0757b28b694e5f244654f6c32d2dabdafb82516eecdb",
+    "kind": "IdentityRun",
+    "algorithm": "identity-cluster-policy-v1",
+    "recorded_at": "2026-10-16T06:32:29.646635+00:00",
+    "snapshot_id": "be72b3ed482d8ff986d50dcce2bfff1e8f3a81dc2d581fd272acbbea3c4a48ae",
+    "inspected": {
+      "membership": {
+        "complete": true,
+        "cluster_id": "86841ad611df6fbb8b0bb6aec7b4693fbbd2ac1a12ec13cb1348dd52e8058fc3",
+        "member_ids": [
+          "9a3038035fa9525c7ed1de06c4d47df0d2e3ed1c042d46945c2e0f35ccc7d5c8",
+          "be72b3ed482d8ff986d50dcce2bfff1e8f3a81dc2d581fd272acbbea3c4a48ae"
+        ],
+        "reason": "Indexed heads checked against immutable membership universe"
+      },
+      "analysis": {
+        "state": "INCONSISTENT",
+        "conflicts": [
+          {
+            "left": "9a3038035fa9525c7ed1de06c4d47df0d2e3ed1c042d46945c2e0f35ccc7d5c8",
+            "right": "be72b3ed482d8ff986d50dcce2bfff1e8f3a81dc2d581fd272acbbea3c4a48ae",
+            "reason": "Conflicting policy-trusted exclusive namespace identifiers",
+            "features": {
+              "names_equal": true,
+              "shared_namespaces": [
+                "fixture:legacy"
+              ],
+              "conflicting_namespaces": [
+                "fixture:registry"
+              ],
+              "internally_ambiguous": false
+            }
+          }
+        ],
+        "internally_ambiguous": [],
+        "groups": [
+          [
+            "9a3038035fa9525c7ed1de06c4d47df0d2e3ed1c042d46945c2e0f35ccc7d5c8"
+          ],
+          [
+            "be72b3ed482d8ff986d50dcce2bfff1e8f3a81dc2d581fd272acbbea3c4a48ae"
+          ]
+        ],
+        "evidence_ids": [
+          "349d1d7679376e5db35c543ad3c967ca95828555e92567b0553ad4d7c4824b39",
+          "e4f556700d42874ad45484bcbeb0f028204c359ab3b7f577dc4d59a595b27604"
+        ],
+        "pair_checks": 1,
+        "eligible_for_inference": false,
+        "calibrated": false
+      }
+    },
+    "proposed_groups": [
+      [
+        "9a3038035fa9525c7ed1de06c4d47df0d2e3ed1c042d46945c2e0f35ccc7d5c8"
+      ],
+      [
+        "be72b3ed482d8ff986d50dcce2bfff1e8f3a81dc2d581fd272acbbea3c4a48ae"
+      ]
+    ],
+    "reason": "Whole-cluster exclusive identifier/type conflicts; complete disjoint partition",
+    "candidate_complete": true,
+    "pair_checks": 1,
+    "applied_revision_id": null,
+    "mode": "dry_run",
+    "eligible_for_inference": false
+  },
+  "final_cluster": {
+    "membership": {
+      "complete": true,
+      "cluster_id": "86841ad611df6fbb8b0bb6aec7b4693fbbd2ac1a12ec13cb1348dd52e8058fc3",
+      "member_ids": [
+        "9a3038035fa9525c7ed1de06c4d47df0d2e3ed1c042d46945c2e0f35ccc7d5c8",
+        "be72b3ed482d8ff986d50dcce2bfff1e8f3a81dc2d581fd272acbbea3c4a48ae"
+      ],
+      "reason": "Indexed heads checked against immutable membership universe"
+    },
+    "analysis": {
+      "state": "INCONSISTENT",
+      "conflicts": [
+        {
+          "left": "9a3038035fa9525c7ed1de06c4d47df0d2e3ed1c042d46945c2e0f35ccc7d5c8",
+          "right": "be72b3ed482d8ff986d50dcce2bfff1e8f3a81dc2d581fd272acbbea3c4a48ae",
+          "reason": "Conflicting policy-trusted exclusive namespace identifiers",
+          "features": {
+            "names_equal": true,
+            "shared_namespaces": [
+              "fixture:legacy"
+            ],
+            "conflicting_namespaces": [
+              "fixture:registry"
+            ],
+            "internally_ambiguous": false
+          }
+        }
+      ],
+      "internally_ambiguous": [],
+      "groups": [
+        [
+          "9a3038035fa9525c7ed1de06c4d47df0d2e3ed1c042d46945c2e0f35ccc7d5c8"
+        ],
+        [
+          "be72b3ed482d8ff986d50dcce2bfff1e8f3a81dc2d581fd272acbbea3c4a48ae"
+        ]
+      ],
+      "evidence_ids": [
+        "349d1d7679376e5db35c543ad3c967ca95828555e92567b0553ad4d7c4824b39",
+        "e4f556700d42874ad45484bcbeb0f028204c359ab3b7f577dc4d59a595b27604"
+      ],
+      "pair_checks": 1,
+      "eligible_for_inference": false,
+      "calibrated": false
+    }
+  },
+  "original_payloads_unchanged": 24,
+  "reconnect_equal": true,
+  "dependent_freshness": "current_inputs_only",
+  "unrelated_freshness": "current_inputs_only",
+  "model_calls": 0,
+  "limitations": [
+    "No independent real-world accuracy or external authority authentication",
+    "Only registered per-assignment dependencies are invalidated",
+    "Detection/staleness are not semantic re-evaluation"
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "recorded_at": "2026-10-16T06:32:30.180426+00:00",
+  "backend": "falkordb",
+  "dataset": "showcase-f-identity",
+  "graph": "ugi_event_7956f7731ece93a8b7c6a2c9",
+  "data_provenance": "Synthetic CC0; deliberately bad legacy-namespace authority assertion, corrected by later exclusive evidence",
+  "authority_assumptions": "Connector assertions, not real registry lookups; identifiers present in original source, learned in later attestations",
+  "mode": "apply",
+  "policy_run": {
+    "id": "fc06cd72d8f6eea442144d8cee48ba8dbf68daa5d314c619d001c02f37f95957",
+    "kind": "IdentityRun",
+    "algorithm": "identity-cluster-policy-v1",
+    "recorded_at": "2026-10-16T06:32:30.146169+00:00",
+    "snapshot_id": "806a1dbbc8c657d6a2fe76d7b0b6155e0dd0216ccc7f5e8ab534d41adac47d82",
+    "inspected": {
+      "membership": {
+        "complete": true,
+        "cluster_id": "d7a485ff7cfe452b9a7eaa5cd24ba522f86cfd9fc1eba83f883426e8c32c2bdf",
+        "member_ids": [
+          "806a1dbbc8c657d6a2fe76d7b0b6155e0dd0216ccc7f5e8ab534d41adac47d82",
+          "ca4572d83ded731d8e076591db55e3bd4c7c07bc61f2c9739078ff15fa4dd74d"
+        ],
+        "reason": "Indexed heads checked against immutable membership universe"
+      },
+      "analysis": {
+        "state": "INCONSISTENT",
+        "conflicts": [
+          {
+            "left": "806a1dbbc8c657d6a2fe76d7b0b6155e0dd0216ccc7f5e8ab534d41adac47d82",
+            "right": "ca4572d83ded731d8e076591db55e3bd4c7c07bc61f2c9739078ff15fa4dd74d",
+            "reason": "Conflicting policy-trusted exclusive namespace identifiers",
+            "features": {
+              "names_equal": true,
+              "shared_namespaces": [
+                "fixture:legacy"
+              ],
+              "conflicting_namespaces": [
+                "fixture:registry"
+              ],
+              "internally_ambiguous": false
+            }
+          }
+        ],
+        "internally_ambiguous": [],
+        "groups": [
+          [
+            "806a1dbbc8c657d6a2fe76d7b0b6155e0dd0216ccc7f5e8ab534d41adac47d82"
+          ],
+          [
+            "ca4572d83ded731d8e076591db55e3bd4c7c07bc61f2c9739078ff15fa4dd74d"
+          ]
+        ],
+        "evidence_ids": [
+          "444cf30658591c0238b4a9d29dcc6cbfc85c0bf0104350d40904a0f5b0e1b552",
+          "c90a269ea89557f003a2aba43e76f3e58dd1c474955a107818f6763c0e3cc8c6"
+        ],
+        "pair_checks": 1,
+        "eligible_for_inference": false,
+        "calibrated": false
+      }
+    },
+    "proposed_groups": [
+      [
+        "806a1dbbc8c657d6a2fe76d7b0b6155e0dd0216ccc7f5e8ab534d41adac47d82"
+      ],
+      [
+        "ca4572d83ded731d8e076591db55e3bd4c7c07bc61f2c9739078ff15fa4dd74d"
+      ]
+    ],
+    "reason": "Whole-cluster exclusive identifier/type conflicts; complete disjoint partition",
+    "candidate_complete": true,
+    "pair_checks": 1,
+    "applied_revision_id": "514ec902bf826a29f0b1e7384c4de1f56a1e2b29fcaa6e1b49dbd454e6b65dbc",
+    "mode": "apply",
+    "eligible_for_inference": false
+  },
+  "final_cluster": {
+    "membership": {
+      "complete": true,
+      "cluster_id": "3b4152547aa39d2784dc144787011eb5eb4cebf8b3ce6aea379b51442b34112b",
+      "member_ids": [
+        "ca4572d83ded731d8e076591db55e3bd4c7c07bc61f2c9739078ff15fa4dd74d"
+      ],
+      "reason": "Indexed heads checked against immutable membership universe"
+    },
+    "analysis": {
+      "state": "CONSISTENT",
+      "conflicts": [],
+      "internally_ambiguous": [],
+      "groups": [
+        [
+          "ca4572d83ded731d8e076591db55e3bd4c7c07bc61f2c9739078ff15fa4dd74d"
+        ]
+      ],
+      "evidence_ids": [
+        "c90a269ea89557f003a2aba43e76f3e58dd1c474955a107818f6763c0e3cc8c6"
+      ],
+      "pair_checks": 0,
+      "eligible_for_inference": false,
+      "calibrated": false
+    }
+  },
+  "original_payloads_unchanged": 24,
+  "reconnect_equal": true,
+  "dependent_freshness": "stale",
+  "unrelated_freshness": "current_inputs_only",
+  "model_calls": 0,
+  "limitations": [
+    "No independent real-world accuracy or external authority authentication",
+    "Only registered per-assignment dependencies are invalidated",
+    "Detection/staleness are not semantic re-evaluation"
+  ]
+}

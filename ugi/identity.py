@@ -113,6 +113,9 @@ class IdentityLedger:
                 if head["kind"] == "IdentityAssignment" and "cluster_id" not in head:
                     head["cluster_id"] = next(c["new_cluster_id"] for c in revision["changes"]
                                               if c["mention_snapshot_id"] == head["mention_snapshot_id"])
+            if self.store.settings.identity_resolution != "off":
+                output.extend(self.cluster_manifest(c["new_cluster_id"], [c["mention_snapshot_id"]])
+                              for c in revision["changes"])
         return output
 
     def assignment(self, snapshot_id, as_known_at=None):
@@ -236,8 +239,55 @@ class IdentityLedger:
                             artifact_id=artifact, state="stale", recorded_at=revision["recorded_at"],
                             reason="An identity assignment used by this artifact changed; re-evaluate")
                        for artifact in artifacts]
-            self._commit_bounded([revision, *heads, *notices])
+            manifests = []
+            if not reverted and self.store.settings.identity_resolution != "off":
+                for cluster in {c["new_cluster_id"] for c in changes}:
+                    manifests.append(self.cluster_manifest(cluster, [c["mention_snapshot_id"] for c in changes
+                                                                    if c["new_cluster_id"] == cluster]))
+            self._commit_bounded([revision, *heads, *notices, *manifests])
             return revision
+
+    @staticmethod
+    def cluster_manifest(cluster, members):
+        return dict(id=uid("identity-cluster-manifest", cluster), kind="IdentityCluster",
+                    cluster_id=cluster, member_universe=sorted(members), algorithm="cluster-manifest-v1")
+
+    def plan_projection(self, groups, evidence_ids, policy_hash, reason):
+        """Internal policy planner. Caller holds lease and commits with evidence atomically."""
+        mids = [mid for group in groups for mid in group]
+        if not mids or len(mids) > 50 or len(set(mids)) != len(mids) or any(not g for g in groups):
+            raise ValueError("Invalid bounded automatic identity partition")
+        current = {mid: self.assignment(mid) for mid in mids}
+        if any(len({current[m]["mention"]["entity_type"].casefold() for m in group}) != 1 for group in groups):
+            raise ValueError("Automatic identity group has incompatible types")
+        signature = uid("identity-policy-projection-v1", sorted(sorted(g) for g in groups),
+                        sorted((m, a["revision_id"]) for m, a in current.items()),
+                        sorted(evidence_ids), policy_hash)
+        changes, heads, manifests = [], [], []
+        for group in groups:
+            target = uid(signature, sorted(group))
+            manifests.append(self.cluster_manifest(target, group))
+            for mid in group:
+                head_id = uid(VERSION, "assignment", mid)
+                head = self.required(head_id, "IdentityAssignment")
+                if head["revision_id"] != current[mid]["revision_id"] or head["version"] >= MAX_HISTORY:
+                    raise ValueError("Identity assignment changed or history budget exceeded")
+                changes.append(dict(mention_snapshot_id=mid, previous_revision_id=head["revision_id"],
+                                    old_cluster_id=current[mid]["cluster_id"], new_cluster_id=target))
+                heads.append(dict(id=head_id, kind="IdentityAssignment", mention_snapshot_id=mid,
+                                  revision_id=signature, version=head["version"]+1, cluster_id=target))
+        artifacts = self._dependent_artifacts(mids)
+        revision = dict(id=signature, kind="IdentityRevision", changes=changes,
+                        operation="automatic_partition" if len(groups) > 1 else "automatic_merge",
+                        actor="configured_identity_policy", algorithm="identity-policy-projection-v1",
+                        reason=reason, recorded_at=now(), status="policy_supported_provisional",
+                        calibrated=False, eligible_for_inference=False, evidence_ids=sorted(evidence_ids),
+                        policy_hash=policy_hash, affected_artifact_ids=artifacts,
+                        affected_record_ids=sorted({a["mention"]["dependent_record_id"] for a in current.values()}))
+        notices = [dict(id=uid(signature, aid), kind="KnowledgeRevision", revision_id=signature,
+                        artifact_id=aid, state="stale", reason="Consumed identity revision changed; re-evaluate",
+                        recorded_at=revision["recorded_at"]) for aid in artifacts]
+        return [revision, *heads, *manifests, *notices], revision
 
     def artifact(self, request: ArtifactRequest):
         if not request.authorise_action:

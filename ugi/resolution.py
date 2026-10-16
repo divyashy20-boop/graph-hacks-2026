@@ -8,7 +8,7 @@ from __future__ import annotations
 import re
 from time import perf_counter
 
-from pydantic import Field
+from pydantic import Field, model_validator
 
 from .identity import IdentityLedger, RecordID
 from .models import Strict, key, now, uid
@@ -26,6 +26,12 @@ class Identifier(Strict):
     namespace: str = Field(pattern=r"^[a-zA-Z0-9_:-]{1,80}$")
     value: str = Field(min_length=1, max_length=160)
 
+    @model_validator(mode="after")
+    def opaque_identifier(self):
+        if not self.value.strip() or self.value != self.value.strip():
+            raise ValueError("Identifier must be nonblank with no surrounding whitespace")
+        return self
+
 
 class AuthorityObservation(Strict):
     mention_snapshot_id: RecordID
@@ -41,7 +47,9 @@ class IdentityResolver:
         self.ledger = IdentityLedger(store)
 
     def get(self, ident, pending):
-        return pending.get(ident) or self.store.get(ident)
+        if ident not in pending:
+            pending[ident] = self.store.get(ident)
+        return pending[ident]
 
     def snapshot(self, mid, pending):
         record = self.get(mid, pending)
@@ -81,15 +89,18 @@ class IdentityResolver:
             found = {r["snapshot_id"] for r in self.store.list("IdentityPosting", 20000)
                      if r["block_key"] in keys}
         found.update(r["snapshot_id"] for r in pending.values()
-                     if r["kind"] == "IdentityPosting" and r["block_key"] in keys)
+                     if r and r["kind"] == "IdentityPosting" and r["block_key"] in keys)
         found.discard(mid)
         selected = sorted(found)[:limit]
-        return dict(mention_snapshot_id=mid, candidate_ids=selected, complete=len(found) <= limit,
+        profile = self.get(uid(VERSION, "profile", mid), pending)
+        limited = bool(profile and profile.get("aliases_truncated"))
+        return dict(mention_snapshot_id=mid, candidate_ids=selected, complete=len(found) <= limit and not limited,
+                    aliases_truncated=limited,
                     block_count=len(keys), candidate_count=len(selected),
                     elapsed_ms=round((perf_counter()-started)*1000, 3),
                     semantics="Bounded candidate retrieval, not proof of identity")
 
-    def compare(self, left, right, pending=None):
+    def compare(self, left, right, pending=None, reuse=True):
         pending = pending or {}
         a, b = self.snapshot(left, pending), self.snapshot(right, pending)
         av, ae = self.evidence(left, pending)
@@ -112,7 +123,7 @@ class IdentityResolver:
             decision, reason = "UNRESOLVED", "No sufficient reliable identity evidence"
         signature = uid(VERSION, sorted([left, right]), sorted(r["id"] for r in ae+be),
                         self.store.settings.identity_authorities)
-        old = self.get(signature, pending)
+        old = self.get(signature, pending) if reuse else None
         return old or dict(id=signature, kind="IdentityAssessment", algorithm=VERSION,
             left_id=left, right_id=right, decision=decision, reason=reason, recorded_at=now(),
             evidence_ids=sorted({r["id"] for r in ae+be}),
@@ -132,9 +143,11 @@ class IdentityResolver:
         for mid in mids:
             snapshot = pending[mid]
             entity = entities[snapshot["entity_id"]]
+            aliases = sorted(set(entity.get("aliases", [])))
             profile = dict(id=uid(VERSION, "profile", mid), kind="IdentityProfile", snapshot_id=mid,
+                           aliases_truncated=len(aliases) > 20,
                            names=sorted({normalized_name(n) for n in
-                                         [snapshot["text"], *entity.get("aliases", [])] if n.strip()}))
+                                         [snapshot["text"], *aliases[:20]] if n.strip()}))
             output.append(profile)
             pending[profile["id"]] = profile
             for posting in self.postings(mid, pending):
@@ -163,6 +176,8 @@ class IdentityResolver:
             snapshot = self.snapshot(request.mention_snapshot_id, {})
             chunk = self.ledger.required(snapshot["chunk_id"], "Chunk")
             entries = (chunk.get("record") or {}).get("identity", [])
+            if not isinstance(entries, list) or len(entries) > 100:
+                raise ValueError("Invalid bounded structured identity evidence list")
             for item in request.identifiers:
                 if not any(isinstance(entry, dict) and entry.get("name") == snapshot["text"]
                            and entry.get("entity_type") == snapshot["entity_type"]
@@ -186,5 +201,9 @@ class IdentityResolver:
             pending.update({p["id"]: p for p in postings})
             decisions = [self.compare(snapshot["id"], cid, pending)
                          for cid in self.candidates(snapshot["id"], pending)["candidate_ids"]]
-            self.ledger._commit_bounded([evidence, new_head, *postings, *decisions])
+            from .identity_policy import IdentityPolicy
+
+            planned, run = IdentityPolicy(self.store).plan(snapshot["id"], pending)
+            evidence["automation_run_id"] = run["id"]
+            self.ledger._commit_bounded([evidence, new_head, *postings, *decisions, *planned, run])
             return evidence

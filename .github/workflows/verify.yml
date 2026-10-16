@@ -58,7 +58,15 @@ jobs:
       - name: Verify provisional identity reversal and targeted stale detection
         run: python -m ugi.demo_identity --execute --dataset ci-identity --output /tmp/ugi-identity.json
       - name: Verify source-grounded identity policy cases on actual FalkorDB
-        run: python -m ugi.eval_identity --output /tmp/ugi-f-identity.json
+        run: python -m ugi.eval_identity --auto-apply --output /tmp/ugi-f-identity.json
+      - name: Verify bounded cluster corrections and compensating reversals
+        run: python -m ugi.eval_identity_clusters --output /tmp/ugi-f-clusters.json
+      - name: Verify persistent dry-run and automatic identity demonstrations
+        run: |
+          python -m ugi.demo_identity_policy --execute --output /tmp/ugi-f-dryrun.json
+          python -m ugi.demo_identity_policy --execute --apply --output /tmp/ugi-f-apply.json
+      - name: Frozen external identity correspondence diagnostic (no authority evidence)
+        run: python -m ugi.eval_identity_public --download --output /tmp/ugi-f-public.json
       - name: Measure bounded opt-in ledger overhead with exact graph checks
         run: python -m ugi.benchmark_identity --output /tmp/ugi-identity-overhead.json
       - name: Verify source-aware conversion and persisted graph incidence
@@ -69,6 +77,7 @@ jobs:
         run: |
           python evaluation/recheck_c_metrics.py
           python evaluation/recheck_d_metrics.py
+          python evaluation/recheck_f_metrics.py
       - name: Verify 100/1000/2000-record real CSV and JSON ingestion
         run: |
           python -m ugi.benchmark_conversion --sizes 100 1000 2000 --output /tmp/ugi-c-capacity.json
@@ -91,6 +100,10 @@ jobs:
             /tmp/ugi-identity.json
             /tmp/ugi-identity-overhead.json
             /tmp/ugi-f-identity.json
+            /tmp/ugi-f-clusters.json
+            /tmp/ugi-f-dryrun.json
+            /tmp/ugi-f-apply.json
+            /tmp/ugi-f-public.json
           retention-days: 14
       - name: Show diagnostics on failure
         if: failure()

@@ -74,6 +74,7 @@ class Settings(BaseSettings):
     allow_paid_calls: bool = False
     identity_ledger: bool = False
     identity_resolution: Literal["off", "dry_run"] = "off"
+    identity_auto_apply: bool = False
     identity_authorities: dict[str, list[str]] = Field(default_factory=dict)
     identity_candidate_limit: int = Field(default=20, ge=1, le=50)
     model_id: str = ""
@@ -90,6 +91,8 @@ class Settings(BaseSettings):
     def configuration(self):
         if self.identity_resolution != "off" and not self.identity_ledger:
             raise ValueError("Identity resolution requires identity_ledger=true")
+        if self.identity_auto_apply and self.identity_resolution == "off":
+            raise ValueError("Automatic identity overlay requires resolution opt-in")
         if len(self.identity_authorities) > 8 or any(
             not re.fullmatch(r"[a-zA-Z0-9_:-]{1,80}", authority) or not namespaces
             or len(namespaces) > 8 or any(not re.fullmatch(r"[a-zA-Z0-9_:-]{1,80}", n) for n in namespaces)

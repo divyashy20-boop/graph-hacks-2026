@@ -1,5 +1,31 @@
 # Event-time implementation work log
 
+## Milestone F increment2 — October16,2026
+
+- Began after c77a5a0d72fd2c71a6b8ed3f975700bc8032630e pushed and actual CI
+  https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38838921392 passed.
+- Added immutable cluster-universe coverage, indexed membership, bounded full
+  cluster constraints, dry-run IdentityRun and separate opt-in auto policy. New
+  evidence+revision+heads+exact stale notices commit atomically; facts not rewired.
+- Negative A≈B≈C cycles, unknown members, incomplete clusters and source types
+  alone never force a split. Namespace conflicts justify only complete partitions.
+  Cache hits/misses are operation-local, not stale cross-document state.
+- Full231 pass:216 non-integration +15 real graph; genuine late rollback of a
+  staged correction, undo/recheck and exact whole-event/evidence checks. Earlier5
+  real checks failed while Docker engine was stopped; restored it/volumes and
+  reran, not hidden as skips. Malformed evidence lists now fail before any write.
+-20 synthetic cases6/6 matches,8/8 expected abstentions; six clusters4/4 detections,
+ 2/2 justified splits,0/4 false splits,2 reversals,6/6 preservation/invalidation.
+  Explicitly AI-provisional development, not independent human accuracy.
+- Apache2.0 T2D adapter: pinned archive, gold-URI exclusion, fixed24-pair probe;
+  candidate recall12/12,zero matches,recall/F1 0,precision undefined. No public
+  error tuning; sources now inspected. Source text/archive remain ignored.
+- Actual10/30/80-row overhead; six ledger-off capacity cases, three old domains
+  and provisional extraction audit still pass. Six seeded datasets retain exact
+  hashes across actual Docker restart. No paid calls or unrelated AWS changes.
+- Optional packs/open predicates deferred. Next: authenticated trusted connector,
+  namespace lifecycle and calibrated weak-feature matching, not LLM-approved unions.
+
 ## Milestone F increment1 — October16,2026
 
 - Clean0465343 baseline reproduced209/209 including13 actual graph integrations.

@@ -12,11 +12,13 @@ from .models import Settings, now
 from .store import Store
 
 
-def fingerprint(include_identity=False):
+def fingerprint(include_identity=False, include_policy=False):
     results = {}
     datasets = ["showcase-b-" + domain for domain in ("incident", "supply", "research")]
     if include_identity:
         datasets.append("showcase-e-identity")
+    if include_policy:
+        datasets.extend(["showcase-f-identity", "showcase-f-dryrun"])
     for dataset in datasets:
         store = Store(Settings(provider="offline", allow_paid_calls=False), dataset=dataset)
         records = [json.loads(row[0]) for row in store.query(
@@ -40,8 +42,9 @@ def main():
     mode.add_argument("--compare", type=Path)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--include-identity", action="store_true", help="Also fingerprint the seeded E ledger demo")
+    parser.add_argument("--include-policy", action="store_true", help="Also fingerprint the seeded F dry-run/apply demos")
     args = parser.parse_args()
-    observed = fingerprint(args.include_identity)
+    observed = fingerprint(args.include_identity, args.include_policy)
     if args.snapshot:
         args.snapshot.write_text(json.dumps(observed, indent=2)+"\n", encoding="utf-8")
         print("Captured exact persistent demo record/edge fingerprints; no data changed.")

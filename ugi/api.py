@@ -183,6 +183,12 @@ def create_app(settings=None):
         identity_writer(engine)
         return IdentityResolver(engine.store).observe(request, engine.store.owner)
 
+    @app.get("/api/identity/clusters/{snapshot_id}")
+    def identity_cluster(snapshot_id: str, engine=Depends(context)):
+        from .identity_policy import IdentityPolicy
+
+        return IdentityPolicy(engine.store).inspect(snapshot_id)
+
     @app.get("/api/tasks")
     def tasks(engine=Depends(context)):
         return engine.store.list("ReviewTask")

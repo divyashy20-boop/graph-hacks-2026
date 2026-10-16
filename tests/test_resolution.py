@@ -9,7 +9,7 @@ from fastapi.testclient import TestClient
 
 from ugi.api import create_app
 from ugi.engine import Engine
-from ugi.models import Settings
+from ugi.models import Settings, uid
 from ugi.resolution import POSTING_QUERY, AuthorityObservation, IdentityResolver
 from ugi.store import Store, literal
 
@@ -90,6 +90,9 @@ def test_uploaded_trust_flags_and_ungrounded_authority_cannot_enable_identity():
     with pytest.raises(ValueError, match="authorization"):
         resolver.observe(request, "test")
     assert store.records == before
+    malformed = source(store, "Malformed", identity=123)
+    with pytest.raises(ValueError, match="identity evidence list"):
+        observe(store, malformed, "123")
 
 
 def test_authority_evidence_replay_replacement_and_candidate_overflow():
@@ -107,14 +110,29 @@ def test_authority_evidence_replay_replacement_and_candidate_overflow():
 
 def test_resolution_http_authority_gate_and_tenant_isolation():
     app = create_app(settings(api_keys="fixture-one,fixture-two"))
-    store = app.state.store_for("unused", "demo")  # Separate from authenticated owner.
-    source(store, "Unused", "123")
+    store = app.state.store_for(uid("fixture-one")[:24], "demo")
+    mention = source(store, "Private", "123")
     with TestClient(app) as client:
         assert client.get("/api/identity/compare", params=dict(left="x", right="y")).status_code == 401
         headers = {"X-API-Key": "fixture-one"}
         assert client.get("/api/identity/candidates/unknown", headers=headers).status_code == 422
+        url = "/api/identity/candidates/"+mention["id"]
+        assert client.get(url, headers=headers).status_code == 200
+        other = {"X-API-Key": "fixture-two"}
+        assert client.get(url, headers=other).status_code == 422
+        request = dict(mention_snapshot_id=mention["id"], authority="fixture-registry",
+                       identifiers=[dict(namespace="fixture:org", value="123")],
+                       idempotency_key="http", authorise_action=True)
+        assert client.post("/api/identity/authority-observations", json=request, headers=other).status_code == 422
+        assert client.post("/api/identity/authority-observations", json=request, headers=headers).status_code == 200
+        before = len(store.list("IdentityRevision"))
+        assert client.get("/api/identity/clusters/"+mention["id"], headers=headers).status_code == 200
+        assert len(store.list("IdentityRevision")) == before  # GET never applies a correction.
     with pytest.raises(ValueError, match="requires identity_ledger"):
         Settings(identity_resolution="dry_run")
+    with pytest.raises(ValueError, match="nonblank"):
+        AuthorityObservation(mention_snapshot_id=mention["id"], authority="fixture-registry",
+                             identifiers=[dict(namespace="fixture:org", value=" ")], idempotency_key="blank")
 
 
 @pytest.mark.integration

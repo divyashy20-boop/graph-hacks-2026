@@ -4,7 +4,40 @@ An **event-time Graph Hacks 2026 Track 1 implementation** of a multi-format, evi
 
 **Status:** functional local prototype and demo, **not production-ready**. This repository contains a code-first implementation and a small synthetic evaluation, not a proven universally accurate graph extractor.
 
-## Milestone F increment1: indexed identity candidates
+## Milestone F: bounded autonomous identity overlay
+
+**231 tests pass, including15 actual FalkorDB integrations.** Indexed candidates,
+whole-cluster negative constraints, default dry-run audit and separately opted-in
+automatic corrections are implemented. Matching names/raw IDs never prove identity.
+Only authorized source-grounded evidence under operator namespace policy can
+justify SAME; projections remain excluded from definitive inference.
+
+New evidence can split a defensibly inconsistent provisional cluster, append
+immutable revisions and mark only registered artifacts stale, without rewriting
+original facts/events. Unknown members, A–B–C negative cycles, type-only conflicts,
+legacy incomplete clusters or candidate overflow abstain. Default automation stays
+off; ledger200-mention,20-candidate and50-member cluster bounds remain.
+
+External T2D human-correspondence-derived probe:12/12 matching candidates retrieved,
+**zero matches approved: recall/F1 0, precision undefined** without trusted evidence.
+Synthetic policy cases pass; they are not independent identity accuracy. No external
+registry authentication or semantic recomputation worker. Optional domain-pack
+increment deferred. Details and reproduction: [MILESTONE_F_REPORT](MILESTONE_F_REPORT.md).
+
+```powershell
+python -m ugi.demo_identity_policy --execute --output evaluation/my_dryrun.json
+python -m ugi.demo_identity_policy --execute --apply --output evaluation/my_apply_demo.json
+python -m ugi.eval_identity_public --download --output evaluation/my_public_probe.json
+```
+
+For future trusted connector uploads: `UGI_IDENTITY_LEDGER=true`,
+`UGI_IDENTITY_RESOLUTION=dry_run`, operator `UGI_IDENTITY_AUTHORITIES` JSON mapping,
+then separately `UGI_IDENTITY_AUTO_APPLY=true` only after inspecting dry runs.
+Never approve reused/non-exclusive identifiers as authoritative. Evidence-inlet
+API-key holders must be trusted connectors/operators, not untrusted documents;
+the prototype does not provide production authority RBAC.
+
+## Milestone F increment1 (historical checkpoint): indexed candidates
 
 220 tests pass including14 real FalkorDB. Opt-in `identity_resolution=dry_run`
 adds type/name/alias and policy-authorized namespace blocking, four explainable

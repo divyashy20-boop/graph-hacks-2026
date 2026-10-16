@@ -1,5 +1,33 @@
 # Verified follow-up report — updated October16,2026
 
+## Milestone F increment2 — final local verification
+
+**231 passed (216 non-integration +15 actual FalkorDB),0 failures/skips**. Real
+tests verify indexed candidates/clusters, automatic correction/undo, selective
+staleness, whole n-ary event/evidence preservation and late runtime rollback of
+evidence+heads+revision+notices. GET audit is read-only; authority enrollment remains
+explicit/policy-gated/tenant-isolated.5 earlier graph failures were connection-refused
+while Docker Desktop was stopped; restored existing services/volumes, then reran
+successfully. Existing TestClient deprecation remains.
+
+20 AI-provisional policy cases:6/6 matches/overlays,0 false merges,8/8 expected
+abstentions. Six authored clusters:4/4 inconsistencies,0/2 false alarms,2/2 defensible
+splits,0/4 false splits,2/2 reversals and6/6 preservation/invalidation cases.
+These are specification logic, not independently labelled real-world accuracy.
+Arithmetic/partition comparisons separately rechecked without resolver imports.
+
+External T2D:24 derived pairs,12 gold matches; candidate recall12/12 in selected
+pool,0 matches approved,0 false merges,recall/F1 0,precision undefined,24 abstentions.
+Gold URIs never enter resolver inputs. Archive pinned, inspected preview excluded;
+no new human labels invented. The diagnostic is now inspected, not unseen for tuning.
+
+Actual10/30/80-row resolver ingest132/592/1862ms, writes29/99/307ms; candidate lookup
+~2ms,20-candidate overflow at30/80. Single traced observations, not p95/server RSS.
+All six ledger-off100/1000/2000 cases pass; latest2k CSV/JSON write1679/1540ms.
+Old demos and six-dataset exact restart hashes pass. Extraction unchanged10/10/15,
+F1 80%, public7/7/12,F1 73.68% on provisional development; research event still
+missed. See MILESTONE_F_REPORT for authority assumptions and remaining limitations.
+
 ## Milestone F increment1
 
 220 passed, zero failed/skipped:206 non-integration +14 actual FalkorDB. Real

@@ -1,0 +1,148 @@
+{
+  "recorded_at": "2026-10-16T06:39:02.405355+00:00",
+  "unchanged": true,
+  "datasets": {
+    "showcase-b-incident": {
+      "records": 57,
+      "edges": 38,
+      "payload_sha256": "09c05c072473c1ca6fdc665cff49ba26ff70c6e35038eb29b5633defc2bb9065",
+      "incidence_sha256": "49515467c848fbb027018efe0d70485639016ed79b3090a4061197323cdede77",
+      "counts": {
+        "ReviewTask": 4,
+        "Claim": 8,
+        "Entity": 8,
+        "AgentAction": 2,
+        "Mention": 16,
+        "Evidence": 8,
+        "Chunk": 8,
+        "Investigation": 2,
+        "Source": 1
+      },
+      "investigation_ids": [
+        "570f2058b4ee4b80096977707c76803c2e3a4f86c7af24d4f74c8952c14d28e5",
+        "ff069eeb5b1ad672f0678e503933714b59fb079bc8d3f9b34543ee7c5609f9e5"
+      ]
+    },
+    "showcase-b-supply": {
+      "records": 35,
+      "edges": 24,
+      "payload_sha256": "4057f10d319a614189d9c6bab3c22c2f54191472ba378c1aa1803bc8b4c72e9f",
+      "incidence_sha256": "72e64bbcd60d16ba453210984e6858aca87d6c73f8db611b0eddf2eb7d9a044c",
+      "counts": {
+        "Investigation": 1,
+        "Entity": 5,
+        "Evidence": 5,
+        "AgentAction": 1,
+        "Claim": 4,
+        "Chunk": 5,
+        "Mention": 11,
+        "RelationEvent": 1,
+        "Source": 1,
+        "ReviewTask": 1
+      },
+      "investigation_ids": [
+        "15fa17cffea42dd129befa749c6a36249911d4563c9adccfe8e10f33e5834c20"
+      ]
+    },
+    "showcase-b-research": {
+      "records": 31,
+      "edges": 19,
+      "payload_sha256": "bf13336cb4873bcdfb8b94886c4dea47a2d524ebbb7cd5f0ed3f04bfbccd2aa4",
+      "incidence_sha256": "ec2d0c0f05dd6c9f47c71cb9b94fd29f445efeedcd03f2716fd79d61d1b8a281",
+      "counts": {
+        "RelationEvent": 1,
+        "Source": 2,
+        "MergeDecision": 1,
+        "Chunk": 4,
+        "Evidence": 4,
+        "Entity": 6,
+        "Mention": 10,
+        "Claim": 3
+      },
+      "investigation_ids": []
+    },
+    "showcase-e-identity": {
+      "records": 75,
+      "edges": 22,
+      "payload_sha256": "746a2809354cb1e9c127e3e2c61fef58988fc7010beaae37afde06972b973e15",
+      "incidence_sha256": "f32d3490b040c593a3526b9712784ced5ed309de365c88e40072a65364ffb675",
+      "counts": {
+        "Mention": 8,
+        "Claim": 4,
+        "EntityCardHead": 5,
+        "Evidence": 4,
+        "EntityCard": 6,
+        "IdentityAssignment": 8,
+        "Chunk": 4,
+        "MentionSnapshot": 8,
+        "IdentityRevision": 10,
+        "MergeDecision": 1,
+        "Source": 2,
+        "Entity": 5,
+        "KnowledgeRevision": 6,
+        "DerivedArtifact": 4
+      },
+      "investigation_ids": []
+    },
+    "showcase-f-identity": {
+      "records": 106,
+      "edges": 15,
+      "payload_sha256": "63b075b8966f7eb6aba45294acc14cdbfcb99b2d486cd606c3cdadcb819bd2be",
+      "incidence_sha256": "5a713257a5aa5f8fe5e7a724ab0225c8c2c1916c1dce97e966051379db42fc7d",
+      "counts": {
+        "IdentityEvidenceHead": 2,
+        "Evidence": 3,
+        "IdentityRun": 4,
+        "DerivedArtifact": 2,
+        "Source": 3,
+        "Chunk": 3,
+        "IdentityPosting": 10,
+        "IdentityAssessment": 8,
+        "Mention": 6,
+        "IdentityAssignment": 6,
+        "MergeDecision": 4,
+        "IdentityRevision": 8,
+        "IdentityCluster": 9,
+        "IdentityProfile": 6,
+        "KnowledgeRevision": 1,
+        "Entity": 6,
+        "EntityCardHead": 6,
+        "EntityCard": 6,
+        "MentionSnapshot": 6,
+        "IdentityEvidence": 4,
+        "Claim": 3
+      },
+      "investigation_ids": []
+    },
+    "showcase-f-dryrun": {
+      "records": 102,
+      "edges": 15,
+      "payload_sha256": "ee8a0dd43d75ddca1920df31af52c8fd066d98c374ab6e02be7cc0d6f02cf6aa",
+      "incidence_sha256": "10860e16d4a91a4088b6bd07679d556c421a2530e0e6f5bba1f3ee9aa13c4b4f",
+      "counts": {
+        "Evidence": 3,
+        "IdentityProfile": 6,
+        "Mention": 6,
+        "IdentityAssignment": 6,
+        "IdentityCluster": 7,
+        "IdentityEvidenceHead": 2,
+        "IdentityPosting": 10,
+        "IdentityRevision": 7,
+        "MentionSnapshot": 6,
+        "Chunk": 3,
+        "Source": 3,
+        "EntityCard": 6,
+        "Entity": 6,
+        "MergeDecision": 4,
+        "Claim": 3,
+        "IdentityAssessment": 8,
+        "IdentityEvidence": 4,
+        "IdentityRun": 4,
+        "DerivedArtifact": 2,
+        "EntityCardHead": 6
+      },
+      "investigation_ids": []
+    }
+  },
+  "limitations": "Controlled restart/read smoke, not backup, crash recovery or production durability"
+}

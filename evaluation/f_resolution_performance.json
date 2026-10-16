@@ -1,0 +1,152 @@
+{
+  "recorded_at": "2026-10-16T06:34:37.895017+00:00",
+  "backend": "actual FalkorDB",
+  "results": [
+    {
+      "rows": 10,
+      "mentions": 20,
+      "ingestion_ms": 131.561,
+      "write_ms": 28.691,
+      "client_cpu_ms": 62.5,
+      "python_allocation_peak_bytes": 1121239,
+      "ingestion_measurements": {
+        "redis_commands": {
+          "SET": 1,
+          "GRAPH.QUERY": 134,
+          "EVALSHA": 1
+        },
+        "network_roundtrips": 136,
+        "cypher_queries": 134,
+        "client_command_wall_ms": 88.19,
+        "graph_response_wall_ms": 87.087,
+        "successful_graph_internal_ms": 3.722,
+        "failed_commands": 0
+      },
+      "model_calls": 0,
+      "exact_graph": {
+        "exact_records": 240,
+        "exact_edges": 40,
+        "kind_labels_consistent": true,
+        "payloads_consistent": true,
+        "incidence_consistent": true
+      },
+      "candidate_wall_ms": 1.984,
+      "candidate_count": 9,
+      "candidate_complete": true,
+      "candidate_measurements": {
+        "redis_commands": {
+          "GRAPH.QUERY": 4
+        },
+        "network_roundtrips": 4,
+        "cypher_queries": 4,
+        "client_command_wall_ms": 1.866,
+        "graph_response_wall_ms": 1.866,
+        "successful_graph_internal_ms": 0.073,
+        "failed_commands": 0
+      },
+      "cluster_ms": 6.44,
+      "cluster_pair_checks": 0,
+      "card_reconstruction_ms": 18.964
+    },
+    {
+      "rows": 30,
+      "mentions": 60,
+      "ingestion_ms": 591.849,
+      "write_ms": 99.333,
+      "client_cpu_ms": 375.0,
+      "python_allocation_peak_bytes": 4572006,
+      "ingestion_measurements": {
+        "redis_commands": {
+          "SET": 1,
+          "GRAPH.QUERY": 639,
+          "EVALSHA": 1
+        },
+        "network_roundtrips": 641,
+        "cypher_queries": 639,
+        "client_command_wall_ms": 416.772,
+        "graph_response_wall_ms": 415.448,
+        "successful_graph_internal_ms": 14.028,
+        "failed_commands": 0
+      },
+      "model_calls": 0,
+      "exact_graph": {
+        "exact_records": 965,
+        "exact_edges": 120,
+        "kind_labels_consistent": true,
+        "payloads_consistent": true,
+        "incidence_consistent": true
+      },
+      "candidate_wall_ms": 2.43,
+      "candidate_count": 20,
+      "candidate_complete": false,
+      "candidate_measurements": {
+        "redis_commands": {
+          "GRAPH.QUERY": 4
+        },
+        "network_roundtrips": 4,
+        "cypher_queries": 4,
+        "client_command_wall_ms": 2.285,
+        "graph_response_wall_ms": 2.285,
+        "successful_graph_internal_ms": 0.12,
+        "failed_commands": 0
+      },
+      "cluster_ms": 6.018,
+      "cluster_pair_checks": 0,
+      "card_reconstruction_ms": 46.592
+    },
+    {
+      "rows": 80,
+      "mentions": 160,
+      "ingestion_ms": 1861.998,
+      "write_ms": 307.247,
+      "client_cpu_ms": 921.875,
+      "python_allocation_peak_bytes": 14133705,
+      "ingestion_measurements": {
+        "redis_commands": {
+          "SET": 1,
+          "GRAPH.QUERY": 2039,
+          "EVALSHA": 1
+        },
+        "network_roundtrips": 2041,
+        "cypher_queries": 2039,
+        "client_command_wall_ms": 1319.321,
+        "graph_response_wall_ms": 1317.742,
+        "successful_graph_internal_ms": 42.479,
+        "failed_commands": 0
+      },
+      "model_calls": 0,
+      "exact_graph": {
+        "exact_records": 2915,
+        "exact_edges": 320,
+        "kind_labels_consistent": true,
+        "payloads_consistent": true,
+        "incidence_consistent": true
+      },
+      "candidate_wall_ms": 2.25,
+      "candidate_count": 20,
+      "candidate_complete": false,
+      "candidate_measurements": {
+        "redis_commands": {
+          "GRAPH.QUERY": 4
+        },
+        "network_roundtrips": 4,
+        "cypher_queries": 4,
+        "client_command_wall_ms": 2.115,
+        "graph_response_wall_ms": 2.115,
+        "successful_graph_internal_ms": 0.103,
+        "failed_commands": 0
+      },
+      "cluster_ms": 6.233,
+      "cluster_pair_checks": 0,
+      "card_reconstruction_ms": 140.226
+    }
+  ],
+  "model_calls": 0,
+  "limitations": [
+    "One local traced observation per size, no p95/production claim",
+    "Shared-name candidate pressure intentionally overflows20-candidate budget at30/80 rows",
+    "Singleton unresolved clusters: no claim of large-cluster matching throughput",
+    "Memory/CPU are Python client only; no server RSS/CPU",
+    "Correction and invalidation separately verified by real policy tests/demos"
+  ]
+}

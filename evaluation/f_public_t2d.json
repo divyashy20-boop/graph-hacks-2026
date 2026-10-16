@@ -1,0 +1,230 @@
+{
+  "recorded_at": "2026-10-16T06:31:07.608669+00:00",
+  "source_url": "https://webdatacommons.org/webtables/goldstandard.html",
+  "download_url": "https://webdatacommons.org/webtables/entities_instance.tar.gz",
+  "archive_sha256": "1a1c64113d0eb6054bc567a73af89947165cb2a1085290ad3eed20ead3c2cbfa",
+  "license": "Apache-2.0 correspondences (not Web tables/DBpedia dump)",
+  "upstream_annotation": "Human-generated row-to-DBpedia correspondences; derived row-pair identity labels",
+  "seed": 20261016,
+  "pairs": 24,
+  "records": 24,
+  "backend": "actual FalkorDB",
+  "selection_hash": "aa46219d4316e4ac9e3e576312152e2b1721c579547dce0523f25afec2f3bab2",
+  "predicted_matches": 0,
+  "tp": 0,
+  "fp": 0,
+  "gold_matches": 12,
+  "precision": null,
+  "recall": 0.0,
+  "f1": 0.0,
+  "false_merge_rate": 0.0,
+  "missed_match_rate": 1.0,
+  "candidate_recall": 1.0,
+  "abstentions": 24,
+  "elapsed_ms": 630.57,
+  "python_allocation_peak_bytes": 244732,
+  "outputs": [
+    {
+      "left_record": "0e3f2008d06438ccc458697a2cc599c9366d7e144788970d0140afcc4d3c9342",
+      "right_record": "9224999f8b9a7b61f96d6b0399e8d64d862c884fb014a7eaf8a317866c586afb",
+      "gold_match": true,
+      "decision": "POSSIBLY_SAME",
+      "candidate_retrieved": true,
+      "candidate_complete": true
+    },
+    {
+      "left_record": "3877957aac2e2552d94f08bf0fbcf05be282e486b837fe03546334c673c77997",
+      "right_record": "6b1c5601ce755b26820a938ebde819fbc29dcd1e206e652d8d780ab62634627f",
+      "gold_match": true,
+      "decision": "POSSIBLY_SAME",
+      "candidate_retrieved": true,
+      "candidate_complete": true
+    },
+    {
+      "left_record": "00a6007f2e15035cbcd7ada98c77d727c4f6eeee1ce53e9f23ac13a3a92eefad",
+      "right_record": "132e0334a64550774176da3c0a212b0bc78b0583680747c7ea44d36e86c0c340",
+      "gold_match": true,
+      "decision": "POSSIBLY_SAME",
+      "candidate_retrieved": true,
+      "candidate_complete": true
+    },
+    {
+      "left_record": "a4a6dd834c42ef474cd0ad4e047656bf3e96d4e98811468693ca84498588e128",
+      "right_record": "c136fa6ed00c5fa0ddedbf130c897e5759873abe22220672e6117e92e06bd946",
+      "gold_match": true,
+      "decision": "POSSIBLY_SAME",
+      "candidate_retrieved": true,
+      "candidate_complete": true
+    },
+    {
+      "left_record": "0afc4cf9c6a8a807c77a07462dea951be31c586f2d9512822dc621a817511567",
+      "right_record": "0e73c1ffcfe05e0fff6fcb07c4689730e69ff0cebde1ba70eea879721c7d65fa",
+      "gold_match": true,
+      "decision": "POSSIBLY_SAME",
+      "candidate_retrieved": true,
+      "candidate_complete": true
+    },
+    {
+      "left_record": "5c585d990f61d537c285d5786aa66f9a02d67a0524c8e188ad431263bf1aadc2",
+      "right_record": "9ddc3c69d379c8636af84fad242700963a09b544bd5c16780f3bddac7f0734fa",
+      "gold_match": true,
+      "decision": "POSSIBLY_SAME",
+      "candidate_retrieved": true,
+      "candidate_complete": true
+    },
+    {
+      "left_record": "27b4322a96aca6ca2b9c45bc525b8d4f24f3ea56e34b6342240b71c2313b59b3",
+      "right_record": "609d04a059fb6e0445037653b14d4ed1988e706625f11086ed129621ea399d2c",
+      "gold_match": true,
+      "decision": "POSSIBLY_SAME",
+      "candidate_retrieved": true,
+      "candidate_complete": true
+    },
+    {
+      "left_record": "17b9da865a5751c0075ae22dbf7524dee95709c31933c710e964b3c4e16e0550",
+      "right_record": "6fad694037ded6d84aeae28875e12c19d920f33224096929c9a367931ae41feb",
+      "gold_match": true,
+      "decision": "POSSIBLY_SAME",
+      "candidate_retrieved": true,
+      "candidate_complete": true
+    },
+    {
+      "left_record": "708c073cb4b80b946a1b118e868104026bdfff586f39daccffb08f87f0d7e1e1",
+      "right_record": "8d04c22fc89aab660eb9c7fe1375832c4d615074fccdc83b4f1074df02a6a08b",
+      "gold_match": true,
+      "decision": "POSSIBLY_SAME",
+      "candidate_retrieved": true,
+      "candidate_complete": true
+    },
+    {
+      "left_record": "0e8030591f19aa27a67b1e936aa91b9009580861e7d1e4a7bc3a6e8345c82a67",
+      "right_record": "464e364d5b54ca34f8198e87527739e165a61ecda69b9a30ce1defa4b8ff2bbe",
+      "gold_match": true,
+      "decision": "POSSIBLY_SAME",
+      "candidate_retrieved": true,
+      "candidate_complete": true
+    },
+    {
+      "left_record": "6508e54d8ddf34fca8eddb224d48a6dd615e9771a0f98755f4baa55c4ed9705a",
+      "right_record": "83d775a1853c2498eceacdef05a48324607263bd38bd2b3932c7bab3f5e60536",
+      "gold_match": true,
+      "decision": "POSSIBLY_SAME",
+      "candidate_retrieved": true,
+      "candidate_complete": true
+    },
+    {
+      "left_record": "3253c3b3ba70577fc62660e7532855ac9f7da31247baa559067d65678f8a606b",
+      "right_record": "4b14b087bef7f7b58ed45d07dc36190b6d7be0993a971aa630d0da387c1c0f78",
+      "gold_match": true,
+      "decision": "POSSIBLY_SAME",
+      "candidate_retrieved": true,
+      "candidate_complete": true
+    },
+    {
+      "left_record": "0e3f2008d06438ccc458697a2cc599c9366d7e144788970d0140afcc4d3c9342",
+      "right_record": "6b1c5601ce755b26820a938ebde819fbc29dcd1e206e652d8d780ab62634627f",
+      "gold_match": false,
+      "decision": "UNRESOLVED",
+      "candidate_retrieved": false,
+      "candidate_complete": true
+    },
+    {
+      "left_record": "3877957aac2e2552d94f08bf0fbcf05be282e486b837fe03546334c673c77997",
+      "right_record": "132e0334a64550774176da3c0a212b0bc78b0583680747c7ea44d36e86c0c340",
+      "gold_match": false,
+      "decision": "UNRESOLVED",
+      "candidate_retrieved": false,
+      "candidate_complete": true
+    },
+    {
+      "left_record": "00a6007f2e15035cbcd7ada98c77d727c4f6eeee1ce53e9f23ac13a3a92eefad",
+      "right_record": "c136fa6ed00c5fa0ddedbf130c897e5759873abe22220672e6117e92e06bd946",
+      "gold_match": false,
+      "decision": "UNRESOLVED",
+      "candidate_retrieved": false,
+      "candidate_complete": true
+    },
+    {
+      "left_record": "a4a6dd834c42ef474cd0ad4e047656bf3e96d4e98811468693ca84498588e128",
+      "right_record": "0e73c1ffcfe05e0fff6fcb07c4689730e69ff0cebde1ba70eea879721c7d65fa",
+      "gold_match": false,
+      "decision": "UNRESOLVED",
+      "candidate_retrieved": false,
+      "candidate_complete": true
+    },
+    {
+      "left_record": "0afc4cf9c6a8a807c77a07462dea951be31c586f2d9512822dc621a817511567",
+      "right_record": "9ddc3c69d379c8636af84fad242700963a09b544bd5c16780f3bddac7f0734fa",
+      "gold_match": false,
+      "decision": "UNRESOLVED",
+      "candidate_retrieved": false,
+      "candidate_complete": true
+    },
+    {
+      "left_record": "5c585d990f61d537c285d5786aa66f9a02d67a0524c8e188ad431263bf1aadc2",
+      "right_record": "609d04a059fb6e0445037653b14d4ed1988e706625f11086ed129621ea399d2c",
+      "gold_match": false,
+      "decision": "UNRESOLVED",
+      "candidate_retrieved": false,
+      "candidate_complete": true
+    },
+    {
+      "left_record": "27b4322a96aca6ca2b9c45bc525b8d4f24f3ea56e34b6342240b71c2313b59b3",
+      "right_record": "6fad694037ded6d84aeae28875e12c19d920f33224096929c9a367931ae41feb",
+      "gold_match": false,
+      "decision": "UNRESOLVED",
+      "candidate_retrieved": false,
+      "candidate_complete": true
+    },
+    {
+      "left_record": "17b9da865a5751c0075ae22dbf7524dee95709c31933c710e964b3c4e16e0550",
+      "right_record": "8d04c22fc89aab660eb9c7fe1375832c4d615074fccdc83b4f1074df02a6a08b",
+      "gold_match": false,
+      "decision": "UNRESOLVED",
+      "candidate_retrieved": false,
+      "candidate_complete": true
+    },
+    {
+      "left_record": "708c073cb4b80b946a1b118e868104026bdfff586f39daccffb08f87f0d7e1e1",
+      "right_record": "464e364d5b54ca34f8198e87527739e165a61ecda69b9a30ce1defa4b8ff2bbe",
+      "gold_match": false,
+      "decision": "UNRESOLVED",
+      "candidate_retrieved": false,
+      "candidate_complete": true
+    },
+    {
+      "left_record": "0e8030591f19aa27a67b1e936aa91b9009580861e7d1e4a7bc3a6e8345c82a67",
+      "right_record": "83d775a1853c2498eceacdef05a48324607263bd38bd2b3932c7bab3f5e60536",
+      "gold_match": false,
+      "decision": "UNRESOLVED",
+      "candidate_retrieved": false,
+      "candidate_complete": true
+    },
+    {
+      "left_record": "6508e54d8ddf34fca8eddb224d48a6dd615e9771a0f98755f4baa55c4ed9705a",
+      "right_record": "4b14b087bef7f7b58ed45d07dc36190b6d7be0993a971aa630d0da387c1c0f78",
+      "gold_match": false,
+      "decision": "UNRESOLVED",
+      "candidate_retrieved": false,
+      "candidate_complete": true
+    },
+    {
+      "left_record": "3253c3b3ba70577fc62660e7532855ac9f7da31247baa559067d65678f8a606b",
+      "right_record": "9224999f8b9a7b61f96d6b0399e8d64d862c884fb014a7eaf8a317866c586afb",
+      "gold_match": false,
+      "decision": "UNRESOLVED",
+      "candidate_retrieved": false,
+      "candidate_complete": true
+    }
+  ],
+  "model_calls": 0,
+  "limitations": [
+    "Small label-derived public diagnostic, not full T2D entity-linking leaderboard",
+    "Gold DBpedia URIs excluded from source records, blocking and evidence",
+    "Name-only features; no approved authority evidence, so positive matching deliberately abstains",
+    "Candidate recall is within the sampled pool, not all26124 correspondences",
+    "Excluded inspected first-table preview, names over160 chars and non-URI mappings",
+    "No tuning after evaluating this checkpoint; future tuning makes it development",
+    "Zero false merges does not imply good recall; undefined precision when no matches"
+  ]
+}
