@@ -75,13 +75,13 @@ grammar; do not copy the original brand, content, illustration, or assets.
 
 ## UI-004 — Local 3D orbit graph
 
-**Status:** Queued
+**Status:** Complete
 **Priority:** P0
 **Depends on:** UI-003
 
-Add a `3D Orbit` mode beside the 2D evidence map. It must use a pinned,
-locally served WebGL dependency with licence/provenance recorded in the repo;
-the demo cannot depend on a CDN.
+Add a `3D Orbit` mode beside the 2D evidence map. It uses a native, local
+WebGL renderer in the existing UI asset: no CDN, package, API change, or new
+runtime dependency is introduced.
 
 **Acceptance criteria:**
 

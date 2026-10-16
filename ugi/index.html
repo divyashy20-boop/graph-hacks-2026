@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#0a0414">
   <title>UGI — Spatial evidence operations</title>
-  <link rel="stylesheet" href="/assets/style.css?v=ui-003">
-  <script defer src="/assets/app.js?v=ui-003"></script>
+  <link rel="stylesheet" href="/assets/style.css?v=ui-004">
+  <script defer src="/assets/app.js?v=ui-004"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -80,9 +80,14 @@
           <div class="panelhead">
             <div><p class="panel-kicker">Live dataset</p><h2>Evidence map</h2></div>
             <div class="toolbar" aria-label="Graph controls">
+              <div class="view-switcher" role="tablist" aria-label="Graph view">
+                <button id="view2d" role="tab" aria-selected="true" aria-controls="graph2d">2D Map</button>
+                <button id="view3d" role="tab" aria-selected="false" aria-controls="graph3d">3D Orbit</button>
+              </div>
               <label class="visually-hidden" for="timeline">Date</label><input type="date" id="timeline" aria-label="Graph timeline date">
               <button id="applytime">Apply date</button><button id="cleartime">All dates</button>
               <span class="tool-divider" aria-hidden="true"></span>
+              <button id="autoRotate" class="orbit-only" hidden aria-pressed="false">Auto orbit</button>
               <button id="zoomIn" aria-label="Zoom in">+</button><button id="zoomOut" aria-label="Zoom out">−</button><button id="resetview">Reset</button>
             </div>
           </div>
@@ -91,10 +96,20 @@
             <span><i class="dot green"></i>Service / component</span><span><i class="dot violet"></i>Person</span><span><i class="dot blue"></i>Other entity</span><span><i class="event-key">◇</i>Whole event</span><span class="amber">Possible</span><span class="red">Negated / conflicting</span>
           </div>
           <div class="graphwrap">
-            <svg id="graph" aria-label="Interactive evidence graph"></svg>
+            <div id="graph2d" class="graph-surface">
+              <svg id="graph" aria-label="Interactive two-dimensional evidence graph"></svg>
+            </div>
+            <div id="graph3d" class="graph-surface graph-3d" hidden>
+              <canvas id="orbitCanvas" aria-label="Interactive three-dimensional evidence graph"></canvas>
+              <svg id="orbitLabels" aria-hidden="true"></svg>
+              <div id="orbitFallback" class="orbit-fallback" hidden>
+                <p class="panel-kicker">WebGL unavailable</p><p>This browser cannot draw the orbit view. Continue with the accessible 2D evidence map.</p>
+              </div>
+              <p class="orbit-hud">Drag to orbit · Shift-drag or right-drag to pan · Scroll to zoom · Select a signal to focus</p>
+            </div>
             <div class="empty" id="empty"><p class="panel-kicker">No records in view</p><h3>Nothing to map yet.</h3><p>Upload a source or load one of the seeded demonstrations.</p></div>
           </div>
-          <div class="map-caption">Drag nodes to inspect their shape. Drag open space to pan. A selected node, claim, or event always resolves back to its stored record.</div>
+          <div class="map-caption" id="mapcaption">Drag nodes to inspect their shape. Drag open space to pan. A selected node, claim, or event always resolves back to its stored record.</div>
         </section>
 
         <aside class="stack">
