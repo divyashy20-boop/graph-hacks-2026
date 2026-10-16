@@ -30,6 +30,8 @@ def test_shared_employer_only_with_overlapping_temporal_evidence():
     result = answer(e, as_of="2021-06-01")
     assert result["status"] == "RULE_DERIVED"
     assert result["rules"] == ["shared_employer_temporal_overlap_v1"]
+    assert result["resolution"]["assessment"] == "RULE_DERIVED"
+    assert result["resolution"]["supporting_claim_ids"] == result["supporting_claim_ids"]
     assert len(result["evidence"]) == 2
     assert result["paths"]
     assert answer(e, "FRIENDS_WITH", "2021-06-01")["status"] == "CONNECTED_ONLY"
@@ -46,6 +48,26 @@ def test_undated_employment_must_not_prove_temporal_overlap():
     ])
     assert answer(e)["status"] == "CONNECTED_ONLY"
     assert answer(e, as_of="2021-01-01")["status"] == "UNKNOWN"
+
+
+def test_dependency_rule_verdict_and_resolution_are_consistent():
+    e = system([
+        {"subject": "proxy", "subject_id": "proxy", "predicate": "depends_on",
+         "object": "backend", "object_id": "backend"},
+        {"subject": "backend", "subject_id": "backend", "predicate": "depends_on",
+         "object": "db", "object_id": "db"},
+    ])
+
+    result = e.relationship(RelationQuery(
+        subject="proxy", object="db", predicate="TRANSITIVELY_DEPENDS_ON"))
+
+    assert result["status"] == "RULE_DERIVED"
+    assert result["resolution"]["assessment"] == result["status"]
+    assert result["rules"] == ["dependency_reachability_v1"]
+    assert result["resolution"]["rule_id"] == result["rules"][0]
+    assert len(result["supporting_claim_ids"]) == 2
+    assert result["resolution"]["supporting_claim_ids"] == result["supporting_claim_ids"]
+    assert result["resolution"]["missing_evidence"] == []
 
 
 def test_shared_event_does_not_prove_same_employer():

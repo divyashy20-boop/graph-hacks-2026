@@ -355,6 +355,57 @@ class Engine:
             "safety_note": "A path/hypothesis does not establish the requested relation",
         }
 
+    @staticmethod
+    def derived_resolution(requested_predicate, proof, as_of, rule_id):
+        """Format the successful rule conclusion from its final verdict.
+
+        ``resolution`` is a public compatibility field. It must express the
+        completed verdict, never an earlier connectivity-only observation.
+        """
+        claim_ids = [claim["id"] for claim in proof["claims"]]
+        return {
+            "assessment": "RULE_DERIVED",
+            "requested_predicate": requested_predicate,
+            "rule_id": rule_id,
+            "supporting_claim_ids": claim_ids,
+            "path_summaries": [{
+                "claim_ids": claim_ids,
+                "predicates": [claim["predicate"] for claim in proof["claims"]],
+                "directions": ["forward" if direction else "reverse"
+                               for direction in proof["directions"]],
+            }],
+            "missing_evidence": [],
+            "recommended_action": "Use the listed source-backed claims and rule trace when explaining this conclusion",
+            "safety_note": "This rule establishes only the requested derived relation; it does not establish unrelated causation or a direct claim.",
+            "as_of": as_of,
+        }
+
+    @staticmethod
+    def final_relationship_response(base, verdict):
+        """Render every public conclusion from one completed reasoning verdict."""
+        status = verdict["status"]
+        resolution = verdict.get("resolution")
+        rules = list(verdict.get("rules", []))
+        supporting_claim_ids = list(verdict.get("supporting_claim_ids", []))
+
+        if status == "RULE_DERIVED":
+            if not rules or not supporting_claim_ids:
+                raise RuntimeError("Rule-derived verdict lacks rule or supporting claim IDs")
+            if not resolution or resolution.get("assessment") != "RULE_DERIVED":
+                raise RuntimeError("Rule-derived verdict has an inconsistent final assessment")
+
+        response = {
+            **base,
+            "status": status,
+            "explanation": verdict["explanation"],
+            "rules": rules,
+        }
+        if supporting_claim_ids:
+            response["supporting_claim_ids"] = supporting_claim_ids
+        if resolution is not None:
+            response["resolution"] = resolution
+        return response
+
     def relationship(self, query: RelationQuery):
         p = predicate(query.predicate)
         if query.as_of:
@@ -401,14 +452,20 @@ class Engine:
                           "directions": path["directions"]} for path in paths]
         all_claims = {c["id"]: c for path in paths for c in path["claims"]}
         base["evidence"] = self.evidence(list(all_claims.values()))
-        base["resolution"] = self.resolution_gap(p, paths, query.as_of)
+        gap = self.resolution_gap(p, paths, query.as_of)
         proof = next((path for path in paths if len(path["claims"]) >= 2
                       and all(path["directions"])
                       and all(c["predicate"] == "DEPENDS_ON" for c in path["claims"])), None)
         if proof and p == "TRANSITIVELY_DEPENDS_ON":
-            return {**base, "status": "RULE_DERIVED", "rules": ["dependency_reachability_v1"],
-                    "explanation": "A forward dependency chain entails dependency reachability; "
-                                   "it does not prove a direct dependency or incident cause"}
+            rule_id = "dependency_reachability_v1"
+            return self.final_relationship_response(base, {
+                "status": "RULE_DERIVED",
+                "rules": [rule_id],
+                "supporting_claim_ids": [claim["id"] for claim in proof["claims"]],
+                "resolution": self.derived_resolution(p, proof, query.as_of, rule_id),
+                "explanation": "A forward dependency chain entails dependency reachability; "
+                               "it does not prove a direct dependency or incident cause",
+            })
         # Only infer a shared employer from two directed, typed employment
         # claims with temporal anchors. A generic shared node proves nothing.
         if p == "SHARES_EMPLOYER":
@@ -422,11 +479,16 @@ class Engine:
             if shared:
                 # This is a derivation about overlapping source assertions,
                 # never independent proof of acquaintance or collaboration.
-                return {**base, "status": "RULE_DERIVED",
-                        "rules": ["shared_employer_temporal_overlap_v1"],
-                        "explanation": "Both source-backed employment assertions refer to "
-                        "the same employer during an overlapping supported period; "
-                        "this does not establish acquaintance or collaboration"}
+                rule_id = "shared_employer_temporal_overlap_v1"
+                return self.final_relationship_response(base, {
+                    "status": "RULE_DERIVED",
+                    "rules": [rule_id],
+                    "supporting_claim_ids": [claim["id"] for claim in shared["claims"]],
+                    "resolution": self.derived_resolution(p, shared, query.as_of, rule_id),
+                    "explanation": "Both source-backed employment assertions refer to "
+                    "the same employer during an overlapping supported period; "
+                    "this does not establish acquaintance or collaboration",
+                })
         if paths:
             base.update(status="CONNECTED_ONLY", explanation="A supported graph connection exists; "
                         "the requested predicate is not established")
@@ -444,12 +506,17 @@ class Engine:
                      method="dependency_risk_v1", model="none", state="proposed", recorded_at=now())
             with self.store.transaction():
                 self.store.commit([h])
-            return {**base, "status": "HYPOTHESIS", "hypotheses": [h],
-                    "explanation": "Dependency exposure suggests possible impact; causation unproven"}
+            return self.final_relationship_response({**base, "hypotheses": [h]}, {
+                "status": "HYPOTHESIS",
+                "explanation": "Dependency exposure suggests possible impact; causation unproven",
+                "resolution": gap,
+            })
         if query.use_ai and query.allow_hypothesis and paths:
             provider = self.provider()
             if not provider:
-                return {**base, "model_reasoning": "Unavailable: no live provider configured"}
+                return self.final_relationship_response({
+                    **base, "model_reasoning": "Unavailable: no live provider configured"
+                }, {"status": base["status"], "explanation": base["explanation"], "resolution": gap})
             self.store.consume("ai:" + self.store.owner + ":" + now()[:10],
                                self.settings.daily_ai_queries)
             import json
@@ -476,11 +543,18 @@ class Engine:
                 )
                 with self.store.transaction():
                     self.store.commit([hypothesis])
-                return {**base, "status": "HYPOTHESIS", "hypotheses": [hypothesis],
-                        "explanation": "Model-proposed hypothesis; semantic correctness unverified",
-                        "usage": getattr(provider, "usage", {})}
+                return self.final_relationship_response({
+                    **base, "hypotheses": [hypothesis], "usage": getattr(provider, "usage", {})
+                }, {
+                    "status": "HYPOTHESIS",
+                    "explanation": "Model-proposed hypothesis; semantic correctness unverified",
+                    "resolution": gap,
+                })
             base["model_reasoning"] = "Abstained or invalid evidence references"
-        return base
+        return self.final_relationship_response(
+            base,
+            {"status": base["status"], "explanation": base["explanation"], "resolution": gap},
+        )
 
     def investigate(self, request, actor):
         trace, signatures = [], set()
