@@ -1,0 +1,86 @@
+{
+  "recorded_at": "2026-10-16T01:00:09.198989+00:00",
+  "backend": "actual FalkorDB",
+  "results": [
+    {
+      "identity_ledger": false,
+      "rows": 100,
+      "ingestion_ms": 431.043,
+      "graph_write_ms": 94.872,
+      "client_cpu_ms": 218.75,
+      "python_allocation_peak_bytes": 2832163,
+      "redis_commands": {
+        "SET": 1,
+        "GRAPH.QUERY": 308,
+        "EVALSHA": 1
+      },
+      "network_roundtrips": 310,
+      "cypher_queries": 308,
+      "client_command_wall_ms": 292.996,
+      "graph_response_wall_ms": 291.318,
+      "successful_graph_internal_ms": 13.15,
+      "failed_commands": 0,
+      "retrieval": {
+        "exact_records": 602,
+        "exact_edges": 400,
+        "kind_labels_consistent": true,
+        "payloads_consistent": true,
+        "incidence_consistent": true
+      },
+      "counts": {
+        "Source": 1,
+        "Chunk": 100,
+        "Mention": 200,
+        "Entity": 101,
+        "Claim": 100,
+        "Evidence": 100
+      }
+    },
+    {
+      "identity_ledger": true,
+      "rows": 100,
+      "ingestion_ms": 661.263,
+      "graph_write_ms": 191.099,
+      "client_cpu_ms": 343.75,
+      "python_allocation_peak_bytes": 5600600,
+      "redis_commands": {
+        "SET": 1,
+        "GRAPH.QUERY": 409,
+        "EVALSHA": 1
+      },
+      "network_roundtrips": 411,
+      "cypher_queries": 409,
+      "client_command_wall_ms": 418.035,
+      "graph_response_wall_ms": 416.407,
+      "successful_graph_internal_ms": 21.675,
+      "failed_commands": 0,
+      "retrieval": {
+        "exact_records": 1305,
+        "exact_edges": 400,
+        "kind_labels_consistent": true,
+        "payloads_consistent": true,
+        "incidence_consistent": true
+      },
+      "counts": {
+        "IdentityAssignment": 200,
+        "Claim": 100,
+        "Source": 1,
+        "EntityCard": 101,
+        "Entity": 101,
+        "EntityCardHead": 101,
+        "Mention": 200,
+        "Evidence": 100,
+        "MentionSnapshot": 200,
+        "Chunk": 100,
+        "IdentityRevision": 101
+      }
+    }
+  ],
+  "model_calls": 0,
+  "limitations": [
+    "One traced100-row chain per mode, not a controlled throughput/p95 estimate",
+    "Opt-in ledger rejects over200 mentions/upload or per card; not2000-row ledger capacity",
+    "Client CPU/allocation measurements exclude server CPU/RSS",
+    "Fresh independent nodes only; mixed-upsert limit remains"
+  ]
+}

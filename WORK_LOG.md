@@ -309,4 +309,37 @@ Key implementation constraints: FalkorDB remains required for production/demo pe
 - [x] Reports retain baseline failures, intermediate fresh-only results and final
   observations. Mixed large-upsert scaling, independent annotations and broad
   language/event accuracy remain open; no production/million-record claim.
-- [ ] Check pushed D2 SHA/hosted CI before starting the universal foundation.
+- [x] D2 pushed as9c319ea2770174747386fc31a054bc0bb9997b5e; actual hosted run
+  https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38831854118 passed
+  before the E foundation began. Clean committed checkpoint preserved.
+
+## Milestone E: ledger/projection-first foundation — October16,2026
+
+- [x] Extended existing modules, no rewrite. Recorded precise meta-model, pack,
+  open predicate, group quantifier, dual time, confidence, safe rule and revision
+  boundaries in docs/UNIVERSAL_ARCHITECTURE.md, with primary research references.
+  No external code/model dependency or project1 credentials imported.
+- [x] Opt-in automatic MentionSnapshot/delta EntityCard/assignment revisions staged
+  in the same atomic source commit. Original Mention and ledger records reject
+  mutation, including kind changes and boolean/number substitution; heads remain
+  replaceable views. Default off preserves old datasets and D capacity.
+- [x] Explicitly authorized provisional merge/split/compensating revert, versioned
+  reasons/actors/source/dependent IDs, conflict flags and idempotency checks.
+  Later decisions prevent stale undo. No Claim/Event rewiring or identity-overlay
+  inference. Different same-name entities remain distinct automatically.
+- [x] Persisted artifact identity dependencies and selective immutable stale notices;
+  unrelated artifacts unchanged, no silent history deletion or semantic recompute.
+  Fresh API/store instances retain revisions; system-time views differ from world
+  validity. Strict REST input schemas and opt-in/tenant/write authorization tested.
+- [x] Added18 tests (three actual graph) ->209 total:196 non-integration +13 real.
+  Six ledger-off capacity cases and three domain demos still pass; development
+  accuracy unchanged. Actual100-row off/on ledger ingest431/661ms,602/1305 exact
+  records and400 unchanged edges. No big-volume or independent identity accuracy.
+- [x] Real persistent deliberate-wrong-projection/undo/freshness demo recorded in
+  e_identity_final.json. Whole n-ary events and original binary evidence preserved.
+- [x] Rebuilt packaged API; exact payload/edge hashes of all four synthetic demo
+  datasets unchanged across actual Docker graph/API restart (e_restart.json).
+- [ ] Domain packs/open predicate registry, autonomous wrong-merge detection,
+  trusted identity namespace calibration and semantic invalidation worker remain
+  deferred. This is the explicitly permitted ledger/projection-first increment,
+  not all of the long-term architecture.

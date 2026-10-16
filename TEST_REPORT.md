@@ -1,4 +1,46 @@
-# Verified follow-up report — October 15, 2026
+# Verified follow-up report — updated October16,2026
+
+## Milestone E ledger/projection foundation — October16,2026
+
+**209 passed:196 non-integration +13 actual FalkorDB, zero failed/skipped.**
+The18 new cases include three real graph integrations: reversible provisional
+union/undo +targeted artifact freshness +exact immutable payload protection;
+binary/n-ary source/card compatibility after reconnect; actual HTTP revision
+authorization, tenant isolation and persistence across fresh API instances.
+Other tests cover name ambiguity, supplied typed IDs/rename history, system versus
+world time, exact replay, later-decision undo rejection, request-key conflict,
+opt-in behavior, atomic mention/history/fanout limits and immutable record kinds.
+Boolean-versus-number mutation is rejected, not conflated by Python equality.
+An initial lint run caught a misplaced new test body/unused import; fixed before
+the final complete suite. The pre-existing TestClient deprecation remains.
+
+Actual `e_identity_final.json`: distinct same-name supplied IDs stay separate;
+same typed-ID rename has two card versions. An explicitly authorized, deliberately
+mistaken **provisional projection** merges two mentions, marks only its registered
+artifact stale, then reverses without deleting mentions/cards/facts. Unrelated
+artifact stays current-inputs-only; reverted artifacts remain stale pending new
+evaluation. This is not autonomous error detection or calibrated identity accuracy.
+
+`e_capacity_regression.json`: six fresh ledger-off CSV/JSON100/1000/2000 successes;
+2,000-row writes1,965/1,901ms, ingests8,443/8,668ms. Independent duplicate/repeat/
+isolation/reconnect checks pass. `e_graph_regression.json` retains10/10/15,F1 80%,
+public7/7/12,F1 73.68%; tiny tuned AI labels, not independent public accuracy.
+`e_showcase_regression.json` confirms all three actual domain demos.
+
+`e_ledger_overhead.json`, actual100-row off/on: ingest431.043/661.263ms,
+write94.872/191.099ms,308/409 Cypher queries,602/1305 exact records,400/400 exact
+edges. No p95, isolated CPU/server or large identity-volume claim. Opt-in rejects
+over200 mentions per upload/card. D's2,000-row success is **not ledger-on capacity**.
+Packaged API is rebuilt/ready; `e_restart.json` verifies exact record/edge hashes
+for all three old demo datasets plus the E identity ledger after actual API/graph
+restart. Final hosted CI is checked against the final SHA in the handoff; no
+workflow file is treated as evidence of success.
+
+Remaining: autonomous wrong-merge detection, trusted ID namespaces/calibration,
+legacy identity migration, domain-pack/open-schema implementation, cross-pack
+rules, automatic re-evaluation worker, independent language/identity annotation,
+large mixed updates and production certification. Ledger writes default off;
+provisional projection never rewires facts or silently joins definitive inference.
 
 ## Milestone D increment 2 — October 16, 2026
 

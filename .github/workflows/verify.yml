@@ -55,6 +55,10 @@ jobs:
         run: python -m ugi.eval_intelligence --fixture evaluation/intelligence_eval.json --development evaluation/intelligence_dev.json --output /tmp/ugi-intelligence-evaluation.json
       - name: Verify three-domain persistent FalkorDB action workflow
         run: python -m ugi.demo --execute --dataset-prefix ci-showcase --output /tmp/ugi-showcase.json
+      - name: Verify provisional identity reversal and targeted stale detection
+        run: python -m ugi.demo_identity --execute --dataset ci-identity --output /tmp/ugi-identity.json
+      - name: Measure bounded opt-in ledger overhead with exact graph checks
+        run: python -m ugi.benchmark_identity --output /tmp/ugi-identity-overhead.json
       - name: Verify source-aware conversion and persisted graph incidence
         run: python -m ugi.conversion_audit --fixture evaluation/c_development.json --output /tmp/ugi-c-development.json
       - name: Verify frozen public checkpoint (unreviewed, no accuracy claim)
@@ -82,6 +86,8 @@ jobs:
             /tmp/ugi-c-development.json
             /tmp/ugi-c-evaluation.json
             /tmp/ugi-c-capacity.json
+            /tmp/ugi-identity.json
+            /tmp/ugi-identity-overhead.json
           retention-days: 14
       - name: Show diagnostics on failure
         if: failure()

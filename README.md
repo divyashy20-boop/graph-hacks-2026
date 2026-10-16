@@ -4,6 +4,46 @@ An **event-time Graph Hacks 2026 Track 1 implementation** of a multi-format, evi
 
 **Status:** functional local prototype and demo, **not production-ready**. This repository contains a code-first implementation and a small synthetic evaluation, not a proven universally accurate graph extractor.
 
+## Milestone E foundation: reversible identity without rewriting facts
+
+The opt-in ledger automatically captures immutable source mentions, versioned
+delta EntityCards and traceable identity assignments in the source transaction.
+Same typed supplied IDs can preserve renamed mentions; names alone never merge
+documents. Explicit provisional merge/split/revert operations preserve history
+and original Claim/Event endpoints. Registered dependent artifacts become stale
+selectively; unrelated artifacts remain unchanged. **Projections never participate
+in definitive inference.** This is not autonomous wrong-merge detection or repair
+of legacy explicit-ID mistakes.
+
+**209 tests pass (196 non-integration +13 actual FalkorDB)**, including real HTTP
+authorization/isolation, whole-event compatibility, reversal, reconnect and
+immutability. All six ledger-off capacity regressions still pass; three-domain
+demos and exact controlled-restart fingerprints pass. Provisional extraction
+scores remain unchanged. New architecture and honest implementation boundaries:
+[UNIVERSAL_ARCHITECTURE](docs/UNIVERSAL_ARCHITECTURE.md).
+
+```powershell
+# Synthetic persisted demonstration, authorizes only its local demo revisions:
+python -m ugi.demo_identity --execute --output evaluation/my_identity_demo.json
+python -m ugi.benchmark_identity --output evaluation/my_ledger_overhead.json
+# Enable automatic ledger capture for FUTURE uploads (no legacy backfill):
+$env:UGI_IDENTITY_LEDGER='true'
+docker compose up -d --build --wait api
+```
+
+Default is false. Prototype caps:200 mentions/upload and per entity card,
+200 history versions,100 mentions/revision,200 dependent artifacts/revision.
+Excess rejects atomically; this is not a million-record identity engine.
+On the actual100-row chain, ledger off/on observed431/661ms ingest and602/1305
+exact records, with400 unchanged core edges. Single observations, not p95.
+Read cards at `GET /api/identity/cards/{entity_id}?as_known_at=<timezone timestamp>`;
+POST `/api/identity/revisions` and `/api/identity/artifacts` require explicit
+`authorise_action=true`, opt-in and the existing tenant key where configured.
+Read artifact freshness at `GET /api/identity/artifacts/{artifact_id}`. Ordinary
+world-time relationship queries still use `as_of`; they do not consume the overlay.
+Domain packs, semantic open-predicate registry, automatic split detection,
+cross-pack induction and semantic re-evaluation workers remain unimplemented.
+
 ## Milestone D: controlled extraction improvement
 
 The first increment adds bounded affiliation/responsibility clause extraction,
@@ -53,7 +93,7 @@ Important quality gate results:
 [TEST_REPORT](TEST_REPORT.md), [WORK_LOG](WORK_LOG.md),
 [human annotation workflow](evaluation/ANNOTATION_GUIDE.md),
 [data licences](DATA_LICENSES.md). Human adjudication and scalable atomic writes
-remain follow-ups; do not present this prototype as production-ready.
+remain follow-ups for general updates; do not present this prototype as production-ready.
 
 ## Milestone B: recovered, measured, demonstrable (historical)
 

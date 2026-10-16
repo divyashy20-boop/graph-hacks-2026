@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import re
 from contextlib import contextmanager
+from copy import deepcopy
 from threading import RLock, local
 
 from redis import Redis
@@ -13,7 +14,11 @@ from .models import Settings, uid
 KINDS = {
     "Source", "Chunk", "Entity", "Claim", "Evidence", "Mention", "MergeDecision",
     "Hypothesis", "Investigation", "ReviewTask", "AgentAction", "Usage", "RelationEvent",
+    "MentionSnapshot", "EntityCard", "EntityCardHead", "IdentityAssignment",
+    "IdentityRevision", "DerivedArtifact", "KnowledgeRevision",
 }
+IMMUTABLE_KINDS = {"Mention", "MentionSnapshot", "EntityCard", "IdentityRevision",
+                   "DerivedArtifact", "KnowledgeRevision"}
 
 
 def literal(value):
@@ -80,7 +85,8 @@ class Store:
 
     def get(self, record_id):
         if not self.client:
-            return self.records.get(record_id)
+            record = self.records.get(record_id)
+            return deepcopy(record) if record and record["kind"] in IMMUTABLE_KINDS else record
         rows = self.query("MATCH (n:Record {id:$id}) RETURN n.payload LIMIT 1", {"id": record_id})
         return json.loads(rows[0][0]) if rows else None
 
@@ -88,7 +94,8 @@ class Store:
         if kind not in KINDS or not 1 <= limit <= 20000:
             raise ValueError("Invalid retrieval limit or record kind")
         if not self.client:
-            return [r for r in self.records.values() if r["kind"] == kind][:limit]
+            return [deepcopy(r) if kind in IMMUTABLE_KINDS else r
+                    for r in self.records.values() if r["kind"] == kind][:limit]
         rows = self.query(f"MATCH (n:{kind}) RETURN n.payload ORDER BY n.id LIMIT {limit}")
         return [json.loads(row[0]) for row in rows]
 
@@ -165,8 +172,11 @@ class Store:
         if any(r["kind"] not in KINDS for r in records):
             raise ValueError("Unknown record kind")
         if not self.client:
-            self.records.update({r["id"]: r for r in records})
-            self.links.update(tuple(link) for link in links)
+            with self.lock:
+                self._check_immutable(records, self.records)
+                self.records.update({r["id"]: deepcopy(r) if r["kind"] in IMMUTABLE_KINDS else r
+                                     for r in records})
+                self.links.update(tuple(link) for link in links)
             return
         if not records and not links:
             return
@@ -179,7 +189,26 @@ class Store:
                 {"ids": sorted(ids)})}
             if ids - existing - {r["id"] for r in records}:
                 raise ValueError("Graph link endpoint missing; document not written")
+            frozen = [r["id"] for r in records if r["id"] in existing]
+            # Also reject changing an immutable record's kind to evade the guard.
+            if frozen:
+                previous = {row[0]: json.loads(row[1]) for row in self.query(
+                    "UNWIND $ids AS wanted MATCH (n:Record {id:wanted}) "
+                    "WHERE n.kind IN $kinds RETURN n.id,n.payload",
+                    {"ids": frozen, "kinds": sorted(IMMUTABLE_KINDS)})}
+                self._check_immutable(records, previous)
             self._write_classified(records, links, existing)
+
+    @staticmethod
+    def _check_immutable(records, previous):
+        for record in records:
+            old = previous.get(record["id"])
+            if old and old["kind"] in IMMUTABLE_KINDS:
+                # Python equality conflates True and 1; JSON evidence must not.
+                def canonical(r):
+                    return json.dumps(r, sort_keys=True, ensure_ascii=False, allow_nan=False)
+                if canonical(old) != canonical(record):
+                    raise ValueError("Immutable record cannot be changed: " + old["kind"])
 
     def _write_classified(self, records, links, existing):
         if existing:
@@ -210,7 +239,7 @@ class Store:
                            f"SET typed_{kind}:{kind})")
         for rel in sorted({link[2] for link in links}):
             if rel not in {"RELATES", "HAS_CHUNK", "SUPPORTS", "CITES", "HAS_TASK", "ACTED_ON",
-                           "HAS_PARTICIPANT"}:
+                           "HAS_PARTICIPANT", "USES_IDENTITY"}:
                 raise ValueError("Unknown edge kind")
             params[rel] = [dict(ai=ordinals[link[0]], bi=ordinals[link[1]], claim_id=link[3],
                                 role=link[4] if len(link) == 5 else "")
@@ -238,7 +267,7 @@ class Store:
             clauses.append(f"FOREACH(v IN ${kind} | MERGE (n:Record:{kind} {{id:v.id}}) SET n += v)")
         for rel in sorted({link[2] for link in links}):
             if rel not in {"RELATES", "HAS_CHUNK", "SUPPORTS", "CITES", "HAS_TASK", "ACTED_ON",
-                           "HAS_PARTICIPANT"}:
+                           "HAS_PARTICIPANT", "USES_IDENTITY"}:
                 raise ValueError("Unknown edge kind")
             params[rel] = [dict(a=link[0], b=link[1], claim_id=link[3],
                                 role=link[4] if len(link) == 5 else "")

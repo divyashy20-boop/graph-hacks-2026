@@ -211,6 +211,13 @@ class Engine:
                           usage=getattr(provider, "usage", {"calls": 0, "estimated_usd": 0}))
             source["report"] = report
             records.extend([*entities.values(), *reviews])
+            if self.settings.identity_ledger:
+                from .identity import IdentityLedger
+
+                ledger = IdentityLedger(self.store).stage(records)
+                if sum(counts.values()) + len(records) + len(ledger) > 100000:
+                    raise ValueError("Total record quota exceeded with identity ledger")
+                records.extend(ledger)
             self.store.commit(records, links)
             # Evidence updates invalidate prior conclusions; hypotheses never become claims.
             affected = {eid for c in claims for eid in (c["subject_id"], c["object_id"])}

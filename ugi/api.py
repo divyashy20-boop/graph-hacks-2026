@@ -10,6 +10,7 @@ from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
 from redis.exceptions import RedisError
 
 from .engine import Engine
+from .identity import ArtifactRequest, IdentityChange
 from .models import InvestigationRequest, RelationQuery, ReviewDecision, Settings, now, uid
 from .store import Store
 
@@ -136,6 +137,34 @@ def create_app(settings=None):
         if not item:
             raise HTTPException(404, "Record not found")
         return item
+
+    @app.get("/api/identity/cards/{entity_id}")
+    def identity_card(entity_id: str, as_known_at: str | None = Query(default=None, max_length=40),
+                      engine=Depends(context)):
+        from .identity import IdentityLedger
+
+        return IdentityLedger(engine.store).card(entity_id, as_known_at)
+
+    def identity_writer(engine):
+        from .identity import IdentityLedger
+
+        if not settings.identity_ledger:
+            raise HTTPException(403, "Identity ledger writes require UGI_IDENTITY_LEDGER=true")
+        return IdentityLedger(engine.store)
+
+    @app.post("/api/identity/revisions")
+    def identity_revision(request: IdentityChange, engine=Depends(context)):
+        return identity_writer(engine).revise(request, engine.store.owner)
+
+    @app.post("/api/identity/artifacts")
+    def identity_artifact(request: ArtifactRequest, engine=Depends(context)):
+        return identity_writer(engine).artifact(request)
+
+    @app.get("/api/identity/artifacts/{artifact_id}")
+    def identity_freshness(artifact_id: str, engine=Depends(context)):
+        from .identity import IdentityLedger
+
+        return IdentityLedger(engine.store).freshness(artifact_id)
 
     @app.get("/api/tasks")
     def tasks(engine=Depends(context)):

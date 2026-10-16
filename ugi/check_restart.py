@@ -12,10 +12,12 @@ from .models import Settings, now
 from .store import Store
 
 
-def fingerprint():
+def fingerprint(include_identity=False):
     results = {}
-    for domain in ("incident", "supply", "research"):
-        dataset = "showcase-b-" + domain
+    datasets = ["showcase-b-" + domain for domain in ("incident", "supply", "research")]
+    if include_identity:
+        datasets.append("showcase-e-identity")
+    for dataset in datasets:
         store = Store(Settings(provider="offline", allow_paid_calls=False), dataset=dataset)
         records = [json.loads(row[0]) for row in store.query(
             "MATCH (n:Record) RETURN n.payload ORDER BY n.id")]
@@ -37,8 +39,9 @@ def main():
     mode.add_argument("--snapshot", type=Path)
     mode.add_argument("--compare", type=Path)
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--include-identity", action="store_true", help="Also fingerprint the seeded E ledger demo")
     args = parser.parse_args()
-    observed = fingerprint()
+    observed = fingerprint(args.include_identity)
     if args.snapshot:
         args.snapshot.write_text(json.dumps(observed, indent=2)+"\n", encoding="utf-8")
         print("Captured exact persistent demo record/edge fingerprints; no data changed.")

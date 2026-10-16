@@ -72,6 +72,7 @@ class Settings(BaseSettings):
     global_daily_calls: int = Field(default=100, ge=1)
     provider: Literal["offline", "bedrock", "ollama"] = "offline"
     allow_paid_calls: bool = False
+    identity_ledger: bool = False
     model_id: str = ""
     ollama_url: str = "http://host.docker.internal:11434"
     aws_region: str = "us-east-1"

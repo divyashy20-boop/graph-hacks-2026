@@ -203,3 +203,15 @@ python -m ugi.conversion_audit --fixture evaluation/c_development.json --local-m
 These local checks were executed by the agent; no routine user action is needed.
 Commit SHAs and actual hosted CI conclusions are recorded in the final handoff,
 not inferred from the presence of a workflow file.
+
+## Delivery checkpoint and subsequent foundation
+
+D2 delivered as **9c319ea2770174747386fc31a054bc0bb9997b5e**, with verified
+[successful hosted Actions](https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38831854118).
+Only after that checkpoint did the E ledger/projection work begin. Its design is
+in docs/UNIVERSAL_ARCHITECTURE.md. Subsequent209-test verification (13 real graph)
+and six fresh ledger-off capacity regressions retain D correctness/results.
+The new opt-in immutable cards and provisional identity reversal do not change
+Claim/Event endpoints or improve measured language accuracy. General autonomous
+identity repair, domain packs and semantic schema induction are deferred, not
+claimed done. TEST_REPORT distinguishes ledger overhead from D's capacity.

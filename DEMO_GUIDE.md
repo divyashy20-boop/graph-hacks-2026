@@ -4,11 +4,18 @@ Track 1: Agents That Act on Connected Data. All demo records are synthetic CC0.
 The same engine, graph store, resolver and investigation policy serve all domains.
 No model or internet service is needed for the core presentation.
 
-Milestone C quality gate: use these small structured synthetic examples to show
+Latest D/E quality gate: use these small structured synthetic examples to show
 evidence/roles/actions, not universal extraction accuracy. Public complete-subset
-recall is only1/12 (provisional);23 frozen sources await human review.100-record
-local CSV/JSON passed,1,000/2,000 timed out. Keep uploads small and explain
-UNKNOWN honestly. See [CONVERTER_AUDIT](CONVERTER_AUDIT.md).
+recall is7/12 (tuned provisional);23 frozen sources await human review. Fresh
+ledger-off100/1,000/2,000 CSV/JSON now pass. Mixed updates retain the old capacity
+limit. Explain UNKNOWN honestly. See [CONVERTER_AUDIT](CONVERTER_AUDIT.md).
+
+Optional E foundation proof (not automatic identity-error detection):
+`python -m ugi.demo_identity --execute --output evaluation/my_identity.json`.
+This persists synthetic versioned cards, a deliberately mistaken provisional
+identity union and its compensating undo. Only the registered dependent artifact
+becomes stale; original facts/mentions remain unchanged. The projection does not
+participate in definitive inference. API capture is opt-in and bounded; see README.
 
 ## Prepare on Windows
 

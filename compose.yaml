@@ -24,6 +24,7 @@ services:
       UGI_REDIS_URL: redis://graph:6379/0
       UGI_PROVIDER: ${UGI_PROVIDER:-offline}
       UGI_ALLOW_PAID_CALLS: "false"
+      UGI_IDENTITY_LEDGER: ${UGI_IDENTITY_LEDGER:-false}
       UGI_MODEL_ID: ${UGI_MODEL_ID:-}
       UGI_OLLAMA_URL: ${UGI_OLLAMA_URL:-http://host.docker.internal:11434}
       UGI_API_KEYS: ${UGI_API_KEYS:-}

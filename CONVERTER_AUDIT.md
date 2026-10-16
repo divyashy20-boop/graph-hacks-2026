@@ -1,5 +1,21 @@
 # Conversion quality gate
 
+## Milestone E scope boundary
+
+The new opt-in identity ledger is a **storage/history and provisional projection**
+foundation, not a language extraction improvement.209 tests pass including13
+real graph tests. Typed source-ID rename/card history, distinct same-name people,
+immutable mentions, reversible authorized demo decisions and targeted artifact
+staleness are tested. Current Claim/Event identity anchors are not rewritten;
+provisional projections cannot be used as definitive evidence. Legacy records
+are not retrospectively reconstructed from mutable Entity profiles.
+Actual ledger-off development graph results remain10/10/15, public7/7/12.
+Three demos and all six ledger-off chain sizes pass again. Ledger-on100-row exact
+payload/incidence check passes; its200-mention cap is not general capacity.
+Independent merge/split accuracy, autonomous wrong-merge detection and semantic
+re-evaluation are not evaluated/implemented. Research/design choices and deferred
+domain-pack/open-predicate work are explicit in docs/UNIVERSAL_ARCHITECTURE.md.
+
 ## Milestone D graph update — October 16, 2026
 
 191 automated tests pass including10 real graph integrations. Fresh100/1,000/2,000
