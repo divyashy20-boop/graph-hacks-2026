@@ -1,14 +1,121 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>UGI · Connected evidence, accountable action</title><link rel="stylesheet" href="/assets/style.css?v=milestone-b"><script defer src="/assets/app.js?v=milestone-b"></script></head>
-<body><header><div class="mast"><div class="brand"><div class="logo" aria-hidden="true">◇</div><div><div class="eyebrow">Universal Graph Intelligence</div><h1>Follow the evidence. Then act.</h1></div></div><span class="badge" id="backend">Connecting…</span></div>
-<p class="intro">Connected sources, explicit uncertainty, and investigations you can trace.</p>
-<div class="settings"><label>Dataset <input id="dataset" value="demo" maxlength="60" aria-label="Dataset"></label><select id="preset" aria-label="Demonstration dataset"><option value="">Choose a seeded demonstration</option><option value="showcase-b-incident">IT incident</option><option value="showcase-b-supply">Supply chain</option><option value="showcase-b-research">Research &amp; identity</option></select><label>Access key <input id="access" type="password" autocomplete="off" placeholder="Local mode: leave empty" aria-label="Access key"></label><button id="refresh">Load dataset</button></div>
-<div class="flow"><b>01 Upload</b><span>→</span><b>02 Build graph</b><span>→</span><b>03 Investigate</b><span>→</span><b>04 Explain evidence</b><span>→</span><b>05 Authorize action</b></div><div class="status" role="status" aria-live="polite" id="globalstatus"></div></header>
-<main><section class="stats" aria-label="Stored dataset counts"><div class="stat"><strong id="kentities">—</strong><span>Entities</span></div><div class="stat"><strong id="kclaims">—</strong><span>Source claims</span></div><div class="stat"><strong id="kevents">—</strong><span>Whole events</span></div><div class="stat"><strong id="kcases">—</strong><span>Saved investigations</span></div><div class="stat"><strong id="kreviews">—</strong><span>Open review tasks</span></div></section>
-<div class="workspace"><section class="panel"><div class="panelhead"><h2>Connected evidence</h2><div class="toolbar"><input type="date" id="timeline" aria-label="Graph timeline date"><button id="applytime">Apply date</button><button id="cleartime">All dates</button><button id="zoomIn" aria-label="Zoom in">+</button><button id="zoomOut" aria-label="Zoom out">−</button><button id="resetview">Reset view</button></div></div><div id="graphnotice" class="notice" hidden></div><div class="legend"><span><i class="dot green"></i>Service / component</span><span><i class="dot violet"></i>Person</span><span><i class="dot blue"></i>Other entity</span><span>◇ Whole event</span><span class="amber">Possible</span><span class="red">Negated / conflicting</span></div><div class="graphwrap"><svg id="graph" aria-label="Interactive evidence graph"></svg><div class="empty" id="empty"><h3>No evidence in this view</h3><p>Upload a source or load a demonstration dataset.</p></div></div><div class="body small muted">Drag nodes to explore, drag the background to pan, and use + / − to zoom. Click a node, claim or event for its source. Highlighted paths come from the resolver.</div></section>
-<aside class="stack"><section class="panel"><div class="panelhead"><h2>Source inspector</h2><span id="inspectkind" class="badge">Select a record</span></div><div class="body" id="inspector"><p>Every supported claim links back to an exact source passage. Shared graph connections do not establish a new fact.</p></div></section><section class="panel"><div class="panelhead"><h2>Upload a source</h2></div><div class="body"><div class="form"><label>CSV · JSON · JSONL · TXT · text PDF<input type="file" id="file" accept=".csv,.json,.jsonl,.txt,.pdf"></label><label class="check"><input id="useai" type="checkbox">Use configured local model (optional)</label><button id="upload" class="primary">Build evidence graph</button></div><div class="status" id="uploadstatus" role="status"></div><details><summary>Processing details</summary><pre id="ingestion"></pre></details></div></section></aside></div>
-<div class="bottom"><section class="panel"><div class="panelhead"><h2>Evaluate a connection</h2><span class="badge">Evidence before inference</span></div><div class="body"><div class="form"><div class="row"><input id="subject" value="Checkout" placeholder="Subject or exact ID" aria-label="Subject"><input id="predicate" value="TRANSITIVELY_DEPENDS_ON" placeholder="Predicate" aria-label="Predicate"><input id="object" value="Cache" placeholder="Object or exact ID" aria-label="Object"></div><label class="check"><input id="hypothesis" type="checkbox">Allow a separately stored risk hypothesis</label><button id="query">Evaluate evidence</button></div><div class="status" id="querystatus" role="status"></div><div id="answer" class="answer" hidden></div><details><summary>Evidence paths and rule trace</summary><pre id="answerjson"></pre></details></div></section>
-<section class="panel"><div class="panelhead"><h2>Investigate and act</h2><span class="badge">Bounded graph policy</span></div><div class="body"><p class="small">Trace incoming dependencies, inspect conflicts and create a case with review tasks. Exposure is risk, not confirmed causation.</p><div class="form intro"><label>Investigation target<input id="target" value="Cache" aria-label="Investigation target"></label><button id="preview">Preview investigation</button><label class="check"><input id="authorise" type="checkbox">I authorize creating this persistent local investigation and review tasks</label><button id="execute" class="primary">Execute authorized action</button></div><div class="status" id="actionstatus" role="status"></div><div id="actionbrief"></div><details><summary>Actual tool execution trace</summary><pre id="action"></pre></details></div></section></div>
-<div class="bottom"><section class="panel"><div class="panelhead"><h2>Saved investigations</h2><span class="small muted">Persistent graph state</span></div><div class="body" id="cases"></div></section><section class="panel"><div class="panelhead"><h2>Human review queue</h2><span class="small muted">Decisions are audited</span></div><div class="body"><p class="small">A review decision records judgement; it does not automatically turn a model proposal into a source assertion.</p><div id="tasks"></div></div></section></div>
-</main><footer>Graph Hacks 2026 · Track 1 · FalkorDB stores evidence, traverses dependencies and preserves actions. Source assertions are not independently verified truth. <a href="/docs">API reference</a></footer></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#080b0e">
+  <title>UGI — Evidence operations</title>
+  <link rel="stylesheet" href="/assets/style.css?v=ui-001">
+  <script defer src="/assets/app.js?v=ui-001"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="site-header">
+      <div class="mast">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true"><span>U</span><span>G</span><span>I</span></div>
+          <div>
+            <p class="eyebrow">Evidence operations / 01</p>
+            <h1>Make the case.<br><em>Keep the trail.</em></h1>
+          </div>
+        </div>
+        <div class="system-readout">
+          <span class="readout-label">Graph backend</span>
+          <span class="badge" id="backend">Connecting</span>
+        </div>
+      </div>
+
+      <p class="intro">Universal Graph Intelligence turns connected sources into inspectable evidence — with uncertainty and action boundaries left intact.</p>
+
+      <div class="control-deck" aria-label="Dataset controls">
+        <label class="control-field">Dataset
+          <input id="dataset" value="demo" maxlength="60" aria-label="Dataset">
+        </label>
+        <label class="control-field">Demonstration
+          <select id="preset" aria-label="Demonstration dataset">
+            <option value="">Choose a seeded demonstration</option>
+            <option value="showcase-b-incident">IT incident</option>
+            <option value="showcase-b-supply">Supply chain</option>
+            <option value="showcase-b-research">Research &amp; identity</option>
+          </select>
+        </label>
+        <label class="control-field control-field--key">Access key
+          <input id="access" type="password" autocomplete="off" placeholder="Local mode: leave empty" aria-label="Access key">
+        </label>
+        <button id="refresh" class="primary">Load evidence</button>
+      </div>
+
+      <ol class="process-rail" aria-label="Evidence workflow">
+        <li><span>01</span> Ingest</li>
+        <li><span>02</span> Map</li>
+        <li><span>03</span> Evaluate</li>
+        <li><span>04</span> Inspect</li>
+        <li><span>05</span> Authorize</li>
+      </ol>
+      <div class="status global-status" role="status" aria-live="polite" id="globalstatus"></div>
+    </header>
+
+    <main>
+      <section class="stats" aria-label="Stored dataset counts">
+        <div class="stat"><span class="stat-label">Entities</span><strong id="kentities">—</strong><span class="stat-detail">identified records</span></div>
+        <div class="stat"><span class="stat-label">Claims</span><strong id="kclaims">—</strong><span class="stat-detail">source-backed assertions</span></div>
+        <div class="stat"><span class="stat-label">Events</span><strong id="kevents">—</strong><span class="stat-detail">whole statements</span></div>
+        <div class="stat"><span class="stat-label">Cases</span><strong id="kcases">—</strong><span class="stat-detail">saved investigations</span></div>
+        <div class="stat"><span class="stat-label">Reviews</span><strong id="kreviews">—</strong><span class="stat-detail">open decisions</span></div>
+      </section>
+
+      <div class="workspace">
+        <section class="panel panel--map">
+          <div class="panelhead">
+            <div><p class="panel-kicker">Live dataset</p><h2>Evidence map</h2></div>
+            <div class="toolbar" aria-label="Graph controls">
+              <label class="visually-hidden" for="timeline">Date</label><input type="date" id="timeline" aria-label="Graph timeline date">
+              <button id="applytime">Apply date</button><button id="cleartime">All dates</button>
+              <span class="tool-divider" aria-hidden="true"></span>
+              <button id="zoomIn" aria-label="Zoom in">+</button><button id="zoomOut" aria-label="Zoom out">−</button><button id="resetview">Reset</button>
+            </div>
+          </div>
+          <div id="graphnotice" class="notice" hidden></div>
+          <div class="legend" aria-label="Evidence map legend">
+            <span><i class="dot green"></i>Service / component</span><span><i class="dot violet"></i>Person</span><span><i class="dot blue"></i>Other entity</span><span><i class="event-key">◇</i>Whole event</span><span class="amber">Possible</span><span class="red">Negated / conflicting</span>
+          </div>
+          <div class="graphwrap">
+            <svg id="graph" aria-label="Interactive evidence graph"></svg>
+            <div class="empty" id="empty"><p class="panel-kicker">No records in view</p><h3>Nothing to map yet.</h3><p>Upload a source or load one of the seeded demonstrations.</p></div>
+          </div>
+          <div class="map-caption">Drag nodes to inspect their shape. Drag open space to pan. A selected node, claim, or event always resolves back to its stored record.</div>
+        </section>
+
+        <aside class="stack">
+          <section class="panel">
+            <div class="panelhead"><div><p class="panel-kicker">Traceability</p><h2>Source inspector</h2></div><span id="inspectkind" class="badge">Select a record</span></div>
+            <div class="body" id="inspector"><p>Every supported claim links back to an exact source passage. A shared graph connection does not create a new fact.</p></div>
+          </section>
+          <section class="panel">
+            <div class="panelhead"><div><p class="panel-kicker">Input</p><h2>Build a graph</h2></div></div>
+            <div class="body"><div class="form"><label>Source file <span>CSV · JSON · JSONL · TXT · text PDF</span><input id="file" type="file" accept=".csv,.json,.jsonl,.txt,.pdf"></label><label class="check"><input id="useai" type="checkbox">Use configured local model <span>(optional)</span></label><button id="upload" class="primary">Ingest source</button></div><div class="status" id="uploadstatus" role="status"></div><details><summary>Processing report</summary><pre id="ingestion"></pre></details></div>
+          </section>
+        </aside>
+      </div>
+
+      <div class="operations-grid">
+        <section class="panel">
+          <div class="panelhead"><div><p class="panel-kicker">Read only</p><h2>Evaluate a connection</h2></div><span class="badge">Evidence before inference</span></div>
+          <div class="body"><div class="form"><div class="query-row"><label>Subject<input id="subject" value="Checkout" placeholder="Subject or exact ID" aria-label="Subject"></label><label>Predicate<input id="predicate" value="TRANSITIVELY_DEPENDS_ON" placeholder="Predicate" aria-label="Predicate"></label><label>Object<input id="object" value="Cache" placeholder="Object or exact ID" aria-label="Object"></label></div><label class="check"><input id="hypothesis" type="checkbox">Allow a separately stored risk hypothesis</label><button id="query">Evaluate evidence</button></div><div class="status" id="querystatus" role="status"></div><div id="answer" class="answer" hidden></div><details><summary>Evidence paths and rule trace</summary><pre id="answerjson"></pre></details></div>
+        </section>
+        <section class="panel panel--action">
+          <div class="panelhead"><div><p class="panel-kicker">Controlled write</p><h2>Investigate and act</h2></div><span class="badge">Bounded graph policy</span></div>
+          <div class="body"><p class="small">Trace incoming dependencies, inspect conflicts, then create a reviewable case. Exposure is risk, not confirmed causation.</p><div class="form intro"><label>Investigation target<input id="target" value="Cache" aria-label="Investigation target"></label><button id="preview">Preview investigation</button><label class="check"><input id="authorise" type="checkbox">I authorize creating this persistent local investigation and review tasks</label><button id="execute" class="primary">Execute authorized action</button></div><div class="status" id="actionstatus" role="status"></div><div id="actionbrief"></div><details><summary>Actual tool execution trace</summary><pre id="action"></pre></details></div>
+        </section>
+      </div>
+
+      <div class="operations-grid operations-grid--lower">
+        <section class="panel"><div class="panelhead"><div><p class="panel-kicker">Persistent state</p><h2>Saved investigations</h2></div><span class="small muted">Graph-backed</span></div><div class="body" id="cases"></div></section>
+        <section class="panel"><div class="panelhead"><div><p class="panel-kicker">Human judgement</p><h2>Review queue</h2></div><span class="small muted">Audited decisions</span></div><div class="body"><p class="small">A review decision records judgement; it never turns a model proposal into a source assertion.</p><div id="tasks"></div></div></section>
+      </div>
+    </main>
+
+    <footer><span>UGI / Graph Hacks 2026</span><span>FalkorDB stores evidence, traverses dependencies, and preserves actions.</span><span>Source assertions are not independently verified truth.</span><a href="/docs">API reference ↗</a></footer>
+  </div>
+</body>
+</html>
