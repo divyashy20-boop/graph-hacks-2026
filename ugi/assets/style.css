@@ -227,6 +227,7 @@ svg text { fill: #fff7f2; font: 12px/1.2 Inter,ui-sans-serif,system-ui,sans-seri
 svg .edge-label { font: 800 9px/1 ui-monospace,SFMono-Regular,Consolas,monospace; letter-spacing: .025em; }
 svg .pick { cursor: pointer; }
 .empty { position: absolute; inset: 0; display: grid; place-content: center; gap: 10px; padding: 20px; text-align: center; pointer-events: none; }.empty[hidden] { display: none; }.empty p:last-child { max-width: 280px; }
+.graph-state { position: absolute; z-index: 4; inset: 0; display: grid; place-content: center; justify-items: center; gap: 10px; padding: 24px; text-align: center; background: rgba(13,6,25,.82); backdrop-filter: blur(7px); }.graph-state[hidden] { display: none; }.graph-state p:not(.panel-kicker) { max-width: 340px; }.graph-state button { min-width: 112px; }
 .map-caption { padding: 11px 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
 .stack { display: flex; flex-direction: column; gap: 20px; }.body { padding: 16px; }.muted { color: var(--muted); }.small { font-size: 12px; line-height: 1.55; }
 .quote { margin: 15px 0; padding: 13px 14px; border-left: 3px solid var(--signal); border-radius: 0 8px 8px 0; background: rgba(8,3,16,.68); color: #f0e4f4; white-space: pre-wrap; overflow-wrap: anywhere; }
@@ -253,3 +254,4 @@ footer { display: flex; flex-wrap: wrap; gap: 12px 20px; padding: 18px 30px 26px
 @media (max-width: 1120px) { .graph-surface { min-height: 440px; } #orbitCanvas { height: 470px; } }
 @media (max-width: 720px) { .graph-surface { min-height: 390px; } #orbitCanvas { height: 420px; } .orbit-hud { left: 18px; right: 18px; text-align: left; } }
 @media (max-width: 720px) { .provenance-grid, .story-metrics { grid-template-columns: 1fr; }.verdict-head { display: block; }.verdict-status { margin-top: 13px; text-align: left; } }
+@media (max-width: 720px) { .view-switcher { width: 100%; }.view-switcher button { flex: 1; }.toolbar .tool-divider { display: none; }.toolbar > button, .toolbar input { flex: 1 1 auto; }.graph-state { padding: 20px; } }

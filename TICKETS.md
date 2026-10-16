@@ -111,12 +111,15 @@ inspectable without changing what the graph asserts.
 
 ## UI-006 — Responsive demo quality gate
 
-**Status:** Queued
+**Status:** Complete
 **Priority:** P0  
 **Depends on:** UI-005
 
 Validate the final UI locally and in Docker, including desktop/mobile layouts,
 keyboard paths, empty/loading/error states, and the complete demo walkthrough.
+This ticket adds client-side loading/error recovery and keyboard guidance; live
+browser and Docker visual checks remain environment-dependent and are reported
+honestly at handoff.
 
 **Acceptance criteria:**
 

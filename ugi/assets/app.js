@@ -47,9 +47,19 @@ async function busy(button, status, work) {
   } catch (error) {
     $(status).textContent = error.message;
     $(status).classList.add("error");
+    if (status === "globalstatus") setGraphState("error", error.message);
   } finally {
     $(button).disabled = false;
   }
+}
+
+function setGraphState(kind, message = "") {
+  const state = $("graphstate");
+  if (!kind) { state.hidden = true; return; }
+  state.hidden = false;
+  $("graphstatekicker").textContent = kind === "error" ? "Unable to load evidence map" : "Loading evidence map";
+  $("graphstatetext").textContent = message || (kind === "error" ? "Check the connection or dataset, then try again." : "Retrieving graph-backed records.");
+  $("retrygraph").hidden = kind !== "error";
 }
 
 function field(parent, label, value) {
@@ -444,6 +454,7 @@ $("resetview").onclick = () => { view = [...baseView]; setView(); };
 async function refresh() {
   const epoch = ++loadEpoch;
   $("globalstatus").textContent = "Loading graph and persistent state…";
+  setGraphState("loading");
   const query = $("timeline").value ? `?as_of=${$("timeline").value}` : "";
   const [graph, cases, tasks] = await Promise.all([api(`/api/graph${query}`), api("/api/investigations"), api("/api/tasks")]);
   if (epoch !== loadEpoch) return;
@@ -453,6 +464,7 @@ async function refresh() {
     $(id).textContent = value;
   }
   render();
+  setGraphState();
 
   const notices = [];
   if (graph.truncated) notices.push("Bounded view: some records are outside this result.");
@@ -531,6 +543,7 @@ function presetValues() {
 }
 
 $("refresh").onclick = () => { resetAction(); busy("refresh", "globalstatus", refresh); };
+$("retrygraph").onclick = () => { resetAction(); busy("refresh", "globalstatus", refresh); };
 $("dataset").onchange = () => { resetAction(); busy("refresh", "globalstatus", refresh); };
 $("access").onchange = () => { resetAction(); busy("refresh", "globalstatus", refresh); };
 $("preset").onchange = () => {
@@ -682,7 +695,7 @@ $("execute").onclick = () => busy("execute", "actionstatus", () => investigate(t
 api("/health").then((health) => { $("backend").textContent = `${health.backend} · ${health.provider}`; })
   .catch((error) => { $("backend").textContent = error.message; });
 refresh().then((message) => { $("globalstatus").textContent = message; })
-  .catch((error) => { $("globalstatus").textContent = error.message; $("globalstatus").classList.add("error"); });
+  .catch((error) => { $("globalstatus").textContent = error.message; $("globalstatus").classList.add("error"); setGraphState("error", error.message); });
 
 // UI-004: a deliberately small, native WebGL view. It only projects records
 // already supplied to the 2D map; graph meaning stays entirely in the API.
@@ -958,6 +971,12 @@ function createOrbitRenderer() {
   };
   canvas.onpointerup = (event) => { if (drag && !drag.moved) pick(event.clientX, event.clientY); drag = null; };
   canvas.onwheel = (event) => { event.preventDefault(); state.distance = Math.max(4, Math.min(28, state.distance * (event.deltaY > 0 ? 1.12 : .89))); };
+  canvas.onkeydown = (event) => {
+    const keys = {ArrowLeft: () => { state.yaw -= .13; }, ArrowRight: () => { state.yaw += .13; }, ArrowUp: () => { state.pitch = Math.max(-1.25, state.pitch - .1); }, ArrowDown: () => { state.pitch = Math.min(1.25, state.pitch + .1); }, "+": () => { state.distance = Math.max(4, state.distance * .88); }, "-": () => { state.distance = Math.min(28, state.distance * 1.14); }, "0": () => { state.yaw = .68; state.pitch = .24; state.distance = 13; state.target = [0, 0, 0]; }, Escape: () => clearSelection()};
+    if (!keys[event.key]) return;
+    event.preventDefault();
+    keys[event.key]();
+  };
   if (window.ResizeObserver) new ResizeObserver(resize).observe(canvas);
   else window.addEventListener("resize", resize);
   return {
@@ -977,6 +996,8 @@ function setViewMode(mode) {
   $("graph3d").hidden = !orbitView;
   $("view2d").setAttribute("aria-selected", String(!orbitView));
   $("view3d").setAttribute("aria-selected", String(orbitView));
+  $("view2d").tabIndex = orbitView ? -1 : 0;
+  $("view3d").tabIndex = orbitView ? 0 : -1;
   $("autoRotate").hidden = !orbitView;
   $("zoomIn").hidden = orbitView; $("zoomOut").hidden = orbitView; $("resetview").hidden = orbitView;
   $("mapcaption").textContent = orbitView
@@ -992,6 +1013,14 @@ function setViewMode(mode) {
 
 $("view2d").onclick = () => setViewMode("2d");
 $("view3d").onclick = () => setViewMode("3d");
+$("fallback2d").onclick = () => setViewMode("2d");
+$("view2d").onkeydown = $("view3d").onkeydown = (event) => {
+  if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+  event.preventDefault();
+  const next = event.key === "ArrowLeft" || event.key === "Home" ? $("view2d") : $("view3d");
+  setViewMode(next.id === "view3d" ? "3d" : "2d");
+  next.focus();
+};
 $("autoRotate").onclick = () => {
   orbit?.setAutoRotate(!orbit.autoRotate);
   $("autoRotate").setAttribute("aria-pressed", String(orbit?.autoRotate));
