@@ -218,6 +218,12 @@ class Engine:
                 if sum(counts.values()) + len(records) + len(ledger) > 100000:
                     raise ValueError("Total record quota exceeded with identity ledger")
                 records.extend(ledger)
+                if self.settings.identity_resolution != "off":
+                    from .resolution import IdentityResolver
+
+                    records.extend(IdentityResolver(self.store).stage(records))
+                    if sum(counts.values()) + len(records) > 100000:
+                        raise ValueError("Total record quota exceeded with identity resolution")
             self.store.commit(records, links)
             # Evidence updates invalidate prior conclusions; hypotheses never become claims.
             affected = {eid for c in claims for eid in (c["subject_id"], c["object_id"])}

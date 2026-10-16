@@ -57,6 +57,8 @@ jobs:
         run: python -m ugi.demo --execute --dataset-prefix ci-showcase --output /tmp/ugi-showcase.json
       - name: Verify provisional identity reversal and targeted stale detection
         run: python -m ugi.demo_identity --execute --dataset ci-identity --output /tmp/ugi-identity.json
+      - name: Verify source-grounded identity policy cases on actual FalkorDB
+        run: python -m ugi.eval_identity --output /tmp/ugi-f-identity.json
       - name: Measure bounded opt-in ledger overhead with exact graph checks
         run: python -m ugi.benchmark_identity --output /tmp/ugi-identity-overhead.json
       - name: Verify source-aware conversion and persisted graph incidence
@@ -88,6 +90,7 @@ jobs:
             /tmp/ugi-c-capacity.json
             /tmp/ugi-identity.json
             /tmp/ugi-identity-overhead.json
+            /tmp/ugi-f-identity.json
           retention-days: 14
       - name: Show diagnostics on failure
         if: failure()

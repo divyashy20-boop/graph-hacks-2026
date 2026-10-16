@@ -1,5 +1,11 @@
 # Universal knowledge intelligence: executable foundation and boundaries
 
+F increment1 adds an implemented bounded identity blocking/assessment layer;
+see MILESTONE_F_REPORT. Operator-authorized source evidence is separate from
+ordinary upload content. New F-mode initial projection anchors are distinct for
+untrusted IDs. No overlay joins definitive inference; general wrong-merge detection
+and domain-pack concepts below remain unimplemented at this checkpoint.
+
 October16,2026, after D commit9c319ea2770174747386fc31a054bc0bb9997b5e and
 [successful CI](https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38831854118).
 This extends the working converter; it is not a replacement engine or a claim

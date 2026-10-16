@@ -12,6 +12,7 @@ from redis.exceptions import RedisError
 from .engine import Engine
 from .identity import ArtifactRequest, IdentityChange
 from .models import InvestigationRequest, RelationQuery, ReviewDecision, Settings, now, uid
+from .resolution import AuthorityObservation, IdentityResolver
 from .store import Store
 
 
@@ -165,6 +166,22 @@ def create_app(settings=None):
         from .identity import IdentityLedger
 
         return IdentityLedger(engine.store).freshness(artifact_id)
+
+    @app.get("/api/identity/candidates/{snapshot_id}")
+    def identity_candidates(snapshot_id: str, engine=Depends(context)):
+        with engine.store.transaction():
+            return IdentityResolver(engine.store).candidates(snapshot_id)
+
+    @app.get("/api/identity/compare")
+    def identity_compare(left: str = Query(min_length=1, max_length=160),
+                         right: str = Query(min_length=1, max_length=160), engine=Depends(context)):
+        with engine.store.transaction():
+            return IdentityResolver(engine.store).compare(left, right)
+
+    @app.post("/api/identity/authority-observations")
+    def identity_observation(request: AuthorityObservation, engine=Depends(context)):
+        identity_writer(engine)
+        return IdentityResolver(engine.store).observe(request, engine.store.owner)
 
     @app.get("/api/tasks")
     def tasks(engine=Depends(context)):

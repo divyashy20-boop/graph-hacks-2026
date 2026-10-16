@@ -1,5 +1,14 @@
 # Verified follow-up report — updated October16,2026
 
+## Milestone F increment1
+
+220 passed, zero failed/skipped:206 non-integration +14 actual FalkorDB. Real
+candidate retrieval plan uses Index Scan; evidence/assessment reconnect, atomic
+grounding failure and dataset isolation pass.20 authored synthetic development
+policy cases:6/6 expected matches,0 false positives,20/20 decision categories,
+candidate recall6/6. This tests specification logic, NOT independent entity linking
+accuracy. MILESTONE_F_REPORT documents authority assumptions and remaining gaps.
+
 ## Milestone E ledger/projection foundation — October16,2026
 
 **209 passed:196 non-integration +13 actual FalkorDB, zero failed/skipped.**

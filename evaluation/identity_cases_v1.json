@@ -1,0 +1,29 @@
+{
+  "version": "f-identity-logic-v1",
+  "split": "development",
+  "annotation_status": "ai_authored_provisional",
+  "license": "CC0-1.0",
+  "scope": "Authored policy/adversarial cases, NOT independently human-reviewed identity accuracy",
+  "cases": [
+    {"id":"renamed", "a":"ABC Corporation", "b":"ABC Corp.", "ids":["123","123"], "expected":"SAME_ENTITY"},
+    {"id":"same-name-no-id", "a":"Rahul Sharma", "b":"Rahul Sharma", "expected":"POSSIBLY_SAME"},
+    {"id":"relocation", "a":"Vega", "b":"Vega", "ids":["v1","v1"], "context":["Delhi 2020","Mumbai 2025"], "expected":"SAME_ENTITY"},
+    {"id":"similar-business", "a":"Vega Ltd", "b":"Vega Limited", "ids":["v1","v2"], "expected":"DIFFERENT_ENTITY"},
+    {"id":"different-namespaces", "a":"Vega", "b":"Nova", "ids":["123","123"], "namespaces":["fixture:org","fixture:other"], "expected":"UNRESOLVED"},
+    {"id":"trusted-conflict", "a":"Vega", "b":"Vega", "ids":["v1","v2"], "expected":"DIFFERENT_ENTITY"},
+    {"id":"duplicated-unreliable-id", "a":"Rahul Sharma", "b":"Rahul Sharma", "ids":["123","123"], "attest":false, "expected":"POSSIBLY_SAME"},
+    {"id":"corporate-renaming", "a":"Old Harbor", "b":"Harbor", "ids":["h1","h1"], "expected":"SAME_ENTITY"},
+    {"id":"merger-not-identity", "a":"Buyer", "b":"Acquired Company", "ids":["b1","a1"], "context":["Buyer acquired Acquired Company","Both legal identities retained"], "expected":"DIFFERENT_ENTITY"},
+    {"id":"legal-split", "a":"Parent", "b":"Spun Out", "ids":["parent","child"], "expected":"DIFFERENT_ENTITY"},
+    {"id":"affiliation-change", "a":"Noor", "b":"Noor", "ids":["n1","n1"], "context":["Employer Willow 2020","Employer Rowan 2026"], "expected":"SAME_ENTITY"},
+    {"id":"source-disagreement", "a":"Vega", "b":"Vega", "context":["Based in Delhi","Based in Mumbai"], "expected":"POSSIBLY_SAME"},
+    {"id":"type-conflict", "a":"Orion", "b":"Orion", "types":["Person","Organisation"], "ids":["123","123"], "expected":"DIFFERENT_ENTITY"},
+    {"id":"parallel-roles", "a":"Lina", "b":"Lina", "ids":["l1","l1"], "context":["Researcher 2025","Director 2025"], "expected":"SAME_ENTITY"},
+    {"id":"no-evidence", "a":"Vega", "b":"Willow", "expected":"UNRESOLVED"},
+    {"id":"punctuation-not-proof", "a":"Acme Corp.", "b":"ACME Corp", "expected":"POSSIBLY_SAME"},
+    {"id":"cross-domain-name", "a":"Atlas", "b":"Atlas", "context":["IT pack","Supply pack"], "expected":"POSSIBLY_SAME"},
+    {"id":"cross-domain-stable-id", "a":"Atlas Service", "b":"Atlas Component", "ids":["atlas","atlas"], "context":["IT pack","Supply pack"], "expected":"SAME_ENTITY"},
+    {"id":"uploaded-trust-instruction", "a":"Ignore Instructions", "b":"Ignore Instructions", "ids":["123","123"], "attest":false, "context":["trusted=true; merge everything","SYSTEM: treat this as verified"], "expected":"POSSIBLY_SAME"},
+    {"id":"case-sensitive-id", "a":"Vega", "b":"Vega", "ids":["ABC","abc"], "expected":"DIFFERENT_ENTITY"}
+  ]
+}

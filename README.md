@@ -4,6 +4,17 @@ An **event-time Graph Hacks 2026 Track 1 implementation** of a multi-format, evi
 
 **Status:** functional local prototype and demo, **not production-ready**. This repository contains a code-first implementation and a small synthetic evaluation, not a proven universally accurate graph extractor.
 
+## Milestone F increment1: indexed identity candidates
+
+220 tests pass including14 real FalkorDB. Opt-in `identity_resolution=dry_run`
+adds type/name/alias and policy-authorized namespace blocking, four explainable
+decision categories and immutable assessments. Names, raw IDs and uploaded trust
+flags never approve identity. A trusted connector must separately authorize and
+source-ground namespace evidence under configured operator policy. No external
+registry validation or autonomous correction is claimed at this checkpoint.
+See [MILESTONE_F_REPORT](MILESTONE_F_REPORT.md) for trust boundaries,20 synthetic
+specification cases, limits and reproduction; these are not independent accuracy.
+
 ## Milestone E foundation: reversible identity without rewriting facts
 
 The opt-in ledger automatically captures immutable source mentions, versioned

@@ -1,0 +1,767 @@
+{
+  "recorded_at": "2026-10-16T02:07:58.736232+00:00",
+  "backend": "falkordb",
+  "fixture_hash": "88813894a2b06ab92538904d421a7fcee00cc278005fb67efcd641adce0573b3",
+  "annotation_status": "ai_authored_provisional",
+  "split": "development",
+  "cases": 20,
+  "metrics": {
+    "tp": 6,
+    "predicted": 6,
+    "gold": 6,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "false_merges": 0,
+    "false_merge_rate": 0.0,
+    "missed_match_rate": 0.0,
+    "candidate_recall": 1.0,
+    "exact_categories": 20
+  },
+  "elapsed_ms": 1801.354,
+  "python_allocation_peak_bytes": 575908,
+  "model_calls": 0,
+  "results": [
+    {
+      "id": "renamed",
+      "expected": "SAME_ENTITY",
+      "decision": "SAME_ENTITY",
+      "matching_candidate_retrieved": true,
+      "retrieval": {
+        "mention_snapshot_id": "637b6ab7c244b8733ea903872167e8f556baa52a80a73392c01123492150dfd3",
+        "candidate_ids": [
+          "b3981a72eceafa1d90a0ed11aebba5d9f5c8b434202a3f0a478af558945e4901"
+        ],
+        "complete": true,
+        "block_count": 3,
+        "candidate_count": 1,
+        "elapsed_ms": 4.305,
+        "semantics": "Bounded candidate retrieval, not proof of identity"
+      },
+      "features": {
+        "names_equal": false,
+        "shared_namespaces": [
+          "fixture:org"
+        ],
+        "conflicting_namespaces": [],
+        "internally_ambiguous": false
+      },
+      "measurements": {
+        "redis_commands": {
+          "SET": 4,
+          "GRAPH.QUERY": 96,
+          "EVALSHA": 4
+        },
+        "network_roundtrips": 104,
+        "cypher_queries": 96,
+        "client_command_wall_ms": 80.787,
+        "graph_response_wall_ms": 75.237,
+        "successful_graph_internal_ms": 3.656,
+        "failed_commands": 0
+      }
+    },
+    {
+      "id": "same-name-no-id",
+      "expected": "POSSIBLY_SAME",
+      "decision": "POSSIBLY_SAME",
+      "matching_candidate_retrieved": true,
+      "retrieval": {
+        "mention_snapshot_id": "1dcdee3f520a5e91e00a179abe6caa575390cf7ca0920bec68f8ea940c085474",
+        "candidate_ids": [
+          "c4ed287fa063e3563f09b9a1df6771c55cefcc73a3b9e30f15fa5b8d3b5b1917"
+        ],
+        "complete": true,
+        "block_count": 1,
+        "candidate_count": 1,
+        "elapsed_ms": 2.698,
+        "semantics": "Bounded candidate retrieval, not proof of identity"
+      },
+      "features": {
+        "names_equal": true,
+        "shared_namespaces": [],
+        "conflicting_namespaces": [],
+        "internally_ambiguous": false
+      },
+      "measurements": {
+        "redis_commands": {
+          "SET": 2,
+          "GRAPH.QUERY": 59,
+          "EVALSHA": 2
+        },
+        "network_roundtrips": 63,
+        "cypher_queries": 59,
+        "client_command_wall_ms": 45.868,
+        "graph_response_wall_ms": 43.555,
+        "successful_graph_internal_ms": 1.859,
+        "failed_commands": 0
+      }
+    },
+    {
+      "id": "relocation",
+      "expected": "SAME_ENTITY",
+      "decision": "SAME_ENTITY",
+      "matching_candidate_retrieved": true,
+      "retrieval": {
+        "mention_snapshot_id": "8a0698d25231d1f6ea9ae9e0bdbb06dc2cd6dd3a41970bc9d88ee00069bbfc34",
+        "candidate_ids": [
+          "357696e303cedcefafdaab43b0aabbe1dfac25b01d96048f0b0e938587201b64"
+        ],
+        "complete": true,
+        "block_count": 2,
+        "candidate_count": 1,
+        "elapsed_ms": 3.627,
+        "semantics": "Bounded candidate retrieval, not proof of identity"
+      },
+      "features": {
+        "names_equal": true,
+        "shared_namespaces": [
+          "fixture:org"
+        ],
+        "conflicting_namespaces": [],
+        "internally_ambiguous": false
+      },
+      "measurements": {
+        "redis_commands": {
+          "SET": 4,
+          "GRAPH.QUERY": 96,
+          "EVALSHA": 4
+        },
+        "network_roundtrips": 104,
+        "cypher_queries": 96,
+        "client_command_wall_ms": 75.322,
+        "graph_response_wall_ms": 71.144,
+        "successful_graph_internal_ms": 3.191,
+        "failed_commands": 0
+      }
+    },
+    {
+      "id": "similar-business",
+      "expected": "DIFFERENT_ENTITY",
+      "decision": "DIFFERENT_ENTITY",
+      "matching_candidate_retrieved": false,
+      "retrieval": {
+        "mention_snapshot_id": "024ae22a1b4106d06e4bc6885704d8c4e8014d254b1ac0256e3447fef2eed726",
+        "candidate_ids": [],
+        "complete": true,
+        "block_count": 2,
+        "candidate_count": 0,
+        "elapsed_ms": 4.538,
+        "semantics": "Bounded candidate retrieval, not proof of identity"
+      },
+      "features": {
+        "names_equal": false,
+        "shared_namespaces": [],
+        "conflicting_namespaces": [
+          "fixture:org"
+        ],
+        "internally_ambiguous": false
+      },
+      "measurements": {
+        "redis_commands": {
+          "SET": 4,
+          "GRAPH.QUERY": 85,
+          "EVALSHA": 4
+        },
+        "network_roundtrips": 93,
+        "cypher_queries": 85,
+        "client_command_wall_ms": 70.203,
+        "graph_response_wall_ms": 65.617,
+        "successful_graph_internal_ms": 2.716,
+        "failed_commands": 0
+      }
+    },
+    {
+      "id": "different-namespaces",
+      "expected": "UNRESOLVED",
+      "decision": "UNRESOLVED",
+      "matching_candidate_retrieved": true,
+      "retrieval": {
+        "mention_snapshot_id": "5d7785de96d78b34e09d19c7fd6159fd268e9a5eb1db726e7b50f0386c4f604f",
+        "candidate_ids": [
+          "33ce9d74c9195c71918e734b56bba6b9dcf9fe7a721e266d343e4384825369d0"
+        ],
+        "complete": true,
+        "block_count": 3,
+        "candidate_count": 1,
+        "elapsed_ms": 4.547,
+        "semantics": "Bounded candidate retrieval, not proof of identity"
+      },
+      "features": {
+        "names_equal": false,
+        "shared_namespaces": [],
+        "conflicting_namespaces": [],
+        "internally_ambiguous": false
+      },
+      "measurements": {
+        "redis_commands": {
+          "SET": 4,
+          "GRAPH.QUERY": 96,
+          "EVALSHA": 4
+        },
+        "network_roundtrips": 104,
+        "cypher_queries": 96,
+        "client_command_wall_ms": 77.067,
+        "graph_response_wall_ms": 72.376,
+        "successful_graph_internal_ms": 3.614,
+        "failed_commands": 0
+      }
+    },
+    {
+      "id": "trusted-conflict",
+      "expected": "DIFFERENT_ENTITY",
+      "decision": "DIFFERENT_ENTITY",
+      "matching_candidate_retrieved": true,
+      "retrieval": {
+        "mention_snapshot_id": "0ce74ca385f6e4ecf209747c10e79d4644356365c632f8193bc4f2367d225cad",
+        "candidate_ids": [
+          "530562a7abf51753d7212dd180947bdffd828a3de0e1518ad98503538e9dcd2f"
+        ],
+        "complete": true,
+        "block_count": 2,
+        "candidate_count": 1,
+        "elapsed_ms": 3.665,
+        "semantics": "Bounded candidate retrieval, not proof of identity"
+      },
+      "features": {
+        "names_equal": true,
+        "shared_namespaces": [],
+        "conflicting_namespaces": [
+          "fixture:org"
+        ],
+        "internally_ambiguous": false
+      },
+      "measurements": {
+        "redis_commands": {
+          "SET": 4,
+          "GRAPH.QUERY": 96,
+          "EVALSHA": 4
+        },
+        "network_roundtrips": 104,
+        "cypher_queries": 96,
+        "client_command_wall_ms": 75.727,
+        "graph_response_wall_ms": 71.271,
+        "successful_graph_internal_ms": 2.937,
+        "failed_commands": 0
+      }
+    },
+    {
+      "id": "duplicated-unreliable-id",
+      "expected": "POSSIBLY_SAME",
+      "decision": "POSSIBLY_SAME",
+      "matching_candidate_retrieved": true,
+      "retrieval": {
+        "mention_snapshot_id": "df3b24eb8c8669bd9818e6eeeebcd2c3de3eb38043a5c65f5f7551677c967285",
+        "candidate_ids": [
+          "93cd8fccb4dc2605f3746f045515aa9eb0cec81431447f6581e4a948b919c704"
+        ],
+        "complete": true,
+        "block_count": 1,
+        "candidate_count": 1,
+        "elapsed_ms": 2.629,
+        "semantics": "Bounded candidate retrieval, not proof of identity"
+      },
+      "features": {
+        "names_equal": true,
+        "shared_namespaces": [],
+        "conflicting_namespaces": [],
+        "internally_ambiguous": false
+      },
+      "measurements": {
+        "redis_commands": {
+          "SET": 2,
+          "GRAPH.QUERY": 61,
+          "EVALSHA": 2
+        },
+        "network_roundtrips": 65,
+        "cypher_queries": 61,
+        "client_command_wall_ms": 48.329,
+        "graph_response_wall_ms": 46.124,
+        "successful_graph_internal_ms": 2.11,
+        "failed_commands": 0
+      }
+    },
+    {
+      "id": "corporate-renaming",
+      "expected": "SAME_ENTITY",
+      "decision": "SAME_ENTITY",
+      "matching_candidate_retrieved": true,
+      "retrieval": {
+        "mention_snapshot_id": "2012c047786b85df2b1ea486ea0d93de4b9d823e9a05c8effecf2015e6551201",
+        "candidate_ids": [
+          "b243fa7d7e13e8990edb6a5f8b673a21ed8cf9f7ffc052f2194af563f6345736"
+        ],
+        "complete": true,
+        "block_count": 3,
+        "candidate_count": 1,
+        "elapsed_ms": 3.524,
+        "semantics": "Bounded candidate retrieval, not proof of identity"
+      },
+      "features": {
+        "names_equal": false,
+        "shared_namespaces": [
+          "fixture:org"
+        ],
+        "conflicting_namespaces": [],
+        "internally_ambiguous": false
+      },
+      "measurements": {
+        "redis_commands": {
+          "SET": 4,
+          "GRAPH.QUERY": 96,
+          "EVALSHA": 4
+        },
+        "network_roundtrips": 104,
+        "cypher_queries": 96,
+        "client_command_wall_ms": 79.576,
+        "graph_response_wall_ms": 74.093,
+        "successful_graph_internal_ms": 3.537,
+        "failed_commands": 0
+      }
+    },
+    {
+      "id": "merger-not-identity",
+      "expected": "DIFFERENT_ENTITY",
+      "decision": "DIFFERENT_ENTITY",
+      "matching_candidate_retrieved": false,
+      "retrieval": {
+        "mention_snapshot_id": "d3502db17d19c8113ea74356b4c39e9b6764c2ce4a2db1e051a9bf56e19ba899",
+        "candidate_ids": [],
+        "complete": true,
+        "block_count": 2,
+        "candidate_count": 0,
+        "elapsed_ms": 3.536,
+        "semantics": "Bounded candidate retrieval, not proof of identity"
+      },
+      "features": {
+        "names_equal": false,
+        "shared_namespaces": [],
+        "conflicting_namespaces": [
+          "fixture:org"
+        ],
+        "internally_ambiguous": false
+      },
+      "measurements": {
+        "redis_commands": {
+          "SET": 4,
+          "GRAPH.QUERY": 85,
+          "EVALSHA": 4
+        },
+        "network_roundtrips": 93,
+        "cypher_queries": 85,
+        "client_command_wall_ms": 62.794,
+        "graph_response_wall_ms": 58.639,
+        "successful_graph_internal_ms": 2.42,
+        "failed_commands": 0
+      }
+    },
+    {
+      "id": "legal-split",
+      "expected": "DIFFERENT_ENTITY",
+      "decision": "DIFFERENT_ENTITY",
+      "matching_candidate_retrieved": false,
+      "retrieval": {
+        "mention_snapshot_id": "b183f77213a71602719570e48b47ca93713337091f22880d916ba25416bcd354",
+        "candidate_ids": [],
+        "complete": true,
+        "block_count": 2,
+        "candidate_count": 0,
+        "elapsed_ms": 3.634,
+        "semantics": "Bounded candidate retrieval, not proof of identity"
+      },
+      "features": {
+        "names_equal": false,
+        "shared_namespaces": [],
+        "conflicting_namespaces": [
+          "fixture:org"
+        ],
+        "internally_ambiguous": false
+      },
+      "measurements": {
+        "redis_commands": {
+          "SET": 4,
+          "GRAPH.QUERY": 85,
+          "EVALSHA": 4
+        },
+        "network_roundtrips": 93,
+        "cypher_queries": 85,
+        "client_command_wall_ms": 66.668,
+        "graph_response_wall_ms": 61.907,
+        "successful_graph_internal_ms": 2.518,
+        "failed_commands": 0
+      }
+    },
+    {
+      "id": "affiliation-change",
+      "expected": "SAME_ENTITY",
+      "decision": "SAME_ENTITY",
+      "matching_candidate_retrieved": true,
+      "retrieval": {
+        "mention_snapshot_id": "62e793968bf921b32c51eed4e1d79f545bf33fdadbc5de34960956fc69702e82",
+        "candidate_ids": [
+          "d622589043f40898b63ddbfd25645a9bdf14058575067d57ed6fa4fe0d9ca1ce"
+        ],
+        "complete": true,
+        "block_count": 2,
+        "candidate_count": 1,
+        "elapsed_ms": 4.027,
+        "semantics": "Bounded candidate retrieval, not proof of identity"
+      },
+      "features": {
+        "names_equal": true,
+        "shared_namespaces": [
+          "fixture:org"
+        ],
+        "conflicting_namespaces": [],
+        "internally_ambiguous": false
+      },
+      "measurements": {
+        "redis_commands": {
+          "SET": 4,
+          "GRAPH.QUERY": 96,
+          "EVALSHA": 4
+        },
+        "network_roundtrips": 104,
+        "cypher_queries": 96,
+        "client_command_wall_ms": 82.769,
+        "graph_response_wall_ms": 77.814,
+        "successful_graph_internal_ms": 3.521,
+        "failed_commands": 0
+      }
+    },
+    {
+      "id": "source-disagreement",
+      "expected": "POSSIBLY_SAME",
+      "decision": "POSSIBLY_SAME",
+      "matching_candidate_retrieved": true,
+      "retrieval": {
+        "mention_snapshot_id": "7ac49abe37bf5ae1f61a4110374424d74e7866293838d762008349c9a1b8aec0",
+        "candidate_ids": [
+          "0bcd5712dbbf5bc8aa9b5db7584b7c7a66fe10bccb136244f813dcbb7fe1b9bb"
+        ],
+        "complete": true,
+        "block_count": 1,
+        "candidate_count": 1,
+        "elapsed_ms": 4.069,
+        "semantics": "Bounded candidate retrieval, not proof of identity"
+      },
+      "features": {
+        "names_equal": true,
+        "shared_namespaces": [],
+        "conflicting_namespaces": [],
+        "internally_ambiguous": false
+      },
+      "measurements": {
+        "redis_commands": {
+          "SET": 2,
+          "GRAPH.QUERY": 59,
+          "EVALSHA": 2
+        },
+        "network_roundtrips": 63,
+        "cypher_queries": 59,
+        "client_command_wall_ms": 50.519,
+        "graph_response_wall_ms": 47.89,
+        "successful_graph_internal_ms": 2.133,
+        "failed_commands": 0
+      }
+    },
+    {
+      "id": "type-conflict",
+      "expected": "DIFFERENT_ENTITY",
+      "decision": "DIFFERENT_ENTITY",
+      "matching_candidate_retrieved": false,
+      "retrieval": {
+        "mention_snapshot_id": "76081c0aa388a11a5aecda3d2ab07351f3e9d61bc158f6ed5d52e686ed5de7ce",
+        "candidate_ids": [],
+        "complete": true,
+        "block_count": 2,
+        "candidate_count": 0,
+        "elapsed_ms": 3.658,
+        "semantics": "Bounded candidate retrieval, not proof of identity"
+      },
+      "features": {
+        "names_equal": true,
+        "shared_namespaces": [
+          "fixture:org"
+        ],
+        "conflicting_namespaces": [],
+        "internally_ambiguous": false
+      },
+      "measurements": {
+        "redis_commands": {
+          "SET": 4,
+          "GRAPH.QUERY": 85,
+          "EVALSHA": 4
+        },
+        "network_roundtrips": 93,
+        "cypher_queries": 85,
+        "client_command_wall_ms": 73.341,
+        "graph_response_wall_ms": 67.327,
+        "successful_graph_internal_ms": 2.92,
+        "failed_commands": 0
+      }
+    },
+    {
+      "id": "parallel-roles",
+      "expected": "SAME_ENTITY",
+      "decision": "SAME_ENTITY",
+      "matching_candidate_retrieved": true,
+      "retrieval": {
+        "mention_snapshot_id": "13ecc3fea6701b8579c39e658caef572933a356200525284e446728d5d210def",
+        "candidate_ids": [
+          "ebfeb0c5431b0586f1bc2a678f4785b60c539981ecb404934101f5a788b21020"
+        ],
+        "complete": true,
+        "block_count": 2,
+        "candidate_count": 1,
+        "elapsed_ms": 3.395,
+        "semantics": "Bounded candidate retrieval, not proof of identity"
+      },
+      "features": {
+        "names_equal": true,
+        "shared_namespaces": [
+          "fixture:org"
+        ],
+        "conflicting_namespaces": [],
+        "internally_ambiguous": false
+      },
+      "measurements": {
+        "redis_commands": {
+          "SET": 4,
+          "GRAPH.QUERY": 96,
+          "EVALSHA": 4
+        },
+        "network_roundtrips": 104,
+        "cypher_queries": 96,
+        "client_command_wall_ms": 73.83,
+        "graph_response_wall_ms": 69.539,
+        "successful_graph_internal_ms": 3.052,
+        "failed_commands": 0
+      }
+    },
+    {
+      "id": "no-evidence",
+      "expected": "UNRESOLVED",
+      "decision": "UNRESOLVED",
+      "matching_candidate_retrieved": false,
+      "retrieval": {
+        "mention_snapshot_id": "4ba604aa70daf0a85121f2d0429248288ed3af74535f795ab0e14b4221dc4adf",
+        "candidate_ids": [],
+        "complete": true,
+        "block_count": 1,
+        "candidate_count": 0,
+        "elapsed_ms": 2.872,
+        "semantics": "Bounded candidate retrieval, not proof of identity"
+      },
+      "features": {
+        "names_equal": false,
+        "shared_namespaces": [],
+        "conflicting_namespaces": [],
+        "internally_ambiguous": false
+      },
+      "measurements": {
+        "redis_commands": {
+          "SET": 2,
+          "GRAPH.QUERY": 54,
+          "EVALSHA": 2
+        },
+        "network_roundtrips": 58,
+        "cypher_queries": 54,
+        "client_command_wall_ms": 41.909,
+        "graph_response_wall_ms": 39.363,
+        "successful_graph_internal_ms": 1.822,
+        "failed_commands": 0
+      }
+    },
+    {
+      "id": "punctuation-not-proof",
+      "expected": "POSSIBLY_SAME",
+      "decision": "POSSIBLY_SAME",
+      "matching_candidate_retrieved": true,
+      "retrieval": {
+        "mention_snapshot_id": "f29e39743cd9b924d2f5e428a22c5925884c5b9bd29196f3f87df505ca275717",
+        "candidate_ids": [
+          "bf389ff982b5c0671d2ce220ea3e59fd3705070588435c529bbeae691efa5efb"
+        ],
+        "complete": true,
+        "block_count": 1,
+        "candidate_count": 1,
+        "elapsed_ms": 2.96,
+        "semantics": "Bounded candidate retrieval, not proof of identity"
+      },
+      "features": {
+        "names_equal": true,
+        "shared_namespaces": [],
+        "conflicting_namespaces": [],
+        "internally_ambiguous": false
+      },
+      "measurements": {
+        "redis_commands": {
+          "SET": 2,
+          "GRAPH.QUERY": 59,
+          "EVALSHA": 2
+        },
+        "network_roundtrips": 63,
+        "cypher_queries": 59,
+        "client_command_wall_ms": 44.75,
+        "graph_response_wall_ms": 42.665,
+        "successful_graph_internal_ms": 1.646,
+        "failed_commands": 0
+      }
+    },
+    {
+      "id": "cross-domain-name",
+      "expected": "POSSIBLY_SAME",
+      "decision": "POSSIBLY_SAME",
+      "matching_candidate_retrieved": true,
+      "retrieval": {
+        "mention_snapshot_id": "33a21b1b46c825cd36c51a84b1e96f07472e9f8103ab68d3cd233dde4a4c6e23",
+        "candidate_ids": [
+          "f73c702549c5e5921ab8952c4ebc888089c0a2f89ba4dc6ca095ae4edac383c6"
+        ],
+        "complete": true,
+        "block_count": 1,
+        "candidate_count": 1,
+        "elapsed_ms": 2.97,
+        "semantics": "Bounded candidate retrieval, not proof of identity"
+      },
+      "features": {
+        "names_equal": true,
+        "shared_namespaces": [],
+        "conflicting_namespaces": [],
+        "internally_ambiguous": false
+      },
+      "measurements": {
+        "redis_commands": {
+          "SET": 2,
+          "GRAPH.QUERY": 59,
+          "EVALSHA": 2
+        },
+        "network_roundtrips": 63,
+        "cypher_queries": 59,
+        "client_command_wall_ms": 45.563,
+        "graph_response_wall_ms": 43.309,
+        "successful_graph_internal_ms": 1.786,
+        "failed_commands": 0
+      }
+    },
+    {
+      "id": "cross-domain-stable-id",
+      "expected": "SAME_ENTITY",
+      "decision": "SAME_ENTITY",
+      "matching_candidate_retrieved": true,
+      "retrieval": {
+        "mention_snapshot_id": "3269300f068eac379796a20b521e5196b56a2dbf2f3c325e69594a890ef313fa",
+        "candidate_ids": [
+          "8bd9d749246ba3090a74cceebd7ba81b115aa68348a14c8a6fc3ebc5958c527f"
+        ],
+        "complete": true,
+        "block_count": 3,
+        "candidate_count": 1,
+        "elapsed_ms": 3.546,
+        "semantics": "Bounded candidate retrieval, not proof of identity"
+      },
+      "features": {
+        "names_equal": false,
+        "shared_namespaces": [
+          "fixture:org"
+        ],
+        "conflicting_namespaces": [],
+        "internally_ambiguous": false
+      },
+      "measurements": {
+        "redis_commands": {
+          "SET": 4,
+          "GRAPH.QUERY": 96,
+          "EVALSHA": 4
+        },
+        "network_roundtrips": 104,
+        "cypher_queries": 96,
+        "client_command_wall_ms": 76.057,
+        "graph_response_wall_ms": 71.493,
+        "successful_graph_internal_ms": 3.031,
+        "failed_commands": 0
+      }
+    },
+    {
+      "id": "uploaded-trust-instruction",
+      "expected": "POSSIBLY_SAME",
+      "decision": "POSSIBLY_SAME",
+      "matching_candidate_retrieved": true,
+      "retrieval": {
+        "mention_snapshot_id": "7f0a4b2989c768981edffdb423f3541944ef526ee591e6f07f61282e4d9984fb",
+        "candidate_ids": [
+          "417ffe3b5ed881b89657785dc53635b43941dd76ca0eb991875e019e3aff7e8e"
+        ],
+        "complete": true,
+        "block_count": 1,
+        "candidate_count": 1,
+        "elapsed_ms": 3.135,
+        "semantics": "Bounded candidate retrieval, not proof of identity"
+      },
+      "features": {
+        "names_equal": true,
+        "shared_namespaces": [],
+        "conflicting_namespaces": [],
+        "internally_ambiguous": false
+      },
+      "measurements": {
+        "redis_commands": {
+          "SET": 2,
+          "GRAPH.QUERY": 61,
+          "EVALSHA": 2
+        },
+        "network_roundtrips": 65,
+        "cypher_queries": 61,
+        "client_command_wall_ms": 48.648,
+        "graph_response_wall_ms": 46.127,
+        "successful_graph_internal_ms": 1.969,
+        "failed_commands": 0
+      }
+    },
+    {
+      "id": "case-sensitive-id",
+      "expected": "DIFFERENT_ENTITY",
+      "decision": "DIFFERENT_ENTITY",
+      "matching_candidate_retrieved": true,
+      "retrieval": {
+        "mention_snapshot_id": "3cf3410c69b8c02f4c1a3cb5e476b1f8112b0e5c081719e0b8fe8d376f374a3b",
+        "candidate_ids": [
+          "6b3430d801330d06ea796ab5ce82268185279d1d8e1ecf778d38d89fe7ca83de"
+        ],
+        "complete": true,
+        "block_count": 2,
+        "candidate_count": 1,
+        "elapsed_ms": 3.89,
+        "semantics": "Bounded candidate retrieval, not proof of identity"
+      },
+      "features": {
+        "names_equal": true,
+        "shared_namespaces": [],
+        "conflicting_namespaces": [
+          "fixture:org"
+        ],
+        "internally_ambiguous": false
+      },
+      "measurements": {
+        "redis_commands": {
+          "SET": 4,
+          "GRAPH.QUERY": 96,
+          "EVALSHA": 4
+        },
+        "network_roundtrips": 104,
+        "cypher_queries": 96,
+        "client_command_wall_ms": 74.872,
+        "graph_response_wall_ms": 69.983,
+        "successful_graph_internal_ms": 2.801,
+        "failed_commands": 0
+      }
+    }
+  ],
+  "limitations": [
+    "Authored policy/adversarial cases, NOT independently human-reviewed identity accuracy",
+    "Rules and synthetic labels share the same specification, not an independent benchmark",
+    "Trusted evidence is explicitly supplied by a synthetic connector, not verified registry data",
+    "No labelled public identity accuracy or broad lexical linking claim",
+    "No automatic corrections in this first dry-run increment"
+  ]
+}

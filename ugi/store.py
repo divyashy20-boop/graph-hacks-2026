@@ -16,9 +16,11 @@ KINDS = {
     "Hypothesis", "Investigation", "ReviewTask", "AgentAction", "Usage", "RelationEvent",
     "MentionSnapshot", "EntityCard", "EntityCardHead", "IdentityAssignment",
     "IdentityRevision", "DerivedArtifact", "KnowledgeRevision",
+    "IdentityProfile", "IdentityPosting", "IdentityEvidence", "IdentityEvidenceHead", "IdentityAssessment",
 }
 IMMUTABLE_KINDS = {"Mention", "MentionSnapshot", "EntityCard", "IdentityRevision",
-                   "DerivedArtifact", "KnowledgeRevision"}
+                   "DerivedArtifact", "KnowledgeRevision", "IdentityProfile", "IdentityPosting",
+                   "IdentityEvidence", "IdentityAssessment"}
 
 
 def literal(value):
@@ -50,7 +52,8 @@ class Store:
             )
             for label, fields in [("Record", "id"), ("Record", "kind"),
                                   ("Entity", "name_key"), ("Entity", "identity_key"),
-                                  ("Claim", "subject_id"), ("Claim", "object_id")]:
+                                  ("Claim", "subject_id"), ("Claim", "object_id"),
+                                  ("IdentityPosting", "block_key"), ("IdentityAssignment", "cluster_id")]:
                 try:
                     self.query(f"CREATE INDEX FOR (n:{label}) ON (n.{fields})")
                 except ResponseError as exc:
@@ -222,7 +225,9 @@ class Store:
         values = [dict(id=r["id"], payload=json.dumps(r, ensure_ascii=False),
                        kind=r["kind"], name_key=r.get("name_key", ""),
                        alias_keys=r.get("alias_keys", []), identity_key=r.get("identity_key", ""),
-                       subject_id=r.get("subject_id", ""), object_id=r.get("object_id", ""))
+                       subject_id=r.get("subject_id", ""), object_id=r.get("object_id", ""),
+                       block_key=r.get("block_key", ""), cluster_id=r.get("cluster_id", ""),
+                       snapshot_id=r.get("snapshot_id", ""))
                   for r in records]
         params["new"] = values
         clauses.append("UNWIND $new AS value_new CREATE (created:Record) SET created += value_new "
@@ -262,7 +267,9 @@ class Store:
             params[kind] = [dict(id=r["id"], payload=json.dumps(r, ensure_ascii=False),
                                 kind=kind, name_key=r.get("name_key", ""),
                                 alias_keys=r.get("alias_keys", []), identity_key=r.get("identity_key", ""),
-                                subject_id=r.get("subject_id", ""), object_id=r.get("object_id", ""))
+                                subject_id=r.get("subject_id", ""), object_id=r.get("object_id", ""),
+                                block_key=r.get("block_key", ""), cluster_id=r.get("cluster_id", ""),
+                                snapshot_id=r.get("snapshot_id", ""))
                             for r in records if r["kind"] == kind]
             clauses.append(f"FOREACH(v IN ${kind} | MERGE (n:Record:{kind} {{id:v.id}}) SET n += v)")
         for rel in sorted({link[2] for link in links}):

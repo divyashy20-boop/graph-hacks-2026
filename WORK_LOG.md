@@ -1,5 +1,19 @@
 # Event-time implementation work log
 
+## Milestone F increment1 — October16,2026
+
+- Clean0465343 baseline reproduced209/209 including13 actual graph integrations.
+- Added indexed immutable candidate postings/profiles, categorical assessments,
+  bounded retrieval and operator-authorized source-grounded namespace evidence.
+  Ordinary uploads cannot self-authorize trust; no model/self-confidence linking.
+- New F-mode initial overlays remain separate despite reused untrusted legacy IDs;
+  source Claim/Event IDs/endpoints, E-off semantics and atomicity preserved.
+- Full220 pass (206 non-integration +14 actual graph);20 synthetic development
+  specification cases meet20/20 categories,6/6 matches. Not independent human gold.
+- Three domain workflows and six ledger-off capacity regressions pass. No paid
+  services, user-data/volume deletion or unrelated infrastructure changes.
+- Checkpoint before cluster correction or optional domain-pack implementation.
+
 ## Native multi-participant relations — October 15, 2026 (Codex continuation)
 
 - Continued from verified remote main `cf07cf5`; its Actions run 38704495098

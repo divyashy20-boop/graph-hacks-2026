@@ -100,13 +100,19 @@ class IdentityLedger:
                             reason="Typed supplied ID or document-local anchor; name alone never unions documents",
                             affected_record_ids=sorted({m["dependent_record_id"] for m in observations}),
                             changes=[dict(mention_snapshot_id=m["id"], previous_revision_id=None,
-                                          old_cluster_id=None, new_cluster_id=eid) for m in observations])
+                                          old_cluster_id=None, new_cluster_id=(uid("identity-unresolved", m["id"])
+                                          if self.store.settings.identity_resolution != "off" else eid))
+                                     for m in observations])
             output.extend([*observations, card, revision,
                            dict(id=head_id, kind="EntityCardHead", entity_id=eid,
                                 card_id=card["id"], version=card["version"], mention_count=observed_count)])
             output.extend(dict(id=uid(VERSION, "assignment", m["id"]), kind="IdentityAssignment",
                                mention_snapshot_id=m["id"], revision_id=revision["id"], version=1)
                           for m in observations)
+            for head in output:
+                if head["kind"] == "IdentityAssignment" and "cluster_id" not in head:
+                    head["cluster_id"] = next(c["new_cluster_id"] for c in revision["changes"]
+                                              if c["mention_snapshot_id"] == head["mention_snapshot_id"])
         return output
 
     def assignment(self, snapshot_id, as_known_at=None):
@@ -215,7 +221,7 @@ class IdentityLedger:
                 changes.append(dict(mention_snapshot_id=mid, previous_revision_id=item["revision_id"],
                                     old_cluster_id=item["cluster_id"], new_cluster_id=target))
                 heads.append(dict(id=assignment_id, kind="IdentityAssignment", version=version,
-                                  mention_snapshot_id=mid, revision_id=ident))
+                                  mention_snapshot_id=mid, revision_id=ident, cluster_id=target))
             artifacts = self._dependent_artifacts(mids)
             revision = dict(id=ident, kind="IdentityRevision", request_hash=request_hash,
                             operation=request.operation, reverts_id=request.revision_id,
