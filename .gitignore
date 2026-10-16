@@ -1,15 +1,50 @@
 .env
 .env.*
 !.env.example
+
+# Python environments, packaging, and analysis caches
 __pycache__/
 *.py[cod]
 .pytest_cache/
 .ruff_cache/
+.mypy_cache/
+.pyre/
+.pytype/
+.tox/
+.nox/
 .coverage
 htmlcov/
 .venv/
 venv/
+build/
+dist/
+*.egg-info/
+pip-wheel-metadata/
+
+# Frontend tooling and generated browser-test output. Keep checked-in UI assets
+# (including any locally vendored WebGL library) outside these directories.
+node_modules/
+.npm/
+.pnpm-store/
+.yarn/
+.parcel-cache/
+.vite/
+coverage/
+playwright-report/
+test-results/
+
+# Local-only IDE and operating-system metadata
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Credentials, local service state, and transient diagnostics
 *.log
 *.pem
 *.key
+.envrc
+.direnv/
+.falkordb/
+.redis/
 .evaluation-local/
