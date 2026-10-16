@@ -8,6 +8,8 @@ let selectedRecordId = null;
 let queryHighlights = new Set();
 let caseKey = null;
 let loadEpoch = 0;
+let viewMode = "2d";
+let orbit = null;
 
 function element(tag, text, className) {
   const node = document.createElement(tag);
@@ -180,6 +182,7 @@ function selectRecord(record) {
     $("globalstatus").classList.add("error");
   });
   render(false);
+  orbit?.sync(true);
 }
 
 function clearSelection() {
@@ -188,6 +191,7 @@ function clearSelection() {
   $("inspectkind").textContent = "Select a record";
   $("inspector").replaceChildren(element("p", "Select a node, relation, or whole event to inspect its source record."));
   render(false);
+  orbit?.sync();
 }
 
 function bindPick(node, record) {
@@ -372,6 +376,7 @@ function render(reset = true) {
     bindPick(label, entity);
     root.append(label);
   }
+  orbit?.sync();
 }
 
 $("graph").onpointerdown = (event) => {
@@ -542,3 +547,316 @@ api("/health").then((health) => { $("backend").textContent = `${health.backend} 
   .catch((error) => { $("backend").textContent = error.message; });
 refresh().then((message) => { $("globalstatus").textContent = message; })
   .catch((error) => { $("globalstatus").textContent = error.message; $("globalstatus").classList.add("error"); });
+
+// UI-004: a deliberately small, native WebGL view. It only projects records
+// already supplied to the 2D map; graph meaning stays entirely in the API.
+function orbitHex(hex, alpha = 1) {
+  const value = hex.replace("#", "");
+  return [parseInt(value.slice(0, 2), 16) / 255, parseInt(value.slice(2, 4), 16) / 255, parseInt(value.slice(4, 6), 16) / 255, alpha];
+}
+
+function orbitSubtract(a, b) { return [a[0] - b[0], a[1] - b[1], a[2] - b[2]]; }
+function orbitCross(a, b) { return [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]]; }
+function orbitNormalize(vector) {
+  const length = Math.hypot(...vector) || 1;
+  return vector.map((item) => item / length);
+}
+function orbitDot(a, b) { return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]; }
+function orbitMultiply(a, b) {
+  const out = new Float32Array(16);
+  for (let column = 0; column < 4; column += 1) for (let row = 0; row < 4; row += 1) {
+    out[column * 4 + row] = a[row] * b[column * 4] + a[4 + row] * b[column * 4 + 1]
+      + a[8 + row] * b[column * 4 + 2] + a[12 + row] * b[column * 4 + 3];
+  }
+  return out;
+}
+function orbitPerspective(aspect) {
+  const f = 1 / Math.tan((48 * Math.PI) / 360);
+  const near = .1;
+  const far = 100;
+  return new Float32Array([f / aspect, 0, 0, 0, 0, f, 0, 0, 0, 0, (far + near) / (near - far), -1, 0, 0, (2 * far * near) / (near - far), 0]);
+}
+function orbitLookAt(eye, centre) {
+  const forward = orbitNormalize(orbitSubtract(eye, centre));
+  const right = orbitNormalize(orbitCross([0, 1, 0], forward));
+  const up = orbitCross(forward, right);
+  return new Float32Array([
+    right[0], up[0], forward[0], 0,
+    right[1], up[1], forward[1], 0,
+    right[2], up[2], forward[2], 0,
+    -orbitDot(right, eye), -orbitDot(up, eye), -orbitDot(forward, eye), 1,
+  ]);
+}
+function orbitProject(matrix, point, width, height) {
+  const x = point[0], y = point[1], z = point[2];
+  const w = matrix[3] * x + matrix[7] * y + matrix[11] * z + matrix[15];
+  if (w <= 0) return null;
+  const clipX = (matrix[0] * x + matrix[4] * y + matrix[8] * z + matrix[12]) / w;
+  const clipY = (matrix[1] * x + matrix[5] * y + matrix[9] * z + matrix[13]) / w;
+  const clipZ = (matrix[2] * x + matrix[6] * y + matrix[10] * z + matrix[14]) / w;
+  return {x: (clipX * .5 + .5) * width, y: (-clipY * .5 + .5) * height, depth: clipZ, scale: 1 / w};
+}
+
+function createOrbitRenderer() {
+  const canvas = $("orbitCanvas");
+  const labels = $("orbitLabels");
+  const fallback = $("orbitFallback");
+  const gl = canvas.getContext("webgl", {alpha: true, antialias: true, preserveDrawingBuffer: false});
+  if (!gl) {
+    fallback.hidden = false;
+    return {failed: true, sync() {}, start() {}, setAutoRotate() {}, get autoRotate() { return false; }};
+  }
+
+  const compile = (kind, source) => {
+    const shader = gl.createShader(kind);
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) throw Error(gl.getShaderInfoLog(shader));
+    return shader;
+  };
+  const program = (vertex, fragment) => {
+    const result = gl.createProgram();
+    gl.attachShader(result, compile(gl.VERTEX_SHADER, vertex));
+    gl.attachShader(result, compile(gl.FRAGMENT_SHADER, fragment));
+    gl.linkProgram(result);
+    if (!gl.getProgramParameter(result, gl.LINK_STATUS)) throw Error(gl.getProgramInfoLog(result));
+    return result;
+  };
+  let pointProgram;
+  let lineProgram;
+  try {
+    pointProgram = program(
+      "attribute vec3 p; attribute vec4 c; attribute float s; attribute float diamond; uniform mat4 m; varying vec4 color; varying float shape; void main(){ gl_Position=m*vec4(p,1.0); gl_PointSize=s/max(.25,gl_Position.w); color=c; shape=diamond; }",
+      "precision mediump float; varying vec4 color; varying float shape; void main(){ vec2 q=gl_PointCoord-.5; float edge=shape>.5?abs(q.x)+abs(q.y):dot(q,q); if(edge>.25) discard; float glow=1.0-smoothstep(.0,.25,edge); gl_FragColor=vec4(color.rgb,color.a*(.45+.55*glow)); }",
+    );
+    lineProgram = program(
+      "attribute vec3 p; attribute vec4 c; uniform mat4 m; varying vec4 color; void main(){ gl_Position=m*vec4(p,1.0); color=c; }",
+      "precision mediump float; varying vec4 color; void main(){ gl_FragColor=color; }",
+    );
+  } catch (error) {
+    fallback.hidden = false;
+    return {failed: true, sync() {}, start() {}, setAutoRotate() {}, get autoRotate() { return false; }};
+  }
+
+  const pointBuffer = gl.createBuffer();
+  const lineBuffer = gl.createBuffer();
+  const state = {
+    yaw: .68, pitch: .24, distance: 13, target: [0, 0, 0],
+    autoRotate: !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    records: [], links: [], pointById: new Map(), screenRecords: [], running: false,
+  };
+
+  function positionFor(entity, index) {
+    const angle = index * 2.399963229728653;
+    const radius = 2.3 + Math.sqrt(index) * .53;
+    return [Math.cos(angle) * radius, ((index % 5) - 2) * .72 + Math.sin(angle * 1.8) * .55, Math.sin(angle) * radius];
+  }
+  function rebuild() {
+    const entities = graphData.entities.slice(0, 60);
+    const ids = new Set(entities.map((entity) => entity.id));
+    const events = (graphData.events || []).filter((event) => event.participants.every((participant) => ids.has(participant.entity_id))).slice(0, 8);
+    state.records = entities.map((entity, index) => ({record: entity, point: positionFor(entity, index), event: false}));
+    state.pointById = new Map(state.records.map((item) => [item.record.id, item.point]));
+    for (const [index, event] of events.entries()) {
+      const participants = event.participants.map((participant) => state.pointById.get(participant.entity_id)).filter(Boolean);
+      if (!participants.length) continue;
+      const point = participants.reduce((sum, item) => [sum[0] + item[0], sum[1] + item[1], sum[2] + item[2]], [0, 0, 0]).map((item) => item / participants.length);
+      point[1] += 1.15 + (index % 2) * .3;
+      state.records.push({record: event, point, event: true});
+      state.pointById.set(event.id, point);
+    }
+    state.links = [];
+    for (const claim of graphData.claims) {
+      const from = state.pointById.get(claim.subject_id);
+      const to = state.pointById.get(claim.object_id);
+      if (from && to) state.links.push({record: claim, from, to, event: false});
+    }
+    for (const event of events) {
+      const from = state.pointById.get(event.id);
+      for (const participant of event.participants) {
+        const to = state.pointById.get(participant.entity_id);
+        if (from && to) state.links.push({record: event, from, to, event: true});
+      }
+    }
+  }
+  function claimColor(record, selected) {
+    if (selected || queryHighlights.has(record.id)) return orbitHex("#fff7f2", 1);
+    if (record.polarity === "negative") return orbitHex("#ff8d9d", .75);
+    if (record.modality && record.modality !== "asserted") return orbitHex("#ffb84c", .75);
+    return orbitHex(record.kind === "RelationEvent" ? "#ae8cff" : "#735689", .62);
+  }
+  function nodeColor(item, selected) {
+    if (selected) return orbitHex("#fff7f2", 1);
+    if (item.event) return claimColor(item.record, false);
+    return orbitHex(typeColor(item.record), 1);
+  }
+  function matrix() {
+    const cosPitch = Math.cos(state.pitch);
+    const eye = [
+      state.target[0] + state.distance * cosPitch * Math.sin(state.yaw),
+      state.target[1] + state.distance * Math.sin(state.pitch),
+      state.target[2] + state.distance * cosPitch * Math.cos(state.yaw),
+    ];
+    return orbitMultiply(orbitPerspective(canvas.width / canvas.height), orbitLookAt(eye, state.target));
+  }
+  function resize() {
+    const bounds = canvas.getBoundingClientRect();
+    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    const width = Math.max(1, Math.round(bounds.width * ratio));
+    const height = Math.max(1, Math.round(bounds.height * ratio));
+    if (canvas.width !== width || canvas.height !== height) { canvas.width = width; canvas.height = height; }
+    labels.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  }
+  function draw(now = performance.now()) {
+    if (viewMode !== "3d" || orbit?.failed) { state.running = false; return; }
+    resize();
+    if (state.autoRotate) state.yaw += .0018;
+    const m = matrix();
+    const focus = selectionContext();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.clearColor(0, 0, 0, 0);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.enable(gl.DEPTH_TEST);
+    gl.depthMask(false);
+
+    const lines = [];
+    const particles = [];
+    for (const [index, link] of state.links.entries()) {
+      const opacity = focusOpacity(focus, link.event ? "events" : "claims", link.record.id);
+      const color = claimColor(link.record, focus[link.event ? "events" : "claims"].has(link.record.id));
+      color[3] *= opacity;
+      lines.push(...link.from, ...color, ...link.to, ...color);
+      if (!link.event) {
+        const t = ((now * .00018) + index * .137) % 1;
+        const point = link.from.map((value, axis) => value + (link.to[axis] - value) * t);
+        particles.push(...point, 1, .97, .95, opacity, 5, 0);
+      }
+    }
+    gl.useProgram(lineProgram);
+    gl.bindBuffer(gl.ARRAY_BUFFER, lineBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(lines), gl.DYNAMIC_DRAW);
+    const lineStride = 7 * 4;
+    const linePosition = gl.getAttribLocation(lineProgram, "p");
+    const lineColor = gl.getAttribLocation(lineProgram, "c");
+    gl.enableVertexAttribArray(linePosition); gl.vertexAttribPointer(linePosition, 3, gl.FLOAT, false, lineStride, 0);
+    gl.enableVertexAttribArray(lineColor); gl.vertexAttribPointer(lineColor, 4, gl.FLOAT, false, lineStride, 12);
+    gl.uniformMatrix4fv(gl.getUniformLocation(lineProgram, "m"), false, m);
+    gl.drawArrays(gl.LINES, 0, lines.length / 7);
+
+    const points = [];
+    state.screenRecords = [];
+    for (const item of state.records) {
+      const selected = focus[item.event ? "events" : "entities"].has(item.record.id);
+      const opacity = focusOpacity(focus, item.event ? "events" : "entities", item.record.id);
+      const color = nodeColor(item, selected); color[3] *= opacity;
+      points.push(...item.point, ...color, selected ? 34 : item.event ? 26 : 21, item.event ? 1 : 0);
+      const projected = orbitProject(m, item.point, canvas.width, canvas.height);
+      if (projected && projected.depth < 1) state.screenRecords.push({...projected, item});
+    }
+    points.push(...particles);
+    gl.useProgram(pointProgram);
+    gl.bindBuffer(gl.ARRAY_BUFFER, pointBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(points), gl.DYNAMIC_DRAW);
+    const pointStride = 9 * 4;
+    const pointPosition = gl.getAttribLocation(pointProgram, "p");
+    const pointColor = gl.getAttribLocation(pointProgram, "c");
+    const pointSize = gl.getAttribLocation(pointProgram, "s");
+    const pointShape = gl.getAttribLocation(pointProgram, "diamond");
+    gl.enableVertexAttribArray(pointPosition); gl.vertexAttribPointer(pointPosition, 3, gl.FLOAT, false, pointStride, 0);
+    gl.enableVertexAttribArray(pointColor); gl.vertexAttribPointer(pointColor, 4, gl.FLOAT, false, pointStride, 12);
+    gl.enableVertexAttribArray(pointSize); gl.vertexAttribPointer(pointSize, 1, gl.FLOAT, false, pointStride, 28);
+    gl.enableVertexAttribArray(pointShape); gl.vertexAttribPointer(pointShape, 1, gl.FLOAT, false, pointStride, 32);
+    gl.uniformMatrix4fv(gl.getUniformLocation(pointProgram, "m"), false, m);
+    gl.drawArrays(gl.POINTS, 0, points.length / 9);
+    gl.depthMask(true);
+    renderLabels();
+    requestAnimationFrame(draw);
+  }
+  function renderLabels() {
+    labels.replaceChildren();
+    const focus = selectionContext();
+    const candidates = state.screenRecords
+      .filter(({item}) => selectedRecordId ? focus[item.event ? "events" : "entities"].has(item.record.id) : true)
+      .sort((a, b) => a.depth - b.depth).slice(0, selectedRecordId ? 12 : 10);
+    for (const candidate of candidates) {
+      const name = candidate.item.record.name || candidate.item.record.relation_type || "Event";
+      const label = svg("text", {x: candidate.x + 12, y: candidate.y - 8}, name.length > 24 ? `${name.slice(0, 21)}…` : name);
+      labels.append(label);
+    }
+  }
+  function focus(record) {
+    const point = state.pointById.get(record.id);
+    if (point) state.target = [...point];
+  }
+  function pick(clientX, clientY) {
+    const bounds = canvas.getBoundingClientRect();
+    const ratio = canvas.width / bounds.width;
+    const x = (clientX - bounds.left) * ratio;
+    const y = (clientY - bounds.top) * ratio;
+    const match = state.screenRecords
+      .map((item) => ({item, distance: Math.hypot(item.x - x, item.y - y)}))
+      .filter((item) => item.distance < 24)
+      .sort((a, b) => a.distance - b.distance || a.item.depth - b.item.depth)[0];
+    if (match) { focus(match.item.item.record); selectRecord(match.item.item.record); }
+    else clearSelection();
+  }
+  let drag = null;
+  canvas.oncontextmenu = (event) => event.preventDefault();
+  canvas.onpointerdown = (event) => {
+    drag = {x: event.clientX, y: event.clientY, yaw: state.yaw, pitch: state.pitch, target: [...state.target], pan: event.button === 2 || event.shiftKey, moved: false};
+    canvas.setPointerCapture(event.pointerId);
+  };
+  canvas.onpointermove = (event) => {
+    if (!drag) return;
+    const dx = event.clientX - drag.x;
+    const dy = event.clientY - drag.y;
+    drag.moved ||= Math.abs(dx) + Math.abs(dy) > 4;
+    if (drag.pan) {
+      state.target = [drag.target[0] - dx * .015, drag.target[1] + dy * .015, drag.target[2]];
+    } else {
+      state.yaw = drag.yaw + dx * .008;
+      state.pitch = Math.max(-1.25, Math.min(1.25, drag.pitch + dy * .008));
+    }
+  };
+  canvas.onpointerup = (event) => { if (drag && !drag.moved) pick(event.clientX, event.clientY); drag = null; };
+  canvas.onwheel = (event) => { event.preventDefault(); state.distance = Math.max(4, Math.min(28, state.distance * (event.deltaY > 0 ? 1.12 : .89))); };
+  if (window.ResizeObserver) new ResizeObserver(resize).observe(canvas);
+  else window.addEventListener("resize", resize);
+  return {
+    failed: false,
+    sync(focusRecord = false) { rebuild(); if (focusRecord && selectedRecordId) focus(recordById(selectedRecordId)); },
+    start() { if (!state.running) { state.running = true; requestAnimationFrame(draw); } },
+    reset() { state.yaw = .68; state.pitch = .24; state.distance = 13; state.target = [0, 0, 0]; },
+    setAutoRotate(value) { state.autoRotate = value; },
+    get autoRotate() { return state.autoRotate; },
+  };
+}
+
+function setViewMode(mode) {
+  viewMode = mode;
+  const orbitView = mode === "3d";
+  $("graph2d").hidden = orbitView;
+  $("graph3d").hidden = !orbitView;
+  $("view2d").setAttribute("aria-selected", String(!orbitView));
+  $("view3d").setAttribute("aria-selected", String(orbitView));
+  $("autoRotate").hidden = !orbitView;
+  $("zoomIn").hidden = orbitView; $("zoomOut").hidden = orbitView; $("resetview").hidden = orbitView;
+  $("mapcaption").textContent = orbitView
+    ? "Orbit the same source-backed evidence in three dimensions. Directional particles show claim flow; selection always resolves to the stored record."
+    : "Drag nodes to inspect their shape. Drag open space to pan. A selected node, claim, or event always resolves back to its stored record.";
+  if (orbitView) {
+    orbit ||= createOrbitRenderer();
+    $("autoRotate").setAttribute("aria-pressed", String(orbit.autoRotate));
+    orbit.sync(true);
+    orbit.start();
+  }
+}
+
+$("view2d").onclick = () => setViewMode("2d");
+$("view3d").onclick = () => setViewMode("3d");
+$("autoRotate").onclick = () => {
+  orbit?.setAutoRotate(!orbit.autoRotate);
+  $("autoRotate").setAttribute("aria-pressed", String(orbit?.autoRotate));
+};
