@@ -2,6 +2,10 @@
 
 ## Milestone F increment2 — final local verification
 
+Verified implementation commit: `316edaf7f88069aedcb34730943895223998bb5c`.
+[Hosted Actions completed successfully](https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38863017435),
+including real integrations, Docker, identity/public diagnostics and six capacity runs.
+
 **231 passed (216 non-integration +15 actual FalkorDB),0 failures/skips**. Real
 tests verify indexed candidates/clusters, automatic correction/undo, selective
 staleness, whole n-ary event/evidence preservation and late runtime rollback of

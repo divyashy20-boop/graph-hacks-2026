@@ -6,6 +6,9 @@ An **event-time Graph Hacks 2026 Track 1 implementation** of a multi-format, evi
 
 ## Milestone F: bounded autonomous identity overlay
 
+Verified implementation: `316edaf7f88069aedcb34730943895223998bb5c`;
+[successful GitHub Actions](https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38863017435).
+
 **231 tests pass, including15 actual FalkorDB integrations.** Indexed candidates,
 whole-cluster negative constraints, default dry-run audit and separately opted-in
 automatic corrections are implemented. Matching names/raw IDs never prove identity.

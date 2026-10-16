@@ -231,3 +231,17 @@ off; demonstration CLIs explicitly authorize only their synthetic local writes.
 Next technical decision: implement an authenticated authority connector/namespace
 lifecycle before broadening weak name/context matching; names/LLM similarity alone
 must not be promoted just to improve recall.
+
+## Verified delivery checkpoint
+
+Increment1: `c77a5a0d72fd2c71a6b8ed3f975700bc8032630e`,
+[successful Actions](https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38838921392).
+Increment2: `316edaf7f88069aedcb34730943895223998bb5c`,
+[successful Actions](https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38863017435).
+Both were pushed to public `main`. The second hosted job completed unit/real graph
+tests, Docker API checks, three-domain and identity demonstrations, public T2D/FewRel
+diagnostics, metric arithmetic checks and all six capacity runs. Final local repeat:
+231 passed, zero failed/skipped, one existing TestClient deprecation warning.
+The rebuilt local API is ready on localhost8001 with provider offline, paid calls
+disabled and identity ledger/resolution/auto-apply all off by default. This delivery
+does not claim completion of the explicitly deferred third increment.
