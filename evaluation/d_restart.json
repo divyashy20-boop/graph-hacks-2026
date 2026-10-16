@@ -1,0 +1,66 @@
+{
+  "recorded_at": "2026-10-16T00:50:08.446349+00:00",
+  "unchanged": true,
+  "datasets": {
+    "showcase-b-incident": {
+      "records": 57,
+      "edges": 38,
+      "payload_sha256": "09c05c072473c1ca6fdc665cff49ba26ff70c6e35038eb29b5633defc2bb9065",
+      "incidence_sha256": "49515467c848fbb027018efe0d70485639016ed79b3090a4061197323cdede77",
+      "counts": {
+        "Chunk": 8,
+        "ReviewTask": 4,
+        "Claim": 8,
+        "Source": 1,
+        "Entity": 8,
+        "AgentAction": 2,
+        "Mention": 16,
+        "Evidence": 8,
+        "Investigation": 2
+      },
+      "investigation_ids": [
+        "570f2058b4ee4b80096977707c76803c2e3a4f86c7af24d4f74c8952c14d28e5",
+        "ff069eeb5b1ad672f0678e503933714b59fb079bc8d3f9b34543ee7c5609f9e5"
+      ]
+    },
+    "showcase-b-supply": {
+      "records": 35,
+      "edges": 24,
+      "payload_sha256": "4057f10d319a614189d9c6bab3c22c2f54191472ba378c1aa1803bc8b4c72e9f",
+      "incidence_sha256": "72e64bbcd60d16ba453210984e6858aca87d6c73f8db611b0eddf2eb7d9a044c",
+      "counts": {
+        "ReviewTask": 1,
+        "Entity": 5,
+        "Evidence": 5,
+        "Claim": 4,
+        "Chunk": 5,
+        "Mention": 11,
+        "Source": 1,
+        "RelationEvent": 1,
+        "Investigation": 1,
+        "AgentAction": 1
+      },
+      "investigation_ids": [
+        "15fa17cffea42dd129befa749c6a36249911d4563c9adccfe8e10f33e5834c20"
+      ]
+    },
+    "showcase-b-research": {
+      "records": 31,
+      "edges": 19,
+      "payload_sha256": "bf13336cb4873bcdfb8b94886c4dea47a2d524ebbb7cd5f0ed3f04bfbccd2aa4",
+      "incidence_sha256": "ec2d0c0f05dd6c9f47c71cb9b94fd29f445efeedcd03f2716fd79d61d1b8a281",
+      "counts": {
+        "Claim": 3,
+        "MergeDecision": 1,
+        "RelationEvent": 1,
+        "Evidence": 4,
+        "Chunk": 4,
+        "Mention": 10,
+        "Entity": 6,
+        "Source": 2
+      },
+      "investigation_ids": []
+    }
+  },
+  "limitations": "Controlled restart/read smoke, not backup, crash recovery or production durability"
+}

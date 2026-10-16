@@ -63,9 +63,9 @@ jobs:
         run: |
           python evaluation/recheck_c_metrics.py
           python evaluation/recheck_d_metrics.py
-      - name: Measure bounded 100-record real graph smoke
+      - name: Verify 100/1000/2000-record real CSV and JSON ingestion
         run: |
-          python -m ugi.benchmark_conversion --sizes 100 --output /tmp/ugi-c-capacity.json
+          python -m ugi.benchmark_conversion --sizes 100 1000 2000 --output /tmp/ugi-c-capacity.json
           python -c "import json; r=json.load(open('/tmp/ugi-c-capacity.json')); assert all(x['success'] for x in r['results'])"
       - name: External human-annotated FewRel directed-pair diagnostic (not F1)
         run: python -m ugi.eval_fewrel --download --limit 128 --seed 17 --output /tmp/ugi-fewrel-evaluation.json

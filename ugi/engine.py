@@ -62,6 +62,20 @@ class Engine:
                 self.store.consume("ai:" + self.store.owner + ":" + now()[:10],
                                    self.settings.daily_ai_queries)
             records, links, entities, claims, reviews, seen = [source, *chunks], [], {}, [], [], set()
+            entity_reads, name_reads = {}, {}
+
+            def prior_entity(ident):
+                if ident not in entity_reads:
+                    entity_reads[ident] = self.store.get(ident)
+                return entity_reads[ident]
+
+            def prior_names(name):
+                if name not in name_reads:
+                    name_reads[name] = self.store.entities(name)
+                return name_reads[name]
+
+            # Only this document's pre-commit reads, under its dataset lease.
+            # No identity guesses or cache misses survive into another upload.
             warnings, events, candidate_free = [], [], []
             for chunk in chunks:
                 links.append((source["id"], chunk["id"], "HAS_CHUNK", chunk["id"]))
@@ -114,13 +128,13 @@ class Engine:
                         eid = uid("entity", identity_key)
                         # Preserve legacy pre-namespace IDs only if their type
                         # matches. Do not create duplicate nodes during upgrades.
-                        if external_id and not (entities.get(eid) or self.store.get(eid)):
+                        if external_id and not (entities.get(eid) or prior_entity(eid)):
                             legacy_id = uid("entity", "id:" + external_id)
-                            legacy = entities.get(legacy_id) or self.store.get(legacy_id)
+                            legacy = entities.get(legacy_id) or prior_entity(legacy_id)
                             if legacy and legacy.get("entity_type") == entity_type:
                                 eid = legacy_id
                                 identity_key = legacy.get("identity_key", "id:" + external_id)
-                        previous = entities.get(eid) or self.store.get(eid)
+                        previous = entities.get(eid) or prior_entity(eid)
                         aliases = getattr(candidate, side + "_aliases")
                         if previous:
                             if previous["entity_type"] != entity_type:
@@ -138,7 +152,7 @@ class Engine:
                                             chunk_id=chunk["id"], source_id=source["id"], text=name,
                                             location=chunk["location"]))
                         # Name collisions become explicit review candidates, never silent links.
-                        for other in self.store.entities(name)[:5]:
+                        for other in prior_names(name)[:5]:
                             if other["id"] != eid:
                                 records.append(dict(
                                     id=uid(eid, other["id"]), kind="MergeDecision", status="review",
@@ -178,7 +192,7 @@ class Engine:
                 events.extend(accepted_events)
                 reviews.extend(event_reviews)
             counts = self.store.counts()
-            new_entities = sum(self.store.get(eid) is None for eid in entities)
+            new_entities = sum(prior_entity(eid) is None for eid in entities)
             if counts.get("Entity", 0) + new_entities > self.settings.max_nodes:
                 raise ValueError("Entity quota exceeded")
             if (counts.get("Claim", 0) + counts.get("RelationEvent", 0) + len(claims) + len(events)

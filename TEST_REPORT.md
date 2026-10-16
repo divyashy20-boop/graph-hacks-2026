@@ -1,5 +1,28 @@
 # Verified follow-up report — October 15, 2026
 
+## Milestone D increment 2 — October 16, 2026
+
+**191 passed:181 non-integration +10 actual FalkorDB; zero failed/skipped.**
+Runtime rollback checks cover both writer paths, seeded payload preservation,
+concurrent classification, direct replay and dangling-endpoint rejection. All
+six fresh synthetic CSV/JSON sizes passed twice: operator profiling and the
+independent capacity runner. The latter verifies repeated IDs in isolated graphs,
+duplicates, reconnect and five bounded queries. No timeout increase/batch commits.
+Actual full development audit remains10/10/15, F1 80%, public7/7/12; no gold changes.
+Three persistent domain demos and packaged Docker readiness passed. Exact record
+and edge hashes survived a real API/graph restart (`evaluation/d_restart.json`).
+This is controlled restart evidence, not crash recovery or backup certification.
+
+`d_performance_baseline.json` retains four large-write timeouts; final profiling
+has none. A failed mixed-pool experiment is not shipped: existing endpoints select
+the original writer. `d_performance_write_only.json` is an intermediate fresh-only
+observation, not correctness evidence for its mixed path. Earlier full-test run
+failed all10 integrations while Docker Desktop was unavailable; after restoring
+the existing services without volume deletion, the complete191 passed.
+See MILESTONE_D_REPORT for exact timings and limitations. Hosted CI must still be
+verified against the pushed SHA; the prior extraction commit459b4a7 was green at
+https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38789810577.
+
 ## Milestone D increment 1 — October 16, 2026
 
 **186 passed (179 non-integration +7 actual FalkorDB), zero failed/skipped.**

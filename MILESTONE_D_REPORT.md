@@ -105,12 +105,75 @@ Independent arithmetic: `python evaluation/recheck_d_metrics.py`. No UI redesign
 
 ## Increment 2: safe graph-write profiling and optimization
 
-Not yet completed in this increment. The suspected bottleneck is repeated
-FOREACH/MERGE matching and many client-side identity/collision reads, not a claim
-that FalkorDB cannot store2,000 records. The store remains unchanged for the first
-commit. Profile and real-server correctness tests must precede any replacement;
-five-second timeout remains unchanged. C1,000/2,000 timeouts remain the verified
-capacity limitation until a subsequent measured result replaces them.
+Completed after recovering the interrupted working tree and saving a recoverable
+ignored checkpoint. D1 was pushed as459b4a74de4487906b2865bba939db31f91e55f4;
+[hosted CI passed](https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38789810577).
+
+### Diagnosis and bounded fix
+
+Actual fresh100-record operator profiling shows60,200 pending records emitted
+by each repeated endpoint lookup. Indexed scans exist; the bottleneck was not
+simply a missing index. Eight pending scans across four edge kinds dominate the
+write, becoming quadratic. The client also issued6,005 Cypher queries at1,000
+records and12,005 at2,000. Document-scoped, lease-protected identity/name read
+caches reduce those to3,008/6,008, with no cross-upload stale cache.
+
+The new all-new-record writer binds created nodes and links deterministic sorted
+node ordinals instead of repeatedly matching pending endpoints. Classification
+and the one mutating query share the existing dataset lease, including nested
+provider commits. No timeout increase, partial-document batch commits, schema
+projection or provenance loss. Missing endpoints reject before mutation.
+
+Direct UNWIND MERGE experiments failed real label/payload checks. A CREATE path
+that still MERGEd endpoints passed correctness but large cases still timed out.
+A combined new/persisted node pool passed fresh benchmarks but full regression
+caught two `Invalid node id` failures. It is **not shipped**: any existing endpoint
+selects the proven C writer. Large mixed/update documents retain the old capacity
+limitation. The intermediate fresh-only `d_performance_write_only.json` does not
+certify that rejected mixed path. All observations are retained, not best-run
+cherry-picking.
+
+[GRAPH.PROFILE](https://docs.falkordb.com/commands/graph.profile) actually executes
+the write: profiles run only on another owned empty graph, not replayed on user
+data. [GRAPH.EXPLAIN](https://docs.falkordb.com/commands/graph.explain) records the
+plan without executing. All queries keep the existing
+[TIMEOUT](https://docs.falkordb.com/commands/graph.query)5,000ms budget.
+
+### Actual measured results
+
+One traced observation per case, local Docker/Windows, not throughput/p95. Times
+include client serialization, round trips and graph execution. The independent
+capacity run overlapped an API image rebuild, so do not infer controlled speedup.
+
+| Format / rows | Baseline ingest / write ms | Final profile ingest / write ms | Independent repeat ingest / write ms |
+|---|---:|---:|---:|
+| CSV100 |846.272 /290.714 |503.475 /97.064 |491.174 /94.517 |
+| CSV1,000 |timeout /5,983.752 |4,131.120 /946.116 |4,292.938 /954.479 |
+| CSV2,000 |timeout /7,066.450 |8,073.122 /1,936.444 |8,921.559 /2,061.497 |
+| JSON100 |1,132.669 /345.165 |393.952 /92.228 |559.638 /121.803 |
+| JSON1,000 |timeout /5,573.018 |4,119.243 /894.661 |5,092.526 /978.624 |
+| JSON2,000 |timeout /6,125.509 |10,172.989 /1,910.951 |8,792.972 /1,922.482 |
+
+Final profiles verify602/6,002/12,002 exact records and400/4,000/8,000 exact edges
+at100/1,000/2,000 rows, both formats. Kind labels, payloads, provenance and incidence
+all agree after reconnect. Client traced allocation peaks~2.8/28/56MB; client CPU
+~203–219/2,031–2,266/4,469–4,750ms. Successful cumulative graph internal time
+~13–14/131–134/270–281ms is not the complete wall time. Server CPU/RSS and failed
+query internal time are not measured. Independent five-query medians13–18ms.
+
+**191 tests passed (181 non-integration +10 actual FalkorDB)**. Runtime property-map
+errors verify atomic rollback on both paths, including preservation of seeded
+records. Concurrent same-ID writers, mixed references, link replay, whole-event
+roles and binary evidence are covered. The first full run failed10 integrations
+because Docker Desktop was down; services were restored without volume deletion,
+then all191 passed. No failed tests are counted as skips or ignored.
+
+The actual14-case audit retains10/10/15 and12/12 exact quotes with complete graph
+incidence; three-domain demos pass with authorized idempotent actions and identity/
+historical checks. Rebuilt packaged API is healthy. Controlled restart verification
+compares every synthetic demo payload, edge and investigation ID before/after a
+real graph/API restart (`d_restart.json`), not just counts. This is not crash or
+backup testing. User graphs/volumes and unrelated AWS infrastructure are untouched.
 
 ## Reproduction and delivery
 
@@ -123,6 +186,14 @@ Remove-Item Env:UGI_OLLAMA_URL -ErrorAction SilentlyContinue
 python -m pytest -o addopts= -q
 python -m ugi.conversion_audit --fixture evaluation/c_development.json --output evaluation/d_extraction_local.json
 python evaluation/recheck_d_metrics.py
+python -m ugi.profile_ingestion --output evaluation/d_profile_local.json
+python -m ugi.benchmark_conversion --output evaluation/d_capacity_local.json
+python -m ugi.demo --execute --dataset-prefix showcase-b --output evaluation/d_demo_local.json
+# Controlled restart check, only after seeding these synthetic demo datasets:
+python -m ugi.check_restart --snapshot .evaluation-local/d_restart_local.json
+docker compose restart api graph
+docker compose up -d --wait api graph
+python -m ugi.check_restart --compare .evaluation-local/d_restart_local.json --output evaluation/d_restart_local.json
 python -m ugi.extraction_diagnosis --persisted-report evaluation/d_extraction_local.json --output evaluation/d_diagnosis_local.json
 # Optional actual local model, never Bedrock:
 $env:UGI_OLLAMA_URL='http://127.0.0.1:11434'

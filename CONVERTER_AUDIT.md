@@ -1,5 +1,18 @@
 # Conversion quality gate
 
+## Milestone D graph update — October 16, 2026
+
+191 automated tests pass including10 real graph integrations. Fresh100/1,000/2,000
+CSV and JSON chains all pass with exact persisted payloads and incidence under
+the unchanged5,000ms query budget. Independent repeat/isolation/query checks and
+three-domain controlled restart hashes pass. Existing/shared identity updates
+still use the prior writer: large mixed-upsert scaling remains a limitation.
+This changes measured fresh-write capacity, not language accuracy. The complete
+provisional audit still yields10/10/15 (F1 80%); public7/7/12 (F1 73.68%). Research
+event recall and independent annotation gaps remain. See MILESTONE_D_REPORT and
+the preserved baseline/intermediate/final performance reports; no general
+production, million-record, arbitrary-prose or whole-document claim follows.
+
 ## Milestone D extraction update — October 16, 2026
 
 The controlled first increment improves the same provisional public complete

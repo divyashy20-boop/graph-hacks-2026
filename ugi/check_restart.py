@@ -1,0 +1,56 @@
+"""Read-only payload/edge fingerprints for explicitly selected synthetic demos.
+
+This command never restarts services or deletes graphs. Run the actual Docker
+restart separately between --snapshot and --compare.
+"""
+import argparse
+import json
+from hashlib import sha256
+from pathlib import Path
+
+from .models import Settings, now
+from .store import Store
+
+
+def fingerprint():
+    results = {}
+    for domain in ("incident", "supply", "research"):
+        dataset = "showcase-b-" + domain
+        store = Store(Settings(provider="offline", allow_paid_calls=False), dataset=dataset)
+        records = [json.loads(row[0]) for row in store.query(
+            "MATCH (n:Record) RETURN n.payload ORDER BY n.id")]
+        edges = store.query("MATCH (a:Record)-[r]->(b:Record) RETURN a.id,b.id,type(r),r.claim_id,r.role")
+        assert records and any(r["kind"] == "Source" for r in records), "Seed demo before restart check"
+        def digest(value):
+            return sha256(json.dumps(value, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
+        results[dataset] = dict(records=len(records), edges=len(edges),
+                                payload_sha256=digest(records),
+                                incidence_sha256=digest(sorted(edges, key=lambda e: json.dumps(e))),
+                                counts=store.counts(),
+                                investigation_ids=sorted(r["id"] for r in records if r["kind"] == "Investigation"))
+    return results
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    mode = parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument("--snapshot", type=Path)
+    mode.add_argument("--compare", type=Path)
+    parser.add_argument("--output", type=Path)
+    args = parser.parse_args()
+    observed = fingerprint()
+    if args.snapshot:
+        args.snapshot.write_text(json.dumps(observed, indent=2)+"\n", encoding="utf-8")
+        print("Captured exact persistent demo record/edge fingerprints; no data changed.")
+    else:
+        expected = json.loads(args.compare.read_text(encoding="utf-8"))
+        assert observed == expected, "Persistent demo state changed across restart"
+        result = dict(recorded_at=now(), unchanged=True, datasets=observed,
+                      limitations="Controlled restart/read smoke, not backup, crash recovery or production durability")
+        if args.output:
+            args.output.write_text(json.dumps(result, indent=2)+"\n", encoding="utf-8")
+        print(json.dumps(dict(unchanged=True, datasets=list(observed)), indent=2))
+
+
+if __name__ == "__main__":
+    main()

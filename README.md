@@ -17,8 +17,13 @@ are tuned, AI-authored labels, not independent accuracy. The public research
 event is still missed. Actual Qwen adds no exact recall over the improved rules
 on the matched four texts and has one additional label disagreement.
 
-Graph-store changes are a separate second increment; the C large-write timeout
-remains a limitation until a verified new measurement supersedes it. See
+The second increment passes **191 tests (181 non-integration +10 actual graph)**.
+All six fresh CSV/JSON chain uploads (100/1,000/2,000 records) now pass within
+the unchanged five-second per-query budget. A scoped bound-node writer avoids
+pending-node endpoint scans; document-local read caching halves identity reads.
+Mixed/existing-identity writes retain the known-good writer and its large-update
+capacity limit. Exact payloads/labels/roles, rollback, concurrency, three-domain
+demos and controlled restart persistence were checked. No general scalability claim. See
 [MILESTONE_D_REPORT](MILESTONE_D_REPORT.md) for diagnosis, comparisons and commands.
 
 ## Milestone C: measured conversion quality (historical)

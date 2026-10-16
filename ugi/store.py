@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import re
 from contextlib import contextmanager
-from threading import RLock
+from threading import RLock, local
 
 from redis import Redis
 from redis.exceptions import ResponseError
@@ -37,6 +37,7 @@ class Store:
         self.records = {}
         self.links = set()
         self.lock = RLock()
+        self._transaction_state = local()
         if settings.backend == "falkordb":
             self.client = client or Redis.from_url(
                 settings.redis_url, decode_responses=True, socket_connect_timeout=3,
@@ -63,9 +64,16 @@ class Store:
     @contextmanager
     def transaction(self):
         if self.client:
+            if getattr(self._transaction_state, "depth", 0):
+                yield
+                return
             # One worker per dataset; leases exceed the bounded invocation budget.
             with self.client.lock(self.graph + ":write", timeout=240, blocking_timeout=3):
-                yield
+                self._transaction_state.depth = 1
+                try:
+                    yield
+                finally:
+                    self._transaction_state.depth = 0
         else:
             with self.lock:
                 yield
@@ -153,25 +161,81 @@ class Store:
 
     def commit(self, records, links=()):
         records = list({r["id"]: r for r in records}.values())
+        links = list(links)
         if any(r["kind"] not in KINDS for r in records):
             raise ValueError("Unknown record kind")
         if not self.client:
             self.records.update({r["id"]: r for r in records})
             self.links.update(tuple(link) for link in links)
             return
+        if not records and not links:
+            return
+        # Classification and the ONE mutating query share the existing dataset
+        # lease. Nested Engine/provider commits reuse the same thread's lease.
+        with self.transaction():
+            ids = {r["id"] for r in records} | {n for link in links for n in link[:2]}
+            existing = {row[0] for row in self.query(
+                "UNWIND $ids AS wanted MATCH (n:Record {id:wanted}) RETURN n.id",
+                {"ids": sorted(ids)})}
+            if ids - existing - {r["id"] for r in records}:
+                raise ValueError("Graph link endpoint missing; document not written")
+            self._write_classified(records, links, existing)
+
+    def _write_classified(self, records, links, existing):
+        if existing:
+            # This server build mishandles mixed pending/persisted node pools.
+            # Keep its proven MERGE path for updates/shared identities rather
+            # than risk reassigning evidence or roles for a throughput claim.
+            self.last_write_strategy = "legacy_existing_endpoints"
+            return self._write_legacy(records, links)
+        self.last_write_strategy = "bound_nodes_all_new"
+        params, clauses = {}, []
+        values = [dict(id=r["id"], payload=json.dumps(r, ensure_ascii=False),
+                       kind=r["kind"], name_key=r.get("name_key", ""),
+                       alias_keys=r.get("alias_keys", []), identity_key=r.get("identity_key", ""),
+                       subject_id=r.get("subject_id", ""), object_id=r.get("object_id", ""))
+                  for r in records]
+        params["new"] = values
+        clauses.append("UNWIND $new AS value_new CREATE (created:Record) SET created += value_new "
+                       "WITH collect(created) AS pool_new")
+        # Keep actual node references: resolving each endpoint with MERGE scans
+        # all pending nodes in this FalkorDB build, producing quadratic work.
+        # The sorted pool has a deterministic ordinal for each unique stable ID.
+        clauses.append("UNWIND pool_new AS bound WITH bound ORDER BY bound.id "
+                       "WITH collect(bound) AS nodes")
+        ordinals = {ident: i for i, ident in enumerate(sorted(
+            {r["id"] for r in records}))}
+        for kind in sorted({r["kind"] for r in records}):
+            clauses.append(f"FOREACH(typed_{kind} IN [n IN nodes WHERE n.kind='{kind}'] | "
+                           f"SET typed_{kind}:{kind})")
+        for rel in sorted({link[2] for link in links}):
+            if rel not in {"RELATES", "HAS_CHUNK", "SUPPORTS", "CITES", "HAS_TASK", "ACTED_ON",
+                           "HAS_PARTICIPANT"}:
+                raise ValueError("Unknown edge kind")
+            params[rel] = [dict(ai=ordinals[link[0]], bi=ordinals[link[1]], claim_id=link[3],
+                                role=link[4] if len(link) == 5 else "")
+                           for link in links if link[2] == rel]
+            row, a, b, edge = "row_"+rel, "source_"+rel, "target_"+rel, "edge_"+rel
+            clauses.append(f"FOREACH({row} IN ${rel} | "
+                           f"FOREACH({a} IN [nodes[{row}.ai]] | "
+                           f"FOREACH({b} IN [nodes[{row}.bi]] | "
+                           f"MERGE ({a})-[{edge}:{rel} {{claim_id:{row}.claim_id}}]->({b}) "
+                           f"SET {edge}.role={row}.role)))")
+        if clauses:
+            # One GRAPH.QUERY remains the atomic document/action write. No
+            # partial batch commits and no timeout change.
+            self.query(" ".join(clauses), params)
+
+    def _write_legacy(self, records, links):
+        """Known-good C atomic write, retained for mixed/update documents."""
         params, clauses = {}, []
         for kind in sorted({r["kind"] for r in records}):
             params[kind] = [dict(id=r["id"], payload=json.dumps(r, ensure_ascii=False),
                                 kind=kind, name_key=r.get("name_key", ""),
-                                alias_keys=r.get("alias_keys", []),
-                                identity_key=r.get("identity_key", ""),
-                                subject_id=r.get("subject_id", ""),
-                                object_id=r.get("object_id", ""))
+                                alias_keys=r.get("alias_keys", []), identity_key=r.get("identity_key", ""),
+                                subject_id=r.get("subject_id", ""), object_id=r.get("object_id", ""))
                             for r in records if r["kind"] == kind]
-            clauses.append(
-                f"FOREACH(v IN ${kind} | MERGE (n:Record:{kind} {{id:v.id}}) "
-                "SET n += v)"
-            )
+            clauses.append(f"FOREACH(v IN ${kind} | MERGE (n:Record:{kind} {{id:v.id}}) SET n += v)")
         for rel in sorted({link[2] for link in links}):
             if rel not in {"RELATES", "HAS_CHUNK", "SUPPORTS", "CITES", "HAS_TASK", "ACTED_ON",
                            "HAS_PARTICIPANT"}:
@@ -179,11 +243,9 @@ class Store:
             params[rel] = [dict(a=link[0], b=link[1], claim_id=link[3],
                                 role=link[4] if len(link) == 5 else "")
                            for link in links if link[2] == rel]
-            clauses.append(
-                f"FOREACH(v IN ${rel} | MERGE (a:Record {{id:v.a}}) "
-                "MERGE (b:Record {id:v.b}) "
-                f"MERGE (a)-[r:{rel} {{claim_id:v.claim_id}}]->(b) SET r.role=v.role)"
-            )
+            clauses.append(f"FOREACH(v IN ${rel} | MERGE (a:Record {{id:v.a}}) "
+                           "MERGE (b:Record {id:v.b}) "
+                           f"MERGE (a)-[r:{rel} {{claim_id:v.claim_id}}]->(b) SET r.role=v.role)")
         self.query(" ".join(clauses), params)
 
     def consume(self, bucket, limit, amount=1):

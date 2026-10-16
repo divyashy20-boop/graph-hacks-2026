@@ -287,3 +287,26 @@ Key implementation constraints: FalkorDB remains required for production/demo pe
 - [x] Updated diagnosis/audit/README/TEST_REPORT and created MILESTONE_D_REPORT;
   safe graph-write investigation is explicitly a subsequent increment. Store
   remains unchanged until this increment is tested/committed and CI checked.
+
+## Milestone D increment 2 — October 16, 2026
+
+- [x] Recovered and checkpointed the interrupted changes; no reset/discard. Fresh
+  profiling found repeated60,200-row pending endpoint scans and6,005 queries at
+ 1,000 records. Bound actual node references only for all-new IDs; existing/mixed
+  endpoints keep C's writer after the mixed-node-pool candidate failed regression.
+- [x] Per-document identity/name read cache under the lease reduces1,000-record
+  Cypher queries to3,008. No cross-upload cache, timeout increase or partial commit.
+- [x] All six real CSV/JSON100/1000/2000 profiles pass, exact602/6002/12002 payloads
+  and400/4000/8000 edges checked. Independent capacity repeat, stable IDs, isolation,
+  duplicates, reconnect and five bounded query observations all pass.
+- [x] Full191 tests (181 non-integration +10 actual graph), including runtime
+  rollback on both paths and concurrent same-ID updates. Earlier Docker Desktop
+  outage caused10 integration failures; restored existing services/volumes and
+  reran successfully. Rejected optimizations are disclosed in MILESTONE_D_REPORT.
+- [x] Full development graph audit unchanged10/10/15,F1 80%; public7/7/12. Three
+  synthetic persistent demos, Docker rebuild/readiness and exact payload/edge hash
+  comparison across actual graph/API restart pass. No paid provider calls.
+- [x] Reports retain baseline failures, intermediate fresh-only results and final
+  observations. Mixed large-upsert scaling, independent annotations and broad
+  language/event accuracy remain open; no production/million-record claim.
+- [ ] Check pushed D2 SHA/hosted CI before starting the universal foundation.
