@@ -2,6 +2,10 @@
 
 ## Milestone G increment2 recovery
 
+Implementation `f8047b678d2a180b7be642aee483822fadbc9ca4`:
+[actual hosted Actions passed](https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38897504153),
+including the real integrations, Docker, demos, public diagnostic and six capacity cases.
+
 **264 passed:247 non-integration +17 actual FalkorDB;0 failed/skipped**. Registry
 definitions/bindings and mapping history reconnect; modifier/role/tenant guards,
 whole research/collective events, respectively pairing, shortened-quote safety,

@@ -6,6 +6,9 @@ An **event-time Graph Hacks 2026 Track 1 implementation** of a multi-format, evi
 
 ## Milestone G: dynamic packs and bounded open predicates
 
+Verified implementation `f8047b678d2a180b7be642aee483822fadbc9ca4`;
+[successful Actions](https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38897504153).
+
 **264 tests pass, including17 actual FalkorDB integrations.** Strict non-executable
 packs, immutable versions/hashes and three vocabularies are implemented. Opt-in
 literal open frames preserve unfamiliar prose phrases as provisional definitions,
