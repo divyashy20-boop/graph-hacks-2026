@@ -38,7 +38,7 @@ a generic glass-card AI dashboard.
 
 ## UI-002 — Interactive 2D evidence map
 
-**Status:** Queued
+**Status:** Complete
 **Priority:** P0  
 **Depends on:** UI-001
 
