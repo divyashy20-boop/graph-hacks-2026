@@ -48,9 +48,14 @@ class Engine:
             return Ollama(self.settings, self.store)
         return None
 
-    def ingest(self, filename, content, use_ai=False, semantic_verification=True, pack_refs=None):
+    def ingest(self, filename, content, use_ai=False, semantic_verification=True, pack_refs=None,
+               source_attribution=None):
         started = perf_counter()
         source, chunks = parse(filename, content, self.settings)
+        if source_attribution is not None:
+            from .models import SourceAttribution
+
+            source["attribution"] = SourceAttribution.model_validate(source_attribution).model_dump()
         with self.store.transaction():
             from .schema import SchemaRuntime
 
@@ -89,7 +94,8 @@ class Engine:
                 links.append((source["id"], chunk["id"], "HAS_CHUNK", chunk["id"]))
                 chunk_events = []
                 try:
-                    candidates, method = discover(chunk, provider, event_sink=chunk_events)
+                    candidates, method = discover(chunk, provider, event_sink=chunk_events,
+                                                  open_discovery=self.settings.open_predicates)
                 except (ValueError, ProviderError) as exc:
                     candidates, method = [], "failed"
                     warnings.append(str(exc))
@@ -100,7 +106,7 @@ class Engine:
                     candidate_free.append(chunk["id"])
                 local_reviews = None
                 if provider and getattr(provider, "is_local", False) and semantic_verification:
-                    local_reviews = verify_local_batch(candidates, chunk, provider)
+                    local_reviews = verify_local_batch(candidates, chunk, provider, self.settings.open_predicates)
                 for candidate_index, candidate in enumerate(candidates):
                     identity = uid(chunk["id"], candidate.model_dump())
                     if identity in seen:
@@ -109,7 +115,7 @@ class Engine:
                     try:
                         accepted, reason = (local_reviews[candidate_index]
                                             if local_reviews is not None
-                                            else verify(candidate, chunk, provider))
+                                            else verify(candidate, chunk, provider, self.settings.open_predicates))
                     except (ValueError, ProviderError) as exc:
                         accepted, reason = False, "Review unavailable: " + str(exc)
                     if not semantic_verification:
@@ -193,14 +199,14 @@ class Engine:
                 from .nary import event_records
 
                 extra, event_links, accepted_events, event_reviews = event_records(
-                    chunk_events, chunk, self.store, entities, provider,
+                    chunk_events, chunk, self.store, entities, provider, self.settings.open_predicates,
                 )
                 records.extend(extra)
                 links.extend(event_links)
                 events.extend(accepted_events)
                 reviews.extend(event_reviews)
-            if packs:
-                records.extend(schema.bind([*claims, *events], packs))
+            if packs or self.settings.open_predicates:
+                records.extend(schema.bind([*claims, *events], packs, self.settings.open_predicates))
             counts = self.store.counts()
             new_entities = sum(prior_entity(eid) is None for eid in entities)
             if counts.get("Entity", 0) + new_entities > self.settings.max_nodes:
@@ -219,6 +225,8 @@ class Engine:
                           coverage_note="No candidates does not prove the source contains no relationships; "
                                         "semantic completeness requires annotation/review",
                           usage=getattr(provider, "usage", {"calls": 0, "estimated_usd": 0}))
+            if self.settings.open_predicates:
+                report["open_predicates"] = True
             source["report"] = report
             records.extend([*entities.values(), *reviews])
             if self.settings.identity_ledger:

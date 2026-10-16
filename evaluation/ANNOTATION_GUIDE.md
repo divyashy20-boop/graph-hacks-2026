@@ -1,5 +1,24 @@
 # Evaluation and annotation protocol
 
+## Milestone G freeze and unscored public diagnostic
+
+`g_open_development.json` is AI-authored development/specification data, not human
+gold. `g_public_sources_v1.json` freezes32 new FewRel texts and classification notes
+selected before the first public probe, excluding prior recorded source texts.
+The source-selection hash matches g2_public.json. They are now inspected, not
+unseen for future tuning. Original text/PID/hashes/CC BY-SA4.0 attribution stay.
+No complete independently reviewed binary/event/qualifier annotations exist.
+g2_public_final.json therefore records semantic counts/errors as null/unscored,
+not invented F1; directed-pair screening and abstention are separate diagnostics.
+Zero emitted spans means quotation accuracy is undefined, not100%.
+
+Human review must create a new derivative/version, preserve source hashes/terms,
+annotate complete binary direction/phrase/qualifiers and whole role sets with exact
+spans, and supply real reviewers/adjudication. Never change annotation flags or
+existing labels to raise scores. `g_novel_public_clause.json` is a convenience
+source-selected/manual agent inspection, not independent human-reviewed accuracy;
+full-context failure is explicitly retained. See DATA_LICENSES and MILESTONE_G_REPORT.
+
 ## Milestone C: source-aware frozen corpus and human derivative
 
 `c_development.json` contains14 AI-provisional development cases (seven public,

@@ -1,0 +1,13 @@
+{
+  "source_url":"https://www.jpl.nasa.gov/podcasts/on-a-mission-season-1/season-3-planet-earth/episode-6-air-and-shield/",
+  "title":"Episode 6: Air and Shield — NASA JPL, November 24, 2020",
+  "locator":"Transcript opening narrator passage, NACA to NASA transition",
+  "licence":"Short attributed research quotation; JPL/Caltech source terms retained",
+  "text":"NACA evolved into NASA",
+  "context":"As we sought ways to go ever faster and higher, and even fly beyond Earth’s atmosphere and travel to the Moon, NACA evolved into NASA, the National Aeronautics and Space Administration.",
+  "expected_subject":"NACA",
+  "expected_phrase":"evolved into",
+  "expected_object":"NASA",
+  "annotation":"Agent manual source/meaning inspection, not independent human annotation. Convenience-selected exact clause after code freeze; not a benchmark.",
+  "limits":"Input is an exact short clause, not the entire sentence. No date or independently verified identity equality follows. Full context is retained in source attribution and also tested separately without tuning."
+}

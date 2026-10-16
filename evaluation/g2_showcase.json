@@ -1,0 +1,870 @@
+{
+  "recorded_at": "2026-10-16T11:52:01.159218+00:00",
+  "backend": "falkordb",
+  "executed": true,
+  "domains": {
+    "incident": {
+      "ingestion": {
+        "source_id": "50616b80cd40f3bbed3eeab66e9eccb23cc7eeadb4a75f87c186a18ceb35169a",
+        "chunks": 8,
+        "entities": 8,
+        "claims": 8,
+        "relation_events": 0,
+        "review_tasks": 0,
+        "duplicate": true,
+        "warnings": [],
+        "elapsed_ms": 33.728,
+        "provider": "offline",
+        "usage": {
+          "calls": 0,
+          "estimated_usd": 0
+        }
+      },
+      "preview": {
+        "id": "570f2058b4ee4b80096977707c76803c2e3a4f86c7af24d4f74c8952c14d28e5",
+        "kind": "Investigation",
+        "target_id": "975063ebc990a5ccd8ffb0f38292f9471c5547817769b91305aa4d5be2939461",
+        "affected_entity_ids": [
+          "7b50ae525a3056302b1c5a57a5479df427bb2e83e6f34fbf36f9c0c1e3265c3f",
+          "c238cb492c9aa39d704417533bce11e49a19d933a2bcf49033803a9e2a1ff020"
+        ],
+        "priority": "high",
+        "supporting_claim_ids": [
+          "0373955f5840363c1b48777f2ec4ec091a8865f6904e7e3fc017125ef9225982",
+          "0987bdb5fc695d42359ad55dba51452ee26844229ab9351828bce5bb0f57e27b",
+          "5af4fadd8d9e447f632d8c799d0d7b369961e1659212078d264ac8f75d860725",
+          "67978cee10d10c6400ed2896b323a29182d1c820a52529626d9d693fd3546f85",
+          "6e1eb5c06a4e58dad3dfc6170c61dd9db80b5c1d5a394004cdea209c33839fe1",
+          "6fe6a22365be6492ed65f1136b52f1ee07d04a1c82e1e955e4923adf70c88b10",
+          "85e171b32c68100b63e11d1641975a4ddee65436e4c8beeb5909c4ef6894f564",
+          "877763bcfaf2b5458f7c85e1bc6430598c3650d2d22cbb65d10e6a11686445ee"
+        ],
+        "paths": [
+          {
+            "claim_ids": [
+              "0373955f5840363c1b48777f2ec4ec091a8865f6904e7e3fc017125ef9225982"
+            ],
+            "directions": [
+              false
+            ]
+          },
+          {
+            "claim_ids": [
+              "0373955f5840363c1b48777f2ec4ec091a8865f6904e7e3fc017125ef9225982",
+              "6e1eb5c06a4e58dad3dfc6170c61dd9db80b5c1d5a394004cdea209c33839fe1"
+            ],
+            "directions": [
+              false,
+              false
+            ]
+          }
+        ],
+        "explanation": "Priority follows dependency exposure and evidence conflicts. Affected entities indicate risk, not confirmed outages.",
+        "recorded_at": "2026-10-15T08:55:52.578892+00:00",
+        "actor": "demo",
+        "trace": [
+          {
+            "tool": "resolve_identity",
+            "arguments": {
+              "name": "Cache"
+            },
+            "read_only": true
+          },
+          {
+            "tool": "reverse_dependency_paths",
+            "arguments": {
+              "id": "975063ebc990a5ccd8ffb0f38292f9471c5547817769b91305aa4d5be2939461",
+              "as_of": null
+            },
+            "read_only": true
+          },
+          {
+            "tool": "retrieve_claims",
+            "arguments": {
+              "id": "975063ebc990a5ccd8ffb0f38292f9471c5547817769b91305aa4d5be2939461"
+            },
+            "read_only": true
+          },
+          {
+            "tool": "find_conflicts",
+            "arguments": {
+              "id": "975063ebc990a5ccd8ffb0f38292f9471c5547817769b91305aa4d5be2939461"
+            },
+            "read_only": true
+          },
+          {
+            "tool": "create_investigation_and_reviews",
+            "read_only": false,
+            "arguments": {
+              "authorised": true,
+              "idempotency_key": "showcase-v1"
+            }
+          }
+        ],
+        "as_of": null,
+        "status": "open",
+        "executed": true,
+        "duplicate": true
+      },
+      "action": {
+        "id": "570f2058b4ee4b80096977707c76803c2e3a4f86c7af24d4f74c8952c14d28e5",
+        "kind": "Investigation",
+        "target_id": "975063ebc990a5ccd8ffb0f38292f9471c5547817769b91305aa4d5be2939461",
+        "affected_entity_ids": [
+          "7b50ae525a3056302b1c5a57a5479df427bb2e83e6f34fbf36f9c0c1e3265c3f",
+          "c238cb492c9aa39d704417533bce11e49a19d933a2bcf49033803a9e2a1ff020"
+        ],
+        "priority": "high",
+        "supporting_claim_ids": [
+          "0373955f5840363c1b48777f2ec4ec091a8865f6904e7e3fc017125ef9225982",
+          "0987bdb5fc695d42359ad55dba51452ee26844229ab9351828bce5bb0f57e27b",
+          "5af4fadd8d9e447f632d8c799d0d7b369961e1659212078d264ac8f75d860725",
+          "67978cee10d10c6400ed2896b323a29182d1c820a52529626d9d693fd3546f85",
+          "6e1eb5c06a4e58dad3dfc6170c61dd9db80b5c1d5a394004cdea209c33839fe1",
+          "6fe6a22365be6492ed65f1136b52f1ee07d04a1c82e1e955e4923adf70c88b10",
+          "85e171b32c68100b63e11d1641975a4ddee65436e4c8beeb5909c4ef6894f564",
+          "877763bcfaf2b5458f7c85e1bc6430598c3650d2d22cbb65d10e6a11686445ee"
+        ],
+        "paths": [
+          {
+            "claim_ids": [
+              "0373955f5840363c1b48777f2ec4ec091a8865f6904e7e3fc017125ef9225982"
+            ],
+            "directions": [
+              false
+            ]
+          },
+          {
+            "claim_ids": [
+              "0373955f5840363c1b48777f2ec4ec091a8865f6904e7e3fc017125ef9225982",
+              "6e1eb5c06a4e58dad3dfc6170c61dd9db80b5c1d5a394004cdea209c33839fe1"
+            ],
+            "directions": [
+              false,
+              false
+            ]
+          }
+        ],
+        "explanation": "Priority follows dependency exposure and evidence conflicts. Affected entities indicate risk, not confirmed outages.",
+        "recorded_at": "2026-10-15T08:55:52.578892+00:00",
+        "actor": "demo",
+        "trace": [
+          {
+            "tool": "resolve_identity",
+            "arguments": {
+              "name": "Cache"
+            },
+            "read_only": true
+          },
+          {
+            "tool": "reverse_dependency_paths",
+            "arguments": {
+              "id": "975063ebc990a5ccd8ffb0f38292f9471c5547817769b91305aa4d5be2939461",
+              "as_of": null
+            },
+            "read_only": true
+          },
+          {
+            "tool": "retrieve_claims",
+            "arguments": {
+              "id": "975063ebc990a5ccd8ffb0f38292f9471c5547817769b91305aa4d5be2939461"
+            },
+            "read_only": true
+          },
+          {
+            "tool": "find_conflicts",
+            "arguments": {
+              "id": "975063ebc990a5ccd8ffb0f38292f9471c5547817769b91305aa4d5be2939461"
+            },
+            "read_only": true
+          },
+          {
+            "tool": "create_investigation_and_reviews",
+            "read_only": false,
+            "arguments": {
+              "authorised": true,
+              "idempotency_key": "showcase-v1"
+            }
+          }
+        ],
+        "as_of": null,
+        "status": "open",
+        "executed": true,
+        "duplicate": true
+      },
+      "derived": {
+        "status": "RULE_DERIVED",
+        "predicate": "TRANSITIVELY_DEPENDS_ON",
+        "evidence": [
+          {
+            "claim": {
+              "subject": "Checkout",
+              "object": "Gateway",
+              "evidence": "{\"subject\": \"Checkout\", \"subject_id\": \"svc:checkout\", \"subject_type\": \"Service\", \"predicate\": \"depends on\", \"object\": \"Gateway\", \"object_id\": \"svc:gateway\", \"object_type\": \"Service\"}",
+              "subject_type": "Service",
+              "object_type": "Service",
+              "polarity": "positive",
+              "modality": "asserted",
+              "event_time": null,
+              "valid_from": null,
+              "valid_to": null,
+              "time_precision": "unknown",
+              "temporal_source": null,
+              "historical": false,
+              "attribution": null,
+              "event_id": null,
+              "id": "6e1eb5c06a4e58dad3dfc6170c61dd9db80b5c1d5a394004cdea209c33839fe1",
+              "kind": "Claim",
+              "subject_id": "c238cb492c9aa39d704417533bce11e49a19d933a2bcf49033803a9e2a1ff020",
+              "object_id": "7b50ae525a3056302b1c5a57a5479df427bb2e83e6f34fbf36f9c0c1e3265c3f",
+              "original_predicate": "depends on",
+              "predicate": "DEPENDS_ON",
+              "original_claim": "{\"subject\": \"Checkout\", \"subject_id\": \"svc:checkout\", \"subject_type\": \"Service\", \"predicate\": \"depends on\", \"object\": \"Gateway\", \"object_id\": \"svc:gateway\", \"object_type\": \"Service\"}",
+              "evidence_id": "369f5fb6a057f15cafa55485b598ee7640985a6e2b797a7a14de74af32e874f1",
+              "source_id": "50616b80cd40f3bbed3eeab66e9eccb23cc7eeadb4a75f87c186a18ceb35169a",
+              "chunk_id": "b3852ba50dc92e90e55b8f4ba52956f4796bf503e720f69325a4f44578eb0521",
+              "recorded_at": "2026-10-15T08:55:52.535015+00:00",
+              "extraction_method": "structured",
+              "extraction_model": "grammar-v1",
+              "review_status": "supported",
+              "review_reason": "Deterministic mapping from explicit structured fields",
+              "verification_level": "source_assertion",
+              "independently_verified": false
+            },
+            "evidence": {
+              "id": "369f5fb6a057f15cafa55485b598ee7640985a6e2b797a7a14de74af32e874f1",
+              "kind": "Evidence",
+              "source_id": "50616b80cd40f3bbed3eeab66e9eccb23cc7eeadb4a75f87c186a18ceb35169a",
+              "chunk_id": "b3852ba50dc92e90e55b8f4ba52956f4796bf503e720f69325a4f44578eb0521",
+              "quote": "{\"subject\": \"Checkout\", \"subject_id\": \"svc:checkout\", \"subject_type\": \"Service\", \"predicate\": \"depends on\", \"object\": \"Gateway\", \"object_id\": \"svc:gateway\", \"object_type\": \"Service\"}",
+              "start": 0,
+              "end": 182,
+              "location": {
+                "json_pointer": "/0",
+                "offset": 0
+              }
+            }
+          },
+          {
+            "claim": {
+              "subject": "Gateway",
+              "object": "Cache",
+              "evidence": "{\"subject\": \"Gateway\", \"subject_id\": \"svc:gateway\", \"subject_type\": \"Service\", \"predicate\": \"depends on\", \"object\": \"Cache\", \"object_id\": \"svc:cache\", \"object_type\": \"Service\"}",
+              "subject_type": "Service",
+              "object_type": "Service",
+              "polarity": "positive",
+              "modality": "asserted",
+              "event_time": null,
+              "valid_from": null,
+              "valid_to": null,
+              "time_precision": "unknown",
+              "temporal_source": null,
+              "historical": false,
+              "attribution": null,
+              "event_id": null,
+              "id": "0373955f5840363c1b48777f2ec4ec091a8865f6904e7e3fc017125ef9225982",
+              "kind": "Claim",
+              "subject_id": "7b50ae525a3056302b1c5a57a5479df427bb2e83e6f34fbf36f9c0c1e3265c3f",
+              "object_id": "975063ebc990a5ccd8ffb0f38292f9471c5547817769b91305aa4d5be2939461",
+              "original_predicate": "depends on",
+              "predicate": "DEPENDS_ON",
+              "original_claim": "{\"subject\": \"Gateway\", \"subject_id\": \"svc:gateway\", \"subject_type\": \"Service\", \"predicate\": \"depends on\", \"object\": \"Cache\", \"object_id\": \"svc:cache\", \"object_type\": \"Service\"}",
+              "evidence_id": "8f4117acefb8838887fda351a52a385a7f1684656133c69a54d1ad81a2bdf827",
+              "source_id": "50616b80cd40f3bbed3eeab66e9eccb23cc7eeadb4a75f87c186a18ceb35169a",
+              "chunk_id": "ee96f98f32b32647f5b3a60c22ab9e57794b04b11e7eb276a0708fc47f7d914e",
+              "recorded_at": "2026-10-15T08:55:52.538079+00:00",
+              "extraction_method": "structured",
+              "extraction_model": "grammar-v1",
+              "review_status": "supported",
+              "review_reason": "Deterministic mapping from explicit structured fields",
+              "verification_level": "source_assertion",
+              "independently_verified": false
+            },
+            "evidence": {
+              "id": "8f4117acefb8838887fda351a52a385a7f1684656133c69a54d1ad81a2bdf827",
+              "kind": "Evidence",
+              "source_id": "50616b80cd40f3bbed3eeab66e9eccb23cc7eeadb4a75f87c186a18ceb35169a",
+              "chunk_id": "ee96f98f32b32647f5b3a60c22ab9e57794b04b11e7eb276a0708fc47f7d914e",
+              "quote": "{\"subject\": \"Gateway\", \"subject_id\": \"svc:gateway\", \"subject_type\": \"Service\", \"predicate\": \"depends on\", \"object\": \"Cache\", \"object_id\": \"svc:cache\", \"object_type\": \"Service\"}",
+              "start": 0,
+              "end": 176,
+              "location": {
+                "json_pointer": "/1",
+                "offset": 0
+              }
+            }
+          }
+        ],
+        "paths": [
+          {
+            "claim_ids": [
+              "6e1eb5c06a4e58dad3dfc6170c61dd9db80b5c1d5a394004cdea209c33839fe1",
+              "0373955f5840363c1b48777f2ec4ec091a8865f6904e7e3fc017125ef9225982"
+            ],
+            "directions": [
+              true,
+              true
+            ]
+          }
+        ],
+        "rules": [
+          "dependency_reachability_v1"
+        ],
+        "explanation": "A forward dependency chain entails dependency reachability; it does not prove a direct dependency or incident cause",
+        "hypotheses": [],
+        "confidence_note": "No numeric truth probability is claimed",
+        "resolution": {
+          "assessment": "CONNECTED_BUT_NOT_ENTAILED",
+          "requested_predicate": "TRANSITIVELY_DEPENDS_ON",
+          "path_summaries": [
+            {
+              "claim_ids": [
+                "6e1eb5c06a4e58dad3dfc6170c61dd9db80b5c1d5a394004cdea209c33839fe1",
+                "0373955f5840363c1b48777f2ec4ec091a8865f6904e7e3fc017125ef9225982"
+              ],
+              "predicates": [
+                "DEPENDS_ON",
+                "DEPENDS_ON"
+              ],
+              "directions": [
+                "forward",
+                "forward"
+              ]
+            }
+          ],
+          "missing_evidence": [
+            "At least two forward DEPENDS_ON claims forming one valid chain",
+            "Consistent temporal applicability and no opposing dependency assertions"
+          ],
+          "recommended_action": "Obtain a new supporting document or seek human review before asserting it",
+          "safety_note": "A path/hypothesis does not establish the requested relation"
+        }
+      },
+      "tasks": [
+        {
+          "id": "05401527277872d82aac17c8f3bb28382d486fc15e575857b895264d93b7a1ce",
+          "kind": "ReviewTask",
+          "investigation_id": "570f2058b4ee4b80096977707c76803c2e3a4f86c7af24d4f74c8952c14d28e5",
+          "claim_id": "0987bdb5fc695d42359ad55dba51452ee26844229ab9351828bce5bb0f57e27b",
+          "status": "open",
+          "reason": "Uncertain or conflicting claim",
+          "recorded_at": "2026-10-15T08:55:52.578892+00:00"
+        },
+        {
+          "id": "4f095d90b03a7282b78a81164cd2d3550e9064e72c3fc7b1d73e48f17cd8f77d",
+          "kind": "ReviewTask",
+          "investigation_id": "ff069eeb5b1ad672f0678e503933714b59fb079bc8d3f9b34543ee7c5609f9e5",
+          "claim_id": "0987bdb5fc695d42359ad55dba51452ee26844229ab9351828bce5bb0f57e27b",
+          "status": "open",
+          "reason": "Uncertain or conflicting claim",
+          "recorded_at": "2026-10-15T13:00:09.106007+00:00"
+        },
+        {
+          "id": "ba36c4bcc07eeb6c7769fa62f384e4d119ef6c99ffd0b0a23cd9aed1d720d1fd",
+          "kind": "ReviewTask",
+          "investigation_id": "ff069eeb5b1ad672f0678e503933714b59fb079bc8d3f9b34543ee7c5609f9e5",
+          "claim_id": "85e171b32c68100b63e11d1641975a4ddee65436e4c8beeb5909c4ef6894f564",
+          "status": "open",
+          "reason": "Uncertain or conflicting claim",
+          "recorded_at": "2026-10-15T13:00:09.106014+00:00"
+        },
+        {
+          "id": "dcccebfded04deda442e1c178cdb4675dcb8003e0af6721e59f6750cf5e1ece6",
+          "kind": "ReviewTask",
+          "investigation_id": "570f2058b4ee4b80096977707c76803c2e3a4f86c7af24d4f74c8952c14d28e5",
+          "claim_id": "85e171b32c68100b63e11d1641975a4ddee65436e4c8beeb5909c4ef6894f564",
+          "status": "open",
+          "reason": "Uncertain or conflicting claim",
+          "recorded_at": "2026-10-15T08:55:52.578892+00:00"
+        }
+      ],
+      "graph": "ugi_event_50457f7d20e81ab12d27a717"
+    },
+    "supply": {
+      "ingestion": {
+        "source_id": "0b5daf3fee4b76a539d0a8493faee180516ae3192645f7b38ea299c3134cc705",
+        "chunks": 5,
+        "entities": 5,
+        "claims": 4,
+        "relation_events": 1,
+        "review_tasks": 0,
+        "duplicate": true,
+        "warnings": [],
+        "elapsed_ms": 22.102,
+        "provider": "offline",
+        "usage": {
+          "calls": 0,
+          "estimated_usd": 0
+        }
+      },
+      "preview": {
+        "id": "15fa17cffea42dd129befa749c6a36249911d4563c9adccfe8e10f33e5834c20",
+        "kind": "Investigation",
+        "target_id": "3f411823c31c37cae24d48254fd6f38e10a6edf4bcd041b96922274784f95879",
+        "affected_entity_ids": [
+          "413edb51d5b0167a8242f269da1d5390f518cbf85b48e975b18b99a29b287bb1",
+          "895f8da0812d1fb4bcecc102af2d7904b4d90e1b0782c7fd3d544ccd91abf32e"
+        ],
+        "priority": "high",
+        "supporting_claim_ids": [
+          "2feb50352039fa892f6cc977d2fcaec6fe6caa4c971cc9e8c9b2f5636c741e49",
+          "8fcc80aef23a2642c9c7badd5374a28fb1b7af1deaf1ab04b4f6feda48492a9f",
+          "c1673b2e84b2f631a9263aa8243992eea08585dbe7833b256645f66dea945952"
+        ],
+        "paths": [
+          {
+            "claim_ids": [
+              "c1673b2e84b2f631a9263aa8243992eea08585dbe7833b256645f66dea945952"
+            ],
+            "directions": [
+              false
+            ]
+          },
+          {
+            "claim_ids": [
+              "c1673b2e84b2f631a9263aa8243992eea08585dbe7833b256645f66dea945952",
+              "8fcc80aef23a2642c9c7badd5374a28fb1b7af1deaf1ab04b4f6feda48492a9f"
+            ],
+            "directions": [
+              false,
+              false
+            ]
+          }
+        ],
+        "explanation": "Priority follows dependency exposure and evidence conflicts. Affected entities indicate risk, not confirmed outages.",
+        "recorded_at": "2026-10-15T08:55:52.632896+00:00",
+        "actor": "demo",
+        "trace": [
+          {
+            "tool": "resolve_identity",
+            "arguments": {
+              "name": "Nova Supply"
+            },
+            "read_only": true
+          },
+          {
+            "tool": "reverse_dependency_paths",
+            "arguments": {
+              "id": "3f411823c31c37cae24d48254fd6f38e10a6edf4bcd041b96922274784f95879",
+              "as_of": null
+            },
+            "read_only": true
+          },
+          {
+            "tool": "retrieve_claims",
+            "arguments": {
+              "id": "3f411823c31c37cae24d48254fd6f38e10a6edf4bcd041b96922274784f95879"
+            },
+            "read_only": true
+          },
+          {
+            "tool": "find_conflicts",
+            "arguments": {
+              "id": "3f411823c31c37cae24d48254fd6f38e10a6edf4bcd041b96922274784f95879"
+            },
+            "read_only": true
+          },
+          {
+            "tool": "create_investigation_and_reviews",
+            "read_only": false,
+            "arguments": {
+              "authorised": true,
+              "idempotency_key": "showcase-v1"
+            }
+          }
+        ],
+        "as_of": null,
+        "status": "open",
+        "executed": true,
+        "duplicate": true
+      },
+      "action": {
+        "id": "15fa17cffea42dd129befa749c6a36249911d4563c9adccfe8e10f33e5834c20",
+        "kind": "Investigation",
+        "target_id": "3f411823c31c37cae24d48254fd6f38e10a6edf4bcd041b96922274784f95879",
+        "affected_entity_ids": [
+          "413edb51d5b0167a8242f269da1d5390f518cbf85b48e975b18b99a29b287bb1",
+          "895f8da0812d1fb4bcecc102af2d7904b4d90e1b0782c7fd3d544ccd91abf32e"
+        ],
+        "priority": "high",
+        "supporting_claim_ids": [
+          "2feb50352039fa892f6cc977d2fcaec6fe6caa4c971cc9e8c9b2f5636c741e49",
+          "8fcc80aef23a2642c9c7badd5374a28fb1b7af1deaf1ab04b4f6feda48492a9f",
+          "c1673b2e84b2f631a9263aa8243992eea08585dbe7833b256645f66dea945952"
+        ],
+        "paths": [
+          {
+            "claim_ids": [
+              "c1673b2e84b2f631a9263aa8243992eea08585dbe7833b256645f66dea945952"
+            ],
+            "directions": [
+              false
+            ]
+          },
+          {
+            "claim_ids": [
+              "c1673b2e84b2f631a9263aa8243992eea08585dbe7833b256645f66dea945952",
+              "8fcc80aef23a2642c9c7badd5374a28fb1b7af1deaf1ab04b4f6feda48492a9f"
+            ],
+            "directions": [
+              false,
+              false
+            ]
+          }
+        ],
+        "explanation": "Priority follows dependency exposure and evidence conflicts. Affected entities indicate risk, not confirmed outages.",
+        "recorded_at": "2026-10-15T08:55:52.632896+00:00",
+        "actor": "demo",
+        "trace": [
+          {
+            "tool": "resolve_identity",
+            "arguments": {
+              "name": "Nova Supply"
+            },
+            "read_only": true
+          },
+          {
+            "tool": "reverse_dependency_paths",
+            "arguments": {
+              "id": "3f411823c31c37cae24d48254fd6f38e10a6edf4bcd041b96922274784f95879",
+              "as_of": null
+            },
+            "read_only": true
+          },
+          {
+            "tool": "retrieve_claims",
+            "arguments": {
+              "id": "3f411823c31c37cae24d48254fd6f38e10a6edf4bcd041b96922274784f95879"
+            },
+            "read_only": true
+          },
+          {
+            "tool": "find_conflicts",
+            "arguments": {
+              "id": "3f411823c31c37cae24d48254fd6f38e10a6edf4bcd041b96922274784f95879"
+            },
+            "read_only": true
+          },
+          {
+            "tool": "create_investigation_and_reviews",
+            "read_only": false,
+            "arguments": {
+              "authorised": true,
+              "idempotency_key": "showcase-v1"
+            }
+          }
+        ],
+        "as_of": null,
+        "status": "open",
+        "executed": true,
+        "duplicate": true
+      },
+      "derived": {
+        "status": "RULE_DERIVED",
+        "predicate": "TRANSITIVELY_DEPENDS_ON",
+        "evidence": [
+          {
+            "claim": {
+              "subject": "Harbor Factory",
+              "object": "Sensor Unit",
+              "evidence": "{\"subject\": \"Harbor Factory\", \"subject_id\": \"harbor\", \"subject_type\": \"Facility\", \"predicate\": \"DEPENDS_ON\", \"object\": \"Sensor Unit\", \"object_id\": \"sensor\", \"object_type\": \"Component\"}",
+              "subject_type": "Facility",
+              "object_type": "Component",
+              "polarity": "positive",
+              "modality": "asserted",
+              "event_time": null,
+              "valid_from": null,
+              "valid_to": null,
+              "time_precision": "unknown",
+              "temporal_source": null,
+              "historical": false,
+              "attribution": null,
+              "event_id": null,
+              "id": "8fcc80aef23a2642c9c7badd5374a28fb1b7af1deaf1ab04b4f6feda48492a9f",
+              "kind": "Claim",
+              "subject_id": "895f8da0812d1fb4bcecc102af2d7904b4d90e1b0782c7fd3d544ccd91abf32e",
+              "object_id": "413edb51d5b0167a8242f269da1d5390f518cbf85b48e975b18b99a29b287bb1",
+              "original_predicate": "DEPENDS_ON",
+              "predicate": "DEPENDS_ON",
+              "original_claim": "{\"subject\": \"Harbor Factory\", \"subject_id\": \"harbor\", \"subject_type\": \"Facility\", \"predicate\": \"DEPENDS_ON\", \"object\": \"Sensor Unit\", \"object_id\": \"sensor\", \"object_type\": \"Component\"}",
+              "evidence_id": "36cb0be3621ec7152f7a66548e98a5e19e8eab92fa3521214d027ee602037f25",
+              "source_id": "0b5daf3fee4b76a539d0a8493faee180516ae3192645f7b38ea299c3134cc705",
+              "chunk_id": "8cc17a7be61b75908f02480b389d9989a0d9948aab24393992754acedf546369",
+              "recorded_at": "2026-10-15T08:55:52.605894+00:00",
+              "extraction_method": "structured",
+              "extraction_model": "grammar-v1",
+              "review_status": "supported",
+              "review_reason": "Deterministic mapping from explicit structured fields",
+              "verification_level": "source_assertion",
+              "independently_verified": false
+            },
+            "evidence": {
+              "id": "36cb0be3621ec7152f7a66548e98a5e19e8eab92fa3521214d027ee602037f25",
+              "kind": "Evidence",
+              "source_id": "0b5daf3fee4b76a539d0a8493faee180516ae3192645f7b38ea299c3134cc705",
+              "chunk_id": "8cc17a7be61b75908f02480b389d9989a0d9948aab24393992754acedf546369",
+              "quote": "{\"subject\": \"Harbor Factory\", \"subject_id\": \"harbor\", \"subject_type\": \"Facility\", \"predicate\": \"DEPENDS_ON\", \"object\": \"Sensor Unit\", \"object_id\": \"sensor\", \"object_type\": \"Component\"}",
+              "start": 0,
+              "end": 184,
+              "location": {
+                "json_pointer": "/1",
+                "offset": 0
+              }
+            }
+          },
+          {
+            "claim": {
+              "subject": "Sensor Unit",
+              "object": "Nova Supply",
+              "evidence": "{\"subject\": \"Sensor Unit\", \"subject_id\": \"sensor\", \"subject_type\": \"Component\", \"predicate\": \"DEPENDS_ON\", \"object\": \"Nova Supply\", \"object_id\": \"nova\", \"object_type\": \"Organization\"}",
+              "subject_type": "Component",
+              "object_type": "Organization",
+              "polarity": "positive",
+              "modality": "asserted",
+              "event_time": null,
+              "valid_from": null,
+              "valid_to": null,
+              "time_precision": "unknown",
+              "temporal_source": null,
+              "historical": false,
+              "attribution": null,
+              "event_id": null,
+              "id": "c1673b2e84b2f631a9263aa8243992eea08585dbe7833b256645f66dea945952",
+              "kind": "Claim",
+              "subject_id": "413edb51d5b0167a8242f269da1d5390f518cbf85b48e975b18b99a29b287bb1",
+              "object_id": "3f411823c31c37cae24d48254fd6f38e10a6edf4bcd041b96922274784f95879",
+              "original_predicate": "DEPENDS_ON",
+              "predicate": "DEPENDS_ON",
+              "original_claim": "{\"subject\": \"Sensor Unit\", \"subject_id\": \"sensor\", \"subject_type\": \"Component\", \"predicate\": \"DEPENDS_ON\", \"object\": \"Nova Supply\", \"object_id\": \"nova\", \"object_type\": \"Organization\"}",
+              "evidence_id": "094b87004a26f2207e6bd99a171720833819782ce7dcf1c49e880857160d4e99",
+              "source_id": "0b5daf3fee4b76a539d0a8493faee180516ae3192645f7b38ea299c3134cc705",
+              "chunk_id": "66e5993aed54808795dfcb3e956b19a9d00bda83422d19dc1e77fc4c4bb0b5bb",
+              "recorded_at": "2026-10-15T08:55:52.607878+00:00",
+              "extraction_method": "structured",
+              "extraction_model": "grammar-v1",
+              "review_status": "supported",
+              "review_reason": "Deterministic mapping from explicit structured fields",
+              "verification_level": "source_assertion",
+              "independently_verified": false
+            },
+            "evidence": {
+              "id": "094b87004a26f2207e6bd99a171720833819782ce7dcf1c49e880857160d4e99",
+              "kind": "Evidence",
+              "source_id": "0b5daf3fee4b76a539d0a8493faee180516ae3192645f7b38ea299c3134cc705",
+              "chunk_id": "66e5993aed54808795dfcb3e956b19a9d00bda83422d19dc1e77fc4c4bb0b5bb",
+              "quote": "{\"subject\": \"Sensor Unit\", \"subject_id\": \"sensor\", \"subject_type\": \"Component\", \"predicate\": \"DEPENDS_ON\", \"object\": \"Nova Supply\", \"object_id\": \"nova\", \"object_type\": \"Organization\"}",
+              "start": 0,
+              "end": 183,
+              "location": {
+                "json_pointer": "/2",
+                "offset": 0
+              }
+            }
+          }
+        ],
+        "paths": [
+          {
+            "claim_ids": [
+              "8fcc80aef23a2642c9c7badd5374a28fb1b7af1deaf1ab04b4f6feda48492a9f",
+              "c1673b2e84b2f631a9263aa8243992eea08585dbe7833b256645f66dea945952"
+            ],
+            "directions": [
+              true,
+              true
+            ]
+          }
+        ],
+        "rules": [
+          "dependency_reachability_v1"
+        ],
+        "explanation": "A forward dependency chain entails dependency reachability; it does not prove a direct dependency or incident cause",
+        "hypotheses": [],
+        "confidence_note": "No numeric truth probability is claimed",
+        "resolution": {
+          "assessment": "CONNECTED_BUT_NOT_ENTAILED",
+          "requested_predicate": "TRANSITIVELY_DEPENDS_ON",
+          "path_summaries": [
+            {
+              "claim_ids": [
+                "8fcc80aef23a2642c9c7badd5374a28fb1b7af1deaf1ab04b4f6feda48492a9f",
+                "c1673b2e84b2f631a9263aa8243992eea08585dbe7833b256645f66dea945952"
+              ],
+              "predicates": [
+                "DEPENDS_ON",
+                "DEPENDS_ON"
+              ],
+              "directions": [
+                "forward",
+                "forward"
+              ]
+            }
+          ],
+          "missing_evidence": [
+            "At least two forward DEPENDS_ON claims forming one valid chain",
+            "Consistent temporal applicability and no opposing dependency assertions"
+          ],
+          "recommended_action": "Obtain a new supporting document or seek human review before asserting it",
+          "safety_note": "A path/hypothesis does not establish the requested relation"
+        }
+      },
+      "tasks": [
+        {
+          "id": "8ee184b646871f4cd24dc4f0c9dd25e83e6f09dff1c880487950877fd5543bd5",
+          "kind": "ReviewTask",
+          "investigation_id": "15fa17cffea42dd129befa749c6a36249911d4563c9adccfe8e10f33e5834c20",
+          "claim_id": "2feb50352039fa892f6cc977d2fcaec6fe6caa4c971cc9e8c9b2f5636c741e49",
+          "status": "open",
+          "reason": "Uncertain or conflicting claim",
+          "recorded_at": "2026-10-15T08:55:52.632896+00:00"
+        }
+      ],
+      "graph": "ugi_event_250649f282d81e731e67a04a"
+    },
+    "research": {
+      "ingestion": {
+        "source_id": "72f2f0ba391f19204133e4ce727844ad5a20e180650535021699b3315748a3d7",
+        "chunks": 3,
+        "entities": 4,
+        "claims": 2,
+        "relation_events": 1,
+        "review_tasks": 0,
+        "duplicate": true,
+        "warnings": [],
+        "elapsed_ms": 17.334,
+        "provider": "offline",
+        "usage": {
+          "calls": 0,
+          "estimated_usd": 0
+        }
+      },
+      "historical_status": "RULE_DERIVED",
+      "later_status": "UNKNOWN",
+      "after_collision": {
+        "status": "UNKNOWN",
+        "predicate": "SHARES_EMPLOYER",
+        "evidence": [],
+        "paths": [],
+        "rules": [],
+        "explanation": "Identity missing or ambiguous; use an exact entity ID",
+        "hypotheses": [],
+        "confidence_note": "No numeric truth probability is claimed",
+        "resolution": {
+          "assessment": "MISSING_OR_AMBIGUOUS_IDENTITY",
+          "requested_predicate": "SHARES_EMPLOYER",
+          "path_summaries": [],
+          "missing_evidence": [
+            "Unique, verified identities for subject and object"
+          ],
+          "recommended_action": "Search entity candidates and select their exact IDs",
+          "safety_note": "Do not merge similar names without identity evidence"
+        }
+      },
+      "events": [
+        {
+          "evidence": "{\"relation_type\": \"COLLABORATION\", \"participants\": [{\"role\": \"researcher\", \"name\": \"Lina\", \"entity_type\": \"Person\", \"external_id\": \"lina-main\"}, {\"role\": \"researcher\", \"name\": \"Noor\", \"entity_type\": \"Person\", \"external_id\": \"noor\"}, {\"role\": \"project\", \"name\": \"Atlas Project\", \"entity_type\": \"Project\", \"external_id\": \"atlas\"}, {\"role\": \"institution\", \"name\": \"Meridian Institute\", \"entity_type\": \"Institution\", \"external_id\": \"meridian\"}], \"valid_from\": \"2021-01-01\", \"valid_to\": \"2021-12-31\", \"time_precision\": \"year\", \"attribution\": \"Synthetic project register\"}",
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": "2021-01-01",
+          "valid_to": "2021-12-31",
+          "time_precision": "year",
+          "temporal_source": null,
+          "historical": false,
+          "attribution": "Synthetic project register",
+          "occurrence_id": null,
+          "evidence_start": 0,
+          "id": "d59fceed361945b126b5a9c9708f5fcbb824d5f006344afc15e8058b42bfb321",
+          "kind": "RelationEvent",
+          "relation_type": "COLLABORATION",
+          "original_relation_type": "COLLABORATION",
+          "participants": [
+            {
+              "role": "institution",
+              "name": "Meridian Institute",
+              "entity_type": "Institution",
+              "external_id": "meridian",
+              "aliases": [],
+              "entity_id": "9967ad37fa2363e7586c48abf061226e2d3330e34c7f011357fcac6b3aa4ba94"
+            },
+            {
+              "role": "project",
+              "name": "Atlas Project",
+              "entity_type": "Project",
+              "external_id": "atlas",
+              "aliases": [],
+              "entity_id": "6b9bf1fa8302a97f2baf83bfe3850fbebfb62116cdf336bd5d47f13f227c4b9a"
+            },
+            {
+              "role": "researcher",
+              "name": "Lina",
+              "entity_type": "Person",
+              "external_id": "lina-main",
+              "aliases": [],
+              "entity_id": "330cd7ca0948611e7a88026d0d432619cdc4a2e89518246766afce6769940af8"
+            },
+            {
+              "role": "researcher",
+              "name": "Noor",
+              "entity_type": "Person",
+              "external_id": "noor",
+              "aliases": [],
+              "entity_id": "df9802cf9df07de94515de2f8542292d9fb6fef8b018aac0959e18ddd61ee5e8"
+            }
+          ],
+          "source_id": "72f2f0ba391f19204133e4ce727844ad5a20e180650535021699b3315748a3d7",
+          "chunk_id": "b1067967d586913dc91f930f954339b3da3b616761302702fd80c573bdcee1b6",
+          "evidence_id": "0ad97ad663dbbc26135aabbb2fbc8d6d2a8b09c5243876d9dac5a3e9f32f3699",
+          "recorded_at": "2026-10-15T08:55:52.677439+00:00",
+          "review_status": "supported",
+          "review_reason": "Explicit structured role mapping",
+          "extraction_method": "deterministic_event",
+          "extraction_model": "event-grammar-v1",
+          "verification_level": "source_assertion",
+          "independently_verified": false
+        }
+      ],
+      "identity_candidates": [
+        {
+          "id": "330cd7ca0948611e7a88026d0d432619cdc4a2e89518246766afce6769940af8",
+          "kind": "Entity",
+          "identity_key": "id:person:lina-main",
+          "name": "Lina",
+          "name_key": "lina",
+          "entity_type": "Person",
+          "external_id": "lina-main",
+          "aliases": [
+            "Lina"
+          ],
+          "alias_keys": [
+            "lina"
+          ]
+        },
+        {
+          "id": "3a5b24269ba31730d3ed3bf9e68c7d32fe03a3b8f58f198422922dfedac5cec3",
+          "kind": "Entity",
+          "identity_key": "id:person:lina-other",
+          "name": "Lina",
+          "name_key": "lina",
+          "entity_type": "Person",
+          "aliases": [],
+          "alias_keys": [],
+          "external_id": "lina-other"
+        }
+      ],
+      "merge_reviews": [
+        {
+          "id": "8b2f207766b1b205397fa6871ec0b79234ff6704e5244810eb415f5701ec5511",
+          "kind": "MergeDecision",
+          "status": "review",
+          "incoming_id": "3a5b24269ba31730d3ed3bf9e68c7d32fe03a3b8f58f198422922dfedac5cec3",
+          "candidate_id": "330cd7ca0948611e7a88026d0d432619cdc4a2e89518246766afce6769940af8",
+          "reason": "Shared name alone is insufficient identity evidence",
+          "source_id": "142dfe25935d1c7a22cf23d0384429b223f6de41068d2ddb93e2e2fa770c5667"
+        }
+      ],
+      "graph": "ugi_event_23be307b8a5077a5c2b77ee5"
+    }
+  },
+  "data_provenance": "Synthetic CC0 demo records; dependencies explicitly supplied, not inferred by flattening provision events",
+  "model_calls": 0
+}

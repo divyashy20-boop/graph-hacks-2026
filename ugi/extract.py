@@ -299,7 +299,7 @@ def grounded(candidate: Candidate, chunk):
     return True, "Exact passage grounded"
 
 
-def verify(candidate, chunk, provider=None):
+def verify(candidate, chunk, provider=None, open_discovery=False):
     valid, reason = grounded(candidate, chunk)
     if not valid:
         return False, reason
@@ -322,7 +322,22 @@ def verify(candidate, chunk, provider=None):
 
     from .nary import text_events
 
-    if text_events(candidate.evidence):
+    if open_discovery:
+        from .open_relations import extract_open
+
+        open_grammar, open_events = extract_open(candidate.evidence)
+        enclosing = [s[0].strip() for s in SENTENCE.finditer(chunk["text"])
+                     if candidate.evidence in s[0] and s[0].strip() != candidate.evidence]
+        for sentence in enclosing:
+            if REPORTED_SCOPE.search(sentence) or re.search(r"\b(?:if|unless|whether)\b", sentence, re.I):
+                return False, "Short quote omits enclosing attribution/conditional scope"
+            parent, grouped = extract_open(sentence)
+            if parent:
+                open_grammar = parent
+            open_events += grouped
+    else:
+        open_grammar, open_events = [], []
+    if text_events(candidate.evidence) or open_events:
         return False, "Multi-participant event requires whole role mapping; binary assertion withheld"
     if normalized in GROUP_PREDICATES:
         # "Between A, B and C" is an n-ary relation. Binary A-B edges
@@ -335,6 +350,10 @@ def verify(candidate, chunk, provider=None):
         # ambiguous; do not promote a participial phrase into an entity edge.
         return False, "Ambiguous participial subject attachment; human review required"
     grammar = text_candidates(candidate.evidence)
+    if open_grammar:
+        # The whole open frame includes scope/ordered pairing; partial legacy
+        # readings of the same sentence cannot override it.
+        grammar = open_grammar
     if candidate.evidence != chunk["text"]:
         # A short model quotation must not evade qualifiers/predicate constraints
         # visible in its complete source sentence. Never rewrite the quotation.
@@ -372,7 +391,7 @@ def verify(candidate, chunk, provider=None):
     return False, "Semantic support unresolved; human review required"
 
 
-def verify_local_batch(candidates, chunk, provider):
+def verify_local_batch(candidates, chunk, provider, open_discovery=False):
     """One bounded semantic review for the local model's unresolved candidates.
 
     Deterministic source-span, identity, grammar and n-ary/attachment guards
@@ -380,7 +399,7 @@ def verify_local_batch(candidates, chunk, provider):
     count as approval. Large candidate sets are sent to human review rather
     than silently exceeding the provider call quota.
     """
-    outcomes = [verify(c, chunk, None) for c in candidates]
+    outcomes = [verify(c, chunk, None, open_discovery) for c in candidates]
     pending = [i for i, (_, reason) in enumerate(outcomes)
                if reason == "Semantic support unresolved; human review required"]
     batch, overflow = pending[:12], pending[12:]
@@ -435,7 +454,7 @@ def verify_local_batch(candidates, chunk, provider):
     return outcomes
 
 
-def discover(chunk, provider=None, event_sink=None):
+def discover(chunk, provider=None, event_sink=None, open_discovery=False):
     from .nary import structured_events, text_events
 
     if event_sink is None:
@@ -445,6 +464,13 @@ def discover(chunk, provider=None, event_sink=None):
         return structured_candidates(chunk), "structured"
     candidates = text_candidates(chunk["text"])
     event_sink.extend(text_events(chunk["text"]))
+    if open_discovery:
+        from .open_relations import extract_open
+
+        extra, whole = extract_open(chunk["text"])
+        protected = {c.evidence for c in extra} | {e.evidence for e in whole}
+        candidates = [c for c in candidates if c.evidence not in protected] + extra
+        event_sink.extend(whole)
     if provider:
         # Ollama's compact schema avoids presenting small local models with
         # dozens of irrelevant optional fields. Bedrock retains its full schema.

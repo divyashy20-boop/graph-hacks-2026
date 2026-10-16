@@ -1,0 +1,166 @@
+{
+  "recorded_at": "2026-10-16T11:53:06.435683+00:00",
+  "fixture_hash": "4f8b44d9a69026ff1a5910bb3b3600a1d8f160b7668b84983a7dca9aeee182f5",
+  "backend": "actual FalkorDB",
+  "annotation_status": "ai_authored_provisional",
+  "split": "development",
+  "results": [
+    {
+      "id": "consistent-rename",
+      "expected_inconsistent": false,
+      "mention_ids": [
+        "900161dc8367c6cce26e470afaafa849bdc56807fc1f36b524588591d5253307",
+        "7d25619efd73fc2c3251bb9af9ce9d766dddd403d129732331d6f24a798e08a1",
+        "edaeabc9e2ba305eb5724949a57583596cc5c024e3a2c2962e07626708f88966"
+      ],
+      "proposed_groups": null,
+      "detected": false,
+      "state": "CONSISTENT",
+      "expected_defensible_split": false,
+      "partition_correct": true,
+      "applied": false,
+      "reversal_integrity": null,
+      "original_payloads_preserved": true,
+      "invalidation_correct": true,
+      "pair_checks": 3,
+      "correction_and_checks_ms": 88.467
+    },
+    {
+      "id": "two-exclusive-identities",
+      "expected_inconsistent": true,
+      "mention_ids": [
+        "900161dc8367c6cce26e470afaafa849bdc56807fc1f36b524588591d5253307",
+        "9f3beb539c6a237dbce6dcf681a9a9a83213aa705793c0e43b8077467b379c89"
+      ],
+      "proposed_groups": [
+        [
+          "900161dc8367c6cce26e470afaafa849bdc56807fc1f36b524588591d5253307"
+        ],
+        [
+          "9f3beb539c6a237dbce6dcf681a9a9a83213aa705793c0e43b8077467b379c89"
+        ]
+      ],
+      "detected": true,
+      "state": "INCONSISTENT",
+      "expected_defensible_split": true,
+      "partition_correct": true,
+      "applied": true,
+      "reversal_integrity": true,
+      "original_payloads_preserved": true,
+      "invalidation_correct": true,
+      "pair_checks": 1,
+      "correction_and_checks_ms": 63.561
+    },
+    {
+      "id": "ordinary-change-unresolved",
+      "expected_inconsistent": false,
+      "mention_ids": [
+        "c36caf607bf63e78d447f137655f405ee749f9ab7afe4e3399f5b8be6a9840bd",
+        "eaf19caccebf19d2b654f23da31b0d331f87d035df71c08a0668645b2cb273ed"
+      ],
+      "proposed_groups": null,
+      "detected": false,
+      "state": "UNRESOLVED",
+      "expected_defensible_split": false,
+      "partition_correct": true,
+      "applied": false,
+      "reversal_integrity": null,
+      "original_payloads_preserved": true,
+      "invalidation_correct": true,
+      "pair_checks": 1,
+      "correction_and_checks_ms": 41.531
+    },
+    {
+      "id": "abc-negative-cycle",
+      "expected_inconsistent": true,
+      "mention_ids": [
+        "0a9670fa17be9db4886d40182c4cb65f0f50b69c721609733f1467968cc3658f",
+        "0f6248c4ac9dca217505f90e07c4813077199b782783cae3ddda19727011cf6a",
+        "b39fb66ce45c85faac8e6fff34c4a7e46b6ab3a486f1799867953b84ad0c8053"
+      ],
+      "proposed_groups": null,
+      "detected": true,
+      "state": "INCONSISTENT",
+      "expected_defensible_split": false,
+      "partition_correct": true,
+      "applied": false,
+      "reversal_integrity": null,
+      "original_payloads_preserved": true,
+      "invalidation_correct": true,
+      "pair_checks": 3,
+      "correction_and_checks_ms": 54.129
+    },
+    {
+      "id": "unknown-member",
+      "expected_inconsistent": true,
+      "mention_ids": [
+        "900161dc8367c6cce26e470afaafa849bdc56807fc1f36b524588591d5253307",
+        "9f3beb539c6a237dbce6dcf681a9a9a83213aa705793c0e43b8077467b379c89",
+        "0899ec34411739f6c1fe162a0a8c39a505532f200e130c70fd0aa748fa2e77af"
+      ],
+      "proposed_groups": null,
+      "detected": true,
+      "state": "INCONSISTENT",
+      "expected_defensible_split": false,
+      "partition_correct": true,
+      "applied": false,
+      "reversal_integrity": null,
+      "original_payloads_preserved": true,
+      "invalidation_correct": true,
+      "pair_checks": 3,
+      "correction_and_checks_ms": 51.832
+    },
+    {
+      "id": "two-complete-subclusters",
+      "expected_inconsistent": true,
+      "mention_ids": [
+        "900161dc8367c6cce26e470afaafa849bdc56807fc1f36b524588591d5253307",
+        "7d25619efd73fc2c3251bb9af9ce9d766dddd403d129732331d6f24a798e08a1",
+        "0e29b138c02ce77446d98da319f5a5d36a60e497c1d719cf2cd85a8a09eb0fa7"
+      ],
+      "proposed_groups": [
+        [
+          "0e29b138c02ce77446d98da319f5a5d36a60e497c1d719cf2cd85a8a09eb0fa7"
+        ],
+        [
+          "7d25619efd73fc2c3251bb9af9ce9d766dddd403d129732331d6f24a798e08a1",
+          "900161dc8367c6cce26e470afaafa849bdc56807fc1f36b524588591d5253307"
+        ]
+      ],
+      "detected": true,
+      "state": "INCONSISTENT",
+      "expected_defensible_split": true,
+      "partition_correct": true,
+      "applied": true,
+      "reversal_integrity": true,
+      "original_payloads_preserved": true,
+      "invalidation_correct": true,
+      "pair_checks": 3,
+      "correction_and_checks_ms": 88.553
+    }
+  ],
+  "metrics": {
+    "detection_tp": 4,
+    "detection_fp": 0,
+    "detection_gold": 4,
+    "detection_precision": 1.0,
+    "detection_recall": 1.0,
+    "defensible_split_cases": 2,
+    "correct_splits": 2,
+    "false_splits": 0,
+    "non_split_cases": 4,
+    "false_split_rate": 0.0,
+    "reversals_passed": 2,
+    "invalidation_cases_passed": 6,
+    "preservation_cases_passed": 6
+  },
+  "elapsed_ms": 1526.784,
+  "python_allocation_peak_bytes": 754921,
+  "model_calls": 0,
+  "limitations": [
+    "Six deliberately assembled policy clusters, not independent wrong-merge accuracy",
+    "No independent real-world detection/split accuracy",
+    "Unknown/ABC members intentionally flagged without forcing a partition",
+    "Policy assumptions depend on truthful authorized connector/namespace configuration"
+  ]
+}

@@ -8,7 +8,7 @@ from typing import Annotated, Literal
 
 from pydantic import Field, model_validator
 
-from .models import Strict, uid
+from .models import Strict, now, uid
 
 Token = Annotated[str, Field(pattern=r"^[a-z][a-z0-9_]{0,30}$")]
 Version = Annotated[str, Field(pattern=r"^(0|[1-9][0-9]{0,3})\.(0|[1-9][0-9]{0,3})\.(0|[1-9][0-9]{0,3})$")]
@@ -115,6 +115,16 @@ class PackRegistration(Strict):
     authorise_action: bool = False
 
 
+class MappingChange(Strict):
+    assertion_id: Digest
+    pack_refs: list[PackRef] = Field(default_factory=list, max_length=4)
+    revert_revision_id: Digest | None = None
+    expected_binding_id: Digest
+    idempotency_key: str = Field(min_length=1, max_length=100)
+    reason: str = Field(min_length=5, max_length=1000)
+    authorise_action: bool = False
+
+
 class SchemaRuntime:
     def __init__(self, store):
         self.store = store
@@ -146,8 +156,11 @@ class SchemaRuntime:
             known = {t for d in dependencies for t in d["pack"]["entity_types"]} | set(pack.entity_types)
             if any(t not in known for p in pack.predicates for r in p.roles for t in r.types):
                 raise ValueError("Dependency type is not defined by its pinned pack")
-            if self.store.counts().get("DomainPack", 0) >= 100:
+            counts = self.store.counts()
+            if counts.get("DomainPack", 0) >= 100:
                 raise ValueError("Domain pack budget exceeded")
+            if sum(counts.values())+len(pack.predicates)+1 > 100000:
+                raise ValueError("Schema record quota exceeded")
             record = dict(id=ident, kind="DomainPack", content_hash=pack.content_hash,
                           pack=pack.model_dump(), ref=pack.ref.model_dump(), algorithm="domain-pack-v1")
             definitions = [self.definition(record, p) for p in pack.model_dump()["predicates"]]
@@ -162,14 +175,22 @@ class SchemaRuntime:
                     semantic_state="DECLARED_SCHEMA", registration_basis="operator_declarative_pack",
                     eligible_for_inference=False, algorithm="domain-pack-v1")
 
-    def bind(self, assertions, packs):
+    def bind(self, assertions, packs, open_discovery=False):
         """Pure staged bindings. No source or prior interpretation is modified."""
-        output = []
+        from .open_relations import scope
+
+        output, cached = [], {}
         for assertion in assertions:
             raw = assertion.get("original_predicate", assertion.get("original_relation_type", ""))
             matches = [(pack, spec) for pack in packs for spec in pack["pack"]["predicates"]
                        if surface(raw) in {surface(a) for a in [spec["name"], *spec["aliases"]]}]
             selected = self.definition(*matches[0]) if len(matches) == 1 else None
+            candidates = [self.definition(p, s)["id"] for p,s in matches][:8]
+            phrase_scope = scope(raw, assertion.get("original_claim", assertion.get("evidence", "")))
+            # Pack aliases do not erase explicit attempted/cancelled scope. A
+            # modified phrase remains its own provisional definition.
+            if selected and phrase_scope["modifiers"]:
+                selected = None
             errors = []
             if selected:
                 spec = selected["spec"]
@@ -190,21 +211,102 @@ class SchemaRuntime:
                 for qualifier in QUALIFIERS - set(spec["qualifiers"]):
                     if assertion.get(qualifier) not in (None, False, "unknown", "asserted", "positive"):
                         errors.append("undeclared qualifier: " + qualifier)
-            binding = dict(id=uid("schema-binding-v1", assertion["id"], [p["ref"] for p in packs]),
+            state = "INCOMPATIBLE" if errors else "KNOWN_COMPATIBLE" if selected else "UNRESOLVED"
+            if not selected and open_discovery:
+                selected = self.provisional(assertion, raw, packs)
+                if selected["id"] not in cached:
+                    old = self.store.get(selected["id"])
+                    cached[selected["id"]] = old or selected
+                    if not old:
+                        output.append(selected)
+                state = "POSSIBLE_ALIAS" if candidates else "PROVISIONAL_NEW"
+            binding = dict(id=uid("schema-binding-v2", assertion["id"], [p["ref"] for p in packs], open_discovery),
                            kind="SchemaBinding", assertion_id=assertion["id"],
                            evidence_id=assertion["evidence_id"], source_id=assertion["source_id"],
                            original_phrase=raw, pack_refs=[p["ref"] for p in packs],
                            predicate_definition_id=selected["id"] if selected else None,
                            canonical_name=selected["spec"]["name"] if selected else None,
                            namespace=selected["namespace"] if selected else None,
-                           state="INCOMPATIBLE" if errors else "KNOWN_COMPATIBLE" if selected else "UNRESOLVED",
-                           errors=errors, eligible_for_inference=False, algorithm="schema-binding-v1")
+                           state=state, candidate_definition_ids=candidates,
+                           canonicalization_basis="exact_operator_declared_alias_and_shape" if state == "KNOWN_COMPATIBLE"
+                           else "literal_surface_only_no_equivalence",
+                           source_qualifiers=phrase_scope,
+                           errors=errors, eligible_for_inference=False, algorithm="schema-binding-v2")
             # Flat indexed lookup, without injecting a predicate into Cypher.
             binding["block_key"] = binding["predicate_definition_id"] or "unresolved"
             output.append(binding)
+            output.append(dict(id=uid("schema-head-v1", assertion["id"]), kind="SchemaBindingHead",
+                               assertion_id=assertion["id"], binding_id=binding["id"], version=1, revision_id=None))
             assertion["schema_binding_id"] = binding["id"]
             assertion["eligible_for_inference"] = False
         return output
+
+    @staticmethod
+    def provisional(assertion, raw, packs):
+        namespace = packs[0]["ref"]["namespace"] if len(packs) == 1 else "open"
+        binary = assertion["kind"] == "Claim"
+        roles = ([dict(name="subject", types=[assertion["subject_type"]], minimum=1, maximum=1),
+                  dict(name="object", types=[assertion["object_type"]], minimum=1, maximum=1)]
+                 if binary else [dict(name=role, types=sorted({p["entity_type"] for p in assertion["participants"] if p["role"] == role}),
+                                      minimum=1, maximum=12)
+                                 for role in sorted({p["role"] for p in assertion["participants"]})])
+        name = "OPEN_" + uid(surface(raw), roles)[:16].upper()
+        return dict(id=uid("open-predicate-v1", namespace, surface(raw), roles), kind="PredicateDefinition",
+                    namespace=namespace, version="1.0.0", pack_id=None, pack_hash=None,
+                    original_surface=raw, spec=dict(name=name, definition="Literal source phrase '"+raw+
+                    "'; roles preserve its observed argument orientation. Semantic equivalence is unvalidated.",
+                    form="binary" if binary else "event", direction="directed" if binary else "collective",
+                    roles=roles, aliases=[], qualifiers=sorted(QUALIFIERS)),
+                    semantic_state="PROVISIONAL", registration_basis="source_grounded_literal_frame",
+                    eligible_for_inference=False, algorithm="open-predicate-v1")
+
+    def current(self, assertion):
+        head = self.store.get(uid("schema-head-v1", assertion["id"]))
+        return head or dict(id=uid("schema-head-v1", assertion["id"]), kind="SchemaBindingHead",
+                            assertion_id=assertion["id"], binding_id=assertion.get("schema_binding_id"),
+                            version=0, revision_id=None)
+
+    def revise(self, request, actor):
+        if not self.store.settings.schema_writes or not request.authorise_action:
+            raise ValueError("Schema revision needs operator opt-in and explicit authorization")
+        with self.store.transaction():
+            ident = uid("schema-revision-v1", request.idempotency_key)
+            request_hash = uid(request.model_dump(), actor)
+            old = self.store.get(ident)
+            if old:
+                if old.get("request_hash") != request_hash:
+                    raise ValueError("Schema idempotency key conflict")
+                return old
+            assertion = self.store.get(request.assertion_id)
+            if not assertion or assertion["kind"] not in {"Claim", "RelationEvent"}:
+                raise ValueError("Assertion missing in this dataset")
+            previous = self.current(assertion)
+            if previous["binding_id"] != request.expected_binding_id or previous["version"] >= 100:
+                raise ValueError("Stale schema revision or history budget exceeded")
+            if request.revert_revision_id:
+                target = self.store.get(request.revert_revision_id)
+                if (not target or target["kind"] != "SchemaMappingRevision"
+                        or target["assertion_id"] != assertion["id"] or target["id"] != previous["revision_id"]
+                        or request.pack_refs):
+                    raise ValueError("Cannot revert over a later/unrelated schema revision")
+                binding_id, staged = target["previous_binding_id"], []
+            else:
+                staged = self.bind([dict(assertion)], self.load(request.pack_refs), True)
+                binding_id = next(r["id"] for r in staged if r["kind"] == "SchemaBinding")
+                staged = [r for r in staged if r["kind"] != "SchemaBindingHead"]
+            if binding_id == previous["binding_id"]:
+                raise ValueError("Schema revision would not change the interpretation")
+            revision = dict(id=ident, kind="SchemaMappingRevision", request_hash=request_hash,
+                            assertion_id=assertion["id"], previous_binding_id=previous["binding_id"],
+                            binding_id=binding_id, previous_revision_id=previous["revision_id"],
+                            reverts_id=request.revert_revision_id, reason=request.reason, actor=actor,
+                            recorded_at=now(), eligible_for_inference=False,
+                            invalidation="Consumers must compare their exact consumed binding ID; no semantic recompute")
+            head = {**previous, "binding_id":binding_id, "revision_id":ident, "version":previous["version"]+1}
+            if sum(self.store.counts().values())+len(staged)+2 > 100000:
+                raise ValueError("Schema record budget exceeded")
+            self.store.commit([*staged, revision, head])
+            return revision
 
     def assertions(self, definition_id, limit=100):
         if not 1 <= limit <= 200:
@@ -215,7 +317,14 @@ class SchemaRuntime:
             bindings = [json.loads(r[0]) for r in rows]
         else:
             bindings = [b for b in self.store.list("SchemaBinding", 20000) if b["block_key"] == definition_id][:limit+1]
-        return dict(truncated=len(bindings) > limit,
-                    items=[dict(binding=b, assertion=self.store.get(b["assertion_id"]),
-                                evidence=self.store.get(b["evidence_id"])) for b in bindings[:limit]],
-                    semantics="Version-pinned source assertions, not independent truth or enabled rules")
+        items = []
+        for binding in bindings[:limit]:
+            assertion = self.store.get(binding["assertion_id"])
+            current = self.current(assertion)
+            items.append(dict(binding=binding, assertion=assertion, evidence=self.store.get(binding["evidence_id"]),
+                              current=current["binding_id"] == binding["id"], current_binding_id=current["binding_id"],
+                              assertion_state="UNKNOWN" if assertion["modality"] != "asserted"
+                              else "SOURCE_NEGATED" if assertion["polarity"] == "negative" else "SOURCE_ASSERTED",
+                              qualified_source=assertion["modality"] != "asserted"))
+        return dict(truncated=len(bindings) > limit, items=items,
+                    semantics="Historical and current source interpretations, not independent truth or enabled rules")

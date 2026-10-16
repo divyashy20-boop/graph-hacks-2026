@@ -1,0 +1,300 @@
+{
+  "version": 1,
+  "source_url": "https://raw.githubusercontent.com/thunlp/FewRel/master/data/val_wiki.json",
+  "upstream_sha256": "76bb44c2485b6faed358a3ce040eadafcc8a8835245cd7e6afc1bef672d4a0bf",
+  "seed": 20261017,
+  "excluded_texts": 260,
+  "attribution": "FewRel (Han et al., EMNLP2018), CC BY-SA4.0; token-joined excerpts, selection and UGI metadata added.",
+  "annotation": "Upstream classification notes only; complete source-entailment labels absent. Now inspected; never unseen for future tuning.",
+  "cases": [
+    {
+      "pid": "P361",
+      "text": "Shauna Baker is a Canadian actress , model , spokesperson , and businessperson , \n better known with her twin sister Shannon as The Baker Twins .",
+      "head": "shauna baker",
+      "tail": "the baker twins",
+      "source_sha256": "ce3b7220cb72eb42c5efa767d27b04c701c175e39d07eb18e76c14daaff1079d",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P155",
+      "text": "Goeke was elected as a Democrat to the Sixty - second and Sixty - third Congresses ( March 4 , 1911 – March 3 , 1915 ) .",
+      "head": "sixty-third",
+      "tail": "sixty-second",
+      "source_sha256": "bff082721996f1f29b829367785649459e5126dfd7de28479059cad0a383822d",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P412",
+      "text": "Christine Weidinger ( born March 31 , 1946 ) is an American operatic soprano who has had an active international career in operas and concerts since the early 1970s .",
+      "head": "christine weidinger",
+      "tail": "soprano",
+      "source_sha256": "e1d54e476946d8838f025ece84a82fb2a0cc278afafc2ed1117b32cb379d0f6a",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P25",
+      "text": "She was the identical twin sister of Princess Sophie of Bavaria , mother of Emperor Franz Joseph I of Austria and Emperor Maximilian I of Mexico .",
+      "head": "emperor franz joseph i of austria",
+      "tail": "princess sophie of bavaria",
+      "source_sha256": "d197a1708d5fc305dd092f0d438b11608fa0f5c6c30bf50c41e0bd8cfbf216e0",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P921",
+      "text": "The Igbo language was used by John Goldsmith as an example to justify deviating from the classical linear model of phonology as laid out in \" The Sound Pattern of English \" .",
+      "head": "the sound pattern of english",
+      "tail": "phonology",
+      "source_sha256": "d0681c35bda36d501d2fe5786736388e2a21de0180a4f4cb0eb1fa31f9c9ebf1",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P206",
+      "text": "Southport lies on the Irish Sea coast and is fringed to the north by the Ribble estuary .",
+      "head": "ribble estuary",
+      "tail": "irish sea",
+      "source_sha256": "f456ac258f6701ad05fff2b5cc4e3b1b3bb9312b22ba8e6fbc80b70869ac0ac0",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P413",
+      "text": "On September 8 , 1992 he was traded along with point guard Pooh Richardson to the Indiana Pacers in exchange for small forward Chuck Person and point guard Micheal Williams .",
+      "head": "pooh richardson",
+      "tail": "point guard",
+      "source_sha256": "9ca8859d1dc7e647b2c618f80e57989dc0bdabe14c6e4cca9d966cd5e4ae89c1",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P463",
+      "text": "He is the younger brother of Jorma Kaukonen from Jefferson Airplane / Hot Tuna .",
+      "head": "jorma kaukonen",
+      "tail": "jefferson airplane",
+      "source_sha256": "0962f09deb162ccc7d6f7804f2934b82c9f9efe7499e7ad793ed70eada50bdfd",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P463",
+      "text": "In 1984 , Starr created New Kids on the Block , a band consisting of five male teenagers , brothers Jordan Knight and Jonathan Knight , with Danny Wood , Donnie Wahlberg and Joey McIntyre .",
+      "head": "joey mcintyre",
+      "tail": "new kids on the block",
+      "source_sha256": "9ec39e598cbbc44ae45fb1ce8ebfe707ce33bc3cbfd583747faeed2800d20bf0",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P463",
+      "text": "Francesco Zuccarelli was a founding member , in 1768 , of the Royal Academy of Arts .",
+      "head": "francesco zuccarelli",
+      "tail": "royal academy of arts",
+      "source_sha256": "667636e1b8dff21194c24a74bc32b51e5a6793a93a18c57f2f100d7540f0f6ab",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P59",
+      "text": "Atria , the brightest star of the Southern Triangle , is always moving and has variable magnitude .",
+      "head": "atria",
+      "tail": "southern triangle",
+      "source_sha256": "64c283e472c1cda95e2747451bcfc914fe3601b04593a7265bd30065d6cabcc9",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P59",
+      "text": "NGC 171 is a barred spiral galaxy with an apparent magnitude of 12 , located around 3 million light - years away in the constellation Cetus .",
+      "head": "ngc 171",
+      "tail": "cetus",
+      "source_sha256": "d805d9ea95ac0e5c09ec242f427a0ee1eec1b58dff154c51902be5e78bde0d0a",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P364",
+      "text": "Simhada Mari Sainya ( Kannada:ಸಿಂಹದ ಮರಿ ಸೈನ್ಯ ) is a 1981 Indian Kannada language children 's film directed by Rajendra Singh Babu .",
+      "head": "simhada mari sainya",
+      "tail": "kannada language",
+      "source_sha256": "4e51e776698181f84b2cc2e1ccc5a2dda1c7f0234df653b284bfb83d0710ea74",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P59",
+      "text": "NGC 395 is an open cluster located in the constellation Tucana .",
+      "head": "ngc 395",
+      "tail": "tucana",
+      "source_sha256": "f54b5e7db67bea93ef68ef391a82a4287becbe0fb0a3bd832494a6484e3f145d",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P25",
+      "text": "Her father was Prince Alexander of Teck ( later the 1st Earl of Athlone ) , the youngest son of Francis , Duke of Teck , and Princess Mary Adelaide of Cambridge .",
+      "head": "prince alexander of teck",
+      "tail": "princess mary adelaide of cambridge",
+      "source_sha256": "30c1432e4645893b2a6628f80e53d9dbf0d7c7cb5cf5d8f07b8d6bcfb42180e7",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P413",
+      "text": "Philip Sparrdal Mantilla ( born 11 August 1993 ) is a Swedish footballer who plays for IFK Mariehamn as a defender .",
+      "head": "philip sparrdal mantilla",
+      "tail": "defender",
+      "source_sha256": "3069f30f810c7401837129f9e92c9e50911adbf23f2d70a7ca260e42b9eb1d7d",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P463",
+      "text": "D'slove Tour is the second Japanese tour by South Korean singer Daesung , member of Big Bang .",
+      "head": "daesung",
+      "tail": "big bang",
+      "source_sha256": "9d348e904741d4bc626d6a1e04959f77515ce5a27df1691b78f9984eb686f748",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P410",
+      "text": "Major General William Alan Beevor Steele CBE ( 4 February 1895 – 20 January 1966 ) was a general in the Australian Army during the Second World War .",
+      "head": "william alan beevor steele",
+      "tail": "major general",
+      "source_sha256": "5c8a97f0f124b0adb3db2dd4d92c3f282933b10e28344f6602fd927c976a5732",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P59",
+      "text": "NGC 294 is an open cluster located in the Small Magellanic Cloud in the constellation Tucana .",
+      "head": "ngc 294",
+      "tail": "tucana",
+      "source_sha256": "6f50d6c5d21eef2dbfd03c49b5ed4539f6ab0d09be198a2af8b6af60ee0238f5",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P59",
+      "text": "NGC 478 is a spiral galaxy in the constellation Cetus .",
+      "head": "ngc 478",
+      "tail": "cetus",
+      "source_sha256": "ad511b6521a7c66a3def796a986359a1c5ebe184a71ad3d2ae42e14e4df66819",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P206",
+      "text": "Stretching towards the Taman peninsula , it is reminiscent of an land isthmus between its two neighboring seas , the Sea of Azov and the Black Sea .",
+      "head": "taman peninsula",
+      "tail": "black sea",
+      "source_sha256": "56681143e439f68890940e3ab7e04c07954aa38297eb4f4f707591c6471a7ff3",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P25",
+      "text": "Maria of Montferrat ( or Maria of Jerusalem ) ( 1192–1212 ) was Queen of Jerusalem , the daughter of Isabella I of Jerusalem and Conrad of Montferrat .",
+      "head": "maria of montferrat",
+      "tail": "isabella i of jerusalem",
+      "source_sha256": "72a96a8c81f232dd6171a7dcd2da2f6f29cb80214a2622738306cb038c79ebd5",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P25",
+      "text": "Muhammad Murad Bakhsh was born on 9 October 1624 , at the Rohtasgarh Fort in Bihar , as the youngest son of Emperor Shah Jahan and his beloved wife Mumtaz Mahal .",
+      "head": "muhammad murad bakhsh",
+      "tail": "mumtaz mahal",
+      "source_sha256": "b831043d12ae9643d366facf927c6a606c2a9bda63cc654134931706b3596462",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P2094",
+      "text": "Blackburn 's death came particularly hard for his greatest training protégé , world heavyweight champion Joe Louis whom he had trained since Louis 's first professional bout .",
+      "head": "joe louis",
+      "tail": "heavyweight",
+      "source_sha256": "8a6b0359e7c141dde35cba3d88ede30642b6e4e089337b840bbeb56ec87b0274",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P26",
+      "text": "She was a daughter of King Charles VII of France , \" The Victorious , \" and Marie of Anjou .",
+      "head": "charles vii of france",
+      "tail": "marie of anjou",
+      "source_sha256": "0ce722e035ae43b43b511b54ffe1fbc39b50dc00056e2d4e2969645286d52539",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P364",
+      "text": "Kaaka Muttai ( English : \" Crow Eggs \" ) is a 2015 Indian Tamil - language comedy - drama film written , directed and filmed by M. Manikandan .",
+      "head": "kaaka muttai",
+      "tail": "tamil-language",
+      "source_sha256": "cac1bf4e0e8313dcc8e13bf3e55f17eaa2d02932d2bff67558a8eb8fe74fa229",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P412",
+      "text": "In 1953 , at the age of seven , Nielsen met the Austrian soprano Hilde Güden while she was on tour in Iowa .",
+      "head": "hilde güden",
+      "tail": "soprano",
+      "source_sha256": "a609673938e97b74a64c1000969f4d869c482e5e85c5783c9079459341a97f3b",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P59",
+      "text": "NGC 422 is an open cluster located in the constellation Tucana .",
+      "head": "ngc 422",
+      "tail": "tucana",
+      "source_sha256": "49bd585ab1f514ca43dffa63f0a13d663e6b216c9c56516c36af4955356f83c4",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P2094",
+      "text": "He is the brother of former bantamweight champion Orlando Canizales .",
+      "head": "orlando canizales",
+      "tail": "bantamweight",
+      "source_sha256": "28e9f2f603fcec315ff425175af92150d98792b2037ba4a0c565277172fe7196",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P155",
+      "text": "The Malaysia national under-23 football team won a gold medal in 2009 and 2011 Southeast Asian Games .",
+      "head": "2011 southeast asian games",
+      "tail": "2009",
+      "source_sha256": "3f5fb4d674a6df39c91aa2a53079faa14fc6e15ce2545166d01bf672dc913857",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P364",
+      "text": "The Long Teeth ( original title \" Les Dents longues \" ) is a French comedy drama film from 1953 , directed by Daniel Gélin , written by Michel Audiard .",
+      "head": "les dents longues",
+      "tail": "french",
+      "source_sha256": "ac8d4d8a43f7bdb4a08259b06c7a8d93f786f11fc8c41c751aa30c26fd4c6582",
+      "annotation_status": "unreviewed",
+      "complete": false
+    },
+    {
+      "pid": "P25",
+      "text": "The Portuguese Prince Regent , the future King John VI , with his incapacitated mother , Queen Maria I of Portugal and the Royal Court , fled to the colony of Brazil in 1808 .",
+      "head": "john vi",
+      "tail": "maria i of portugal",
+      "source_sha256": "de557fca371a25a7f912dc36737e777996fc1e2047a2c652ce3f01e4c4132805",
+      "annotation_status": "unreviewed",
+      "complete": false
+    }
+  ],
+  "content_hash": "18972c576765591a01e2c5f632a7a65294e9f3511782b736fb6347426255f792"
+}

@@ -1,5 +1,23 @@
 # Event-time implementation work log
 
+## Milestone G increment2 recovery — October16,2026
+
+- Recovered11 modified tracked +11 untracked files at8c09924; copied all22 to an
+  ignored recovery checkpoint. No reset, clean, rebase or overwrite of prior work.
+- Reran interrupted results:258 initial,264 final tests pass, including17 real
+  graph. Added modifier-alias veto, partnered-group, shortened event quote,
+  source attribution and mapping addition/undo/API tenant regressions.
+- Provisional literal definitions, exact evidence, whole groups/ordered pairs,
+  mapping heads/history and actual late rollback verified. No rule grants.
+- Original32 public selections frozen; both modes0/32 directed hits/32 abstentions,
+  semantic metrics unscored. Authored dev4/8 ->8/8 and2/2 events is not independent
+  accuracy. Source-selected 'evolved into' clause persists with no phrase-specific
+  code; full longer context abstains. Not a full-document or blind benchmark.
+- Six legacy capacity cases, three workflows, F identity/correction regressions
+  and eight-dataset exact controlled-restart fingerprints pass.
+- No paid calls/new model, connector increment, unrelated AWS change or volume
+  deletion. Exact delivered SHA/hosted CI checked after publication.
+
 ## Milestone G increment1 — October16,2026
 
 - Verified clean5dc3214 baseline231/231 (15 actual graph), same remote main.

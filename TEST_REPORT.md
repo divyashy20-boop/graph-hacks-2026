@@ -1,5 +1,27 @@
 # Verified follow-up report — updated October16,2026
 
+## Milestone G increment2 recovery
+
+**264 passed:247 non-integration +17 actual FalkorDB;0 failed/skipped**. Registry
+definitions/bindings and mapping history reconnect; modifier/role/tenant guards,
+whole research/collective events, respectively pairing, shortened-quote safety,
+source attribution, mapping addition/undo and real late rollback pass. No model
+or paid call. Defaults preserve legacy behavior. Existing TestClient warning remains.
+
+Actual authored dev12:4/4/8 ->8/8/8 binary TP/predictions/targets,0/2 ->2/2 whole
+role sets. Frozen public32:0 claims/events,0/32 directed pairs,32 abstentions in
+both modes; semantic/qualifier/canonicalization scores null (no complete human
+source-entailment gold). Zero emitted quotes is not100% quotation accuracy.
+Selection hash agrees with interrupted run; independent arithmetic passes.
+Public exact-clause probe persists/reconnects, but full longer sentence emits0;
+convenience-selected and not an accuracy benchmark. No public-output tuning.
+
+All six schema/ledger-off100/1000/2000 fresh capacity cases pass;2k CSV/JSON write
+1638/1563ms. Three old demos, F matching/correction and persistent schema/forged-ID/
+mapping demos pass. Exact records/edges for8 datasets survive actual API+graph
+restart. No feature-on2k, crash/backup or production certification claim.
+MILESTONE_G_REPORT and g2_* reports preserve observations, failures and limitations.
+
 ## Milestone G increment1
 
 247 passed, zero failed/skipped;231 non-integration +16 real FalkorDB. Pack tests

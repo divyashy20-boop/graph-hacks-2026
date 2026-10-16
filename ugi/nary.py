@@ -120,7 +120,7 @@ def structured_events(chunk):
     return [RelationEventCandidate.model_validate(fields)]
 
 
-def verify_event(event, chunk):
+def verify_event(event, chunk, open_discovery=False):
     """Return deterministic decision, or None when a semantic reviewer is necessary."""
     if chunk["text"].find(event.evidence) < 0:
         return False, "Event evidence is not an exact source span"
@@ -151,6 +151,20 @@ def verify_event(event, chunk):
             if value[:width] not in event.evidence:
                 return False, "Event date lacks source evidence at declared precision"
     grammar = text_events(event.evidence)
+    if open_discovery:
+        from .open_relations import extract_open
+
+        _, extra = extract_open(event.evidence)
+        grammar += extra
+        from .extract import REPORTED_SCOPE, SENTENCE
+
+        for sentence in SENTENCE.finditer(chunk["text"]):
+            if event.evidence in sentence[0] and event.evidence != sentence[0].strip():
+                if REPORTED_SCOPE.search(sentence[0]) or re.search(r"\b(?:if|unless|whether)\b", sentence[0], re.I):
+                    return False, "Event quote omits enclosing attribution/conditional scope"
+                _, enclosing = extract_open(sentence[0].strip())
+                if enclosing:
+                    grammar = enclosing
     if grammar:
         return (any(semantic_signature(e) == semantic_signature(event) for e in grammar),
                 "Whole-event grammar and complete role/qualifier agreement")
@@ -161,8 +175,8 @@ def verify_event(event, chunk):
     return None, "Event semantic support unresolved"
 
 
-def verify_events(events, chunk, provider=None):
-    outcomes = [verify_event(e, chunk) for e in events]
+def verify_events(events, chunk, provider=None, open_discovery=False):
+    outcomes = [verify_event(e, chunk, open_discovery) for e in events]
     pending = [i for i, (ok, _) in enumerate(outcomes) if ok is None]
     for i in pending:
         outcomes[i] = (False, "Event semantic support unresolved; human review required")
@@ -192,7 +206,7 @@ def verify_events(events, chunk, provider=None):
     return outcomes
 
 
-def event_records(events, chunk, store, staged_entities, provider=None):
+def event_records(events, chunk, store, staged_entities, provider=None, open_discovery=False):
     """Prepare event and provenance writes inside Engine's existing atomic commit."""
     records, links, accepted, reviews = [], [], [], []
     canonical = []
@@ -205,7 +219,7 @@ def event_records(events, chunk, store, staged_entities, provider=None):
         canonical.append(e)
     unique = {uid(signature(e)): e for e in canonical}
     events = list(unique.values())
-    outcomes = verify_events(events, chunk, provider)
+    outcomes = verify_events(events, chunk, provider, open_discovery)
     for event, (ok, reason) in zip(events, outcomes, strict=True):
         identity = uid("relation_event_v1", chunk["id"], signature(event))
         if (event.evidence_start is None and chunk.get("record") is None

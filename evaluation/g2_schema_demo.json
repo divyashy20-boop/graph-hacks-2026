@@ -1,0 +1,639 @@
+{
+  "recorded_at": "2026-10-16T07:19:46.705676+00:00",
+  "backend": "actual FalkorDB",
+  "dataset": "showcase-g-schema",
+  "provenance": "AI-authored synthetic CC0 demonstration; not independent accuracy",
+  "pack_registration_ms": 7.051,
+  "packs": {
+    "it": {
+      "namespace": "it",
+      "version": "1.0.0",
+      "content_hash": "0113e4cbe78ded72352e0b4e635a339fa0856b3a390aa0c52834c351f341afe0"
+    },
+    "supply": {
+      "namespace": "supply",
+      "version": "1.0.0",
+      "content_hash": "c61d0191e3a119deafadec1fd4049076e5c90aeb3282dd1a373e35ff0c510cc3"
+    },
+    "research": {
+      "namespace": "research",
+      "version": "1.0.0",
+      "content_hash": "efa5c7c482f323dadd66e2237d98218846649e5433566f01a12489629cbf70d8"
+    }
+  },
+  "scenarios": {
+    "it": {
+      "report": {
+        "source_id": "fea42d6e3a21e49662bfa07961491a1b03ab96e8e4c32765fcc8ae56be84c4f0",
+        "chunks": 1,
+        "entities": 2,
+        "claims": 1,
+        "relation_events": 0,
+        "review_tasks": 0,
+        "duplicate": true,
+        "warnings": [],
+        "elapsed_ms": 6.042,
+        "provider": "offline",
+        "candidate_free_text_chunks": [],
+        "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+        "usage": {
+          "calls": 0,
+          "estimated_usd": 0
+        }
+      },
+      "bindings": [
+        {
+          "id": "8291141296ed12533e888673c802ecfec8ccf996acaf08fb0709b5bb4be98600",
+          "kind": "SchemaBinding",
+          "assertion_id": "05f43d76069b52a5ee15a887df9b202e4ce6756242c00fdb4fa568f7836d3157",
+          "evidence_id": "e4864ca28bf9e71aaed1e84a3ac5916804c9b0e6f083be33e59df3db338fb0de",
+          "source_id": "fea42d6e3a21e49662bfa07961491a1b03ab96e8e4c32765fcc8ae56be84c4f0",
+          "original_phrase": "requires",
+          "pack_refs": [
+            {
+              "namespace": "it",
+              "version": "1.0.0",
+              "content_hash": "0113e4cbe78ded72352e0b4e635a339fa0856b3a390aa0c52834c351f341afe0"
+            }
+          ],
+          "predicate_definition_id": "effffab2d772206aa635848cd6f263ec1606d9c52de02c6d23e02a42203f0439",
+          "canonical_name": "DEPENDS_ON",
+          "namespace": "it",
+          "state": "KNOWN_COMPATIBLE",
+          "errors": [],
+          "eligible_for_inference": false,
+          "algorithm": "schema-binding-v1",
+          "block_key": "effffab2d772206aa635848cd6f263ec1606d9c52de02c6d23e02a42203f0439"
+        }
+      ],
+      "reconnected": true
+    },
+    "supply": {
+      "report": {
+        "source_id": "139881a4c7cebc54a1e760ffbf08a7596e7adfbeef2e2ca3d312c054cee58dd3",
+        "chunks": 1,
+        "entities": 3,
+        "claims": 0,
+        "relation_events": 1,
+        "review_tasks": 0,
+        "duplicate": true,
+        "warnings": [],
+        "elapsed_ms": 7.734,
+        "provider": "offline",
+        "candidate_free_text_chunks": [],
+        "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+        "usage": {
+          "calls": 0,
+          "estimated_usd": 0
+        }
+      },
+      "bindings": [
+        {
+          "id": "c76d97ad9b4d0c05d1cfb235065518bea39f4a746187f11a7c4a6301c2886fdb",
+          "kind": "SchemaBinding",
+          "assertion_id": "09273b9d660d145a9db67e4968ec18e6aa3818ee449e3d4713457bc228285dda",
+          "evidence_id": "9918d606989865e3d5fb5ac7f8d7658d26294c00f5a0850f09b7de88e1362fa5",
+          "source_id": "139881a4c7cebc54a1e760ffbf08a7596e7adfbeef2e2ca3d312c054cee58dd3",
+          "original_phrase": "PROVISION",
+          "pack_refs": [
+            {
+              "namespace": "supply",
+              "version": "1.0.0",
+              "content_hash": "c61d0191e3a119deafadec1fd4049076e5c90aeb3282dd1a373e35ff0c510cc3"
+            }
+          ],
+          "predicate_definition_id": "ea9cb20757f116dce830e6f9e986733a14e5022766ac014d77c4adcd153a7378",
+          "canonical_name": "PROVISION",
+          "namespace": "supply",
+          "state": "KNOWN_COMPATIBLE",
+          "errors": [],
+          "eligible_for_inference": false,
+          "algorithm": "schema-binding-v1",
+          "block_key": "ea9cb20757f116dce830e6f9e986733a14e5022766ac014d77c4adcd153a7378"
+        }
+      ],
+      "reconnected": true
+    },
+    "research": {
+      "report": {
+        "source_id": "306d80f00a16d1453c2e97c5ed1f99caf6e5797797338a012714555e83524bf8",
+        "chunks": 1,
+        "entities": 2,
+        "claims": 1,
+        "relation_events": 0,
+        "review_tasks": 0,
+        "duplicate": true,
+        "warnings": [],
+        "elapsed_ms": 5.076,
+        "provider": "offline",
+        "candidate_free_text_chunks": [],
+        "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+        "usage": {
+          "calls": 0,
+          "estimated_usd": 0
+        }
+      },
+      "bindings": [
+        {
+          "id": "73831c2ffb3581464b04ce99d2585db84e24ceff39fd668b6d1196c9579e8297",
+          "kind": "SchemaBinding",
+          "assertion_id": "8bfa317da27061e4220f7eab0d4314f6a1cb2348803e53232dafe641cf6eef2e",
+          "evidence_id": "824619e695a241f20f5a32f96fa67bf72e64f90114217eabb83e2e762668c5d2",
+          "source_id": "306d80f00a16d1453c2e97c5ed1f99caf6e5797797338a012714555e83524bf8",
+          "original_phrase": "INVESTIGATES",
+          "pack_refs": [
+            {
+              "namespace": "research",
+              "version": "1.0.0",
+              "content_hash": "efa5c7c482f323dadd66e2237d98218846649e5433566f01a12489629cbf70d8"
+            }
+          ],
+          "predicate_definition_id": "3665a372dbb3e0cb81cbd6794bed7aff09066a37e8d298b0acf1928adee8b1f5",
+          "canonical_name": "INVESTIGATES",
+          "namespace": "research",
+          "state": "KNOWN_COMPATIBLE",
+          "errors": [],
+          "eligible_for_inference": false,
+          "algorithm": "schema-binding-v1",
+          "block_key": "3665a372dbb3e0cb81cbd6794bed7aff09066a37e8d298b0acf1928adee8b1f5"
+        }
+      ],
+      "reconnected": true
+    },
+    "unknown": {
+      "report": {
+        "source_id": "fa716fe2a1638a2f6bd1847c5b099ca059ad13bba7892bbbf814d676607566f3",
+        "chunks": 1,
+        "entities": 2,
+        "claims": 1,
+        "relation_events": 0,
+        "review_tasks": 0,
+        "duplicate": false,
+        "warnings": [],
+        "elapsed_ms": 10.337,
+        "provider": "offline",
+        "candidate_free_text_chunks": [],
+        "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+        "usage": {
+          "calls": 0,
+          "estimated_usd": 0
+        }
+      },
+      "assertions": [
+        {
+          "subject": "Company A",
+          "object": "Company B",
+          "evidence": "Company A sublicensed a technology to Company B.",
+          "subject_type": "Entity",
+          "object_type": "Entity",
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "time_precision": "unknown",
+          "temporal_source": null,
+          "historical": false,
+          "attribution": null,
+          "event_id": null,
+          "id": "a9766a92ed865acd25ac59a15ae1b66a2b257864179c985cab1c9c8491919d8f",
+          "kind": "Claim",
+          "subject_id": "7e3b4820326b204ea5d3fe69a5b941c7327203689f7e1d80c544dadb7f265914",
+          "object_id": "db39f8d8b65d865a33f5753d4858a9490f91d1645c49a6f74b14a43cdf7a6e0b",
+          "original_predicate": "sublicensed a technology to",
+          "predicate": "SUBLICENSED_A_TECHNOLOGY_TO",
+          "original_claim": "Company A sublicensed a technology to Company B.",
+          "evidence_id": "ca20380dff98a72e6aeaf45d95a2274636c753adc633c83ee02fc048a6f1d3b5",
+          "source_id": "fa716fe2a1638a2f6bd1847c5b099ca059ad13bba7892bbbf814d676607566f3",
+          "chunk_id": "3f1f18c1877e1cdc314872cfa24335812992adb7bf9f32f2a261121f73a16042",
+          "recorded_at": "2026-10-16T07:19:46.479760+00:00",
+          "extraction_method": "grammar",
+          "extraction_model": "grammar-v1",
+          "review_status": "supported",
+          "review_reason": "Directional grammar, polarity, modality and temporal agreement",
+          "verification_level": "source_assertion",
+          "independently_verified": false,
+          "schema_binding_id": "3da86fb82fdaebcdfd5ab50197589778782300d3cc3307a02b88fff99a09a9f2",
+          "eligible_for_inference": false
+        }
+      ],
+      "reconnected": true
+    },
+    "distinction": {
+      "report": {
+        "source_id": "b5134113e0666fb608ad82d47b3d0efc8b4e136ca50e0200ea0982fb88382ea0",
+        "chunks": 1,
+        "entities": 2,
+        "claims": 1,
+        "relation_events": 0,
+        "review_tasks": 0,
+        "duplicate": false,
+        "warnings": [],
+        "elapsed_ms": 5.429,
+        "provider": "offline",
+        "candidate_free_text_chunks": [],
+        "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+        "usage": {
+          "calls": 0,
+          "estimated_usd": 0
+        }
+      },
+      "assertions": [
+        {
+          "subject": "Company A",
+          "object": "Company B",
+          "evidence": "Company A proposed acquiring Company B, but the transaction was cancelled.",
+          "subject_type": "Entity",
+          "object_type": "Entity",
+          "polarity": "positive",
+          "modality": "possible",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "time_precision": "unknown",
+          "temporal_source": null,
+          "historical": true,
+          "attribution": null,
+          "event_id": null,
+          "id": "773a3e6b04777293421a9dda7f1fc5ac20aff5a4fc303a69cc9ee5eb6dcaf845",
+          "kind": "Claim",
+          "subject_id": "86e5e4506df5943eb54a0057cc65cffabde74f8cb69ec9c125c77a62da2cb095",
+          "object_id": "9b7c212d87980796ba5ffaba302dd3bb01b464d4cb3380660af651fad67484eb",
+          "original_predicate": "proposed acquiring",
+          "predicate": "PROPOSED_ACQUIRING",
+          "original_claim": "Company A proposed acquiring Company B, but the transaction was cancelled.",
+          "evidence_id": "5a7655747984fc7bda7065083fa0dbec7f13697ed8014f60e1c27efec5ec6e2b",
+          "source_id": "b5134113e0666fb608ad82d47b3d0efc8b4e136ca50e0200ea0982fb88382ea0",
+          "chunk_id": "f024c4051d7566c3b8faadb55ccbfdecfb13a2b71df9c96ffc9a3c9dd1223f68",
+          "recorded_at": "2026-10-16T07:19:46.510671+00:00",
+          "extraction_method": "grammar",
+          "extraction_model": "grammar-v1",
+          "review_status": "supported",
+          "review_reason": "Directional grammar, polarity, modality and temporal agreement",
+          "verification_level": "source_assertion",
+          "independently_verified": false,
+          "schema_binding_id": "823912801df80524f362e7772de7a78bca337a4f58adbb451615b90416d93c51",
+          "eligible_for_inference": false
+        }
+      ],
+      "reconnected": true
+    },
+    "group": {
+      "report": {
+        "source_id": "7c15be0e6118f9c9a4c84097e091c5cf91bbc7aabd203efe83833c6f86831ae3",
+        "chunks": 1,
+        "entities": 5,
+        "claims": 0,
+        "relation_events": 1,
+        "review_tasks": 0,
+        "duplicate": false,
+        "warnings": [],
+        "elapsed_ms": 14.604,
+        "provider": "offline",
+        "candidate_free_text_chunks": [],
+        "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+        "usage": {
+          "calls": 0,
+          "estimated_usd": 0
+        }
+      },
+      "assertions": [
+        {
+          "evidence": "Researchers A, B and C jointly investigated X and Y.",
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "time_precision": "unknown",
+          "temporal_source": null,
+          "historical": false,
+          "attribution": null,
+          "occurrence_id": null,
+          "evidence_start": 0,
+          "id": "2109c3099b6fb09f290cf36f4549cebca1a3856855101dca7ba9c2477d94fc93",
+          "kind": "RelationEvent",
+          "relation_type": "JOINTLY_INVESTIGATED",
+          "original_relation_type": "jointly investigated",
+          "participants": [
+            {
+              "role": "researcher",
+              "name": "A",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "66d056ce865f344c549a3864cb2fe6ce26358b32e5fa3e019134de844a682a4a"
+            },
+            {
+              "role": "researcher",
+              "name": "B",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "fb51974b20efb816a5513f1078aa5055a41365b7c0d303b6dcdbf325eb2e4dc9"
+            },
+            {
+              "role": "researcher",
+              "name": "C",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "c8fa9c8f4408b6b7ad646ad808b172361919733504f83a14c51fa44642cb5f84"
+            },
+            {
+              "role": "topic",
+              "name": "X",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "23d7508504abee79692bbc6df14372cce892d584e8a309eaaed5a41aacbab733"
+            },
+            {
+              "role": "topic",
+              "name": "Y",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "5ec7b49f01d32773d0b6dad15c4f85ff67f23642e52203c63acbcc7c7d5b62d0"
+            }
+          ],
+          "source_id": "7c15be0e6118f9c9a4c84097e091c5cf91bbc7aabd203efe83833c6f86831ae3",
+          "chunk_id": "a60b5fe0f1e8137c3f274b12ae615f456687ffecac0380d3479ef21c84fa930a",
+          "evidence_id": "4200c47269b628244282229142157c3e1486c9d74f226968fe2b0c951a99702a",
+          "recorded_at": "2026-10-16T07:19:46.551179+00:00",
+          "review_status": "supported",
+          "review_reason": "Whole-event grammar and complete role/qualifier agreement",
+          "extraction_method": "deterministic_event",
+          "extraction_model": "event-grammar-v1",
+          "verification_level": "source_assertion",
+          "independently_verified": false,
+          "schema_binding_id": "18dbafdbca8ba9776eaae0ba836813bbebb4acada5d925deabf44fc35280ede7",
+          "eligible_for_inference": false
+        }
+      ],
+      "reconnected": true
+    },
+    "custodian": {
+      "report": {
+        "source_id": "5bba394dc22dfce0369c89b05f7aa0cadb7cb2ce069f7507022d00cecaa69be3",
+        "chunks": 1,
+        "entities": 2,
+        "claims": 1,
+        "relation_events": 0,
+        "review_tasks": 0,
+        "duplicate": false,
+        "warnings": [],
+        "elapsed_ms": 5.444,
+        "provider": "offline",
+        "candidate_free_text_chunks": [],
+        "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+        "usage": {
+          "calls": 0,
+          "estimated_usd": 0
+        }
+      },
+      "assertions": [
+        {
+          "subject": "Organization A",
+          "object": "Entity B",
+          "evidence": "Organization A served as the custodial intermediary for Entity B.",
+          "subject_type": "Entity",
+          "object_type": "Entity",
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "time_precision": "unknown",
+          "temporal_source": null,
+          "historical": false,
+          "attribution": null,
+          "event_id": null,
+          "id": "2287c0cc28cdf09ad0bd8f458ec376433371cb764c54e25cbbbab4ebd9b3a89e",
+          "kind": "Claim",
+          "subject_id": "8781e901c924797ad6ea8f4d8fc35dfa05b7a8f5df7eec1b0707c929f1d1605b",
+          "object_id": "8c6732a334b7e87fcabd5f55631ca3ac2f40938ffb3b28ffe6daca0c1f042643",
+          "original_predicate": "served as the custodial intermediary for",
+          "predicate": "SERVED_AS_THE_CUSTODIAL_INTERMEDIARY_FOR",
+          "original_claim": "Organization A served as the custodial intermediary for Entity B.",
+          "evidence_id": "afe519ca63496a9e1393ba1095a63b66264b6c817e3307355159c7152a51e17e",
+          "source_id": "5bba394dc22dfce0369c89b05f7aa0cadb7cb2ce069f7507022d00cecaa69be3",
+          "chunk_id": "1565848fee8b725c7fec25a0a9cdd4d65b4ddb1bd5e680e65a5b0cf9f4205c33",
+          "recorded_at": "2026-10-16T07:19:46.592111+00:00",
+          "extraction_method": "grammar",
+          "extraction_model": "grammar-v1",
+          "review_status": "supported",
+          "review_reason": "Directional grammar, polarity, modality and temporal agreement",
+          "verification_level": "source_assertion",
+          "independently_verified": false,
+          "schema_binding_id": "cfb83c339b27d086e0258dc02dd72d85aa213cc16120a190ed6e992591f32525",
+          "eligible_for_inference": false
+        }
+      ],
+      "reconnected": true
+    },
+    "respectively": {
+      "report": {
+        "source_id": "7943d1af86a0af52220f70471bee8b79182558fa99c2de1da2ee74aa5d0e02d6",
+        "chunks": 1,
+        "entities": 4,
+        "claims": 2,
+        "relation_events": 0,
+        "review_tasks": 0,
+        "duplicate": false,
+        "warnings": [],
+        "elapsed_ms": 8.964,
+        "provider": "offline",
+        "candidate_free_text_chunks": [],
+        "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+        "usage": {
+          "calls": 0,
+          "estimated_usd": 0
+        }
+      },
+      "assertions": [
+        {
+          "subject": "Google",
+          "object": "Alpha",
+          "evidence": "Google and Microsoft acquired Alpha and Beta respectively.",
+          "subject_type": "Entity",
+          "object_type": "Entity",
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "time_precision": "unknown",
+          "temporal_source": null,
+          "historical": false,
+          "attribution": null,
+          "event_id": null,
+          "id": "3395dc29874e3d57deea348cf892ebc8eff2426a6802b85f6223d99e7b49485a",
+          "kind": "Claim",
+          "subject_id": "e2870bfaeb2c39060e1d1113a2af2289bf38bf46ea81cec865b7790c9707eb5e",
+          "object_id": "dd7ecd51846bd11a1ff26a87458a1f3c09d5deeff7d67540307e1103dcef20cf",
+          "original_predicate": "acquired",
+          "predicate": "ACQUIRED",
+          "original_claim": "Google and Microsoft acquired Alpha and Beta respectively.",
+          "evidence_id": "eb141041e162aa65490b1d611789b77dd572e8b7db426576e4a995a5d4d8f33e",
+          "source_id": "7943d1af86a0af52220f70471bee8b79182558fa99c2de1da2ee74aa5d0e02d6",
+          "chunk_id": "c68031e28b463b902c77187ad1d62acb016885738ead3e2f8ea2810572a8407b",
+          "recorded_at": "2026-10-16T07:19:46.626261+00:00",
+          "extraction_method": "grammar",
+          "extraction_model": "grammar-v1",
+          "review_status": "supported",
+          "review_reason": "Directional grammar, polarity, modality and temporal agreement",
+          "verification_level": "source_assertion",
+          "independently_verified": false,
+          "schema_binding_id": "0b40261cf4cd249ba62aa6e36501253f51377539a4fd21e617b6c37974aa8787",
+          "eligible_for_inference": false
+        },
+        {
+          "subject": "Microsoft",
+          "object": "Beta",
+          "evidence": "Google and Microsoft acquired Alpha and Beta respectively.",
+          "subject_type": "Entity",
+          "object_type": "Entity",
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "time_precision": "unknown",
+          "temporal_source": null,
+          "historical": false,
+          "attribution": null,
+          "event_id": null,
+          "id": "f3d65430196c68612c02983c7918144394f492b8c0edcac2b8aa3f632c1405e3",
+          "kind": "Claim",
+          "subject_id": "1eddc358f1ff0da7d2f0df85406d768d447ff3c54098b62042d2d0a6735a597c",
+          "object_id": "eee0f9a55a19d1edd2784aad51eec3df5dc8fe9786f27308560b6b5ac5cd20e2",
+          "original_predicate": "acquired",
+          "predicate": "ACQUIRED",
+          "original_claim": "Google and Microsoft acquired Alpha and Beta respectively.",
+          "evidence_id": "947215304cef34ed3f9e70ebe09e13288fdffbd2e82f69c11697d2d675824834",
+          "source_id": "7943d1af86a0af52220f70471bee8b79182558fa99c2de1da2ee74aa5d0e02d6",
+          "chunk_id": "c68031e28b463b902c77187ad1d62acb016885738ead3e2f8ea2810572a8407b",
+          "recorded_at": "2026-10-16T07:19:46.629448+00:00",
+          "extraction_method": "grammar",
+          "extraction_model": "grammar-v1",
+          "review_status": "supported",
+          "review_reason": "Directional grammar, polarity, modality and temporal agreement",
+          "verification_level": "source_assertion",
+          "independently_verified": false,
+          "schema_binding_id": "66c2764a11e9d8ee27e8b00a4000d6efd5f2b8ee1f98804494054ff8fb018751",
+          "eligible_for_inference": false
+        }
+      ],
+      "reconnected": true
+    },
+    "collective": {
+      "report": {
+        "source_id": "45f8f606dd3d988767770a49119ec54df51ab5abc2f4619b282e29f623563a8f",
+        "chunks": 1,
+        "entities": 6,
+        "claims": 0,
+        "relation_events": 1,
+        "review_tasks": 0,
+        "duplicate": false,
+        "warnings": [],
+        "elapsed_ms": 13.288,
+        "provider": "offline",
+        "candidate_free_text_chunks": [],
+        "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+        "usage": {
+          "calls": 0,
+          "estimated_usd": 0
+        }
+      },
+      "assertions": [
+        {
+          "evidence": "Google, Microsoft and Amazon collaborated with NVIDIA and Intel on Project X.",
+          "polarity": "positive",
+          "modality": "asserted",
+          "event_time": null,
+          "valid_from": null,
+          "valid_to": null,
+          "time_precision": "unknown",
+          "temporal_source": null,
+          "historical": false,
+          "attribution": null,
+          "occurrence_id": null,
+          "evidence_start": 0,
+          "id": "7ab3974454d3bb3e16ed9e1df333c0b4713637285f9843cfc670d9aa9cc333b6",
+          "kind": "RelationEvent",
+          "relation_type": "COLLABORATED_WITH",
+          "original_relation_type": "collaborated with",
+          "participants": [
+            {
+              "role": "collaborator",
+              "name": "Amazon",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "6da8ca290c034fb1a2bfe81e95557acdf56ed1d6ef6401d74ef5748f84f5d260"
+            },
+            {
+              "role": "collaborator",
+              "name": "Google",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "247209a977d04162d79259e6a776fb8ffed712985619474ce6a5f83f1bf311f8"
+            },
+            {
+              "role": "collaborator",
+              "name": "Microsoft",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "8a8e0465c745f5496fabded73e48539e65fc882a2db81dadb7c11254e1b88985"
+            },
+            {
+              "role": "partner",
+              "name": "Intel",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "0b92abc89c762db7da526e15f5414c6944f7dcac7071c70d4aa91d82d017220e"
+            },
+            {
+              "role": "partner",
+              "name": "NVIDIA",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "178653b80f7b0a2038e9be706a0d622626718c370a80ca835290cc5f187875a9"
+            },
+            {
+              "role": "project",
+              "name": "Project X",
+              "entity_type": "Entity",
+              "external_id": null,
+              "aliases": [],
+              "entity_id": "afb9675e35f4e8f0c18f3963446a350f39bb7c69df4801907157ec3715fccb87"
+            }
+          ],
+          "source_id": "45f8f606dd3d988767770a49119ec54df51ab5abc2f4619b282e29f623563a8f",
+          "chunk_id": "61823c1ae58a9eede114964a1cf5e7292eabbeed538eb08f2be80fbd0efe7456",
+          "evidence_id": "e7001b6d1f91c2e61204689f1ec2442c50d46d288aa1620205b5d2f092e1667c",
+          "recorded_at": "2026-10-16T07:19:46.664646+00:00",
+          "review_status": "supported",
+          "review_reason": "Whole-event grammar and complete role/qualifier agreement",
+          "extraction_method": "deterministic_event",
+          "extraction_model": "event-grammar-v1",
+          "verification_level": "source_assertion",
+          "independently_verified": false,
+          "schema_binding_id": "43db137684f8c4d8ad8a09dfd42d267b8b7f721aff4f35cec0e24e26caeb4bd6",
+          "eligible_for_inference": false
+        }
+      ],
+      "reconnected": true
+    }
+  },
+  "model_calls": 0,
+  "limitations": [
+    "Bounded literal frames and typed structured records, not general prose understanding",
+    "Schema validity neither proves source truth nor enables inference rules"
+  ]
+}

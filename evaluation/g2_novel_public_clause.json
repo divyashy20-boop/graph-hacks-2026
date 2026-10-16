@@ -1,0 +1,170 @@
+{
+  "recorded_at": "2026-10-16T11:51:20.468443+00:00",
+  "dataset": "showcase-g-public-clause",
+  "backend": "actual FalkorDB",
+  "source": {
+    "source_url": "https://www.jpl.nasa.gov/podcasts/on-a-mission-season-1/season-3-planet-earth/episode-6-air-and-shield/",
+    "title": "Episode 6: Air and Shield \u2014 NASA JPL, November 24, 2020",
+    "locator": "Transcript opening narrator passage, NACA to NASA transition",
+    "licence": "Short attributed research quotation; JPL/Caltech source terms retained",
+    "note": "As we sought ways to go ever faster and higher, and even fly beyond Earth\u2019s atmosphere and travel to the Moon, NACA evolved into NASA, the National Aeronautics and Space Administration.\nInput is an exact short clause, not the entire sentence. No date or independently verified identity equality follows. Full context is retained in source attribution and also tested separately without tuning."
+  },
+  "report": {
+    "source_id": "1fcc0a0f7aae6994618c6e2c1b866f7349809500f3ce889cea3b901392b5bf68",
+    "chunks": 1,
+    "entities": 2,
+    "claims": 1,
+    "relation_events": 0,
+    "review_tasks": 0,
+    "duplicate": false,
+    "warnings": [],
+    "elapsed_ms": 13.219,
+    "provider": "offline",
+    "candidate_free_text_chunks": [],
+    "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+    "usage": {
+      "calls": 0,
+      "estimated_usd": 0
+    },
+    "open_predicates": true
+  },
+  "claim": {
+    "subject": "NACA",
+    "object": "NASA",
+    "evidence": "NACA evolved into NASA",
+    "subject_type": "Entity",
+    "object_type": "Entity",
+    "polarity": "positive",
+    "modality": "asserted",
+    "event_time": null,
+    "valid_from": null,
+    "valid_to": null,
+    "time_precision": "unknown",
+    "temporal_source": null,
+    "historical": false,
+    "attribution": null,
+    "event_id": null,
+    "id": "b5e4f22380b1bf0f869d9236f8e2f16af61e75db9ddf99b23d3bc0965933d8a0",
+    "kind": "Claim",
+    "subject_id": "8df088361a75cc3f6dca743c63f33503fc6f0083003901e47d76de1c29bca010",
+    "object_id": "561e7106ffd67149dd1fa43101fe47b793dc8e7de87c3b013333105da9764a52",
+    "original_predicate": "evolved into",
+    "predicate": "EVOLVED_INTO",
+    "original_claim": "NACA evolved into NASA",
+    "evidence_id": "1c6aaaab298f7be3819d756f542bbc01605c757fdba52cb45c28347acef102d6",
+    "source_id": "1fcc0a0f7aae6994618c6e2c1b866f7349809500f3ce889cea3b901392b5bf68",
+    "chunk_id": "88ff7f15a2b0d4f0da0706072520cf7c1d31076a5c977fdb005cab679831064c",
+    "recorded_at": "2026-10-16T11:51:20.449449+00:00",
+    "extraction_method": "grammar",
+    "extraction_model": "grammar-v1",
+    "review_status": "supported",
+    "review_reason": "Directional grammar, polarity, modality and temporal agreement",
+    "verification_level": "source_assertion",
+    "independently_verified": false,
+    "schema_binding_id": "c8717ccd6958e479a98664b8b1fdcc6cfa9a23c54931aa046bbc37601ff66dcd",
+    "eligible_for_inference": false
+  },
+  "binding": {
+    "id": "c8717ccd6958e479a98664b8b1fdcc6cfa9a23c54931aa046bbc37601ff66dcd",
+    "kind": "SchemaBinding",
+    "assertion_id": "b5e4f22380b1bf0f869d9236f8e2f16af61e75db9ddf99b23d3bc0965933d8a0",
+    "evidence_id": "1c6aaaab298f7be3819d756f542bbc01605c757fdba52cb45c28347acef102d6",
+    "source_id": "1fcc0a0f7aae6994618c6e2c1b866f7349809500f3ce889cea3b901392b5bf68",
+    "original_phrase": "evolved into",
+    "pack_refs": [],
+    "predicate_definition_id": "1811b46935a94d1bfd008f766a000b4efdcacb4e37142da323c3fccb07ee87f6",
+    "canonical_name": "OPEN_4E95CF3F41648317",
+    "namespace": "open",
+    "state": "PROVISIONAL_NEW",
+    "candidate_definition_ids": [],
+    "canonicalization_basis": "literal_surface_only_no_equivalence",
+    "source_qualifiers": {
+      "modifiers": [],
+      "lifecycle": "unspecified",
+      "amounts": [],
+      "semantics": "Literal source qualifiers, not transaction completion"
+    },
+    "errors": [],
+    "eligible_for_inference": false,
+    "algorithm": "schema-binding-v2",
+    "block_key": "1811b46935a94d1bfd008f766a000b4efdcacb4e37142da323c3fccb07ee87f6"
+  },
+  "definition": {
+    "id": "1811b46935a94d1bfd008f766a000b4efdcacb4e37142da323c3fccb07ee87f6",
+    "kind": "PredicateDefinition",
+    "namespace": "open",
+    "version": "1.0.0",
+    "pack_id": null,
+    "pack_hash": null,
+    "original_surface": "evolved into",
+    "spec": {
+      "name": "OPEN_4E95CF3F41648317",
+      "definition": "Literal source phrase 'evolved into'; roles preserve its observed argument orientation. Semantic equivalence is unvalidated.",
+      "form": "binary",
+      "direction": "directed",
+      "roles": [
+        {
+          "name": "subject",
+          "types": [
+            "Entity"
+          ],
+          "minimum": 1,
+          "maximum": 1
+        },
+        {
+          "name": "object",
+          "types": [
+            "Entity"
+          ],
+          "minimum": 1,
+          "maximum": 1
+        }
+      ],
+      "aliases": [],
+      "qualifiers": [
+        "attribution",
+        "event_time",
+        "historical",
+        "modality",
+        "polarity",
+        "temporal_source",
+        "time_precision",
+        "valid_from",
+        "valid_to"
+      ]
+    },
+    "semantic_state": "PROVISIONAL",
+    "registration_basis": "source_grounded_literal_frame",
+    "eligible_for_inference": false,
+    "algorithm": "open-predicate-v1"
+  },
+  "reconnected": true,
+  "full_context_report": {
+    "source_id": "c22c544821ac94d8f34fb2508d334b32c75aea059679fa3327278afbd3408a5d",
+    "chunks": 1,
+    "entities": 0,
+    "claims": 0,
+    "relation_events": 0,
+    "review_tasks": 0,
+    "duplicate": false,
+    "warnings": [],
+    "elapsed_ms": 1.771,
+    "provider": "offline",
+    "candidate_free_text_chunks": [
+      "468ee725cfb51e9120ee157a7b07916d1bb8c391ec1e7088f02ff661c6ce745f"
+    ],
+    "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+    "usage": {
+      "calls": 0,
+      "estimated_usd": 0
+    },
+    "open_predicates": true
+  },
+  "model_calls": 0,
+  "annotation": "Agent manual source/meaning inspection, not independent human annotation. Convenience-selected exact clause after code freeze; not a benchmark.",
+  "limitations": [
+    "Input is an exact short clause, not the entire sentence. No date or independently verified identity equality follows. Full context is retained in source attribution and also tested separately without tuning.",
+    "This is an independently sourced expression, not independently adjudicated accuracy",
+    "No predicate-specific code was added for this phrase; no tuning to full-context output"
+  ]
+}

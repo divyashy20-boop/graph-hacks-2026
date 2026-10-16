@@ -57,6 +57,11 @@ jobs:
         run: python -m ugi.demo --execute --dataset-prefix ci-showcase --output /tmp/ugi-showcase.json
       - name: Verify version-pinned three-pack graph demonstration
         run: python -m ugi.demo_schema --execute --dataset ci-schema --output /tmp/ugi-g-schema.json
+      - name: Verify open schema development specification and new public probe
+        run: |
+          python -m ugi.eval_schema --output /tmp/ugi-g-development.json
+          python -m ugi.eval_schema_public --download --output /tmp/ugi-g-public.json
+          python -m ugi.probe_new_predicate --execute --dataset ci-public-clause --output /tmp/ugi-g-clause.json
       - name: Verify provisional identity reversal and targeted stale detection
         run: python -m ugi.demo_identity --execute --dataset ci-identity --output /tmp/ugi-identity.json
       - name: Verify source-grounded identity policy cases on actual FalkorDB
@@ -80,6 +85,7 @@ jobs:
           python evaluation/recheck_c_metrics.py
           python evaluation/recheck_d_metrics.py
           python evaluation/recheck_f_metrics.py
+          python evaluation/recheck_g_metrics.py
       - name: Verify 100/1000/2000-record real CSV and JSON ingestion
         run: |
           python -m ugi.benchmark_conversion --sizes 100 1000 2000 --output /tmp/ugi-c-capacity.json
@@ -97,6 +103,9 @@ jobs:
             /tmp/ugi-intelligence-evaluation.json
             /tmp/ugi-showcase.json
             /tmp/ugi-g-schema.json
+            /tmp/ugi-g-development.json
+            /tmp/ugi-g-public.json
+            /tmp/ugi-g-clause.json
             /tmp/ugi-c-development.json
             /tmp/ugi-c-evaluation.json
             /tmp/ugi-c-capacity.json

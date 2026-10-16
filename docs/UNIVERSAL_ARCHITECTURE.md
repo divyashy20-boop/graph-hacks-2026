@@ -1,5 +1,14 @@
 # Universal knowledge intelligence: executable foundation and boundaries
 
+G increment2 now implements opt-in bounded literal open frames, provisional
+PredicateDefinitions, atomic SchemaBindings/current heads and authorized mapping
+revisions/undo. Exact phrases/roles/qualifiers remain separate from interpretation;
+no generated predicate enables inference. Collective/research frames stay whole;
+explicit respectively lists align without Cartesian expansion. Unrestricted prose,
+learned equivalence, connectors and semantic recomputation remain unimplemented.
+Public32 emits0 in both modes; authored development gains are not independent
+accuracy. MILESTONE_G_REPORT supersedes the older planning sections below.
+
 G increment1 supersedes older pack-planning sections: strict declarative packs,
 immutable hash/version definitions, pinned atomic SchemaBindings and indexed,
 definition-scoped source retrieval now exist in schema.py. Packs never execute

@@ -19,11 +19,12 @@ KINDS = {
     "IdentityProfile", "IdentityPosting", "IdentityEvidence", "IdentityEvidenceHead", "IdentityAssessment",
     "IdentityCluster", "IdentityRun",
     "DomainPack", "PredicateDefinition", "SchemaBinding",
+    "SchemaBindingHead", "SchemaMappingRevision",
 }
 IMMUTABLE_KINDS = {"Mention", "MentionSnapshot", "EntityCard", "IdentityRevision",
                    "DerivedArtifact", "KnowledgeRevision", "IdentityProfile", "IdentityPosting",
                    "IdentityEvidence", "IdentityAssessment", "IdentityCluster", "IdentityRun",
-                   "DomainPack", "PredicateDefinition", "SchemaBinding"}
+                   "DomainPack", "PredicateDefinition", "SchemaBinding", "SchemaMappingRevision"}
 
 
 def literal(value):

@@ -1,0 +1,276 @@
+{
+  "recorded_at": "2026-10-16T07:19:51.697407+00:00",
+  "backend": "actual FalkorDB",
+  "results": [
+    {
+      "rows": 10,
+      "open_enabled": false,
+      "pack_load_ms": 0.059,
+      "pack_register_ms": 5.005,
+      "ingest_ms": 99.46,
+      "write_ms": 9.969,
+      "queries": {
+        "redis_commands": {
+          "SET": 1,
+          "GRAPH.QUERY": 65,
+          "EVALSHA": 1
+        },
+        "network_roundtrips": 67,
+        "cypher_queries": 65,
+        "client_command_wall_ms": 43.592,
+        "graph_response_wall_ms": 42.524,
+        "successful_graph_internal_ms": 1.593,
+        "failed_commands": 0
+      },
+      "peak_python_bytes": 472244,
+      "claims": 10,
+      "bindings": 0,
+      "registry_lookup_ms": null,
+      "verification": {
+        "exact_records": 65,
+        "exact_edges": 31,
+        "kind_labels_consistent": true,
+        "payloads_consistent": true,
+        "incidence_consistent": true
+      },
+      "counts": {
+        "DomainPack": 1,
+        "Chunk": 1,
+        "PredicateDefinition": 2,
+        "Evidence": 10,
+        "Source": 1,
+        "Mention": 20,
+        "Claim": 10,
+        "Entity": 20
+      },
+      "model_calls": 0
+    },
+    {
+      "rows": 10,
+      "open_enabled": true,
+      "pack_load_ms": 0.036,
+      "pack_register_ms": 3.731,
+      "ingest_ms": 74.739,
+      "write_ms": 11.787,
+      "queries": {
+        "redis_commands": {
+          "SET": 1,
+          "GRAPH.QUERY": 67,
+          "EVALSHA": 1
+        },
+        "network_roundtrips": 69,
+        "cypher_queries": 67,
+        "client_command_wall_ms": 43.203,
+        "graph_response_wall_ms": 42.224,
+        "successful_graph_internal_ms": 1.771,
+        "failed_commands": 0
+      },
+      "peak_python_bytes": 467756,
+      "claims": 10,
+      "bindings": 10,
+      "registry_lookup_ms": 16.116,
+      "verification": {
+        "exact_records": 86,
+        "exact_edges": 31,
+        "kind_labels_consistent": true,
+        "payloads_consistent": true,
+        "incidence_consistent": true
+      },
+      "counts": {
+        "SchemaBindingHead": 10,
+        "Entity": 20,
+        "DomainPack": 1,
+        "Source": 1,
+        "Mention": 20,
+        "Chunk": 1,
+        "Evidence": 10,
+        "SchemaBinding": 10,
+        "PredicateDefinition": 3,
+        "Claim": 10
+      },
+      "model_calls": 0
+    },
+    {
+      "rows": 30,
+      "open_enabled": false,
+      "pack_load_ms": 0.037,
+      "pack_register_ms": 4.029,
+      "ingest_ms": 256.387,
+      "write_ms": 23.125,
+      "queries": {
+        "redis_commands": {
+          "SET": 1,
+          "GRAPH.QUERY": 185,
+          "EVALSHA": 1
+        },
+        "network_roundtrips": 187,
+        "cypher_queries": 185,
+        "client_command_wall_ms": 117.328,
+        "graph_response_wall_ms": 116.311,
+        "successful_graph_internal_ms": 3.84,
+        "failed_commands": 0
+      },
+      "peak_python_bytes": 985228,
+      "claims": 30,
+      "bindings": 0,
+      "registry_lookup_ms": null,
+      "verification": {
+        "exact_records": 185,
+        "exact_edges": 91,
+        "kind_labels_consistent": true,
+        "payloads_consistent": true,
+        "incidence_consistent": true
+      },
+      "counts": {
+        "Claim": 30,
+        "PredicateDefinition": 2,
+        "Mention": 60,
+        "Source": 1,
+        "Evidence": 30,
+        "DomainPack": 1,
+        "Entity": 60,
+        "Chunk": 1
+      },
+      "model_calls": 0
+    },
+    {
+      "rows": 30,
+      "open_enabled": true,
+      "pack_load_ms": 0.036,
+      "pack_register_ms": 3.832,
+      "ingest_ms": 250.112,
+      "write_ms": 29.676,
+      "queries": {
+        "redis_commands": {
+          "SET": 1,
+          "GRAPH.QUERY": 187,
+          "EVALSHA": 1
+        },
+        "network_roundtrips": 189,
+        "cypher_queries": 187,
+        "client_command_wall_ms": 125.516,
+        "graph_response_wall_ms": 124.311,
+        "successful_graph_internal_ms": 4.794,
+        "failed_commands": 0
+      },
+      "peak_python_bytes": 1246201,
+      "claims": 30,
+      "bindings": 30,
+      "registry_lookup_ms": 46.684,
+      "verification": {
+        "exact_records": 246,
+        "exact_edges": 91,
+        "kind_labels_consistent": true,
+        "payloads_consistent": true,
+        "incidence_consistent": true
+      },
+      "counts": {
+        "Entity": 60,
+        "Mention": 60,
+        "Claim": 30,
+        "PredicateDefinition": 3,
+        "Chunk": 1,
+        "SchemaBindingHead": 30,
+        "Evidence": 30,
+        "Source": 1,
+        "SchemaBinding": 30,
+        "DomainPack": 1
+      },
+      "model_calls": 0
+    },
+    {
+      "rows": 80,
+      "open_enabled": false,
+      "pack_load_ms": 0.038,
+      "pack_register_ms": 3.757,
+      "ingest_ms": 1025.854,
+      "write_ms": 58.123,
+      "queries": {
+        "redis_commands": {
+          "SET": 1,
+          "GRAPH.QUERY": 485,
+          "EVALSHA": 1
+        },
+        "network_roundtrips": 487,
+        "cypher_queries": 485,
+        "client_command_wall_ms": 363.804,
+        "graph_response_wall_ms": 362.623,
+        "successful_graph_internal_ms": 10.713,
+        "failed_commands": 0
+      },
+      "peak_python_bytes": 2560176,
+      "claims": 80,
+      "bindings": 0,
+      "registry_lookup_ms": null,
+      "verification": {
+        "exact_records": 485,
+        "exact_edges": 241,
+        "kind_labels_consistent": true,
+        "payloads_consistent": true,
+        "incidence_consistent": true
+      },
+      "counts": {
+        "PredicateDefinition": 2,
+        "Chunk": 1,
+        "Mention": 160,
+        "Entity": 160,
+        "Claim": 80,
+        "Evidence": 80,
+        "Source": 1,
+        "DomainPack": 1
+      },
+      "model_calls": 0
+    },
+    {
+      "rows": 80,
+      "open_enabled": true,
+      "pack_load_ms": 0.037,
+      "pack_register_ms": 3.74,
+      "ingest_ms": 945.773,
+      "write_ms": 74.086,
+      "queries": {
+        "redis_commands": {
+          "SET": 1,
+          "GRAPH.QUERY": 487,
+          "EVALSHA": 1
+        },
+        "network_roundtrips": 489,
+        "cypher_queries": 487,
+        "client_command_wall_ms": 322.692,
+        "graph_response_wall_ms": 321.59,
+        "successful_graph_internal_ms": 11.626,
+        "failed_commands": 0
+      },
+      "peak_python_bytes": 3282508,
+      "claims": 80,
+      "bindings": 80,
+      "registry_lookup_ms": 121.114,
+      "verification": {
+        "exact_records": 646,
+        "exact_edges": 241,
+        "kind_labels_consistent": true,
+        "payloads_consistent": true,
+        "incidence_consistent": true
+      },
+      "counts": {
+        "PredicateDefinition": 3,
+        "DomainPack": 1,
+        "SchemaBinding": 80,
+        "Evidence": 80,
+        "Mention": 160,
+        "Chunk": 1,
+        "Claim": 80,
+        "SchemaBindingHead": 80,
+        "Source": 1,
+        "Entity": 160
+      },
+      "model_calls": 0
+    }
+  ],
+  "limitations": [
+    "One observation per setting, no p95/server memory/large mixed updates",
+    "Short source frames are already grammar-readable; measures added registry/pinning work, not a speedup",
+    "Registry lookup includes exact per-assertion evidence/head fetches; bounded200",
+    "Source frames deliberately repeat one novel predicate; identity ledger is off"
+  ]
+}

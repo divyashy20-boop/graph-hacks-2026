@@ -1,5 +1,15 @@
 # Conversion quality gate
 
+## Milestone G open predicate boundary
+
+Optional open_predicates adds bounded literal phrase/group frames and a provisional
+semantic registry, not unrestricted NLP. Structured unknown predicates and novel
+prose are tested separately. Authored dev12 recovers8/8 binaries and2/2 whole events;
+frozen public32 emits0 in both modes and lacks complete source-entailment labels,
+so semantic metrics are unscored. A new exact public clause works, its full longer
+sentence abstains. Schema state is not truth and cannot grant inference. See
+MILESTONE_G_REPORT for real graph evidence, source terms and limitations.
+
 ## Milestone E scope boundary
 
 The new opt-in identity ledger is a **storage/history and provisional projection**

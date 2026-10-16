@@ -73,6 +73,7 @@ class Settings(BaseSettings):
     provider: Literal["offline", "bedrock", "ollama"] = "offline"
     allow_paid_calls: bool = False
     schema_writes: bool = False
+    open_predicates: bool = False
     identity_ledger: bool = False
     identity_resolution: Literal["off", "dry_run"] = "off"
     identity_auto_apply: bool = False
@@ -120,6 +121,14 @@ class Settings(BaseSettings):
 
 class Strict(BaseModel):
     model_config = ConfigDict(extra="forbid")
+
+
+class SourceAttribution(Strict):
+    source_url: str = Field(pattern=r"^https://[^\s]{1,1900}$", max_length=2000)
+    title: str = Field(min_length=1, max_length=300)
+    locator: str = Field(min_length=1, max_length=1000)
+    licence: str = Field(min_length=1, max_length=100)
+    note: str = Field(default="", max_length=2000)
 
 
 class Candidate(Strict):

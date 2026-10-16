@@ -1,0 +1,853 @@
+{
+  "recorded_at": "2026-10-16T07:19:48.235968+00:00",
+  "backend": "actual FalkorDB",
+  "fixture_hash": "ad2e54647ed2ee3d78e764149b049be1bff657ff4cb028239fc3f13183f5714c",
+  "provenance": "AI-authored synthetic CC0 development/specification checks. Not independent accuracy; authored after implementation examples.",
+  "results": [
+    {
+      "open_enabled": false,
+      "cases": [
+        {
+          "id": "unknown",
+          "binary": [
+            [
+              "Company A",
+              "sublicensed a technology to",
+              "Company B",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "events": [],
+          "binary_tp": 1,
+          "exact_events": true,
+          "exact_quotes": true,
+          "assertions": 1,
+          "report": {
+            "source_id": "fa716fe2a1638a2f6bd1847c5b099ca059ad13bba7892bbbf814d676607566f3",
+            "chunks": 1,
+            "entities": 2,
+            "claims": 1,
+            "relation_events": 0,
+            "review_tasks": 0,
+            "duplicate": false,
+            "warnings": [],
+            "elapsed_ms": 13.772,
+            "provider": "offline",
+            "candidate_free_text_chunks": [],
+            "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+            "usage": {
+              "calls": 0,
+              "estimated_usd": 0
+            }
+          }
+        },
+        {
+          "id": "long-frame",
+          "binary": [],
+          "events": [],
+          "binary_tp": 0,
+          "exact_events": true,
+          "exact_quotes": true,
+          "assertions": 0,
+          "report": {
+            "source_id": "5bba394dc22dfce0369c89b05f7aa0cadb7cb2ce069f7507022d00cecaa69be3",
+            "chunks": 1,
+            "entities": 0,
+            "claims": 0,
+            "relation_events": 0,
+            "review_tasks": 0,
+            "duplicate": false,
+            "warnings": [],
+            "elapsed_ms": 1.598,
+            "provider": "offline",
+            "candidate_free_text_chunks": [
+              "1565848fee8b725c7fec25a0a9cdd4d65b4ddb1bd5e680e65a5b0cf9f4205c33"
+            ],
+            "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+            "usage": {
+              "calls": 0,
+              "estimated_usd": 0
+            }
+          }
+        },
+        {
+          "id": "new-verb",
+          "binary": [
+            [
+              "Library A",
+              "escrowed assets on behalf of",
+              "Institute B",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "events": [],
+          "binary_tp": 1,
+          "exact_events": true,
+          "exact_quotes": true,
+          "assertions": 1,
+          "report": {
+            "source_id": "8ff1fe2b2c32b9380794bea2c24f528d4b362cb60b085c48bd5742500de175ff",
+            "chunks": 1,
+            "entities": 2,
+            "claims": 1,
+            "relation_events": 0,
+            "review_tasks": 0,
+            "duplicate": false,
+            "warnings": [],
+            "elapsed_ms": 4.938,
+            "provider": "offline",
+            "candidate_free_text_chunks": [],
+            "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+            "usage": {
+              "calls": 0,
+              "estimated_usd": 0
+            }
+          }
+        },
+        {
+          "id": "negated",
+          "binary": [
+            [
+              "Company A",
+              "commission",
+              "Company B",
+              "negative",
+              "asserted"
+            ]
+          ],
+          "events": [],
+          "binary_tp": 1,
+          "exact_events": true,
+          "exact_quotes": true,
+          "assertions": 1,
+          "report": {
+            "source_id": "1fb9a8f9ff1dac732f00a2c0d51ec7e149da9d48d8653e8ed3cf6c7b099db1b4",
+            "chunks": 1,
+            "entities": 2,
+            "claims": 1,
+            "relation_events": 0,
+            "review_tasks": 0,
+            "duplicate": false,
+            "warnings": [],
+            "elapsed_ms": 4.686,
+            "provider": "offline",
+            "candidate_free_text_chunks": [],
+            "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+            "usage": {
+              "calls": 0,
+              "estimated_usd": 0
+            }
+          }
+        },
+        {
+          "id": "modal",
+          "binary": [
+            [
+              "Company A",
+              "commission",
+              "Company B",
+              "positive",
+              "possible"
+            ]
+          ],
+          "events": [],
+          "binary_tp": 1,
+          "exact_events": true,
+          "exact_quotes": true,
+          "assertions": 1,
+          "report": {
+            "source_id": "d0cd1e49e85ebd804c8565423ee709fbee16329fd2e12954c6cf01760e18ed60",
+            "chunks": 1,
+            "entities": 2,
+            "claims": 1,
+            "relation_events": 0,
+            "review_tasks": 0,
+            "duplicate": false,
+            "warnings": [],
+            "elapsed_ms": 4.665,
+            "provider": "offline",
+            "candidate_free_text_chunks": [],
+            "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+            "usage": {
+              "calls": 0,
+              "estimated_usd": 0
+            }
+          }
+        },
+        {
+          "id": "cancelled",
+          "binary": [],
+          "events": [],
+          "binary_tp": 0,
+          "exact_events": true,
+          "exact_quotes": true,
+          "assertions": 0,
+          "report": {
+            "source_id": "4d037bb10a1c2ddb9d3df549adf3b8a3133e928fc994c2ada7f2d6224ac03d93",
+            "chunks": 1,
+            "entities": 0,
+            "claims": 0,
+            "relation_events": 0,
+            "review_tasks": 0,
+            "duplicate": false,
+            "warnings": [],
+            "elapsed_ms": 1.573,
+            "provider": "offline",
+            "candidate_free_text_chunks": [
+              "4189947e6c291bb9ba0bb8f7eea648efff9cd48b35db5f6a4937cd55b52c1460"
+            ],
+            "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+            "usage": {
+              "calls": 0,
+              "estimated_usd": 0
+            }
+          }
+        },
+        {
+          "id": "respectively",
+          "binary": [],
+          "events": [],
+          "binary_tp": 0,
+          "exact_events": true,
+          "exact_quotes": true,
+          "assertions": 0,
+          "report": {
+            "source_id": "7943d1af86a0af52220f70471bee8b79182558fa99c2de1da2ee74aa5d0e02d6",
+            "chunks": 1,
+            "entities": 0,
+            "claims": 0,
+            "relation_events": 0,
+            "review_tasks": 0,
+            "duplicate": false,
+            "warnings": [],
+            "elapsed_ms": 1.459,
+            "provider": "offline",
+            "candidate_free_text_chunks": [
+              "c68031e28b463b902c77187ad1d62acb016885738ead3e2f8ea2810572a8407b"
+            ],
+            "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+            "usage": {
+              "calls": 0,
+              "estimated_usd": 0
+            }
+          }
+        },
+        {
+          "id": "collective",
+          "binary": [],
+          "events": [],
+          "binary_tp": 0,
+          "exact_events": false,
+          "exact_quotes": true,
+          "assertions": 0,
+          "report": {
+            "source_id": "45f8f606dd3d988767770a49119ec54df51ab5abc2f4619b282e29f623563a8f",
+            "chunks": 1,
+            "entities": 0,
+            "claims": 0,
+            "relation_events": 0,
+            "review_tasks": 0,
+            "duplicate": false,
+            "warnings": [],
+            "elapsed_ms": 1.595,
+            "provider": "offline",
+            "candidate_free_text_chunks": [
+              "61823c1ae58a9eede114964a1cf5e7292eabbeed538eb08f2be80fbd0efe7456"
+            ],
+            "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+            "usage": {
+              "calls": 0,
+              "estimated_usd": 0
+            }
+          }
+        },
+        {
+          "id": "research",
+          "binary": [],
+          "events": [],
+          "binary_tp": 0,
+          "exact_events": false,
+          "exact_quotes": true,
+          "assertions": 0,
+          "report": {
+            "source_id": "bc2c66b02ec504b599c139109862a07d2881a9bd8537d9967a45a78b135220ef",
+            "chunks": 1,
+            "entities": 0,
+            "claims": 0,
+            "relation_events": 0,
+            "review_tasks": 0,
+            "duplicate": false,
+            "warnings": [],
+            "elapsed_ms": 1.616,
+            "provider": "offline",
+            "candidate_free_text_chunks": [
+              "cdc738e0ce05893b1b49693e3fcf316f265da023316fc073887614d4ca3d127a"
+            ],
+            "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+            "usage": {
+              "calls": 0,
+              "estimated_usd": 0
+            }
+          }
+        },
+        {
+          "id": "unequal",
+          "binary": [],
+          "events": [],
+          "binary_tp": 0,
+          "exact_events": true,
+          "exact_quotes": true,
+          "assertions": 0,
+          "report": {
+            "source_id": "e83d046bab07f4c49e0659f768202a9408ae2d44e5b6467dbf156541c93af2fc",
+            "chunks": 1,
+            "entities": 0,
+            "claims": 0,
+            "relation_events": 0,
+            "review_tasks": 0,
+            "duplicate": false,
+            "warnings": [],
+            "elapsed_ms": 1.542,
+            "provider": "offline",
+            "candidate_free_text_chunks": [
+              "9b3931daf93774a617cde1736d145ef8d92c0c11edb08d8864c1457ef467e16f"
+            ],
+            "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+            "usage": {
+              "calls": 0,
+              "estimated_usd": 0
+            }
+          }
+        },
+        {
+          "id": "conditional",
+          "binary": [],
+          "events": [],
+          "binary_tp": 0,
+          "exact_events": true,
+          "exact_quotes": true,
+          "assertions": 0,
+          "report": {
+            "source_id": "40c85aa1ea323a7116f6e08246fba8fd062e4bf9540b306283250cd1d5dc2c34",
+            "chunks": 1,
+            "entities": 0,
+            "claims": 0,
+            "relation_events": 0,
+            "review_tasks": 0,
+            "duplicate": false,
+            "warnings": [],
+            "elapsed_ms": 1.941,
+            "provider": "offline",
+            "candidate_free_text_chunks": [
+              "4b1c91eb2fcc54eeb3d3ba99849b6ae733dd9f8985813b6dcfc612e8e38e21be"
+            ],
+            "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+            "usage": {
+              "calls": 0,
+              "estimated_usd": 0
+            }
+          }
+        },
+        {
+          "id": "unresolved-pronoun",
+          "binary": [],
+          "events": [],
+          "binary_tp": 0,
+          "exact_events": true,
+          "exact_quotes": true,
+          "assertions": 0,
+          "report": {
+            "source_id": "29241e26fa59cf8cc4ceb50ca4dbbebfb81733215897d326ca1fb0d53fcbeff2",
+            "chunks": 1,
+            "entities": 0,
+            "claims": 0,
+            "relation_events": 0,
+            "review_tasks": 0,
+            "duplicate": false,
+            "warnings": [],
+            "elapsed_ms": 1.655,
+            "provider": "offline",
+            "candidate_free_text_chunks": [
+              "61875f5b873e6cf664f2f70bd6cde7c4002d891efad3e9496cdc08ce1ed8b4a5"
+            ],
+            "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+            "usage": {
+              "calls": 0,
+              "estimated_usd": 0
+            }
+          }
+        }
+      ],
+      "binary_tp": 4,
+      "predicted_binary": 4,
+      "expected_binary": 8,
+      "exact_event_cases": 10,
+      "all_quotes": true
+    },
+    {
+      "open_enabled": true,
+      "cases": [
+        {
+          "id": "unknown",
+          "binary": [
+            [
+              "Company A",
+              "sublicensed a technology to",
+              "Company B",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "events": [],
+          "binary_tp": 1,
+          "exact_events": true,
+          "exact_quotes": true,
+          "assertions": 1,
+          "report": {
+            "source_id": "fa716fe2a1638a2f6bd1847c5b099ca059ad13bba7892bbbf814d676607566f3",
+            "chunks": 1,
+            "entities": 2,
+            "claims": 1,
+            "relation_events": 0,
+            "review_tasks": 0,
+            "duplicate": false,
+            "warnings": [],
+            "elapsed_ms": 6.582,
+            "provider": "offline",
+            "candidate_free_text_chunks": [],
+            "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+            "usage": {
+              "calls": 0,
+              "estimated_usd": 0
+            }
+          }
+        },
+        {
+          "id": "long-frame",
+          "binary": [
+            [
+              "Organization A",
+              "served as the custodial intermediary for",
+              "Entity B",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "events": [],
+          "binary_tp": 1,
+          "exact_events": true,
+          "exact_quotes": true,
+          "assertions": 1,
+          "report": {
+            "source_id": "5bba394dc22dfce0369c89b05f7aa0cadb7cb2ce069f7507022d00cecaa69be3",
+            "chunks": 1,
+            "entities": 2,
+            "claims": 1,
+            "relation_events": 0,
+            "review_tasks": 0,
+            "duplicate": false,
+            "warnings": [],
+            "elapsed_ms": 5.709,
+            "provider": "offline",
+            "candidate_free_text_chunks": [],
+            "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+            "usage": {
+              "calls": 0,
+              "estimated_usd": 0
+            }
+          }
+        },
+        {
+          "id": "new-verb",
+          "binary": [
+            [
+              "Library A",
+              "escrowed assets on behalf of",
+              "Institute B",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "events": [],
+          "binary_tp": 1,
+          "exact_events": true,
+          "exact_quotes": true,
+          "assertions": 1,
+          "report": {
+            "source_id": "8ff1fe2b2c32b9380794bea2c24f528d4b362cb60b085c48bd5742500de175ff",
+            "chunks": 1,
+            "entities": 2,
+            "claims": 1,
+            "relation_events": 0,
+            "review_tasks": 0,
+            "duplicate": false,
+            "warnings": [],
+            "elapsed_ms": 5.157,
+            "provider": "offline",
+            "candidate_free_text_chunks": [],
+            "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+            "usage": {
+              "calls": 0,
+              "estimated_usd": 0
+            }
+          }
+        },
+        {
+          "id": "negated",
+          "binary": [
+            [
+              "Company A",
+              "commission",
+              "Company B",
+              "negative",
+              "asserted"
+            ]
+          ],
+          "events": [],
+          "binary_tp": 1,
+          "exact_events": true,
+          "exact_quotes": true,
+          "assertions": 1,
+          "report": {
+            "source_id": "1fb9a8f9ff1dac732f00a2c0d51ec7e149da9d48d8653e8ed3cf6c7b099db1b4",
+            "chunks": 1,
+            "entities": 2,
+            "claims": 1,
+            "relation_events": 0,
+            "review_tasks": 0,
+            "duplicate": false,
+            "warnings": [],
+            "elapsed_ms": 5.23,
+            "provider": "offline",
+            "candidate_free_text_chunks": [],
+            "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+            "usage": {
+              "calls": 0,
+              "estimated_usd": 0
+            }
+          }
+        },
+        {
+          "id": "modal",
+          "binary": [
+            [
+              "Company A",
+              "commission",
+              "Company B",
+              "positive",
+              "possible"
+            ]
+          ],
+          "events": [],
+          "binary_tp": 1,
+          "exact_events": true,
+          "exact_quotes": true,
+          "assertions": 1,
+          "report": {
+            "source_id": "d0cd1e49e85ebd804c8565423ee709fbee16329fd2e12954c6cf01760e18ed60",
+            "chunks": 1,
+            "entities": 2,
+            "claims": 1,
+            "relation_events": 0,
+            "review_tasks": 0,
+            "duplicate": false,
+            "warnings": [],
+            "elapsed_ms": 5.318,
+            "provider": "offline",
+            "candidate_free_text_chunks": [],
+            "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+            "usage": {
+              "calls": 0,
+              "estimated_usd": 0
+            }
+          }
+        },
+        {
+          "id": "cancelled",
+          "binary": [
+            [
+              "Company A",
+              "proposed acquiring",
+              "Company B",
+              "positive",
+              "possible"
+            ]
+          ],
+          "events": [],
+          "binary_tp": 1,
+          "exact_events": true,
+          "exact_quotes": true,
+          "assertions": 1,
+          "report": {
+            "source_id": "4d037bb10a1c2ddb9d3df549adf3b8a3133e928fc994c2ada7f2d6224ac03d93",
+            "chunks": 1,
+            "entities": 2,
+            "claims": 1,
+            "relation_events": 0,
+            "review_tasks": 0,
+            "duplicate": false,
+            "warnings": [],
+            "elapsed_ms": 5.299,
+            "provider": "offline",
+            "candidate_free_text_chunks": [],
+            "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+            "usage": {
+              "calls": 0,
+              "estimated_usd": 0
+            }
+          }
+        },
+        {
+          "id": "respectively",
+          "binary": [
+            [
+              "Google",
+              "acquired",
+              "Alpha",
+              "positive",
+              "asserted"
+            ],
+            [
+              "Microsoft",
+              "acquired",
+              "Beta",
+              "positive",
+              "asserted"
+            ]
+          ],
+          "events": [],
+          "binary_tp": 2,
+          "exact_events": true,
+          "exact_quotes": true,
+          "assertions": 2,
+          "report": {
+            "source_id": "7943d1af86a0af52220f70471bee8b79182558fa99c2de1da2ee74aa5d0e02d6",
+            "chunks": 1,
+            "entities": 4,
+            "claims": 2,
+            "relation_events": 0,
+            "review_tasks": 0,
+            "duplicate": false,
+            "warnings": [],
+            "elapsed_ms": 11.055,
+            "provider": "offline",
+            "candidate_free_text_chunks": [],
+            "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+            "usage": {
+              "calls": 0,
+              "estimated_usd": 0
+            }
+          }
+        },
+        {
+          "id": "collective",
+          "binary": [],
+          "events": [
+            [
+              [
+                "collaborator",
+                "Amazon"
+              ],
+              [
+                "collaborator",
+                "Google"
+              ],
+              [
+                "collaborator",
+                "Microsoft"
+              ],
+              [
+                "partner",
+                "Intel"
+              ],
+              [
+                "partner",
+                "NVIDIA"
+              ],
+              [
+                "project",
+                "Project X"
+              ]
+            ]
+          ],
+          "binary_tp": 0,
+          "exact_events": true,
+          "exact_quotes": true,
+          "assertions": 1,
+          "report": {
+            "source_id": "45f8f606dd3d988767770a49119ec54df51ab5abc2f4619b282e29f623563a8f",
+            "chunks": 1,
+            "entities": 6,
+            "claims": 0,
+            "relation_events": 1,
+            "review_tasks": 0,
+            "duplicate": false,
+            "warnings": [],
+            "elapsed_ms": 15.327,
+            "provider": "offline",
+            "candidate_free_text_chunks": [],
+            "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+            "usage": {
+              "calls": 0,
+              "estimated_usd": 0
+            }
+          }
+        },
+        {
+          "id": "research",
+          "binary": [],
+          "events": [
+            [
+              [
+                "institution",
+                "Institution Z"
+              ],
+              [
+                "researcher",
+                "A"
+              ],
+              [
+                "researcher",
+                "B"
+              ],
+              [
+                "researcher",
+                "C"
+              ],
+              [
+                "topic",
+                "X"
+              ],
+              [
+                "topic",
+                "Y"
+              ]
+            ]
+          ],
+          "binary_tp": 0,
+          "exact_events": true,
+          "exact_quotes": true,
+          "assertions": 1,
+          "report": {
+            "source_id": "bc2c66b02ec504b599c139109862a07d2881a9bd8537d9967a45a78b135220ef",
+            "chunks": 1,
+            "entities": 6,
+            "claims": 0,
+            "relation_events": 1,
+            "review_tasks": 0,
+            "duplicate": false,
+            "warnings": [],
+            "elapsed_ms": 15.576,
+            "provider": "offline",
+            "candidate_free_text_chunks": [],
+            "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+            "usage": {
+              "calls": 0,
+              "estimated_usd": 0
+            }
+          }
+        },
+        {
+          "id": "unequal",
+          "binary": [],
+          "events": [],
+          "binary_tp": 0,
+          "exact_events": true,
+          "exact_quotes": true,
+          "assertions": 0,
+          "report": {
+            "source_id": "e83d046bab07f4c49e0659f768202a9408ae2d44e5b6467dbf156541c93af2fc",
+            "chunks": 1,
+            "entities": 0,
+            "claims": 0,
+            "relation_events": 0,
+            "review_tasks": 0,
+            "duplicate": false,
+            "warnings": [],
+            "elapsed_ms": 1.568,
+            "provider": "offline",
+            "candidate_free_text_chunks": [
+              "9b3931daf93774a617cde1736d145ef8d92c0c11edb08d8864c1457ef467e16f"
+            ],
+            "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+            "usage": {
+              "calls": 0,
+              "estimated_usd": 0
+            }
+          }
+        },
+        {
+          "id": "conditional",
+          "binary": [],
+          "events": [],
+          "binary_tp": 0,
+          "exact_events": true,
+          "exact_quotes": true,
+          "assertions": 0,
+          "report": {
+            "source_id": "40c85aa1ea323a7116f6e08246fba8fd062e4bf9540b306283250cd1d5dc2c34",
+            "chunks": 1,
+            "entities": 0,
+            "claims": 0,
+            "relation_events": 0,
+            "review_tasks": 0,
+            "duplicate": false,
+            "warnings": [],
+            "elapsed_ms": 1.667,
+            "provider": "offline",
+            "candidate_free_text_chunks": [
+              "4b1c91eb2fcc54eeb3d3ba99849b6ae733dd9f8985813b6dcfc612e8e38e21be"
+            ],
+            "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+            "usage": {
+              "calls": 0,
+              "estimated_usd": 0
+            }
+          }
+        },
+        {
+          "id": "unresolved-pronoun",
+          "binary": [],
+          "events": [],
+          "binary_tp": 0,
+          "exact_events": true,
+          "exact_quotes": true,
+          "assertions": 0,
+          "report": {
+            "source_id": "29241e26fa59cf8cc4ceb50ca4dbbebfb81733215897d326ca1fb0d53fcbeff2",
+            "chunks": 1,
+            "entities": 0,
+            "claims": 0,
+            "relation_events": 0,
+            "review_tasks": 0,
+            "duplicate": false,
+            "warnings": [],
+            "elapsed_ms": 1.793,
+            "provider": "offline",
+            "candidate_free_text_chunks": [
+              "61875f5b873e6cf664f2f70bd6cde7c4002d891efad3e9496cdc08ce1ed8b4a5"
+            ],
+            "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+            "usage": {
+              "calls": 0,
+              "estimated_usd": 0
+            }
+          }
+        }
+      ],
+      "binary_tp": 8,
+      "predicted_binary": 8,
+      "expected_binary": 8,
+      "exact_event_cases": 12,
+      "all_quotes": true
+    }
+  ],
+  "model_calls": 0,
+  "limitations": [
+    "Tuned authored policy/development cases, no independent accuracy or human review",
+    "Whole-role equality checked separately; no binary projection credit",
+    "Temporal/numeric scope checked by regression tests, not pooled into this score"
+  ]
+}

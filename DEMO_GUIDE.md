@@ -1,5 +1,32 @@
 # UGI: three-minute evidence-to-action demonstration
 
+## G schema-discovery addendum
+
+From repository root, with actual local FalkorDB running:
+
+```powershell
+python -m ugi.demo_schema --execute --output evaluation/my_schema_demo.json
+python -m ugi.probe_new_predicate --execute --output evaluation/my_public_clause.json
+```
+
+The first command seeds `showcase-g-schema`:three pinned packs, typed IT/source
+evidence, unfamiliar sublicense/custodian phrases, proposed/cancelled deal, whole
+research/collective groups, aligned respectively pairs, forged-ID rejection and
+persisted mapping withdraw/undo. It explicitly authorizes only synthetic local
+writes; no paid model. Open the dataset in the existing dashboard, or read
+`/api/schema/predicates` with `x-dataset: showcase-g-schema`, then query
+`/api/schema/assertions?definition_id=<ID>` with the same dataset header. Check
+the binding state/current flag, original assertion, exact Evidence and qualifiers.
+Schema state is not truth; qualified assertions retain UNKNOWN applicability.
+
+The second command seeds a separately attributed short public clause in
+`showcase-g-public-clause`. Its full longer sentence abstains; never present this
+as unrestricted extraction or accuracy. Source terms are in DATA_LICENSES.
+The public32 FewRel probe likewise emits0; authored dev gains are specification
+results. Connector/recomputation are not implemented. See MILESTONE_G_REPORT.
+
+## Earlier three-domain synthetic demonstration
+
 Track 1: Agents That Act on Connected Data. All demo records are synthetic CC0.
 The same engine, graph store, resolver and investigation policy serve all domains.
 No model or internet service is needed for the core presentation.

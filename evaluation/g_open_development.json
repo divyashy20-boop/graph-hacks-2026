@@ -1,0 +1,17 @@
+{
+ "provenance":"AI-authored synthetic CC0 development/specification checks. Not independent accuracy; authored after implementation examples.",
+ "cases":[
+  {"id":"unknown","text":"Company A sublicensed a technology to Company B.","binary":[["Company A","sublicensed a technology to","Company B","positive","asserted"]],"events":[]},
+  {"id":"long-frame","text":"Organization A served as the custodial intermediary for Entity B.","binary":[["Organization A","served as the custodial intermediary for","Entity B","positive","asserted"]],"events":[]},
+  {"id":"new-verb","text":"Library A escrowed assets on behalf of Institute B.","binary":[["Library A","escrowed assets on behalf of","Institute B","positive","asserted"]],"events":[]},
+  {"id":"negated","text":"Company A did not commission Company B.","binary":[["Company A","commission","Company B","negative","asserted"]],"events":[]},
+  {"id":"modal","text":"Company A may commission Company B.","binary":[["Company A","commission","Company B","positive","possible"]],"events":[]},
+  {"id":"cancelled","text":"Company A proposed acquiring Company B for $200 million in 2023, but the deal was cancelled.","binary":[["Company A","proposed acquiring","Company B","positive","possible"]],"events":[]},
+  {"id":"respectively","text":"Google and Microsoft acquired Alpha and Beta respectively.","binary":[["Google","acquired","Alpha","positive","asserted"],["Microsoft","acquired","Beta","positive","asserted"]],"events":[]},
+  {"id":"collective","text":"Google, Microsoft and Amazon collaborated with NVIDIA and Intel on Project X.","binary":[],"events":[[["collaborator","Google"],["collaborator","Microsoft"],["collaborator","Amazon"],["partner","NVIDIA"],["partner","Intel"],["project","Project X"]]]},
+  {"id":"research","text":"Researchers A, B and C jointly investigated the relationship between X and Y at Institution Z.","binary":[],"events":[[["researcher","A"],["researcher","B"],["researcher","C"],["topic","X"],["topic","Y"],["institution","Institution Z"]]]},
+  {"id":"unequal","text":"Google and Microsoft acquired Alpha, Beta and Gamma respectively.","binary":[],"events":[]},
+  {"id":"conditional","text":"If Company A commissioned Company B, Company C would benefit.","binary":[],"events":[]},
+  {"id":"unresolved-pronoun","text":"It commissioned Company B.","binary":[],"events":[]}
+ ]
+}

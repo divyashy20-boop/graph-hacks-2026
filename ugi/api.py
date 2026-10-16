@@ -13,7 +13,7 @@ from .engine import Engine
 from .identity import ArtifactRequest, IdentityChange
 from .models import InvestigationRequest, RelationQuery, ReviewDecision, Settings, now, uid
 from .resolution import AuthorityObservation, IdentityResolver
-from .schema import PackRef, PackRegistration, SchemaRuntime
+from .schema import MappingChange, PackRef, PackRegistration, SchemaRuntime
 from .store import Store
 
 
@@ -208,6 +208,14 @@ def create_app(settings=None):
     @app.get("/api/schema/packs")
     def packs(engine=Depends(context)):
         return engine.store.list("DomainPack", 100)
+
+    @app.get("/api/schema/predicates")
+    def predicates(limit: int = Query(100, ge=1, le=200), engine=Depends(context)):
+        return engine.store.list("PredicateDefinition", limit)
+
+    @app.post("/api/schema/revisions")
+    def schema_revision(request: MappingChange, engine=Depends(context)):
+        return SchemaRuntime(engine.store).revise(request, engine.store.owner)
 
     @app.get("/api/schema/assertions")
     def schema_assertions(definition_id: str = Query(min_length=1, max_length=160),

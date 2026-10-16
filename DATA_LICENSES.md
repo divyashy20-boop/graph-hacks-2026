@@ -1,5 +1,29 @@
 # Audit data attribution and reuse
 
+## Milestone G: frozen public sources and short clause probe
+
+`g_public_sources_v1.json` contains32 further token-joined FewRel validation
+excerpts with upstream PID/head/tail classification notes, hashes and UGI metadata.
+Attribution: Xu Han et al., *FewRel: A Large-Scale Supervised Few-Shot Relation
+Classification Dataset with State-of-the-Art Evaluation*, EMNLP2018,
+[paper](https://aclanthology.org/D18-1514/), [THUNLP dataset](https://github.com/thunlp/FewRel),
+[licence declaration](https://thunlp.github.io/1/fewrel1.html). This derivative,
+including copyrightable added metadata, is **CC BY-SA4.0**, not CC0/code-only.
+Changes: selected rows, token joining, hashes/provenance; no exhaustive entailment
+or human-review annotations added. Keep attribution and share-alike terms on reuse.
+Original Wikipedia article/author identities are unavailable in these records.
+
+`g_novel_public_clause.json` cites NASA/JPL's *Episode6: Air and Shield*, Nov24,2020,
+[transcript](https://www.jpl.nasa.gov/podcasts/on-a-mission-season-1/season-3-planet-earth/episode-6-air-and-shield/).
+It retains a short attributed narrator quotation/context for a limited research
+probe. JPL/Caltech source rights remain; no blanket CC0/public-domain relicensing
+of the transcript, audio, photographs or third-party quotations is claimed.
+UGI's source/meaning inspection is not NASA/JPL validation or endorsement.
+Reports quoting these sources retain their respective terms.
+
+Bundled packs, g_open_development.json and ordinary synthetic schema-demo cases
+are AI-authored CC0 development/specification examples, not independent gold.
+
 ## Milestone F: T2D correspondence diagnostic
 
 Source: [WDC T2D Gold Standard](https://webdatacommons.org/webtables/goldstandard.html),

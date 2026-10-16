@@ -4,13 +4,34 @@ An **event-time Graph Hacks 2026 Track 1 implementation** of a multi-format, evi
 
 **Status:** functional local prototype and demo, **not production-ready**. This repository contains a code-first implementation and a small synthetic evaluation, not a proven universally accurate graph extractor.
 
-## Milestone F: bounded autonomous identity overlay
+## Milestone G: dynamic packs and bounded open predicates
 
-Milestone G increment1 adds optional validated, immutable domain packs and
-version-pinned source interpretations; see [MILESTONE_G_REPORT](MILESTONE_G_REPORT.md).
-`python -m ugi.demo_schema --execute --output evaluation/my_schema_demo.json`
-seeds the actual three-pack graph. Registration defaults off (`UGI_SCHEMA_WRITES`).
-Pack-bound assertions use definition-scoped schema queries, not legacy inference.
+**264 tests pass, including17 actual FalkorDB integrations.** Strict non-executable
+packs, immutable versions/hashes and three vocabularies are implemented. Opt-in
+literal open frames preserve unfamiliar prose phrases as provisional definitions,
+exact evidence and roles. Collective/research statements remain whole events;
+respectively lists align. Proposed/attempted/cancelled acquisition does not become
+completed acquisition. Authorized mapping revisions/undo preserve original history.
+
+This is **bounded grammar**, not universal NLP: authored development4/8 ->8/8 is
+a specification result. On32 frozen public FewRel sources both modes emit0
+relations; semantic accuracy is unscored without complete annotations. A separately
+sourced public exact clause registers; its full longer sentence abstains.
+Details and reproduction: [MILESTONE_G_REPORT](MILESTONE_G_REPORT.md).
+
+```powershell
+python -m ugi.demo_schema --execute --output evaluation/my_schema_demo.json
+python -m ugi.probe_new_predicate --execute --output evaluation/my_public_clause.json
+python -m ugi.eval_schema_public --download --output evaluation/my_public_diagnostic.json
+```
+
+Registration defaults off (`UGI_SCHEMA_WRITES`); new literal discovery/registry
+defaults off (`UGI_OPEN_PREDICATES`). Demo CLIs explicitly opt in for synthetic
+local writes. Schema-bound assertions use definition-scoped `/api/schema/assertions`,
+not legacy unqualified relationship/rule inference. Uploads cannot grant connector,
+tool or identity authority. Connectors and semantic recomputation are not implemented.
+
+## Milestone F: bounded autonomous identity overlay (historical checkpoint)
 
 Verified implementation: `316edaf7f88069aedcb34730943895223998bb5c`;
 [successful GitHub Actions](https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38863017435).
