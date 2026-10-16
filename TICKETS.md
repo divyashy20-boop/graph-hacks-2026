@@ -147,3 +147,19 @@ instead of presenting an empty graph.
 - The initial incident demonstration has visible source-backed graph data in
   memory mode; production/FalkorDB behavior is unchanged.
 - The 2D and 3D evidence views retain their existing semantics and controls.
+
+## UI-008 — Palette correction and Orbit fallback
+
+**Status:** Complete
+**Priority:** P0
+**Depends on:** UI-007
+
+Restore the established dark spatial composition while limiting the visual
+change to a calmer palette and readable utility type. Fix the 3D fallback so
+it never overlaps the empty graph state.
+
+**Acceptance criteria:**
+
+- The dark layout remains recognizably continuous with the earlier dashboard.
+- Utility labels use readable sans-serif text, not faux-terminal microtype.
+- A WebGL fallback is a single clear state with a working return-to-2D action.
