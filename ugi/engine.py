@@ -48,13 +48,21 @@ class Engine:
             return Ollama(self.settings, self.store)
         return None
 
-    def ingest(self, filename, content, use_ai=False, semantic_verification=True):
+    def ingest(self, filename, content, use_ai=False, semantic_verification=True, pack_refs=None):
         started = perf_counter()
         source, chunks = parse(filename, content, self.settings)
         with self.store.transaction():
+            from .schema import SchemaRuntime
+
+            schema = SchemaRuntime(self.store)
+            packs = schema.load(pack_refs or [])
             old = self.store.get(source["id"])
             if old:
+                if old.get("pack_refs", []) != [p["ref"] for p in packs]:
+                    raise ValueError("Source already pinned to another schema; explicit reinterpretation required")
                 return {**old["report"], "duplicate": True}
+            if packs:
+                source["pack_refs"] = [p["ref"] for p in packs]
             provider = self.provider() if use_ai else None
             if use_ai and provider is None:
                 raise ValueError("AI requested but no live provider is configured")
@@ -191,6 +199,8 @@ class Engine:
                 links.extend(event_links)
                 events.extend(accepted_events)
                 reviews.extend(event_reviews)
+            if packs:
+                records.extend(schema.bind([*claims, *events], packs))
             counts = self.store.counts()
             new_entities = sum(prior_entity(eid) is None for eid in entities)
             if counts.get("Entity", 0) + new_entities > self.settings.max_nodes:
@@ -247,6 +257,8 @@ class Engine:
         return matches[0] if len(matches) == 1 else None
 
     def usable(self, claim, as_of=None):
+        if claim.get("schema_binding_id") or claim.get("eligible_for_inference") is False:
+            return False  # Pack declarations never authorize built-in inference rules.
         if (claim["polarity"] != "positive" or claim["modality"] != "asserted"
                 or claim["review_status"] != "supported" or not active(claim, as_of)):
             return False
@@ -354,6 +366,7 @@ class Engine:
                         "safety_note": "Do not merge similar names without identity evidence"}}
         pair = [c for c in self.store.claims(subject["id"], object_entity["id"])
                 if predicate(c["predicate"]) == p and active(c, query.as_of)
+                and not c.get("schema_binding_id")
                 and c["modality"] == "asserted" and c["review_status"] == "supported"]
         negatives = [c for c in pair if c["polarity"] == "negative"]
         positives = [c for c in pair if c["polarity"] == "positive"]

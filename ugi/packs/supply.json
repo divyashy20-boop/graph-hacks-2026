@@ -1,0 +1,9 @@
+{
+  "schema_version":1,"namespace":"supply","version":"1.0.0",
+  "entity_types":["supply:Supplier","supply:Component","supply:Factory"],
+  "predicates":[
+    {"name":"PROVIDES","definition":"A supplier supplies a component, without asserting downstream consequences.","form":"binary","aliases":["supplies"],"roles":[{"name":"provider","types":["supply:Supplier"]},{"name":"item","types":["supply:Component"]}]},
+    {"name":"PROVISION","definition":"One supply event with provider, item and recipient kept together.","form":"event","roles":[{"name":"provider","types":["supply:Supplier"]},{"name":"item","types":["supply:Component"]},{"name":"recipient","types":["supply:Factory"]}]}
+  ],
+  "provenance":"UGI AI-assisted synthetic demonstration schema; CC0-1.0. Not external authority."
+}

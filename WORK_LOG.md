@@ -1,5 +1,15 @@
 # Event-time implementation work log
 
+## Milestone G increment1 — October16,2026
+
+- Verified clean5dc3214 baseline231/231 (15 actual graph), same remote main.
+- Added strict non-executable packs, immutable version/hash definitions, three
+  vocabularies, atomic bindings and scoped indexed read API; no inference grants.
+- Full247 pass including16 real graph; typed roles, alias/pin conflicts, tenant
+  authorization, original evidence, reconnect and actual late rollback verified.
+- No paid/cloud services, deleted volumes or unrelated AWS changes. Open predicate
+  discovery begins only after this checkpoint's hosted CI succeeds.
+
 ## Milestone F increment2 — October16,2026
 
 - Delivered `316edaf7f88069aedcb34730943895223998bb5c` to main; actual hosted

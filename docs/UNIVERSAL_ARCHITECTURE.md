@@ -1,5 +1,11 @@
 # Universal knowledge intelligence: executable foundation and boundaries
 
+G increment1 supersedes older pack-planning sections: strict declarative packs,
+immutable hash/version definitions, pinned atomic SchemaBindings and indexed,
+definition-scoped source retrieval now exist in schema.py. Packs never execute
+rules, authenticate identity or authorize inference. Ambiguous/invalid shapes
+remain separately labelled. General open semantic discovery is not claimed at G1.
+
 F increment1 adds an implemented bounded identity blocking/assessment layer;
 see MILESTONE_F_REPORT. Operator-authorized source evidence is separate from
 ordinary upload content. New F-mode initial projection anchors are distinct for

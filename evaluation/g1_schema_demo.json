@@ -1,0 +1,169 @@
+{
+  "recorded_at": "2026-10-16T07:10:25.424101+00:00",
+  "backend": "actual FalkorDB",
+  "dataset": "showcase-g-schema",
+  "provenance": "AI-authored synthetic CC0 demonstration; not independent accuracy",
+  "pack_registration_ms": 13.624,
+  "packs": {
+    "it": {
+      "namespace": "it",
+      "version": "1.0.0",
+      "content_hash": "0113e4cbe78ded72352e0b4e635a339fa0856b3a390aa0c52834c351f341afe0"
+    },
+    "supply": {
+      "namespace": "supply",
+      "version": "1.0.0",
+      "content_hash": "c61d0191e3a119deafadec1fd4049076e5c90aeb3282dd1a373e35ff0c510cc3"
+    },
+    "research": {
+      "namespace": "research",
+      "version": "1.0.0",
+      "content_hash": "efa5c7c482f323dadd66e2237d98218846649e5433566f01a12489629cbf70d8"
+    }
+  },
+  "scenarios": {
+    "it": {
+      "report": {
+        "source_id": "fea42d6e3a21e49662bfa07961491a1b03ab96e8e4c32765fcc8ae56be84c4f0",
+        "chunks": 1,
+        "entities": 2,
+        "claims": 1,
+        "relation_events": 0,
+        "review_tasks": 0,
+        "duplicate": false,
+        "warnings": [],
+        "elapsed_ms": 6.042,
+        "provider": "offline",
+        "candidate_free_text_chunks": [],
+        "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+        "usage": {
+          "calls": 0,
+          "estimated_usd": 0
+        }
+      },
+      "bindings": [
+        {
+          "id": "8291141296ed12533e888673c802ecfec8ccf996acaf08fb0709b5bb4be98600",
+          "kind": "SchemaBinding",
+          "assertion_id": "05f43d76069b52a5ee15a887df9b202e4ce6756242c00fdb4fa568f7836d3157",
+          "evidence_id": "e4864ca28bf9e71aaed1e84a3ac5916804c9b0e6f083be33e59df3db338fb0de",
+          "source_id": "fea42d6e3a21e49662bfa07961491a1b03ab96e8e4c32765fcc8ae56be84c4f0",
+          "original_phrase": "requires",
+          "pack_refs": [
+            {
+              "namespace": "it",
+              "version": "1.0.0",
+              "content_hash": "0113e4cbe78ded72352e0b4e635a339fa0856b3a390aa0c52834c351f341afe0"
+            }
+          ],
+          "predicate_definition_id": "effffab2d772206aa635848cd6f263ec1606d9c52de02c6d23e02a42203f0439",
+          "canonical_name": "DEPENDS_ON",
+          "namespace": "it",
+          "state": "KNOWN_COMPATIBLE",
+          "errors": [],
+          "eligible_for_inference": false,
+          "algorithm": "schema-binding-v1",
+          "block_key": "effffab2d772206aa635848cd6f263ec1606d9c52de02c6d23e02a42203f0439"
+        }
+      ],
+      "reconnected": true
+    },
+    "supply": {
+      "report": {
+        "source_id": "139881a4c7cebc54a1e760ffbf08a7596e7adfbeef2e2ca3d312c054cee58dd3",
+        "chunks": 1,
+        "entities": 3,
+        "claims": 0,
+        "relation_events": 1,
+        "review_tasks": 0,
+        "duplicate": false,
+        "warnings": [],
+        "elapsed_ms": 7.734,
+        "provider": "offline",
+        "candidate_free_text_chunks": [],
+        "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+        "usage": {
+          "calls": 0,
+          "estimated_usd": 0
+        }
+      },
+      "bindings": [
+        {
+          "id": "c76d97ad9b4d0c05d1cfb235065518bea39f4a746187f11a7c4a6301c2886fdb",
+          "kind": "SchemaBinding",
+          "assertion_id": "09273b9d660d145a9db67e4968ec18e6aa3818ee449e3d4713457bc228285dda",
+          "evidence_id": "9918d606989865e3d5fb5ac7f8d7658d26294c00f5a0850f09b7de88e1362fa5",
+          "source_id": "139881a4c7cebc54a1e760ffbf08a7596e7adfbeef2e2ca3d312c054cee58dd3",
+          "original_phrase": "PROVISION",
+          "pack_refs": [
+            {
+              "namespace": "supply",
+              "version": "1.0.0",
+              "content_hash": "c61d0191e3a119deafadec1fd4049076e5c90aeb3282dd1a373e35ff0c510cc3"
+            }
+          ],
+          "predicate_definition_id": "ea9cb20757f116dce830e6f9e986733a14e5022766ac014d77c4adcd153a7378",
+          "canonical_name": "PROVISION",
+          "namespace": "supply",
+          "state": "KNOWN_COMPATIBLE",
+          "errors": [],
+          "eligible_for_inference": false,
+          "algorithm": "schema-binding-v1",
+          "block_key": "ea9cb20757f116dce830e6f9e986733a14e5022766ac014d77c4adcd153a7378"
+        }
+      ],
+      "reconnected": true
+    },
+    "research": {
+      "report": {
+        "source_id": "306d80f00a16d1453c2e97c5ed1f99caf6e5797797338a012714555e83524bf8",
+        "chunks": 1,
+        "entities": 2,
+        "claims": 1,
+        "relation_events": 0,
+        "review_tasks": 0,
+        "duplicate": false,
+        "warnings": [],
+        "elapsed_ms": 5.076,
+        "provider": "offline",
+        "candidate_free_text_chunks": [],
+        "coverage_note": "No candidates does not prove the source contains no relationships; semantic completeness requires annotation/review",
+        "usage": {
+          "calls": 0,
+          "estimated_usd": 0
+        }
+      },
+      "bindings": [
+        {
+          "id": "73831c2ffb3581464b04ce99d2585db84e24ceff39fd668b6d1196c9579e8297",
+          "kind": "SchemaBinding",
+          "assertion_id": "8bfa317da27061e4220f7eab0d4314f6a1cb2348803e53232dafe641cf6eef2e",
+          "evidence_id": "824619e695a241f20f5a32f96fa67bf72e64f90114217eabb83e2e762668c5d2",
+          "source_id": "306d80f00a16d1453c2e97c5ed1f99caf6e5797797338a012714555e83524bf8",
+          "original_phrase": "INVESTIGATES",
+          "pack_refs": [
+            {
+              "namespace": "research",
+              "version": "1.0.0",
+              "content_hash": "efa5c7c482f323dadd66e2237d98218846649e5433566f01a12489629cbf70d8"
+            }
+          ],
+          "predicate_definition_id": "3665a372dbb3e0cb81cbd6794bed7aff09066a37e8d298b0acf1928adee8b1f5",
+          "canonical_name": "INVESTIGATES",
+          "namespace": "research",
+          "state": "KNOWN_COMPATIBLE",
+          "errors": [],
+          "eligible_for_inference": false,
+          "algorithm": "schema-binding-v1",
+          "block_key": "3665a372dbb3e0cb81cbd6794bed7aff09066a37e8d298b0acf1928adee8b1f5"
+        }
+      ],
+      "reconnected": true
+    }
+  },
+  "model_calls": 0,
+  "limitations": [
+    "Literal aliases and typed structured records, not general prose discovery at G1",
+    "Schema validity neither proves source truth nor enables inference rules"
+  ]
+}

@@ -6,6 +6,12 @@ An **event-time Graph Hacks 2026 Track 1 implementation** of a multi-format, evi
 
 ## Milestone F: bounded autonomous identity overlay
 
+Milestone G increment1 adds optional validated, immutable domain packs and
+version-pinned source interpretations; see [MILESTONE_G_REPORT](MILESTONE_G_REPORT.md).
+`python -m ugi.demo_schema --execute --output evaluation/my_schema_demo.json`
+seeds the actual three-pack graph. Registration defaults off (`UGI_SCHEMA_WRITES`).
+Pack-bound assertions use definition-scoped schema queries, not legacy inference.
+
 Verified implementation: `316edaf7f88069aedcb34730943895223998bb5c`;
 [successful GitHub Actions](https://github.com/divyashy20-boop/graph-hacks-2026/actions/runs/38863017435).
 

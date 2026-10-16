@@ -1,0 +1,9 @@
+{
+  "schema_version": 1, "namespace": "it", "version": "1.0.0",
+  "entity_types": ["it:Service", "it:API", "it:Database", "it:Component"],
+  "predicates": [
+    {"name":"DEPENDS_ON","definition":"The dependent requires the dependency; no outage or causation is asserted.","form":"binary","aliases":["depends on","requires"],"roles":[{"name":"dependent","types":["it:Service","it:API"]},{"name":"dependency","types":["it:Service","it:API","it:Database","it:Component"]}]},
+    {"name":"CALLS","definition":"A source states a caller invokes a callee; this alone is not a runtime trace.","form":"binary","roles":[{"name":"caller","types":["it:Service","it:API"]},{"name":"callee","types":["it:Service","it:API"]}]}
+  ],
+  "provenance":"UGI AI-assisted synthetic demonstration schema; CC0-1.0. Not an industry ontology."
+}

@@ -72,6 +72,7 @@ class Settings(BaseSettings):
     global_daily_calls: int = Field(default=100, ge=1)
     provider: Literal["offline", "bedrock", "ollama"] = "offline"
     allow_paid_calls: bool = False
+    schema_writes: bool = False
     identity_ledger: bool = False
     identity_resolution: Literal["off", "dry_run"] = "off"
     identity_auto_apply: bool = False

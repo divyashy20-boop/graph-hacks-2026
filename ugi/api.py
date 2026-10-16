@@ -13,6 +13,7 @@ from .engine import Engine
 from .identity import ArtifactRequest, IdentityChange
 from .models import InvestigationRequest, RelationQuery, ReviewDecision, Settings, now, uid
 from .resolution import AuthorityObservation, IdentityResolver
+from .schema import PackRef, PackRegistration, SchemaRuntime
 from .store import Store
 
 
@@ -75,7 +76,14 @@ def create_app(settings=None):
         return {"ready": engine.store.ping()}
 
     @app.post("/api/uploads")
-    async def upload(file: UploadFile = File(), use_ai: bool = False, engine=Depends(context)):
+    async def upload(file: UploadFile = File(), use_ai: bool = False,
+                     pack_refs: str = Query(default="[]", max_length=2000), engine=Depends(context)):
+        from .extract import read_json
+
+        refs = read_json(pack_refs)
+        if not isinstance(refs, list) or len(refs) > 4:
+            raise ValueError("Expected at most four pinned pack references")
+        refs = [PackRef.model_validate(r) for r in refs]
         content = await file.read(settings.max_upload_bytes + 1)
         await file.close()
         # CPU/model work executes in the thread pool, not on the event loop.
@@ -85,7 +93,7 @@ def create_app(settings=None):
             if not ingestion_slots.acquire(blocking=False):
                 raise HTTPException(429, "Two uploads already processing")
             try:
-                return engine.ingest(file.filename or "", content, use_ai)
+                return engine.ingest(file.filename or "", content, use_ai, pack_refs=refs)
             finally:
                 ingestion_slots.release()
 
@@ -192,6 +200,19 @@ def create_app(settings=None):
     @app.get("/api/tasks")
     def tasks(engine=Depends(context)):
         return engine.store.list("ReviewTask")
+
+    @app.post("/api/schema/packs")
+    def register_pack(request: PackRegistration, engine=Depends(context)):
+        return SchemaRuntime(engine.store).register(request)
+
+    @app.get("/api/schema/packs")
+    def packs(engine=Depends(context)):
+        return engine.store.list("DomainPack", 100)
+
+    @app.get("/api/schema/assertions")
+    def schema_assertions(definition_id: str = Query(min_length=1, max_length=160),
+                          limit: int = Query(100, ge=1, le=200), engine=Depends(context)):
+        return SchemaRuntime(engine.store).assertions(definition_id, limit)
 
     @app.get("/api/investigations")
     def cases(engine=Depends(context)):

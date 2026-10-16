@@ -1,0 +1,9 @@
+{
+  "schema_version":1,"namespace":"research","version":"1.0.0",
+  "entity_types":["research:Researcher","research:Topic","research:Institution"],
+  "predicates":[
+    {"name":"INVESTIGATES","definition":"A researcher investigates a topic; no result or discovery is implied.","form":"binary","roles":[{"name":"researcher","types":["research:Researcher"]},{"name":"topic","types":["research:Topic"]}]},
+    {"name":"JOINT_INVESTIGATION","definition":"A whole collective investigation with all named researchers and topics.","form":"event","direction":"collective","roles":[{"name":"researcher","types":["research:Researcher"],"maximum":6},{"name":"topic","types":["research:Topic"],"maximum":4},{"name":"institution","types":["research:Institution"],"minimum":0,"maximum":1}]}
+  ],
+  "provenance":"UGI AI-assisted synthetic demonstration schema; CC0-1.0. Not external authority."
+}

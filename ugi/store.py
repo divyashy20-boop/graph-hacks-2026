@@ -18,10 +18,12 @@ KINDS = {
     "IdentityRevision", "DerivedArtifact", "KnowledgeRevision",
     "IdentityProfile", "IdentityPosting", "IdentityEvidence", "IdentityEvidenceHead", "IdentityAssessment",
     "IdentityCluster", "IdentityRun",
+    "DomainPack", "PredicateDefinition", "SchemaBinding",
 }
 IMMUTABLE_KINDS = {"Mention", "MentionSnapshot", "EntityCard", "IdentityRevision",
                    "DerivedArtifact", "KnowledgeRevision", "IdentityProfile", "IdentityPosting",
-                   "IdentityEvidence", "IdentityAssessment", "IdentityCluster", "IdentityRun"}
+                   "IdentityEvidence", "IdentityAssessment", "IdentityCluster", "IdentityRun",
+                   "DomainPack", "PredicateDefinition", "SchemaBinding"}
 
 
 def literal(value):
@@ -54,7 +56,8 @@ class Store:
             for label, fields in [("Record", "id"), ("Record", "kind"),
                                   ("Entity", "name_key"), ("Entity", "identity_key"),
                                   ("Claim", "subject_id"), ("Claim", "object_id"),
-                                  ("IdentityPosting", "block_key"), ("IdentityAssignment", "cluster_id")]:
+                                  ("IdentityPosting", "block_key"), ("IdentityAssignment", "cluster_id"),
+                                  ("SchemaBinding", "block_key")]:
                 try:
                     self.query(f"CREATE INDEX FOR (n:{label}) ON (n.{fields})")
                 except ResponseError as exc:

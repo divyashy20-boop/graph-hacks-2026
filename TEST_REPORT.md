@@ -1,5 +1,14 @@
 # Verified follow-up report — updated October16,2026
 
+## Milestone G increment1
+
+247 passed, zero failed/skipped;231 non-integration +16 real FalkorDB. Pack tests
+cover strict shapes, immutable versions/pins, three vocabularies, ambiguity/type
+errors, tenant authorization, original quotation, scoped indexed retrieval,
+reconnect and actual late server-side rollback. See MILESTONE_G_REPORT. No new
+language accuracy claim. Initial sandboxed TestClient process stalled; stopped,
+then full authorized local run passed. Existing TestClient deprecation remains.
+
 ## Milestone F increment2 — final local verification
 
 Verified implementation commit: `316edaf7f88069aedcb34730943895223998bb5c`.

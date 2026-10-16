@@ -55,6 +55,8 @@ jobs:
         run: python -m ugi.eval_intelligence --fixture evaluation/intelligence_eval.json --development evaluation/intelligence_dev.json --output /tmp/ugi-intelligence-evaluation.json
       - name: Verify three-domain persistent FalkorDB action workflow
         run: python -m ugi.demo --execute --dataset-prefix ci-showcase --output /tmp/ugi-showcase.json
+      - name: Verify version-pinned three-pack graph demonstration
+        run: python -m ugi.demo_schema --execute --dataset ci-schema --output /tmp/ugi-g-schema.json
       - name: Verify provisional identity reversal and targeted stale detection
         run: python -m ugi.demo_identity --execute --dataset ci-identity --output /tmp/ugi-identity.json
       - name: Verify source-grounded identity policy cases on actual FalkorDB
@@ -94,6 +96,7 @@ jobs:
             /tmp/ugi-fewrel-evaluation.json
             /tmp/ugi-intelligence-evaluation.json
             /tmp/ugi-showcase.json
+            /tmp/ugi-g-schema.json
             /tmp/ugi-c-development.json
             /tmp/ugi-c-evaluation.json
             /tmp/ugi-c-capacity.json

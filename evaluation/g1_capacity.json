@@ -1,0 +1,212 @@
+{
+  "recorded_at": "2026-10-16T07:10:56.603392+00:00",
+  "backend": "falkordb",
+  "results": [
+    {
+      "format": "csv",
+      "records": 100,
+      "input_bytes": 2608,
+      "success": true,
+      "initialization_ms": 20.23,
+      "ingestion_ms": 320.47,
+      "total_wall_ms": 340.702,
+      "graph_write_ms": 79.47,
+      "client_process_cpu_ms": 234.375,
+      "python_allocations_peak_bytes": 3334856,
+      "counts": {
+        "Mention": 200,
+        "Evidence": 100,
+        "Entity": 101,
+        "Claim": 100,
+        "Chunk": 100,
+        "Source": 1
+      },
+      "duplicate_wall_ms": 2.841,
+      "duplicate_no_new_records": true,
+      "query_observations_ms": [
+        8.593,
+        7.418,
+        7.71,
+        6.96,
+        7.529
+      ],
+      "query_median_ms": 7.529,
+      "reconnect_counts_equal": true,
+      "repeated_claim_ids_equal": true,
+      "model_calls": 0
+    },
+    {
+      "format": "csv",
+      "records": 1000,
+      "input_bytes": 27809,
+      "success": true,
+      "initialization_ms": 8.562,
+      "ingestion_ms": 3009.449,
+      "total_wall_ms": 3018.012,
+      "graph_write_ms": 764.85,
+      "client_process_cpu_ms": 1718.75,
+      "python_allocations_peak_bytes": 29699023,
+      "counts": {
+        "Evidence": 1000,
+        "Entity": 1001,
+        "Claim": 1000,
+        "Chunk": 1000,
+        "Mention": 2000,
+        "Source": 1
+      },
+      "duplicate_wall_ms": 14.833,
+      "duplicate_no_new_records": true,
+      "query_observations_ms": [
+        9.549,
+        8.3,
+        8.129,
+        8.178,
+        8.231
+      ],
+      "query_median_ms": 8.231,
+      "reconnect_counts_equal": true,
+      "repeated_claim_ids_equal": true,
+      "model_calls": 0
+    },
+    {
+      "format": "csv",
+      "records": 2000,
+      "input_bytes": 57809,
+      "success": true,
+      "initialization_ms": 24.249,
+      "ingestion_ms": 5960.134,
+      "total_wall_ms": 5984.385,
+      "graph_write_ms": 1545.664,
+      "client_process_cpu_ms": 3671.875,
+      "python_allocations_peak_bytes": 59437757,
+      "counts": {
+        "Entity": 2001,
+        "Source": 1,
+        "Evidence": 2000,
+        "Claim": 2000,
+        "Chunk": 2000,
+        "Mention": 4000
+      },
+      "duplicate_wall_ms": 27.016,
+      "duplicate_no_new_records": true,
+      "query_observations_ms": [
+        10.039,
+        8.842,
+        9.09,
+        9.243,
+        8.732
+      ],
+      "query_median_ms": 9.09,
+      "reconnect_counts_equal": true,
+      "repeated_claim_ids_equal": true,
+      "model_calls": 0
+    },
+    {
+      "format": "json",
+      "records": 100,
+      "input_bytes": 6383,
+      "success": true,
+      "initialization_ms": 8.595,
+      "ingestion_ms": 317.605,
+      "total_wall_ms": 326.2,
+      "graph_write_ms": 76.35,
+      "client_process_cpu_ms": 125.0,
+      "python_allocations_peak_bytes": 3019613,
+      "counts": {
+        "Claim": 100,
+        "Evidence": 100,
+        "Entity": 101,
+        "Chunk": 100,
+        "Mention": 200,
+        "Source": 1
+      },
+      "duplicate_wall_ms": 3.07,
+      "duplicate_no_new_records": true,
+      "query_observations_ms": [
+        7.421,
+        7.01,
+        7.544,
+        6.891,
+        6.961
+      ],
+      "query_median_ms": 7.01,
+      "reconnect_counts_equal": true,
+      "repeated_claim_ids_equal": true,
+      "model_calls": 0
+    },
+    {
+      "format": "json",
+      "records": 1000,
+      "input_bytes": 65784,
+      "success": true,
+      "initialization_ms": 21.299,
+      "ingestion_ms": 2949.293,
+      "total_wall_ms": 2970.594,
+      "graph_write_ms": 731.829,
+      "client_process_cpu_ms": 1625.0,
+      "python_allocations_peak_bytes": 29981760,
+      "counts": {
+        "Chunk": 1000,
+        "Evidence": 1000,
+        "Claim": 1000,
+        "Source": 1,
+        "Mention": 2000,
+        "Entity": 1001
+      },
+      "duplicate_wall_ms": 14.053,
+      "duplicate_no_new_records": true,
+      "query_observations_ms": [
+        8.27,
+        7.922,
+        7.599,
+        7.907,
+        7.56
+      ],
+      "query_median_ms": 7.907,
+      "reconnect_counts_equal": true,
+      "repeated_claim_ids_equal": true,
+      "model_calls": 0
+    },
+    {
+      "format": "json",
+      "records": 2000,
+      "input_bytes": 133784,
+      "success": true,
+      "initialization_ms": 19.734,
+      "ingestion_ms": 5964.384,
+      "total_wall_ms": 5984.12,
+      "graph_write_ms": 1528.872,
+      "client_process_cpu_ms": 3218.75,
+      "python_allocations_peak_bytes": 59902988,
+      "counts": {
+        "Claim": 2000,
+        "Evidence": 2000,
+        "Entity": 2001,
+        "Source": 1,
+        "Chunk": 2000,
+        "Mention": 4000
+      },
+      "duplicate_wall_ms": 26.113,
+      "duplicate_no_new_records": true,
+      "query_observations_ms": [
+        10.738,
+        9.199,
+        9.12,
+        9.139,
+        9.898
+      ],
+      "query_median_ms": 9.199,
+      "reconnect_counts_equal": true,
+      "repeated_claim_ids_equal": true,
+      "model_calls": 0
+    }
+  ],
+  "model_calls": 0,
+  "limitations": [
+    "Single local machine, one traced ingestion per size/format, not throughput/p95",
+    "Python allocation peak is not process RSS/GPU/server memory",
+    "CPU time covers Python client, not FalkorDB process or Docker host",
+    "Five queries over a bounded synthetic chain; no production scalability claim",
+    "Write time includes client serialization and synchronous graph roundtrip"
+  ]
+}
