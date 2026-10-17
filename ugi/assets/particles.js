@@ -1,95 +1,215 @@
-/* particles.js -- cursor-reactive dot field background v2 */
+/* particles.js -- cursor-reactive dot matrix background
+   Matches the subtle, high-density interactive dot matrix design
+   seen on modern developer tools like the Antigravity IDE download page.
+   - Dense uniform dot matrix across the viewport
+   - Small, crisp, low-opacity dots (1px base radius)
+   - Dynamic ripple effect radiating from cursor movement
+   - Smooth spring dampening returning dots to resting state
+   - Strictly excludes the evidence graph window
+   - HiDPI/Retina display support
+   - Respects prefers-reduced-motion
+*/
+
 (function () {
   'use strict';
+
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduced) return;
 
-  /* canvas -- fixed, full viewport, pointer-events none */
   var canvas = document.createElement('canvas');
   canvas.id = 'particle-bg';
   canvas.setAttribute('aria-hidden', 'true');
-  canvas.style.cssText = 'position:fixed;inset:0;z-index:0;pointer-events:none;width:100%;height:100%;display:block';
+  canvas.style.cssText = 'position:fixed;inset:0;z-index:0;pointer-events:none;width:100vw;height:100vh;display:block;';
   document.body.prepend(canvas);
+
   var ctx = canvas.getContext('2d');
+  if (!ctx) return;
 
-  var CFG = {
-    count:        220,
-    baseRadius:   2.2,
-    baseOpacity:  0.55,
-    speed:        0.28,
-    rippleRadius: 150,
-    rippleForce:  0.07,
-    returnSpeed:  0.04,
-    glow:         8,
-    colorA: { r: 103, g: 167, b: 200 },
-    colorB: { r: 141, g: 130, b: 180 },
-    colorC: { r: 207, g: 102, b: 76 }
+  var CONFIG = {
+    spacing: 26,            // Distance between dot grid points (px)
+    baseRadius: 1.0,        // Tiny, crisp dot radius
+    baseAlpha: 0.16,        // Low resting opacity
+    color: { r: 120, g: 170, b: 215 }, // Tech slate-cyan
+    hoverColor: { r: 165, g: 220, b: 255 }, // Glowing cyan-white near cursor
+    rippleRadius: 145,      // Influence radius around cursor
+    ripplePush: 11,         // Maximum displacement distance (px)
+    spring: 0.14,           // Return stiffness
+    friction: 0.82          // Damping factor
   };
-  var COLORS = [CFG.colorA, CFG.colorB, CFG.colorC];
 
-  var mx = -9999, my = -9999;
-  window.addEventListener('mousemove', function(e) { mx = e.clientX; my = e.clientY; }, { passive: true });
-  window.addEventListener('touchmove', function(e) { if (e.touches.length) { mx = e.touches[0].clientX; my = e.touches[0].clientY; } }, { passive: true });
-  window.addEventListener('mouseleave', function() { mx = -9999; my = -9999; });
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var width = 0;
+  var height = 0;
+  var dots = [];
+  var graphRect = null;
+  var lastRectCheck = 0;
 
-  function Particle(W, H) { this.reset(W, H); }
-  Particle.prototype.reset = function(W, H) {
-    this.ox = Math.random() * W; this.oy = Math.random() * H;
-    this.x = this.ox; this.y = this.oy; this.dx = 0; this.dy = 0;
-    var c = COLORS[Math.floor(Math.random() * COLORS.length)];
-    this.r = c.r; this.g = c.g; this.b = c.b;
-    this.radius  = CFG.baseRadius * (0.5 + Math.random() * 1.0);
-    this.opacity = CFG.baseOpacity * (0.6 + Math.random() * 0.7);
-    var angle = Math.random() * Math.PI * 2;
-    var spd   = CFG.speed * (0.3 + Math.random() * 0.9);
-    this.vx = Math.cos(angle) * spd; this.vy = Math.sin(angle) * spd;
+  var mouse = {
+    x: -9999,
+    y: -9999,
+    targetX: -9999,
+    targetY: -9999,
+    active: false
   };
-  Particle.prototype.update = function(W, H) {
-    this.ox += this.vx; this.oy += this.vy;
-    if (this.ox < -10) this.ox = W + 10;
-    if (this.ox > W + 10) this.ox = -10;
-    if (this.oy < -10) this.oy = H + 10;
-    if (this.oy > H + 10) this.oy = -10;
-    var cdx = this.ox - mx, cdy = this.oy - my;
-    var dist = Math.sqrt(cdx * cdx + cdy * cdy);
-    if (dist < CFG.rippleRadius && dist > 0.5) {
-      var f = (CFG.rippleRadius - dist) / CFG.rippleRadius;
-      this.dx += (cdx / dist) * f * f * CFG.rippleForce * 20;
-      this.dy += (cdy / dist) * f * f * CFG.rippleForce * 20;
+
+  function updateGraphBounds() {
+    var graphEl = document.querySelector('.panel--map') || document.querySelector('.graphwrap');
+    if (graphEl) {
+      var r = graphEl.getBoundingClientRect();
+      graphRect = {
+        left: r.left,
+        top: r.top,
+        right: r.right,
+        bottom: r.bottom
+      };
+    } else {
+      graphRect = null;
     }
-    this.dx *= (1 - CFG.returnSpeed); this.dy *= (1 - CFG.returnSpeed);
-    var dlen = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
-    if (dlen > 55) { this.dx = this.dx / dlen * 55; this.dy = this.dy / dlen * 55; }
-    this.x = this.ox + this.dx; this.y = this.oy + this.dy;
-  };
-  Particle.prototype.draw = function() {
-    var col = 'rgba(' + this.r + ',' + this.g + ',' + this.b + ',';
-    ctx.shadowBlur  = CFG.glow;
-    ctx.shadowColor = 'rgba(' + this.r + ',' + this.g + ',' + this.b + ',0.5)';
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-    ctx.fillStyle = col + this.opacity + ')';
-    ctx.fill();
-    ctx.shadowBlur = 0;
-  };
-
-  var W = 0, H = 0, particles = [];
-  function resize() {
-    W = canvas.width  = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-    particles = [];
-    for (var i = 0; i < CFG.count; i++) particles.push(new Particle(W, H));
   }
-  window.addEventListener('resize', resize, { passive: true });
-  window.addEventListener('DOMContentLoaded', resize);
-  resize();
 
-  function loop() {
-    ctx.clearRect(0, 0, W, H);
-    for (var i = 0; i < particles.length; i++) {
-      particles[i].update(W, H); particles[i].draw();
+  function Dot(ox, oy) {
+    this.ox = ox;
+    this.oy = oy;
+    this.x = ox;
+    this.y = oy;
+    this.vx = 0;
+    this.vy = 0;
+    this.alpha = CONFIG.baseAlpha;
+    this.targetAlpha = CONFIG.baseAlpha;
+    this.radius = CONFIG.baseRadius;
+  }
+
+  Dot.prototype.update = function (now) {
+    var dx = this.ox - mouse.x;
+    var dy = this.oy - mouse.y;
+    var dist = Math.sqrt(dx * dx + dy * dy);
+
+    var targetX = this.ox;
+    var targetY = this.oy;
+    this.targetAlpha = CONFIG.baseAlpha;
+
+    // Gentle ambient idle wave
+    var idle = Math.sin(this.ox * 0.012 + now * 0.0009) * Math.cos(this.oy * 0.012 + now * 0.0009) * 0.7;
+    targetX += idle;
+    targetY += idle;
+
+    if (dist < CONFIG.rippleRadius && dist > 0.1) {
+      var norm = dist / CONFIG.rippleRadius; // 0 (cursor) to 1 (outer edge)
+      // Ripple wave profile
+      var wave = Math.sin(norm * Math.PI);
+      var push = wave * CONFIG.ripplePush;
+      targetX += (dx / dist) * push;
+      targetY += (dy / dist) * push;
+
+      var highlight = Math.pow(1 - norm, 1.5);
+      this.targetAlpha = CONFIG.baseAlpha + highlight * 0.58;
+      this.radius = CONFIG.baseRadius + highlight * 0.75;
+    } else {
+      this.radius = CONFIG.baseRadius;
     }
-    requestAnimationFrame(loop);
+
+    // Spring physics towards target
+    var ax = (targetX - this.x) * CONFIG.spring;
+    var ay = (targetY - this.y) * CONFIG.spring;
+    this.vx = (this.vx + ax) * CONFIG.friction;
+    this.vy = (this.vy + ay) * CONFIG.friction;
+    this.x += this.vx;
+    this.y += this.vy;
+
+    // Smooth opacity transition
+    this.alpha += (this.targetAlpha - this.alpha) * 0.18;
+  };
+
+  function initGrid() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    dots = [];
+    var cols = Math.ceil(width / CONFIG.spacing) + 1;
+    var rows = Math.ceil(height / CONFIG.spacing) + 1;
+
+    for (var r = 0; r < rows; r++) {
+      for (var c = 0; c < cols; c++) {
+        var ox = c * CONFIG.spacing;
+        var oy = r * CONFIG.spacing;
+        dots.push(new Dot(ox, oy));
+      }
+    }
+    updateGraphBounds();
   }
-  requestAnimationFrame(loop);
+
+  window.addEventListener('resize', initGrid, { passive: true });
+  window.addEventListener('scroll', updateGraphBounds, { passive: true });
+
+  window.addEventListener('mousemove', function (e) {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+    mouse.active = true;
+  }, { passive: true });
+
+  window.addEventListener('touchmove', function (e) {
+    if (e.touches.length) {
+      mouse.x = e.touches[0].clientX;
+      mouse.y = e.touches[0].clientY;
+      mouse.active = true;
+    }
+  }, { passive: true });
+
+  window.addEventListener('mouseleave', function () {
+    mouse.x = -9999;
+    mouse.y = -9999;
+    mouse.active = false;
+  });
+
+  function render(now) {
+    // Periodically refresh graph bounds to handle resize / dynamic panels
+    if (now - lastRectCheck > 1000) {
+      updateGraphBounds();
+      lastRectCheck = now;
+    }
+
+    ctx.clearRect(0, 0, width, height);
+
+    var len = dots.length;
+    var baseCol = CONFIG.color;
+    var hovCol = CONFIG.hoverColor;
+
+    for (var i = 0; i < len; i++) {
+      var d = dots[i];
+      d.update(now);
+
+      // STRICT EXCLUSION: Never draw dots inside the graph window
+      if (graphRect &&
+          d.x >= graphRect.left && d.x <= graphRect.right &&
+          d.y >= graphRect.top && d.y <= graphRect.bottom) {
+        continue;
+      }
+
+      var a = d.alpha;
+      if (a < 0.01) continue;
+
+      var isHot = a > 0.32;
+      var c = isHot ? hovCol : baseCol;
+
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, d.radius, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + a.toFixed(3) + ')';
+      ctx.fill();
+    }
+
+    requestAnimationFrame(render);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      initGrid();
+      requestAnimationFrame(render);
+    });
+  } else {
+    initGrid();
+    requestAnimationFrame(render);
+  }
 })();

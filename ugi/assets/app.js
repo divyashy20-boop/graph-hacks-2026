@@ -1029,34 +1029,12 @@ void main(){
     gl.depthMask(false);
 
     const lines = [];
-    const particles = [];
     for (const [index, link] of state.links.entries()) {
       const isIncident = focus[link.event ? "events" : "claims"].has(link.record.id);
       const opacity = focusOpacity(focus, link.event ? "events" : "claims", link.record.id);
       const color = claimColor(link.record, isIncident);
       color[3] *= opacity;
       lines.push(...link.from, ...color, ...link.to, ...color);
-
-      // Streaming glowing energy pulses
-      if (!link.event) {
-        const speed = isIncident ? 0.00032 : 0.00018;
-        const pSize = isIncident ? 11 : 7.5;
-        const pColor = isIncident ? [0.95, 0.99, 1.0, 1.0] : [...color.slice(0, 3), opacity * 0.9];
-
-        const t1 = ((now * speed) + index * 0.173) % 1.0;
-        const pt1 = link.from.map((v, i) => v + (link.to[i] - v) * t1);
-        particles.push(...pt1, ...pColor, pSize, -1.0);
-
-        const t2 = (t1 + 0.5) % 1.0;
-        const pt2 = link.from.map((v, i) => v + (link.to[i] - v) * t2);
-        particles.push(...pt2, ...pColor, pSize * 0.85, -1.0);
-      } else {
-        const speed = isIncident ? 0.00028 : 0.00016;
-        const t = ((now * speed) + index * 0.23) % 1.0;
-        const pt = link.from.map((v, i) => v + (link.to[i] - v) * t);
-        const pColor = isIncident ? [1.0, 0.95, 1.0, 1.0] : [0.91, 0.47, 0.98, opacity * 0.85];
-        particles.push(...pt, ...pColor, isIncident ? 10 : 7, -1.0);
-      }
     }
     gl.useProgram(lineProgram);
     gl.bindBuffer(gl.ARRAY_BUFFER, lineBuffer);
@@ -1081,7 +1059,6 @@ void main(){
       const projected = orbitProject(m, item.point, canvas.width, canvas.height);
       if (projected && projected.depth < 1) state.screenRecords.push({...projected, item});
     }
-    points.push(...particles);
     gl.useProgram(pointProgram);
     gl.bindBuffer(gl.ARRAY_BUFFER, pointBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(points), gl.DYNAMIC_DRAW);
