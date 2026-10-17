@@ -1,0 +1,87 @@
+<!--
+  UI-010 integration reference, not a stand-alone page.
+
+  This fragment specifies classes and DOM hierarchy for live regions already
+  owned by ugi/index.html. Preserve existing element IDs and JavaScript hooks.
+  Do not copy this file into ugi/ until UI-012 is approved.
+-->
+
+<!-- Add inside the existing #inspector body when a record is selected. -->
+<!-- Place this compact readout near the existing dataset controls. -->
+<aside class="ugi-a-scope" aria-label="Current evidence scope">
+  <p class="ugi-a-overline">Current evidence scope</p>
+  <p class="ugi-a-scope__dataset">showcase-b-incident</p>
+  <p class="ugi-a-scope__detail">Graph-backed records · selected date: all dates</p>
+</aside>
+
+<article class="ugi-a-evidence-record" aria-label="Selected evidence record">
+  <header class="ugi-a-evidence-record__header">
+    <p class="ugi-a-overline">Evidence record</p>
+    <span class="ugi-a-record-kind">Claim</span>
+  </header>
+  <h3 class="ugi-a-evidence-record__title">Relation or entity name</h3>
+  <dl class="ugi-a-facts">
+    <div><dt>Source</dt><dd>source-file.json</dd></div>
+    <div><dt>Offset</dt><dd>120–188</dd></div>
+    <div><dt>Assertion</dt><dd>Source asserted</dd></div>
+    <div><dt>Time scope</dt><dd>Known at selected date</dd></div>
+  </dl>
+  <blockquote class="ugi-a-source-quote">Exact source quotation remains here.</blockquote>
+  <p class="ugi-a-evidence-caveat">This source-backed statement is not independently verified world truth.</p>
+</article>
+
+<!-- Add inside the existing #answer only after a relationship response arrives. -->
+<article class="ugi-a-verdict" data-verdict="RULE_DERIVED" aria-live="polite">
+  <header class="ugi-a-verdict__header">
+    <div>
+      <p class="ugi-a-overline">Relationship evaluation</p>
+      <h3 class="ugi-a-verdict__title">Rule-derived conclusion</h3>
+    </div>
+    <span class="ugi-a-verdict__status">RULE_DERIVED</span>
+  </header>
+  <p class="ugi-a-verdict__summary">Use the API response explanation verbatim or as a faithful short summary.</p>
+  <dl class="ugi-a-verdict__facts">
+    <div><dt>Basis</dt><dd>dependency_reachability_v1</dd></div>
+    <div><dt>Evidence</dt><dd>2 supporting source claims</dd></div>
+  </dl>
+  <p class="ugi-a-verdict__limit">A rule-derived path does not prove direct dependency or incident causation.</p>
+</article>
+
+<!-- Add around the existing action brief. Keep authorization input/button behavior unchanged. -->
+<section class="ugi-a-action-boundary" data-action-state="preview">
+  <div class="ugi-a-action-boundary__marker" aria-hidden="true"></div>
+  <div>
+    <p class="ugi-a-overline">Persistent action boundary</p>
+    <h3 class="ugi-a-action-boundary__title">Preview only</h3>
+    <p class="ugi-a-action-boundary__copy">No investigation or review task has been written.</p>
+  </div>
+</section>
+
+<!-- Use for each existing saved Investigation record in #cases. -->
+<article class="ugi-a-case-card">
+  <header class="ugi-a-case-card__header">
+    <div>
+      <p class="ugi-a-overline">Saved investigation</p>
+      <h3 class="ugi-a-case-card__title">Investigation target</h3>
+    </div>
+    <span class="ugi-a-case-card__priority">Priority</span>
+  </header>
+  <dl class="ugi-a-case-card__facts">
+    <div><dt>Exposure</dt><dd>0 components</dd></div>
+    <div><dt>State</dt><dd>Saved</dd></div>
+  </dl>
+  <p class="ugi-a-case-card__summary">Use returned investigation explanation only; exposure is not confirmed causation.</p>
+</article>
+
+<!-- Use for each existing ReviewTask in #tasks. -->
+<article class="ugi-a-review-card" data-review-state="open">
+  <header class="ugi-a-review-card__header">
+    <div>
+      <p class="ugi-a-overline">Human judgement</p>
+      <h3 class="ugi-a-review-card__title">Review required</h3>
+    </div>
+    <span class="ugi-a-review-card__state">Open</span>
+  </header>
+  <p class="ugi-a-review-card__reason">Use the returned review reason without implying it is a proven fact.</p>
+  <p class="ugi-a-review-card__note">A decision records judgement; it does not convert a proposal into a source assertion.</p>
+</article>

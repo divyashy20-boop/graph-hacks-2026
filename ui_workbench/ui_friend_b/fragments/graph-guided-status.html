@@ -1,0 +1,34 @@
+<!--
+  UI-011 integration reference, not a stand-alone page.
+  Preserve all existing ugi/index.html IDs, tab controls and canvas/SVG nodes.
+  Do not copy this file into ugi/ until UI-012 is approved.
+-->
+
+<!-- Place beside the existing map caption/notice; data-mode is set by ugiB. -->
+<aside class="ugi-b-map-readout" data-mode="2d" data-map-state="ready" aria-live="polite">
+  <div class="ugi-b-map-readout__lead">
+    <p class="ugi-b-overline">Evidence view</p>
+    <p class="ugi-b-map-readout__title">2D evidence map</p>
+  </div>
+  <p class="ugi-b-map-readout__detail">Select a record to trace direct source-backed context.</p>
+</aside>
+
+<!-- Render only in the existing 3D fallback state. -->
+<aside class="ugi-b-orbit-fallback" role="status">
+  <p class="ugi-b-overline">3D view unavailable</p>
+  <h3>Return to the 2D evidence map.</h3>
+  <p>The same dataset and selected evidence remain available in the accessible map.</p>
+</aside>
+
+<!-- Add inside the existing guided panel after a guided response or freshness check. -->
+<article class="ugi-b-receipt" data-receipt-state="UNKNOWN" aria-live="polite">
+  <header class="ugi-b-receipt__header">
+    <div>
+      <p class="ugi-b-overline">Evidence receipt</p>
+      <h3 class="ugi-b-receipt__title">Freshness unavailable</h3>
+    </div>
+    <span class="ugi-b-receipt__state">UNKNOWN</span>
+  </header>
+  <p class="ugi-b-receipt__copy">Run a guided graph question, then check the receipt again before reuse.</p>
+  <p class="ugi-b-receipt__boundary">Receipt status does not authorize external action.</p>
+</article>
