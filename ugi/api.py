@@ -86,7 +86,7 @@ def create_app(settings=None):
 
     @app.get("/assets/{filename}")
     def asset(filename: str):
-        if filename not in {"app.js", "style.css", "guided.js", "particles.js"}:
+        if filename not in {"app.js", "style.css", "guided.js"}:
             raise HTTPException(404, "Asset not found")
         return FileResponse(Path(__file__).with_name("assets") / filename)
 
