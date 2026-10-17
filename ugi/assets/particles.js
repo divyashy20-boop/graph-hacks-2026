@@ -1,126 +1,65 @@
-/* particles.js -- cursor-reactive dot matrix background
-   Matches the subtle, high-density interactive dot matrix design
-   seen on modern developer tools like the Antigravity IDE download page.
-   - Dense uniform dot matrix across the viewport
-   - Small, crisp, low-opacity dots (1px base radius)
-   - Dynamic ripple effect radiating from cursor movement
-   - Smooth spring dampening returning dots to resting state
-   - Strictly excludes the evidence graph window
-   - HiDPI/Retina display support
-   - Respects prefers-reduced-motion
+/* particles.js -- cursor-reactive soft white dot matrix background
+   - Soft white dots: rgba(255, 255, 255, alpha)
+   - Visible resting opacity (0.35), brightens to 0.95 near cursor
+   - Dense uniform 24px grid across viewport
+   - Fluid interactive ripple radiating outward with cursor movement
+   - Smooth elastic spring return to origin
+   - Strictly excluded from evidence graph area
+   - HiDPI / Retina crispness
+   - Reduced-motion compliant
 */
 
 (function () {
   'use strict';
 
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduced) return;
+  if (typeof window === 'undefined' || window.__ugiDotMatrixInitialized) return;
+  window.__ugiDotMatrixInitialized = true;
 
-  var canvas = document.createElement('canvas');
-  canvas.id = 'particle-bg';
-  canvas.setAttribute('aria-hidden', 'true');
-  canvas.style.cssText = 'position:fixed;inset:0;z-index:0;pointer-events:none;width:100vw;height:100vh;display:block;';
-  document.body.prepend(canvas);
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return;
+  }
+
+  var canvas = document.getElementById('particle-bg');
+  if (!canvas) {
+    canvas = document.createElement('canvas');
+    canvas.id = 'particle-bg';
+    canvas.setAttribute('aria-hidden', 'true');
+    document.body.prepend(canvas);
+  }
+
+  canvas.style.cssText = 'position:fixed!important;top:0!important;left:0!important;width:100vw!important;height:100vh!important;z-index:0!important;pointer-events:none!important;display:block!important;';
 
   var ctx = canvas.getContext('2d');
   if (!ctx) return;
 
-  var CONFIG = {
-    spacing: 26,            // Distance between dot grid points (px)
-    baseRadius: 1.0,        // Tiny, crisp dot radius
-    baseAlpha: 0.16,        // Low resting opacity
-    color: { r: 120, g: 170, b: 215 }, // Tech slate-cyan
-    hoverColor: { r: 165, g: 220, b: 255 }, // Glowing cyan-white near cursor
-    rippleRadius: 145,      // Influence radius around cursor
-    ripplePush: 11,         // Maximum displacement distance (px)
-    spring: 0.14,           // Return stiffness
-    friction: 0.82          // Damping factor
-  };
+  var SPACING = 24;          // 24px grid spacing
+  var BASE_RADIUS = 1.25;    // Crisp, soft white dot radius
+  var BASE_ALPHA = 0.35;     // Visible resting opacity
+  var RIPPLE_RADIUS = 150;   // Cursor influence radius
+  var RIPPLE_PUSH = 15;      // Ripple displacement distance
+  var SPRING = 0.14;         // Return spring stiffness
+  var DAMPING = 0.82;        // Motion damping
 
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
-  var width = 0;
-  var height = 0;
+  var width = window.innerWidth;
+  var height = window.innerHeight;
   var dots = [];
   var graphRect = null;
   var lastRectCheck = 0;
 
-  var mouse = {
-    x: -9999,
-    y: -9999,
-    targetX: -9999,
-    targetY: -9999,
-    active: false
-  };
+  var mouse = { x: -9999, y: -9999 };
 
   function updateGraphBounds() {
-    var graphEl = document.querySelector('.panel--map') || document.querySelector('.graphwrap');
-    if (graphEl) {
-      var r = graphEl.getBoundingClientRect();
-      graphRect = {
-        left: r.left,
-        top: r.top,
-        right: r.right,
-        bottom: r.bottom
-      };
+    var el = document.querySelector('.panel--map') || document.querySelector('.graphwrap');
+    if (el) {
+      var r = el.getBoundingClientRect();
+      graphRect = { left: r.left, top: r.top, right: r.right, bottom: r.bottom };
     } else {
       graphRect = null;
     }
   }
 
-  function Dot(ox, oy) {
-    this.ox = ox;
-    this.oy = oy;
-    this.x = ox;
-    this.y = oy;
-    this.vx = 0;
-    this.vy = 0;
-    this.alpha = CONFIG.baseAlpha;
-    this.targetAlpha = CONFIG.baseAlpha;
-    this.radius = CONFIG.baseRadius;
-  }
-
-  Dot.prototype.update = function (now) {
-    var dx = this.ox - mouse.x;
-    var dy = this.oy - mouse.y;
-    var dist = Math.sqrt(dx * dx + dy * dy);
-
-    var targetX = this.ox;
-    var targetY = this.oy;
-    this.targetAlpha = CONFIG.baseAlpha;
-
-    // Gentle ambient idle wave
-    var idle = Math.sin(this.ox * 0.012 + now * 0.0009) * Math.cos(this.oy * 0.012 + now * 0.0009) * 0.7;
-    targetX += idle;
-    targetY += idle;
-
-    if (dist < CONFIG.rippleRadius && dist > 0.1) {
-      var norm = dist / CONFIG.rippleRadius; // 0 (cursor) to 1 (outer edge)
-      // Ripple wave profile
-      var wave = Math.sin(norm * Math.PI);
-      var push = wave * CONFIG.ripplePush;
-      targetX += (dx / dist) * push;
-      targetY += (dy / dist) * push;
-
-      var highlight = Math.pow(1 - norm, 1.5);
-      this.targetAlpha = CONFIG.baseAlpha + highlight * 0.58;
-      this.radius = CONFIG.baseRadius + highlight * 0.75;
-    } else {
-      this.radius = CONFIG.baseRadius;
-    }
-
-    // Spring physics towards target
-    var ax = (targetX - this.x) * CONFIG.spring;
-    var ay = (targetY - this.y) * CONFIG.spring;
-    this.vx = (this.vx + ax) * CONFIG.friction;
-    this.vy = (this.vy + ay) * CONFIG.friction;
-    this.x += this.vx;
-    this.y += this.vy;
-
-    // Smooth opacity transition
-    this.alpha += (this.targetAlpha - this.alpha) * 0.18;
-  };
-
-  function initGrid() {
+  function resize() {
     width = window.innerWidth;
     height = window.innerHeight;
     canvas.width = Math.round(width * dpr);
@@ -128,75 +67,111 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     dots = [];
-    var cols = Math.ceil(width / CONFIG.spacing) + 1;
-    var rows = Math.ceil(height / CONFIG.spacing) + 1;
+    var cols = Math.ceil(width / SPACING) + 1;
+    var rows = Math.ceil(height / SPACING) + 1;
 
     for (var r = 0; r < rows; r++) {
       for (var c = 0; c < cols; c++) {
-        var ox = c * CONFIG.spacing;
-        var oy = r * CONFIG.spacing;
-        dots.push(new Dot(ox, oy));
+        var ox = c * SPACING;
+        var oy = r * SPACING;
+        dots.push({
+          ox: ox,
+          oy: oy,
+          x: ox,
+          y: oy,
+          vx: 0,
+          vy: 0,
+          alpha: BASE_ALPHA,
+          radius: BASE_RADIUS
+        });
       }
     }
     updateGraphBounds();
   }
 
-  window.addEventListener('resize', initGrid, { passive: true });
+  window.addEventListener('resize', resize, { passive: true });
   window.addEventListener('scroll', updateGraphBounds, { passive: true });
 
   window.addEventListener('mousemove', function (e) {
     mouse.x = e.clientX;
     mouse.y = e.clientY;
-    mouse.active = true;
   }, { passive: true });
 
   window.addEventListener('touchmove', function (e) {
-    if (e.touches.length) {
+    if (e.touches && e.touches.length > 0) {
       mouse.x = e.touches[0].clientX;
       mouse.y = e.touches[0].clientY;
-      mouse.active = true;
     }
   }, { passive: true });
 
   window.addEventListener('mouseleave', function () {
     mouse.x = -9999;
     mouse.y = -9999;
-    mouse.active = false;
   });
 
-  function render(now) {
-    // Periodically refresh graph bounds to handle resize / dynamic panels
-    if (now - lastRectCheck > 1000) {
+  function render(time) {
+    if (time - lastRectCheck > 1000) {
       updateGraphBounds();
-      lastRectCheck = now;
+      lastRectCheck = time;
     }
 
     ctx.clearRect(0, 0, width, height);
 
+    var mx = mouse.x;
+    var my = mouse.y;
     var len = dots.length;
-    var baseCol = CONFIG.color;
-    var hovCol = CONFIG.hoverColor;
 
     for (var i = 0; i < len; i++) {
       var d = dots[i];
-      d.update(now);
 
-      // STRICT EXCLUSION: Never draw dots inside the graph window
+      // Exclude dots inside evidence graph window
       if (graphRect &&
-          d.x >= graphRect.left && d.x <= graphRect.right &&
-          d.y >= graphRect.top && d.y <= graphRect.bottom) {
+          d.ox >= graphRect.left && d.ox <= graphRect.right &&
+          d.oy >= graphRect.top && d.oy <= graphRect.bottom) {
         continue;
       }
 
-      var a = d.alpha;
-      if (a < 0.01) continue;
+      var dx = d.ox - mx;
+      var dy = d.oy - my;
+      var dist = Math.sqrt(dx * dx + dy * dy);
 
-      var isHot = a > 0.32;
-      var c = isHot ? hovCol : baseCol;
+      var targetX = d.ox;
+      var targetY = d.oy;
+      var targetAlpha = BASE_ALPHA;
+      var targetRadius = BASE_RADIUS;
 
+      // Subtle organic idle wave
+      var idle = Math.sin(d.ox * 0.015 + time * 0.001) * Math.cos(d.oy * 0.015 + time * 0.001) * 0.7;
+      targetX += idle;
+      targetY += idle;
+
+      if (dist < RIPPLE_RADIUS && dist > 0.1) {
+        var norm = dist / RIPPLE_RADIUS;
+        var wave = Math.sin(norm * Math.PI);
+        var push = wave * RIPPLE_PUSH;
+        targetX += (dx / dist) * push;
+        targetY += (dy / dist) * push;
+
+        var highlight = Math.pow(1 - norm, 1.4);
+        targetAlpha = BASE_ALPHA + highlight * 0.62; // Up to ~0.97
+        targetRadius = BASE_RADIUS + highlight * 1.1; // Up to ~2.35px
+      }
+
+      // Spring physics
+      var ax = (targetX - d.x) * SPRING;
+      var ay = (targetY - d.y) * SPRING;
+      d.vx = (d.vx + ax) * DAMPING;
+      d.vy = (d.vy + ay) * DAMPING;
+      d.x += d.vx;
+      d.y += d.vy;
+
+      d.alpha += (targetAlpha - d.alpha) * 0.2;
+      d.radius += (targetRadius - d.radius) * 0.2;
+
+      // Draw soft white dot
       ctx.beginPath();
       ctx.arc(d.x, d.y, d.radius, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + a.toFixed(3) + ')';
+      ctx.fillStyle = 'rgba(255, 255, 255, ' + d.alpha.toFixed(3) + ')';
       ctx.fill();
     }
 
@@ -205,11 +180,11 @@
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () {
-      initGrid();
+      resize();
       requestAnimationFrame(render);
     });
   } else {
-    initGrid();
+    resize();
     requestAnimationFrame(render);
   }
 })();
