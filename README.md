@@ -1,3 +1,5 @@
+> **Final AWS model selection (18 October 2026): Qwen3 32B.** The optional Bedrock production overlay and exact deployment safety checklist are in [FINAL_QWEN_RELEASE.md](FINAL_QWEN_RELEASE.md). The deployed judge runtime remains separate until the AWS operator applies and verifies the release; this Git merge alone is not a live deployment. The 4-document tournament is a limited benchmark, not a production accuracy claim.
+
 # Universal Graph Intelligence (UGI)
 
 An **event-time Graph Hacks 2026 Track 1 implementation** of a multi-format, evidence-grounded graph converter and dependency-investigation agent. FalkorDB is the persistent graph database. A deterministic policy can trace service dependencies and create real investigation/review records. An optional AWS Bedrock provider handles model-assisted extraction and hypothesis proposal behind strict opt-in.
