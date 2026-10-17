@@ -11,7 +11,7 @@ main{padding:22px 30px 34px}.stats{display:grid;grid-template-columns:repeat(5,1
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
 
 /* particle-bg canvas — full-viewport, non-interactive, behind everything */
-#particle-bg{position:fixed;inset:0;z-index:0;pointer-events:none;width:100%!important;height:100%!important}
+#particle-bg{position:fixed!important;inset:0!important;z-index:0!important;pointer-events:none!important;display:block!important}
 .app-shell{position:relative;z-index:1}
 
 /* UI-008: retain the spatial composition; only soften the palette and type. */
