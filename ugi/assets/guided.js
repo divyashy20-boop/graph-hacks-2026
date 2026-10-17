@@ -32,10 +32,11 @@
     }
   }
 
-  function showVerdict(message, safe) {
+  function showVerdict(message, safe, statusClass = "") {
     const verdict = el("guidedverdict");
     verdict.hidden = false;
     verdict.textContent = message;
+    verdict.className = `answer ${statusClass}`.trim();
     verdict.style.borderLeft = `3px solid ${safe ? "var(--signal)" : "var(--amber)"}`;
   }
 
@@ -52,7 +53,9 @@
     el("refreshreceipt").disabled = !receipt;
     const verdict = response.result?.verdict || response.status || "UNKNOWN";
     const freshness = response.freshness || "not available";
-    showVerdict(`Graph verdict: ${verdict} · Receipt: ${freshness}${response.reason ? " · " + response.reason : ""}`, verdict !== "UNKNOWN" && freshness === "VALID");
+    const isValid = verdict !== "UNKNOWN" && freshness === "VALID";
+    const statusClass = isValid ? "ugi-b-receipt-valid" : (freshness === "STALE" ? "ugi-b-receipt-stale" : "ugi-b-receipt-unknown");
+    showVerdict(`Graph verdict: ${verdict} · Receipt: ${freshness}${response.reason ? " · " + response.reason : ""}`, isValid, statusClass);
     // Highlight exactly verified claim IDs, not hypotheses, if the renderer supports it.
     if (Array.isArray(response.result?.verified_claim_ids) && response.result.verified_claim_ids.length) {
       queryHighlights = new Set(response.result.verified_claim_ids);
@@ -69,8 +72,9 @@
     }
     const response = await api("/api/agent/receipts/" + encodeURIComponent(receipt) + "/freshness");
     el("receiptreport").textContent = JSON.stringify(response, null, 2);
-    const reusable = response.safe_to_reuse === true;
-    showVerdict(`Receipt ${response.freshness || "UNKNOWN"}. ${reusable ? "Safe at time of check." : "Do not reuse this answer; investigate again."}`, reusable);
+    const reusable = response.safe_to_reuse === true && response.freshness === "VALID";
+    const statusClass = reusable ? "ugi-b-receipt-valid" : (response.freshness === "STALE" ? "ugi-b-receipt-stale" : "ugi-b-receipt-unknown");
+    showVerdict(`Receipt ${response.freshness || "UNKNOWN"}. ${reusable ? "Safe at time of check." : "Do not reuse this answer; investigate again."}`, reusable, statusClass);
     return reusable ? "Fresh evidence checked; valid now." : "Receipt not reusable. Obtain a fresh answer.";
   }
 

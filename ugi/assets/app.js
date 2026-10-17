@@ -245,6 +245,7 @@ function bindPick(node, record) {
   node.setAttribute("aria-label", `Inspect ${record.name || record.predicate || record.relation_type || record.kind}`);
   node.setAttribute("aria-pressed", String(selectedRecordId === record.id));
   node.classList.add("pick");
+  node.classList.add("ugi-b-pickable");
   node.onclick = (event) => {
     event.stopPropagation();
     selectRecord(record);
@@ -471,6 +472,7 @@ async function refresh() {
   if (graph.unknown_dates_excluded) notices.push("Historical view excludes claims without dated evidence; counts above show all stored records.");
   $("graphnotice").hidden = !notices.length;
   $("graphnotice").textContent = notices.join(" ");
+  if (notices.length) $("graphnotice").classList.add("ugi-b-truncation-notice");
 
   $("cases").replaceChildren();
   if (!cases.length) $("cases").append(element("p", "No saved investigations. Preview a target to begin."));
@@ -753,6 +755,7 @@ function createOrbitRenderer() {
   const gl = canvas.getContext("webgl", {alpha: true, antialias: true, preserveDrawingBuffer: false});
   if (!gl) {
     fallback.hidden = false;
+    fallback.classList.add("ugi-b-fallback-active");
     return {failed: true, sync() {}, start() {}, setAutoRotate() {}, get autoRotate() { return false; }};
   }
 
@@ -784,6 +787,7 @@ function createOrbitRenderer() {
     );
   } catch (error) {
     fallback.hidden = false;
+    fallback.classList.add("ugi-b-fallback-active");
     return {failed: true, sync() {}, start() {}, setAutoRotate() {}, get autoRotate() { return false; }};
   }
 
@@ -944,9 +948,10 @@ function createOrbitRenderer() {
     const ratio = canvas.width / bounds.width;
     const x = (clientX - bounds.left) * ratio;
     const y = (clientY - bounds.top) * ratio;
+    const dpr = window.devicePixelRatio || 1;
     const match = state.screenRecords
       .map((item) => ({item, distance: Math.hypot(item.x - x, item.y - y)}))
-      .filter((item) => item.distance < 24)
+      .filter((item) => item.distance < 24 * dpr)
       .sort((a, b) => a.distance - b.distance || a.item.depth - b.item.depth)[0];
     if (match) { focus(match.item.item.record); selectRecord(match.item.item.record); }
     else clearSelection();
