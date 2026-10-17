@@ -48,3 +48,7 @@ Thumbs.db
 .falkordb/
 .redis/
 .evaluation-local/
+
+# Local-only visual review output from the two-person UI workbench. Source
+# fragments/modules/styles remain trackable; screenshots, recordings and logs do not.
+ui_workbench/**/artifacts/

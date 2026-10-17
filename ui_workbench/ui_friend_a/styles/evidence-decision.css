@@ -1,0 +1,218 @@
+/*
+  UI-010: evidence and decision presentation.
+  Integration reference only. Add after existing component styles during UI-012.
+  All selectors are scoped to ugi-a-*; do not alter graph/orbit selectors.
+*/
+
+.ugi-a-overline {
+  margin: 0;
+  color: var(--muted-dim);
+  font: 700 0.68rem/1.2 system-ui, sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ugi-a-evidence-record,
+.ugi-a-verdict,
+.ugi-a-action-boundary,
+.ugi-a-case-card,
+.ugi-a-review-card,
+.ugi-a-scope {
+  display: grid;
+  gap: 0.9rem;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--ink) 94%, transparent);
+}
+
+.ugi-a-evidence-record,
+.ugi-a-verdict,
+.ugi-a-case-card,
+.ugi-a-review-card,
+.ugi-a-scope {
+  padding: 1rem;
+}
+
+.ugi-a-evidence-record__header,
+.ugi-a-verdict__header,
+.ugi-a-case-card__header,
+.ugi-a-review-card__header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.ugi-a-evidence-record__title,
+.ugi-a-verdict__title,
+.ugi-a-action-boundary__title,
+.ugi-a-case-card__title,
+.ugi-a-review-card__title {
+  margin: 0.25rem 0 0;
+  color: var(--text);
+  font: 600 1rem/1.25 Georgia, "Times New Roman", serif;
+}
+
+.ugi-a-record-kind,
+.ugi-a-verdict__status,
+.ugi-a-case-card__priority,
+.ugi-a-review-card__state {
+  flex: none;
+  padding: 0.3rem 0.45rem;
+  border: 1px solid currentColor;
+  color: var(--blue);
+  font: 700 0.65rem/1 system-ui, sans-serif;
+  letter-spacing: 0.08em;
+}
+
+.ugi-a-facts,
+.ugi-a-verdict__facts,
+.ugi-a-case-card__facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  background: var(--line);
+}
+
+.ugi-a-facts > div,
+.ugi-a-verdict__facts > div,
+.ugi-a-case-card__facts > div {
+  min-width: 0;
+  padding: 0.7rem;
+  background: var(--ink);
+}
+
+.ugi-a-facts dt,
+.ugi-a-verdict__facts dt,
+.ugi-a-case-card__facts dt {
+  margin-bottom: 0.32rem;
+  color: var(--muted-dim);
+  font: 700 0.62rem/1.2 system-ui, sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ugi-a-facts dd,
+.ugi-a-verdict__facts dd,
+.ugi-a-case-card__facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: 0.78rem;
+}
+
+.ugi-a-source-quote {
+  margin: 0;
+  padding: 0.85rem 0.9rem;
+  border-left: 2px solid var(--signal);
+  background: color-mix(in srgb, var(--signal) 7%, var(--ink));
+  color: var(--text);
+  font: 0.88rem/1.55 Georgia, "Times New Roman", serif;
+}
+
+.ugi-a-evidence-caveat,
+.ugi-a-verdict__limit,
+.ugi-a-action-boundary__copy,
+.ugi-a-case-card__summary,
+.ugi-a-review-card__reason,
+.ugi-a-review-card__note,
+.ugi-a-scope__detail {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.ugi-a-verdict[data-verdict="SOURCE_NEGATED"] .ugi-a-verdict__status,
+.ugi-a-verdict[data-verdict="CONTRADICTED"] .ugi-a-verdict__status {
+  color: var(--red);
+}
+
+.ugi-a-verdict[data-verdict="UNKNOWN"] .ugi-a-verdict__status,
+.ugi-a-verdict[data-verdict="CONNECTED_ONLY"] .ugi-a-verdict__status,
+.ugi-a-verdict[data-verdict="HYPOTHESIS"] .ugi-a-verdict__status {
+  color: var(--amber);
+}
+
+.ugi-a-verdict[data-verdict="SOURCE_ASSERTED"] .ugi-a-verdict__status,
+.ugi-a-verdict[data-verdict="RULE_DERIVED"] .ugi-a-verdict__status {
+  color: var(--signal);
+}
+
+.ugi-a-action-boundary {
+  grid-template-columns: 3px minmax(0, 1fr);
+  padding: 0;
+}
+
+.ugi-a-action-boundary__marker {
+  background: var(--blue);
+}
+
+.ugi-a-action-boundary > div:last-child {
+  padding: 0.9rem 1rem;
+}
+
+.ugi-a-action-boundary[data-action-state="executed"] .ugi-a-action-boundary__marker {
+  background: var(--signal);
+}
+
+.ugi-a-action-boundary[data-action-state="blocked"] .ugi-a-action-boundary__marker {
+  background: var(--amber);
+}
+
+.ugi-a-scope {
+  gap: 0.35rem;
+  padding: 0.8rem 0.9rem;
+  border-left: 2px solid var(--blue);
+}
+
+.ugi-a-scope__dataset {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font: 600 0.95rem/1.2 Georgia, "Times New Roman", serif;
+}
+
+.ugi-a-case-card__facts {
+  margin: 0;
+}
+
+.ugi-a-case-card__summary,
+.ugi-a-review-card__reason {
+  color: var(--text);
+}
+
+.ugi-a-review-card[data-review-state="open"] .ugi-a-review-card__state {
+  color: var(--amber);
+}
+
+.ugi-a-review-card[data-review-state="accepted"] .ugi-a-review-card__state {
+  color: var(--signal);
+}
+
+.ugi-a-review-card[data-review-state="rejected"] .ugi-a-review-card__state {
+  color: var(--red);
+}
+
+@media (max-width: 560px) {
+  .ugi-a-facts,
+  .ugi-a-verdict__facts,
+  .ugi-a-case-card__facts {
+    grid-template-columns: 1fr;
+  }
+
+  .ugi-a-evidence-record__header,
+  .ugi-a-verdict__header,
+  .ugi-a-case-card__header,
+  .ugi-a-review-card__header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .ugi-a-record-kind,
+  .ugi-a-verdict__status,
+  .ugi-a-case-card__priority,
+  .ugi-a-review-card__state {
+    align-self: start;
+  }
+}

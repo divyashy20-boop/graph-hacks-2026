@@ -1,0 +1,115 @@
+/* UI-011 integration reference. All selectors stay in the ugi-b namespace. */
+
+.ugi-b-overline {
+  margin: 0;
+  color: var(--muted-dim);
+  font: 700 0.68rem/1.2 system-ui, sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ugi-b-map-readout,
+.ugi-b-orbit-fallback,
+.ugi-b-receipt {
+  display: grid;
+  gap: 0.75rem;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--ink) 94%, transparent);
+}
+
+.ugi-b-map-readout {
+  grid-template-columns: minmax(0, 1fr) minmax(13rem, 0.75fr);
+  align-items: end;
+  padding: 0.8rem 1rem;
+  border-top: 0;
+}
+
+.ugi-b-map-readout__title {
+  margin: 0.25rem 0 0;
+  color: var(--text);
+  font: 600 0.95rem/1.2 Georgia, "Times New Roman", serif;
+}
+
+.ugi-b-map-readout__detail,
+.ugi-b-orbit-fallback p,
+.ugi-b-receipt__copy,
+.ugi-b-receipt__boundary {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.ugi-b-map-readout[data-mode="3d"] {
+  border-left: 2px solid var(--blue);
+}
+
+.ugi-b-map-readout[data-map-state="error"] {
+  border-left: 2px solid var(--red);
+}
+
+.ugi-b-map-readout[data-map-state="loading"] {
+  border-left: 2px solid var(--amber);
+}
+
+.ugi-b-orbit-fallback {
+  max-width: 28rem;
+  padding: 1.1rem;
+  border-left: 2px solid var(--amber);
+}
+
+.ugi-b-orbit-fallback h3,
+.ugi-b-receipt__title {
+  margin: 0.25rem 0 0;
+  color: var(--text);
+  font: 600 1rem/1.25 Georgia, "Times New Roman", serif;
+}
+
+.ugi-b-receipt {
+  padding: 1rem;
+}
+
+.ugi-b-receipt__header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.ugi-b-receipt__state {
+  flex: none;
+  padding: 0.3rem 0.45rem;
+  border: 1px solid currentColor;
+  color: var(--amber);
+  font: 700 0.65rem/1 system-ui, sans-serif;
+  letter-spacing: 0.08em;
+}
+
+.ugi-b-receipt__boundary {
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--line);
+}
+
+.ugi-b-receipt[data-receipt-state="VALID"] .ugi-b-receipt__state {
+  color: var(--signal);
+}
+
+.ugi-b-receipt[data-receipt-state="STALE"] .ugi-b-receipt__state,
+.ugi-b-receipt[data-receipt-state="UNKNOWN"] .ugi-b-receipt__state {
+  color: var(--amber);
+}
+
+@media (max-width: 560px) {
+  .ugi-b-map-readout {
+    grid-template-columns: 1fr;
+  }
+
+  .ugi-b-receipt__header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .ugi-b-receipt__state {
+    align-self: start;
+  }
+}
