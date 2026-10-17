@@ -35,3 +35,16 @@ def test_paid_inference_remains_explicit_opt_in():
     assert "UGI_API_KEYS:" not in overlay
     assert "UGI_IDENTITY_" not in overlay
     assert "UGI_MEMORY_" not in overlay
+
+def test_cloudshell_runner_and_ssm_payload_are_valid_python():
+    import ast
+
+    source = (Path(__file__).parents[1] / "scripts/qwen_release_cloudshell.py").read_text()
+    module = ast.parse(source)
+    remote = next(
+        ast.literal_eval(stmt.value)
+        for stmt in module.body
+        if isinstance(stmt, ast.Assign)
+        and any(isinstance(t, ast.Name) and t.id == "REMOTE" for t in stmt.targets)
+    )
+    ast.parse(remote.replace("%APPLY%", "False").replace("%ENCODED%", "Zm9v"))
