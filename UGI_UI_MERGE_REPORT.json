@@ -1,0 +1,37 @@
+{
+  "base_ui_head": "84275fd5807af81212cac7d64e89d2d481955dc3",
+  "extraction_sha256": "D362560ACB2FB72752E2DFD8C143DFC571B69A73147B904FF514B80641EF90A0",
+  "backend_files_copied": [
+    ".env.example",
+    "Dockerfile",
+    "compose.yaml",
+    "RUN_INTEGRATED_E2E_WINDOWS.ps1",
+    "INTEGRATION_GUIDE.md",
+    "README_FIRST.md",
+    "SOURCE_MAP.md",
+    "START_TEST_WINDOWS.ps1",
+    "ugi/engine.py",
+    "ugi/extract.py",
+    "ugi/models.py",
+    "ugi/agent_integration.py",
+    "ugi/source_alignment.py",
+    "tests/test_guided_memory_http.py",
+    "ugi/agent_policy",
+    "ugi/memory",
+    "UGI_Final_Qualification (source/tests/fixtures only)",
+    "UGI_All_In_One_Test (source/tests/fixtures only)",
+    "UGI_Memory_Receipts_Lab (source/tests/fixtures only)",
+    "UGI_Reasoning_Controller_Test (source/tests/fixtures only)"
+  ],
+  "ui_files_preserved": [
+    "ugi/assets/app.js",
+    "ugi/assets/style.css",
+    "ugi/index.html"
+  ],
+  "backend_routes_retained": [
+    "/api/agent/guided",
+    "/api/agent/receipts/{receipt_id}/freshness"
+  ],
+  "integration_status": "merged for qualification, not deployed or production-certified",
+  "aws_status": "pending Bedrock invocation, IAM and deployment security review"
+}

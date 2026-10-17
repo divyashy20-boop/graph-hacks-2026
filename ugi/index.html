@@ -7,6 +7,7 @@
   <title>UGI — Spatial evidence operations</title>
   <link rel="stylesheet" href="/assets/style.css?v=ui-008">
   <script defer src="/assets/app.js?v=ui-008"></script>
+  <script defer src="/assets/guided.js?v=ugi-p5"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -121,7 +122,7 @@
           </section>
           <section class="panel">
             <div class="panelhead"><div><p class="panel-kicker">Input</p><h2>Build a graph</h2></div></div>
-            <div class="body"><div class="form"><label>Source file <span>CSV · JSON · JSONL · TXT · text PDF</span><input id="file" type="file" accept=".csv,.json,.jsonl,.txt,.pdf"></label><label class="check"><input id="useai" type="checkbox">Use configured local model <span>(optional)</span></label><button id="upload" class="primary">Ingest source</button></div><div class="status" id="uploadstatus" role="status"></div><details><summary>Processing report</summary><pre id="ingestion"></pre></details></div>
+            <div class="body"><div class="form"><label>Source file <span>CSV · JSON · JSONL · TXT · text PDF</span><input id="file" type="file" accept=".csv,.json,.jsonl,.txt,.pdf"></label><label class="check"><input id="useai" type="checkbox">Use configured AI provider <span>(optional)</span></label><button id="upload" class="primary">Ingest source</button></div><div class="status" id="uploadstatus" role="status"></div><details><summary>Processing report</summary><pre id="ingestion"></pre></details></div>
           </section>
         </aside>
       </div>
@@ -133,7 +134,7 @@
         </section>
         <section class="panel panel--action">
           <div class="panelhead"><div><p class="panel-kicker">Controlled write</p><h2>Investigate and act</h2></div><span class="badge" id="actionmode">Preview is read only</span></div>
-          <div class="body"><p class="small">Trace incoming dependencies, inspect conflicts, then create a reviewable case. Exposure is risk, not confirmed causation.</p><div class="form intro"><label>Investigation target<input id="target" value="Cache" aria-label="Investigation target"></label><button id="preview">Preview investigation</button><label class="check"><input id="authorise" type="checkbox">I authorize creating this persistent local investigation and review tasks</label><button id="execute" class="primary">Execute authorized action</button></div><div class="status" id="actionstatus" role="status"></div><div id="actionbrief" aria-live="polite"></div><details><summary>Actual tool execution trace</summary><pre id="action"></pre></details></div>
+          <div class="body"><p class="small">Trace incoming dependencies, inspect conflicts, then create a reviewable case. Exposure is risk, not confirmed causation.</p><div class="form intro"><label>Investigation target<input id="target" value="Cache" aria-label="Investigation target"></label><button id="preview">Preview investigation</button><label class="check"><input id="authorise" type="checkbox">I authorize creating this persistent investigation and review tasks</label><button id="execute" class="primary">Execute authorized action</button></div><div class="status" id="actionstatus" role="status"></div><div id="actionbrief" aria-live="polite"></div><details><summary>Actual tool execution trace</summary><pre id="action"></pre></details></div>
         </section>
       </div>
 
@@ -141,6 +142,24 @@
         <section class="panel"><div class="panelhead"><div><p class="panel-kicker">Persistent state</p><h2>Saved investigations</h2></div><span class="small muted">Graph-backed</span></div><div class="body" id="cases"></div></section>
         <section class="panel"><div class="panelhead"><div><p class="panel-kicker">Human judgement</p><h2>Review queue</h2></div><span class="small muted">Audited decisions</span></div><div class="body"><p class="small">A review decision records judgement; it never turns a model proposal into a source assertion.</p><div id="tasks"></div></div></section>
       </div>
+      <section class="panel guided-panel" id="guidedpanel" aria-label="Evidence-guided agent and memory" hidden>
+        <div class="panelhead">
+          <div><p class="panel-kicker">Verified reasoning and memory</p><h2>Guided Rulebook + P5 Memory</h2></div>
+          <span class="badge">Evidence checked</span>
+        </div>
+        <div class="body">
+          <p class="small">Ask about a relationship in this dataset. Unsupported claims remain UNKNOWN. Memory receipts must be checked again before reuse.</p>
+          <div class="form guided-inputs">
+            <label>Graph question <input id="guidedquestion" maxlength="2000" placeholder="What is the supported relationship between X and Y?" aria-label="Guided graph question"></label>
+            <div class="guided-actions"><button class="primary" id="guidedrun">Ask guided agent</button><button id="refreshreceipt" disabled>Check receipt freshness</button></div>
+          </div>
+          <div id="guidedstatus" class="status" role="status" aria-live="polite"></div>
+          <div id="guidedverdict" class="answer" hidden aria-live="polite"></div>
+          <details><summary>Agent trace and bounded verdict</summary><pre id="guidedresult"></pre></details>
+          <details><summary>Receipt freshness decision</summary><pre id="receiptreport"></pre></details>
+        </div>
+      </section>
+
     </main>
 
     <footer><span>UGI / Graph Hacks 2026</span><span>FalkorDB stores evidence, traverses dependencies, and preserves actions.</span><span>Source assertions are not independently verified truth.</span><a href="/docs">API reference ↗</a></footer>

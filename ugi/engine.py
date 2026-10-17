@@ -357,11 +357,7 @@ class Engine:
 
     @staticmethod
     def derived_resolution(requested_predicate, proof, as_of, rule_id):
-        """Format the successful rule conclusion from its final verdict.
-
-        ``resolution`` is a public compatibility field. It must express the
-        completed verdict, never an earlier connectivity-only observation.
-        """
+        """Make the final proved relation and its exact claim IDs explicit."""
         claim_ids = [claim["id"] for claim in proof["claims"]]
         return {
             "assessment": "RULE_DERIVED",
@@ -375,33 +371,26 @@ class Engine:
                                for direction in proof["directions"]],
             }],
             "missing_evidence": [],
-            "recommended_action": "Use the listed source-backed claims and rule trace when explaining this conclusion",
-            "safety_note": "This rule establishes only the requested derived relation; it does not establish unrelated causation or a direct claim.",
+            "recommended_action": "Use listed source-backed claims and rule trace when explaining this conclusion",
+            "safety_note": "This rule proves only the requested relation; it does not prove causation or a direct claim.",
             "as_of": as_of,
         }
 
     @staticmethod
     def final_relationship_response(base, verdict):
-        """Render every public conclusion from one completed reasoning verdict."""
+        """Enforce one coherent public rule-derived verdict."""
         status = verdict["status"]
         resolution = verdict.get("resolution")
         rules = list(verdict.get("rules", []))
-        supporting_claim_ids = list(verdict.get("supporting_claim_ids", []))
-
+        supporting = list(verdict.get("supporting_claim_ids", []))
         if status == "RULE_DERIVED":
-            if not rules or not supporting_claim_ids:
+            if not rules or not supporting:
                 raise RuntimeError("Rule-derived verdict lacks rule or supporting claim IDs")
             if not resolution or resolution.get("assessment") != "RULE_DERIVED":
-                raise RuntimeError("Rule-derived verdict has an inconsistent final assessment")
-
-        response = {
-            **base,
-            "status": status,
-            "explanation": verdict["explanation"],
-            "rules": rules,
-        }
-        if supporting_claim_ids:
-            response["supporting_claim_ids"] = supporting_claim_ids
+                raise RuntimeError("Rule-derived verdict has inconsistent final assessment")
+        response = {**base, "status": status, "explanation": verdict["explanation"], "rules": rules}
+        if supporting:
+            response["supporting_claim_ids"] = supporting
         if resolution is not None:
             response["resolution"] = resolution
         return response
@@ -452,7 +441,7 @@ class Engine:
                           "directions": path["directions"]} for path in paths]
         all_claims = {c["id"]: c for path in paths for c in path["claims"]}
         base["evidence"] = self.evidence(list(all_claims.values()))
-        gap = self.resolution_gap(p, paths, query.as_of)
+        base["resolution"] = self.resolution_gap(p, paths, query.as_of)
         proof = next((path for path in paths if len(path["claims"]) >= 2
                       and all(path["directions"])
                       and all(c["predicate"] == "DEPENDS_ON" for c in path["claims"])), None)
@@ -461,7 +450,7 @@ class Engine:
             return self.final_relationship_response(base, {
                 "status": "RULE_DERIVED",
                 "rules": [rule_id],
-                "supporting_claim_ids": [claim["id"] for claim in proof["claims"]],
+                "supporting_claim_ids": [c["id"] for c in proof["claims"]],
                 "resolution": self.derived_resolution(p, proof, query.as_of, rule_id),
                 "explanation": "A forward dependency chain entails dependency reachability; "
                                "it does not prove a direct dependency or incident cause",
@@ -477,13 +466,12 @@ class Engine:
                            and all(c.get("valid_from") for c in path["claims"])
                            and same_interval(path["claims"])), None)
             if shared:
-                # This is a derivation about overlapping source assertions,
-                # never independent proof of acquaintance or collaboration.
+                # Source-backed rule proves only an overlapping employer, not friendship.
                 rule_id = "shared_employer_temporal_overlap_v1"
                 return self.final_relationship_response(base, {
                     "status": "RULE_DERIVED",
                     "rules": [rule_id],
-                    "supporting_claim_ids": [claim["id"] for claim in shared["claims"]],
+                    "supporting_claim_ids": [c["id"] for c in shared["claims"]],
                     "resolution": self.derived_resolution(p, shared, query.as_of, rule_id),
                     "explanation": "Both source-backed employment assertions refer to "
                     "the same employer during an overlapping supported period; "
@@ -506,17 +494,12 @@ class Engine:
                      method="dependency_risk_v1", model="none", state="proposed", recorded_at=now())
             with self.store.transaction():
                 self.store.commit([h])
-            return self.final_relationship_response({**base, "hypotheses": [h]}, {
-                "status": "HYPOTHESIS",
-                "explanation": "Dependency exposure suggests possible impact; causation unproven",
-                "resolution": gap,
-            })
+            return {**base, "status": "HYPOTHESIS", "hypotheses": [h],
+                    "explanation": "Dependency exposure suggests possible impact; causation unproven"}
         if query.use_ai and query.allow_hypothesis and paths:
             provider = self.provider()
             if not provider:
-                return self.final_relationship_response({
-                    **base, "model_reasoning": "Unavailable: no live provider configured"
-                }, {"status": base["status"], "explanation": base["explanation"], "resolution": gap})
+                return {**base, "model_reasoning": "Unavailable: no live provider configured"}
             self.store.consume("ai:" + self.store.owner + ":" + now()[:10],
                                self.settings.daily_ai_queries)
             import json
@@ -543,18 +526,11 @@ class Engine:
                 )
                 with self.store.transaction():
                     self.store.commit([hypothesis])
-                return self.final_relationship_response({
-                    **base, "hypotheses": [hypothesis], "usage": getattr(provider, "usage", {})
-                }, {
-                    "status": "HYPOTHESIS",
-                    "explanation": "Model-proposed hypothesis; semantic correctness unverified",
-                    "resolution": gap,
-                })
+                return {**base, "status": "HYPOTHESIS", "hypotheses": [hypothesis],
+                        "explanation": "Model-proposed hypothesis; semantic correctness unverified",
+                        "usage": getattr(provider, "usage", {})}
             base["model_reasoning"] = "Abstained or invalid evidence references"
-        return self.final_relationship_response(
-            base,
-            {"status": base["status"], "explanation": base["explanation"], "resolution": gap},
-        )
+        return base
 
     def investigate(self, request, actor):
         trace, signatures = [], set()

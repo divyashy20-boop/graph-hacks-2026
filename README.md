@@ -484,3 +484,30 @@ See `TEST_REPORT.md` for test evidence and `WORK_LOG.md` for event-time provenan
 - [ ] Decide whether to authorise paid Bedrock tests and deploy with proper access controls.
 - [ ] Publish a clean repository with no credentials, plus a demo video and any required form information.
 - [ ] Disclose AI-assisted development accurately.
+
+
+## Integrated Rulebook + P5 + collaborator UI release
+
+This release combines the UI-008 evidence workspace (2D map, native 3D orbit,
+provenance/storytelling, mobile/error/fallback states) with the locally qualified
+Graph Intelligence runtime (entity identity, n-ary events, v1.4 extraction,
+MCP/Guided Rulebook Controller and P5 receipt freshness/invalidation).
+
+- `ugi/assets/app.js` is the collaborator's existing UI implementation, **not**
+  the older locally integrated app.js.
+- `ugi/assets/guided.js` is an additive adapter for `/api/agent/guided` and
+  `/api/agent/receipts/{receipt_id}/freshness`, and only enables the panel when
+  the corresponding feature flags are on.
+- `ugi/api.py` retains integrated endpoints and preserves local-memory-mode
+  demo seeding; FalkorDB mode does not auto-seed data.
+- `UGI_Final_Qualification/` and other selected labs are preserved for historical
+  reproducibility, but are NOT additional production applications.
+- Docker image includes `demo/` fixtures. The UI is served by FastAPI on the
+  same origin, so a separate S3 website or CORS policy is not required.
+
+**Known release gates:** Do not call this production-ready until live AWS
+Bedrock invocation, IAM permissions, authentication, persistence, backups,
+TLS/security, cloud health, upload safety and real browser E2E are verified.
+The v1.4 Re-DocRED `doc_005` real-model test was rate-limited and remains pending.
+The 10/10 Rulebook+P5 integrated E2E passed on the local deployment.
+Never publish the API with `UGI_API_KEYS` unset.

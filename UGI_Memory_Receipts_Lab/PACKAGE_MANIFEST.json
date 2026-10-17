@@ -1,0 +1,23 @@
+{
+  "version": "ugi-p5-memory-lab-v1.0.0",
+  "files": {
+    "README_FIRST.md": "aa6e2cc33b7c993f15a74e27a8f6d1b8375915c2f9eeebf1beb942ae39492f96",
+    "RUN_LOCAL_LINUX.sh": "4ff8916fe8c810a2fa6dac1d5913873c24c8c6f87f119e600a49d119bff52a80",
+    "START_MEMORY_TEST_WINDOWS.ps1": "1e886cbde78a87865b946e109de9b8ce7f058b212abc93998ad17665cdac4013",
+    "TEST_MATRIX.md": "625a8ce025a62efd9bc74da422bd37c6ed27aa01567974a4630b79d94d9f0fa6",
+    "VALIDATION_LIMITS.md": "9e53e6765814719502e66c635e3a5ac47d8de51a8930f97789f15ed0adfca2db",
+    "VERSION.txt": "95911305190a2150f836953a79f618a86504b6ba47e315bdac746bbab3c69005",
+    "p5memory/__init__.py": "aeb54b86e758a912683c78b911a2a330ee9201a7c47178c9ac44094cce8623df",
+    "p5memory/core.py": "271a5cdd57a43a92f847ff2c6cad51ecf4968db68857f97a51630d9e32974578",
+    "p5memory/ingest.py": "de754dce352fc3fc50698a6074a0409c6e882efe3aa66ad9a00cce786f3ee821",
+    "p5memory/run_lab.py": "97a6c6c5365bb5ec314616a40131f0a0009d0d2555d90c6a567902d9e04a1df9",
+    "results/p5_lab_report.json": "6457a911b6494f434a699f8215cd193ed5413799082d23e03e03299175ccdb9d",
+    "tests/test_adversarial.py": "a274e9475db154d3d99da79e5e3058a92d218a1901ffc066ae7ed15968432187",
+    "tests/test_ingest.py": "c18916dcd9ddb9c1fe469292a9c80967bd44b49c5c5fa5fb92c96441a608f514",
+    "tests/test_memory.py": "00c49aed7bdd5d050c68a3f02e6b5a23341641ec11d7d30192e5c4c8d9836394",
+    "tests/test_runtime.py": "548bbf1aa29848e5f8b847d0f85b0bc239e155b05eb055576a33ea10b3585944"
+  },
+  "offline_unit_tests_passed": 83,
+  "synthetic_scenarios_passed": 17,
+  "real_ugi_integration_proven": false
+}

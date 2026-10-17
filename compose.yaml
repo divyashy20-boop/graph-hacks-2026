@@ -32,9 +32,15 @@ services:
       UGI_IDENTITY_AUTHORITIES: '${UGI_IDENTITY_AUTHORITIES:-{}}'
       UGI_MODEL_ID: ${UGI_MODEL_ID:-}
       UGI_OLLAMA_URL: ${UGI_OLLAMA_URL:-http://host.docker.internal:11434}
+      UGI_EXTRACTION_WINDOWS: ${UGI_EXTRACTION_WINDOWS:-1}
       UGI_API_KEYS: ${UGI_API_KEYS:-}
+      UGI_GUIDED_AGENT_ENABLED: ${UGI_GUIDED_AGENT_ENABLED:-false}
+      UGI_MEMORY_ENABLED: ${UGI_MEMORY_ENABLED:-false}
+      UGI_MEMORY_PATH: /var/lib/ugi/receipts.sqlite3
     ports:
       - "127.0.0.1:8001:8000"
+    volumes:
+      - event-receipts:/var/lib/ugi
     depends_on:
       graph:
         condition: service_healthy
@@ -47,3 +53,4 @@ services:
       retries: 10
 volumes:
   event-graph:
+  event-receipts:
