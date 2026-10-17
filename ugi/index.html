@@ -106,13 +106,13 @@
               <div id="orbitFallback" class="orbit-fallback" hidden>
                 <p class="panel-kicker">WebGL unavailable</p><p>This browser cannot draw the orbit view. Continue with the accessible 2D evidence map.</p><button id="fallback2d">Return to 2D map</button>
               </div>
-              <p class="orbit-hud">Drag to orbit · Shift-drag or right-drag to pan · Scroll to zoom · Select a signal to focus</p>
+              <p class="orbit-hud">Left-click or 3-finger drag to pan · 2-finger pinch to zoom · Select a signal to focus</p>
               <p id="orbitInstructions" class="visually-hidden">Arrow keys orbit. Plus and minus zoom. Zero resets the camera. Escape clears the selection.</p>
             </div>
             <div id="graphstate" class="graph-state" role="status" aria-live="polite" hidden><p class="panel-kicker" id="graphstatekicker">Loading evidence map</p><p id="graphstatetext">Retrieving graph-backed records.</p><button id="retrygraph" hidden>Retry load</button></div>
             <div class="empty" id="empty"><p class="panel-kicker">No records in view</p><h3>Nothing to map yet.</h3><p>Upload a source or load one of the seeded demonstrations.</p></div>
           </div>
-          <div class="map-caption" id="mapcaption">Drag nodes to inspect their shape. Drag open space to pan. A selected node, claim, or event always resolves back to its stored record.</div>
+          <div class="map-caption" id="mapcaption">Left-click or 3-finger drag to pan. 2-finger pinch to zoom. Drag nodes to reposition. Selection resolves to stored record.</div>
         </section>
 
         <aside class="stack">

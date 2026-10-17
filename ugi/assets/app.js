@@ -425,22 +425,114 @@ function render(reset = true) {
   orbit?.sync();
 }
 
+let graphDrag = null;
+const graphPointers = new Map();
+
+function getGraphPinchDist() {
+  const pts = Array.from(graphPointers.values());
+  if (pts.length < 2) return null;
+  return Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+}
+
 $("graph").onpointerdown = (event) => {
-  if (event.target !== $("graph")) return;
-  clearSelection();
-  const original = [...view];
-  const start = [event.clientX, event.clientY];
+  if (event.button !== 0 && event.pointerType === "mouse") return;
+  graphPointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
   const bounds = $("graph").getBoundingClientRect();
-  $("graph").setPointerCapture(event.pointerId);
-  $("graph").onpointermove = (pointerEvent) => {
+  graphDrag = {
+    startX: event.clientX,
+    startY: event.clientY,
+    origView: [...view],
+    bounds,
+    moved: false,
+    initialPinchDist: graphPointers.size === 2 ? getGraphPinchDist() : null,
+    initialPinchView: [...view],
+  };
+  try { $("graph").setPointerCapture(event.pointerId); } catch (_) {}
+};
+
+$("graph").onpointermove = (event) => {
+  if (graphPointers.has(event.pointerId)) {
+    graphPointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+  }
+  if (!graphDrag) return;
+
+  // 2-finger pinch zoom on touch screens
+  if (graphPointers.size === 2 && graphDrag.initialPinchDist) {
+    const currentDist = getGraphPinchDist();
+    if (currentDist && currentDist > 10) {
+      const pinchFactor = graphDrag.initialPinchDist / currentDist;
+      const factor = Math.max(0.65, Math.min(1.8, pinchFactor));
+      const newW = Math.max(120, Math.min(6000, graphDrag.initialPinchView[2] * factor));
+      const newH = Math.max(90, Math.min(4500, graphDrag.initialPinchView[3] * factor));
+      view = [
+        graphDrag.initialPinchView[0] + (graphDrag.initialPinchView[2] - newW) / 2,
+        graphDrag.initialPinchView[1] + (graphDrag.initialPinchView[3] - newH) / 2,
+        newW,
+        newH,
+      ];
+      setView();
+      graphDrag.moved = true;
+      return;
+    }
+  }
+
+  // 3-finger drag or left-click drag to move it around
+  const dx = event.clientX - graphDrag.startX;
+  const dy = event.clientY - graphDrag.startY;
+  if (Math.abs(dx) + Math.abs(dy) > 3) {
+    graphDrag.moved = true;
+    const scaleX = graphDrag.origView[2] / graphDrag.bounds.width;
+    const scaleY = graphDrag.origView[3] / graphDrag.bounds.height;
     view = [
-      original[0] - ((pointerEvent.clientX - start[0]) * original[2]) / bounds.width,
-      original[1] - ((pointerEvent.clientY - start[1]) * original[3]) / bounds.height,
-      original[2], original[3],
+      graphDrag.origView[0] - dx * scaleX,
+      graphDrag.origView[1] - dy * scaleY,
+      graphDrag.origView[2],
+      graphDrag.origView[3],
     ];
     setView();
-  };
-  $("graph").onpointerup = () => { $("graph").onpointermove = null; };
+  }
+};
+
+$("graph").onpointerup = (event) => {
+  graphPointers.delete(event.pointerId);
+  try { $("graph").releasePointerCapture(event.pointerId); } catch (_) {}
+  if (graphDrag && !graphDrag.moved) {
+    clearSelection();
+  }
+  if (graphPointers.size === 0) graphDrag = null;
+};
+
+$("graph").onpointercancel = (event) => {
+  graphPointers.delete(event.pointerId);
+  if (graphPointers.size === 0) graphDrag = null;
+};
+
+// 2-finger pinch to zoom in & out (and mouse wheel) in 2D
+$("graph").onwheel = (event) => {
+  event.preventDefault();
+  const bounds = $("graph").getBoundingClientRect();
+  const mouseX = Math.max(0, Math.min(1, (event.clientX - bounds.left) / bounds.width));
+  const mouseY = Math.max(0, Math.min(1, (event.clientY - bounds.top) / bounds.height));
+
+  let factor;
+  if (event.ctrlKey) {
+    // 2-finger pinch on trackpad
+    factor = Math.exp(event.deltaY * 0.012);
+  } else {
+    // Regular 2-finger scroll or wheel
+    factor = event.deltaY > 0 ? 1.09 : 0.91;
+  }
+  factor = Math.max(0.65, Math.min(1.4, factor));
+
+  const newW = Math.max(120, Math.min(6000, view[2] * factor));
+  const newH = Math.max(90, Math.min(4500, view[3] * factor));
+  view = [
+    view[0] + (view[2] - newW) * mouseX,
+    view[1] + (view[3] - newH) * mouseY,
+    newW,
+    newH,
+  ];
+  setView();
 };
 
 function zoom(factor) {
@@ -778,8 +870,64 @@ function createOrbitRenderer() {
   let lineProgram;
   try {
     pointProgram = program(
-      "attribute vec3 p; attribute vec4 c; attribute float s; attribute float diamond; uniform mat4 m; varying vec4 color; varying float shape; void main(){ gl_Position=m*vec4(p,1.0); gl_PointSize=s/max(.25,gl_Position.w); color=c; shape=diamond; }",
-      "precision mediump float; varying vec4 color; varying float shape; void main(){ vec2 q=gl_PointCoord-.5; float edge=shape>.5?abs(q.x)+abs(q.y):dot(q,q); if(edge>.25) discard; float glow=1.0-smoothstep(.0,.25,edge); gl_FragColor=vec4(color.rgb,color.a*(.45+.55*glow)); }",
+      "attribute vec3 p; attribute vec4 c; attribute float s; attribute float diamond; uniform mat4 m; varying vec4 color; varying float shape; void main(){ gl_Position=m*vec4(p,1.0); float size = diamond < -0.5 ? max(10.0, (s * 5.0) / max(0.5, gl_Position.w)) : max(14.0, (s * 7.5)/max(0.5, gl_Position.w)); gl_PointSize=size; color=c; shape=diamond; }",
+      `precision mediump float;
+varying vec4 color;
+varying float shape;
+void main(){
+  vec2 q = (gl_PointCoord - 0.5) * 2.0;
+  bool isPhoton = shape < -0.5;
+  bool isDiamond = (shape > 0.5 && shape < 1.5) || (shape > 2.5);
+  bool isSelected = shape > 1.5;
+
+  if (isPhoton) {
+    float r = length(q);
+    if (r > 1.0) discard;
+    float glow = exp(-r * 2.5);
+    float core = smoothstep(0.4, 0.0, r);
+    vec3 photonColor = mix(color.rgb, vec3(1.0), core * 0.9);
+    float alpha = color.a * (glow * 0.75 + core * 0.55);
+    gl_FragColor = vec4(photonColor, alpha);
+  } else if (isDiamond) {
+    vec2 p = abs(q);
+    float d = p.x + p.y;
+    if (d > 1.0) discard;
+    float facet = 0.65 + 0.35 * (gl_PointCoord.y < 0.5 ? 0.35 : -0.2) + 0.25 * (gl_PointCoord.x < 0.5 ? 0.2 : -0.2);
+    float ridge = 1.0 - smoothstep(0.0, 0.35, abs(p.x - p.y));
+    float rim = smoothstep(0.75, 0.98, d);
+    vec3 base = color.rgb * facet + vec3(0.4) * ridge;
+    if (isSelected) base = mix(base, vec3(1.0, 0.98, 0.95), 0.6) + color.rgb * 0.4;
+    float alpha = color.a * smoothstep(1.0, 0.92, d);
+    gl_FragColor = vec4(base + vec3(rim * 0.45), alpha);
+  } else {
+    float distSq = dot(q, q);
+    if (distSq > 1.0) discard;
+    float r = sqrt(distSq);
+    float z = sqrt(max(0.0, 1.0 - distSq));
+    vec3 normal = normalize(vec3(q.x, -q.y, z));
+    vec3 keyLight = normalize(vec3(-0.45, 0.65, 0.75));
+    float keyDiff = max(0.0, dot(normal, keyLight));
+    vec3 fillLight = normalize(vec3(0.55, -0.45, 0.4));
+    float fillDiff = max(0.0, dot(normal, fillLight)) * 0.35;
+    vec3 viewDir = vec3(0.0, 0.0, 1.0);
+    vec3 keyHalf = normalize(keyLight + viewDir);
+    float spec = pow(max(0.0, dot(normal, keyHalf)), isSelected ? 40.0 : 28.0) * (isSelected ? 1.0 : 0.75);
+    float sheen = pow(max(0.0, dot(normal, keyHalf)), 8.0) * 0.25;
+    float fresnel = pow(1.0 - normal.z, 2.0);
+    vec3 rimGlow = mix(color.rgb, vec3(1.0), 0.35) * (fresnel * 0.65);
+    float core = 1.0 - smoothstep(0.0, 0.92, r);
+    vec3 innerGlow = color.rgb * (core * 0.32);
+    vec3 ambient = color.rgb * 0.30;
+    vec3 diffuse = color.rgb * (keyDiff * 0.58 + fillDiff);
+    vec3 shaded = ambient + diffuse + innerGlow + rimGlow + vec3(1.0) * (spec + sheen);
+    if (isSelected) {
+      float centerHotspot = smoothstep(0.75, 0.0, r);
+      shaded = mix(shaded, vec3(1.0, 0.98, 0.94), 0.5) + vec3(1.0) * (centerHotspot * 0.5) + rimGlow * 0.7;
+    }
+    float alpha = color.a * smoothstep(1.0, 0.90, r);
+    gl_FragColor = vec4(shaded, alpha);
+  }
+}`
     );
     lineProgram = program(
       "attribute vec3 p; attribute vec4 c; uniform mat4 m; varying vec4 color; void main(){ gl_Position=m*vec4(p,1.0); color=c; }",
@@ -794,15 +942,15 @@ function createOrbitRenderer() {
   const pointBuffer = gl.createBuffer();
   const lineBuffer = gl.createBuffer();
   const state = {
-    yaw: .68, pitch: .24, distance: 13, target: [0, 0, 0],
-    autoRotate: !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    yaw: .68, pitch: .24, distance: 7.0, target: [0, 0, 0],
+    autoRotate: false,
     records: [], links: [], pointById: new Map(), screenRecords: [], running: false,
   };
 
   function positionFor(entity, index) {
     const angle = index * 2.399963229728653;
-    const radius = 2.3 + Math.sqrt(index) * .53;
-    return [Math.cos(angle) * radius, ((index % 5) - 2) * .72 + Math.sin(angle * 1.8) * .55, Math.sin(angle) * radius];
+    const radius = 2.5 + Math.sqrt(index) * 0.65;
+    return [Math.cos(angle) * radius, ((index % 5) - 2) * 0.85 + Math.sin(angle * 1.8) * 0.6, Math.sin(angle) * radius];
   }
   function rebuild() {
     const entities = graphData.entities.slice(0, 60);
@@ -832,16 +980,22 @@ function createOrbitRenderer() {
       }
     }
   }
+  function orbitTypeColor(entity) {
+    const type = entity?.entity_type || "";
+    if (/service|component/i.test(type)) return "#ff523d";
+    if (/person/i.test(type)) return "#b388ff";
+    return "#38bdf8";
+  }
   function claimColor(record, selected) {
-    if (selected || queryHighlights.has(record.id)) return orbitHex("#fffdfa", 1);
-    if (record.polarity === "negative") return orbitHex("#a7352a", .75);
-    if (record.modality && record.modality !== "asserted") return orbitHex("#9a691d", .75);
-    return orbitHex(record.kind === "RelationEvent" ? "#6b5b79" : "#5d6b69", .62);
+    if (selected || queryHighlights.has(record.id)) return orbitHex("#67e8f9", 0.95);
+    if (record.polarity === "negative") return orbitHex("#f87171", .75);
+    if (record.modality && record.modality !== "asserted") return orbitHex("#fbbf24", .75);
+    return orbitHex(record.kind === "RelationEvent" ? "#c084fc" : "#38bdf8", .42);
   }
   function nodeColor(item, selected) {
-    if (selected) return orbitHex("#fffdfa", 1);
+    if (selected) return orbitHex("#ffffff", 1);
     if (item.event) return claimColor(item.record, false);
-    return orbitHex(typeColor(item.record), 1);
+    return orbitHex(orbitTypeColor(item.record), 1);
   }
   function matrix() {
     const cosPitch = Math.cos(state.pitch);
@@ -877,14 +1031,31 @@ function createOrbitRenderer() {
     const lines = [];
     const particles = [];
     for (const [index, link] of state.links.entries()) {
+      const isIncident = focus[link.event ? "events" : "claims"].has(link.record.id);
       const opacity = focusOpacity(focus, link.event ? "events" : "claims", link.record.id);
-      const color = claimColor(link.record, focus[link.event ? "events" : "claims"].has(link.record.id));
+      const color = claimColor(link.record, isIncident);
       color[3] *= opacity;
       lines.push(...link.from, ...color, ...link.to, ...color);
+
+      // Streaming glowing energy pulses
       if (!link.event) {
-        const t = ((now * .00018) + index * .137) % 1;
-        const point = link.from.map((value, axis) => value + (link.to[axis] - value) * t);
-        particles.push(...point, 1, .97, .95, opacity, 5, 0);
+        const speed = isIncident ? 0.00032 : 0.00018;
+        const pSize = isIncident ? 11 : 7.5;
+        const pColor = isIncident ? [0.95, 0.99, 1.0, 1.0] : [...color.slice(0, 3), opacity * 0.9];
+
+        const t1 = ((now * speed) + index * 0.173) % 1.0;
+        const pt1 = link.from.map((v, i) => v + (link.to[i] - v) * t1);
+        particles.push(...pt1, ...pColor, pSize, -1.0);
+
+        const t2 = (t1 + 0.5) % 1.0;
+        const pt2 = link.from.map((v, i) => v + (link.to[i] - v) * t2);
+        particles.push(...pt2, ...pColor, pSize * 0.85, -1.0);
+      } else {
+        const speed = isIncident ? 0.00028 : 0.00016;
+        const t = ((now * speed) + index * 0.23) % 1.0;
+        const pt = link.from.map((v, i) => v + (link.to[i] - v) * t);
+        const pColor = isIncident ? [1.0, 0.95, 1.0, 1.0] : [0.91, 0.47, 0.98, opacity * 0.85];
+        particles.push(...pt, ...pColor, isIncident ? 10 : 7, -1.0);
       }
     }
     gl.useProgram(lineProgram);
@@ -904,7 +1075,9 @@ function createOrbitRenderer() {
       const selected = focus[item.event ? "events" : "entities"].has(item.record.id);
       const opacity = focusOpacity(focus, item.event ? "events" : "entities", item.record.id);
       const color = nodeColor(item, selected); color[3] *= opacity;
-      points.push(...item.point, ...color, selected ? 34 : item.event ? 26 : 21, item.event ? 1 : 0);
+      const pointSize = selected ? 42 : item.event ? 30 : 24;
+      const shapeCode = item.event ? (selected ? 3 : 1) : (selected ? 2 : 0);
+      points.push(...item.point, ...color, pointSize, shapeCode);
       const projected = orbitProject(m, item.point, canvas.width, canvas.height);
       if (projected && projected.depth < 1) state.screenRecords.push({...projected, item});
     }
@@ -929,14 +1102,60 @@ function createOrbitRenderer() {
   }
   function renderLabels() {
     labels.replaceChildren();
+    if (viewMode !== "3d") return;
     const focus = selectionContext();
     const candidates = state.screenRecords
       .filter(({item}) => selectedRecordId ? focus[item.event ? "events" : "entities"].has(item.record.id) : true)
       .sort((a, b) => a.depth - b.depth).slice(0, selectedRecordId ? 12 : 10);
     for (const candidate of candidates) {
-      const name = candidate.item.record.name || candidate.item.record.relation_type || "Event";
-      const label = svg("text", {x: candidate.x + 12, y: candidate.y - 8}, name.length > 24 ? `${name.slice(0, 21)}…` : name);
-      labels.append(label);
+      const isSelected = Boolean(selectedRecordId && candidate.item.record.id === selectedRecordId);
+      const rec = candidate.item.record;
+      const isEvent = candidate.item.event;
+      const name = rec.name || rec.relation_type || "Event";
+      const catColor = isEvent ? "#e879f9" : orbitTypeColor(rec);
+      const shortName = name.length > 24 ? `${name.slice(0, 21)}…` : name;
+      const pillW = Math.max(68, Math.round(shortName.length * 7.5 + 28));
+      const pillH = 22;
+      const pillX = (candidate.x + 20 + pillW > canvas.width - 12)
+        ? Math.round(candidate.x - pillW - 20)
+        : Math.round(candidate.x + 20);
+      const pillY = Math.round(candidate.y - 11);
+      const depthOpacity = isSelected ? 1 : Math.max(0.45, Number((1 - candidate.depth * 0.55).toFixed(2)));
+
+      if (isSelected) {
+        const cx = Math.round(candidate.x);
+        const cy = Math.round(candidate.y);
+        const reticle = svg("g", {class: "orbit-reticle"});
+        reticle.append(
+          svg("circle", {cx, cy, r: 28, fill: "none", stroke: catColor, "stroke-width": 1.5, "stroke-dasharray": "5 3", opacity: "0.95"}),
+          svg("circle", {cx, cy, r: 36, fill: "none", stroke: catColor, "stroke-width": 1, opacity: "0.38"})
+        );
+        labels.append(reticle);
+      }
+
+      const badgeGroup = svg("g", {
+        class: isSelected ? "orbit-badge orbit-badge-selected" : "orbit-badge",
+        opacity: depthOpacity,
+      });
+      const rect = svg("rect", {
+        x: pillX, y: pillY, width: pillW, height: pillH, rx: 6,
+        fill: isSelected ? "rgba(10, 24, 40, 0.92)" : "rgba(11, 17, 26, 0.82)",
+        stroke: isSelected ? catColor : "rgba(255, 255, 255, 0.16)",
+        "stroke-width": isSelected ? 1.5 : 1,
+      });
+      const dot = svg("circle", {
+        cx: pillX + 10, cy: pillY + 11, r: 3.5,
+        fill: catColor,
+      });
+      const text = svg("text", {
+        x: pillX + 20, y: pillY + 15,
+        fill: isSelected ? "#ffffff" : "#f1f5f9",
+        "font-size": "11",
+        "font-weight": isSelected ? "700" : "500",
+      }, shortName);
+
+      badgeGroup.append(rect, dot, text);
+      labels.append(badgeGroup);
     }
   }
   function focus(record) {
@@ -951,33 +1170,109 @@ function createOrbitRenderer() {
     const dpr = window.devicePixelRatio || 1;
     const match = state.screenRecords
       .map((item) => ({item, distance: Math.hypot(item.x - x, item.y - y)}))
-      .filter((item) => item.distance < 24 * dpr)
+      .filter((item) => item.distance < 28 * dpr)
       .sort((a, b) => a.distance - b.distance || a.item.depth - b.item.depth)[0];
     if (match) { focus(match.item.item.record); selectRecord(match.item.item.record); }
     else clearSelection();
   }
   let drag = null;
+  const orbitPointers = new Map();
+
+  function getOrbitPinchDist() {
+    const pts = Array.from(orbitPointers.values());
+    if (pts.length < 2) return null;
+    return Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+  }
+
   canvas.oncontextmenu = (event) => event.preventDefault();
   canvas.onpointerdown = (event) => {
-    drag = {x: event.clientX, y: event.clientY, yaw: state.yaw, pitch: state.pitch, target: [...state.target], pan: event.button === 2 || event.shiftKey, moved: false};
-    canvas.setPointerCapture(event.pointerId);
+    orbitPointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    drag = {
+      x: event.clientX, y: event.clientY,
+      yaw: state.yaw, pitch: state.pitch,
+      target: [...state.target],
+      orbit: event.button === 2 || event.shiftKey,
+      moved: false,
+      initialPinchDist: orbitPointers.size === 2 ? getOrbitPinchDist() : null,
+      initialDist: state.distance,
+    };
+    try { canvas.setPointerCapture(event.pointerId); } catch (_) {}
   };
   canvas.onpointermove = (event) => {
+    if (orbitPointers.has(event.pointerId)) {
+      orbitPointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    }
     if (!drag) return;
+
+    // 2-finger touch pinch zoom
+    if (orbitPointers.size === 2 && drag.initialPinchDist) {
+      const currentDist = getOrbitPinchDist();
+      if (currentDist && currentDist > 10) {
+        const factor = drag.initialPinchDist / currentDist;
+        state.distance = Math.max(2.5, Math.min(22, drag.initialDist * factor));
+        drag.moved = true;
+        return;
+      }
+    }
+
+    // 3-finger drag or left-click drag: PAN the graph directly according to drag
     const dx = event.clientX - drag.x;
     const dy = event.clientY - drag.y;
-    drag.moved ||= Math.abs(dx) + Math.abs(dy) > 4;
-    if (drag.pan) {
-      state.target = [drag.target[0] - dx * .015, drag.target[1] + dy * .015, drag.target[2]];
+    drag.moved ||= Math.abs(dx) + Math.abs(dy) > 3;
+    if (!drag.moved) return;
+
+    if (drag.orbit) {
+      state.yaw = drag.yaw + dx * 0.007;
+      state.pitch = Math.max(-1.25, Math.min(1.25, drag.pitch + dy * 0.007));
     } else {
-      state.yaw = drag.yaw + dx * .008;
-      state.pitch = Math.max(-1.25, Math.min(1.25, drag.pitch + dy * .008));
+      // Calculate camera right and up vectors in world space
+      const cosPitch = Math.cos(state.pitch);
+      const eye = [
+        state.target[0] + state.distance * cosPitch * Math.sin(state.yaw),
+        state.target[1] + state.distance * Math.sin(state.pitch),
+        state.target[2] + state.distance * cosPitch * Math.cos(state.yaw),
+      ];
+      const forward = orbitNormalize(orbitSubtract(eye, state.target));
+      const right = orbitNormalize(orbitCross([0, 1, 0], forward));
+      const up = orbitCross(forward, right);
+
+      // Exact screen-to-world scaling at focal plane (48 deg FOV)
+      const unitsPerPixel = (2.0 * state.distance * 0.445228685) / Math.max(1, canvas.height);
+      const moveX = dx * unitsPerPixel;
+      const moveY = dy * unitsPerPixel;
+
+      // Pan camera target directly according to screen drag (moves graph with cursor)
+      state.target = [
+        drag.target[0] - right[0] * moveX + up[0] * moveY,
+        drag.target[1] - right[1] * moveX + up[1] * moveY,
+        drag.target[2] - right[2] * moveX + up[2] * moveY,
+      ];
     }
   };
-  canvas.onpointerup = (event) => { if (drag && !drag.moved) pick(event.clientX, event.clientY); drag = null; };
-  canvas.onwheel = (event) => { event.preventDefault(); state.distance = Math.max(4, Math.min(28, state.distance * (event.deltaY > 0 ? 1.12 : .89))); };
+  canvas.onpointerup = (event) => {
+    orbitPointers.delete(event.pointerId);
+    try { canvas.releasePointerCapture(event.pointerId); } catch (_) {}
+    if (drag && !drag.moved) pick(event.clientX, event.clientY);
+    if (orbitPointers.size === 0) drag = null;
+  };
+  canvas.onpointercancel = (event) => {
+    orbitPointers.delete(event.pointerId);
+    if (orbitPointers.size === 0) drag = null;
+  };
+  canvas.onwheel = (event) => {
+    event.preventDefault();
+    if (event.ctrlKey) {
+      // 2-finger pinch on trackpad
+      const zoomFactor = Math.exp(event.deltaY * 0.01);
+      state.distance = Math.max(2.5, Math.min(22, state.distance * zoomFactor));
+    } else {
+      // Regular scroll wheel / 2-finger scroll
+      const factor = event.deltaY > 0 ? 1.08 : 0.92;
+      state.distance = Math.max(2.5, Math.min(22, state.distance * factor));
+    }
+  };
   canvas.onkeydown = (event) => {
-    const keys = {ArrowLeft: () => { state.yaw -= .13; }, ArrowRight: () => { state.yaw += .13; }, ArrowUp: () => { state.pitch = Math.max(-1.25, state.pitch - .1); }, ArrowDown: () => { state.pitch = Math.min(1.25, state.pitch + .1); }, "+": () => { state.distance = Math.max(4, state.distance * .88); }, "-": () => { state.distance = Math.min(28, state.distance * 1.14); }, "0": () => { state.yaw = .68; state.pitch = .24; state.distance = 13; state.target = [0, 0, 0]; }, Escape: () => clearSelection()};
+    const keys = {ArrowLeft: () => { state.yaw -= .13; }, ArrowRight: () => { state.yaw += .13; }, ArrowUp: () => { state.pitch = Math.max(-1.25, state.pitch - .1); }, ArrowDown: () => { state.pitch = Math.min(1.25, state.pitch + .1); }, "+": () => { state.distance = Math.max(2.5, state.distance * .88); }, "-": () => { state.distance = Math.min(18, state.distance * 1.14); }, "0": () => { state.yaw = .68; state.pitch = .24; state.distance = 7.0; state.target = [0, 0, 0]; }, Escape: () => clearSelection()};
     if (!keys[event.key]) return;
     event.preventDefault();
     keys[event.key]();
@@ -988,7 +1283,7 @@ function createOrbitRenderer() {
     failed: false,
     sync(focusRecord = false) { rebuild(); if (focusRecord && selectedRecordId) focus(recordById(selectedRecordId)); },
     start() { if (!state.running) { state.running = true; requestAnimationFrame(draw); } },
-    reset() { state.yaw = .68; state.pitch = .24; state.distance = 13; state.target = [0, 0, 0]; },
+    reset() { state.yaw = .68; state.pitch = .24; state.distance = 7.0; state.target = [0, 0, 0]; },
     setAutoRotate(value) { state.autoRotate = value; },
     get autoRotate() { return state.autoRotate; },
   };
@@ -1006,8 +1301,8 @@ function setViewMode(mode) {
   $("autoRotate").hidden = !orbitView;
   $("zoomIn").hidden = orbitView; $("zoomOut").hidden = orbitView; $("resetview").hidden = orbitView;
   $("mapcaption").textContent = orbitView
-    ? "Orbit the same source-backed evidence in three dimensions. Directional particles show claim flow; selection always resolves to the stored record."
-    : "Drag nodes to inspect their shape. Drag open space to pan. A selected node, claim, or event always resolves back to its stored record.";
+    ? "3D Graph: left-click / 3-finger drag to pan, 2-finger pinch to zoom. Selection resolves to stored record."
+    : "2D Graph: left-click / 3-finger drag to pan, 2-finger pinch to zoom, drag nodes to reposition. Selection resolves to stored record.";
   if (orbitView) {
     orbit ||= createOrbitRenderer();
     $("autoRotate").setAttribute("aria-pressed", String(orbit.autoRotate));

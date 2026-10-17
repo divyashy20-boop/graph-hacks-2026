@@ -232,6 +232,45 @@ test("ugiBSetViewMode coordinates 2D and 3D states with accessible ARIA", () => 
   assert(activated3D);
 });
 
+test("ugiBGetVolumetricShaderSources provides valid volumetric 3D shaders with diffuse, specular, and selection corona", () => {
+  const shaders = orbitInteraction.ugiBGetVolumetricShaderSources();
+  assert(shaders.vertex.includes("attribute vec3 p;"));
+  assert(shaders.vertex.includes("attribute float diamond;"));
+  assert(shaders.fragment.includes("vec3 normal = normalize"));
+  assert(shaders.fragment.includes("float spec = pow"));
+  assert(shaders.fragment.includes("float fresnel = pow"));
+  assert(shaders.fragment.includes("isSelected"));
+  assert(shaders.fragment.includes("isDiamond"));
+  assert(shaders.fragment.includes("isPhoton"));
+});
+
+test("ugiBFormatOrbitBadge computes HUD pill metrics, category colors, and selection flags faithfully", () => {
+  assert.strictEqual(orbitInteraction.ugiBFormatOrbitBadge(null, null), null);
+
+  const candidateService = {
+    x: 100, y: 150, depth: 0.2,
+    item: { record: { id: "svc-1", name: "Checkout Service Very Long Name", entity_type: "Service" }, event: false }
+  };
+  const badge1 = orbitInteraction.ugiBFormatOrbitBadge(candidateService, "svc-1", 1000);
+  assert.strictEqual(badge1.isSelected, true);
+  assert.strictEqual(badge1.catColor, "#ff523d");
+  assert(badge1.shortName.endsWith("…"));
+  assert.strictEqual(badge1.depthOpacity, 1);
+  assert.strictEqual(badge1.pillX, 120);
+
+  const candidateEvent = {
+    x: 950, y: 200, depth: 0.8,
+    item: { record: { id: "ev-1", relation_type: "OUTAGE" }, event: true }
+  };
+  const badge2 = orbitInteraction.ugiBFormatOrbitBadge(candidateEvent, null, 1000);
+  assert.strictEqual(badge2.isSelected, false);
+  assert.strictEqual(badge2.catColor, "#e879f9");
+  assert.strictEqual(badge2.shortName, "OUTAGE");
+  assert(badge2.depthOpacity < 1 && badge2.depthOpacity >= 0.45);
+  // Flipped because close to right canvas edge:
+  assert(badge2.pillX < 950);
+});
+
 // -------------------------------------------------------------
 // Suite 3: graph_status.js
 // -------------------------------------------------------------
