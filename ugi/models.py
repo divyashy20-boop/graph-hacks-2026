@@ -75,6 +75,10 @@ class Settings(BaseSettings):
     schema_writes: bool = False
     open_predicates: bool = False
     identity_ledger: bool = False
+    # Explicit opt-in only. Guided investigations never invoke persistent actions.
+    guided_agent_enabled: bool = False
+    memory_enabled: bool = False
+    memory_path: str = ""
     identity_resolution: Literal["off", "dry_run"] = "off"
     identity_auto_apply: bool = False
     identity_authorities: dict[str, list[str]] = Field(default_factory=dict)
@@ -86,11 +90,18 @@ class Settings(BaseSettings):
     output_price: float = Field(default=0, ge=0)
     daily_cost_limit: float = Field(default=0.25, gt=0)
     max_model_calls: int = Field(default=4, ge=1, le=8)
+    extraction_windows: int = Field(default=1, ge=1, le=2)
     max_output_tokens: int = Field(default=1500, ge=100, le=4096)
     max_input_tokens: int = Field(default=12000, ge=100, le=20000)
 
     @model_validator(mode="after")
     def configuration(self):
+        if self.memory_enabled:
+            from pathlib import Path
+            # A bound volume is required. /tmp would erase receipt integrity on restart.
+            path = Path(self.memory_path)
+            if not self.guided_agent_enabled or not self.memory_path or not path.is_absolute():
+                raise ValueError("Memory requires guided_agent_enabled and an absolute persistent memory_path")
         if self.identity_resolution != "off" and not self.identity_ledger:
             raise ValueError("Identity resolution requires identity_ledger=true")
         if self.identity_auto_apply and self.identity_resolution == "off":

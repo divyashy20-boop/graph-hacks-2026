@@ -1,0 +1,89 @@
+{
+  "source_repository": "https://github.com/docker/awesome-compose",
+  "pinned_commit": "30f4b7f6a6c3b0c0ecf4d4efb0de203c48d11562",
+  "license": "CC0-1.0",
+  "license_url": "https://github.com/docker/awesome-compose/blob/30f4b7f6a6c3b0c0ecf4d4efb0de203c48d11562/LICENSE",
+  "sources": [
+    {
+      "name": "nginx-flask-mysql",
+      "repo_path": "nginx-flask-mysql/compose.yaml",
+      "sha256": "f20d4491a7081e9cd0bc40d16287537528a7fbc7d93de6dc381ba8766ba0014d",
+      "snapshot": "nginx-flask-mysql.compose.yaml",
+      "expected_edges": [
+        [
+          "backend",
+          "db"
+        ],
+        [
+          "proxy",
+          "backend"
+        ]
+      ],
+      "raw_url": "https://raw.githubusercontent.com/docker/awesome-compose/30f4b7f6a6c3b0c0ecf4d4efb0de203c48d11562/nginx-flask-mysql/compose.yaml"
+    },
+    {
+      "name": "nginx-nodejs-redis",
+      "repo_path": "nginx-nodejs-redis/compose.yaml",
+      "sha256": "a184326894707f264328d271df02d323cecc0c98c62326a779b5dab9a2b95bd2",
+      "snapshot": "nginx-nodejs-redis.compose.yaml",
+      "expected_edges": [
+        [
+          "nginx",
+          "web1"
+        ],
+        [
+          "nginx",
+          "web2"
+        ]
+      ],
+      "raw_url": "https://raw.githubusercontent.com/docker/awesome-compose/30f4b7f6a6c3b0c0ecf4d4efb0de203c48d11562/nginx-nodejs-redis/compose.yaml"
+    },
+    {
+      "name": "nginx-flask-mongo",
+      "repo_path": "nginx-flask-mongo/compose.yaml",
+      "sha256": "8325dd79f0679ae654de124bab061e2a385ac5f56f2d68b33958c62f99aa9454",
+      "snapshot": "nginx-flask-mongo.compose.yaml",
+      "expected_edges": [
+        [
+          "web",
+          "backend"
+        ],
+        [
+          "backend",
+          "mongo"
+        ]
+      ],
+      "raw_url": "https://raw.githubusercontent.com/docker/awesome-compose/30f4b7f6a6c3b0c0ecf4d4efb0de203c48d11562/nginx-flask-mongo/compose.yaml"
+    },
+    {
+      "name": "flask-redis",
+      "repo_path": "flask-redis/compose.yaml",
+      "sha256": "e74ce3a1493a0be8f7483acabe0c6902b045db48d2d174b267f2bad0083aa288",
+      "snapshot": "flask-redis.compose.yaml",
+      "expected_edges": [
+        [
+          "web",
+          "redis"
+        ]
+      ],
+      "raw_url": "https://raw.githubusercontent.com/docker/awesome-compose/30f4b7f6a6c3b0c0ecf4d4efb0de203c48d11562/flask-redis/compose.yaml"
+    },
+    {
+      "name": "nginx-golang-postgres",
+      "repo_path": "nginx-golang-postgres/compose.yaml",
+      "sha256": "f2aaf93fd4fe97b4057952ecc02f8e40c68e18f75b8bfe5023c0416eb882c8dd",
+      "snapshot": "nginx-golang-postgres.compose.yaml",
+      "expected_edges": [
+        [
+          "backend",
+          "db"
+        ],
+        [
+          "proxy",
+          "backend"
+        ]
+      ],
+      "raw_url": "https://raw.githubusercontent.com/docker/awesome-compose/30f4b7f6a6c3b0c0ecf4d4efb0de203c48d11562/nginx-golang-postgres/compose.yaml"
+    }
+  ]
+}

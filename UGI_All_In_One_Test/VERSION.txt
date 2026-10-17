@@ -1,0 +1,4 @@
+ugi-all-in-one-guided-controller-v5.0
+Patch engine: ugi-rule-resolution-consistency-v2
+Live FalkorDB: requires user Windows Docker
+Unique Docker temp per run: required (no old temp deletion)

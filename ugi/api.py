@@ -15,6 +15,11 @@ from .models import InvestigationRequest, RelationQuery, ReviewDecision, Setting
 from .resolution import AuthorityObservation, IdentityResolver
 from .schema import MappingChange, PackRef, PackRegistration, SchemaRuntime
 from .store import Store
+from pydantic import BaseModel, Field
+
+
+class GuidedQuestion(BaseModel):
+    query: str = Field(min_length=5, max_length=2000)
 
 
 def create_app(settings=None):
@@ -33,12 +38,7 @@ def create_app(settings=None):
         return Store(settings, owner, dataset)
 
     def seed_memory_demo(store, dataset):
-        """Populate only the selected synthetic showcase in local memory mode.
-
-        In-memory stores live inside the API process, so the CLI seed command
-        cannot populate a separately started local server. This keeps the
-        demonstration selector truthful without affecting FalkorDB datasets.
-        """
+        """Seed only selected synthetic memory-mode demos; never touch FalkorDB."""
         if settings.backend != "memory" or dataset not in demo_sources or store.list("Source", 1):
             return
         with demo_seed_lock:
@@ -86,14 +86,17 @@ def create_app(settings=None):
 
     @app.get("/assets/{filename}")
     def asset(filename: str):
-        if filename not in {"app.js", "style.css"}:
+        if filename not in {"app.js", "style.css", "guided.js"}:
             raise HTTPException(404, "Asset not found")
         return FileResponse(Path(__file__).with_name("assets") / filename)
 
     @app.get("/health")
     def health():
         return {"service": "ugi", "backend": settings.backend,
-                "provider": settings.provider, "live_inference_verified": False}
+                "provider": settings.provider, "live_inference_verified": False,
+                "guided_agent_enabled": settings.guided_agent_enabled,
+                "memory_enabled": settings.memory_enabled,
+                "external_action_fencing": False}
 
     @app.get("/ready")
     def ready(engine=Depends(context)):
@@ -274,13 +277,54 @@ def create_app(settings=None):
             engine.store.commit([task, action])
         return task
 
+    # Read-only, opt-in controller; no persistent actions are available from it.
+    @app.post("/api/agent/guided")
+    def guided_agent(request: GuidedQuestion,
+                     x_dataset: str = Header(default="demo", min_length=1, max_length=60,
+                                             pattern=r"^[a-zA-Z0-9_-]+$"),
+                     engine=Depends(context)):
+        if not (settings.guided_agent_enabled and settings.memory_enabled):
+            raise HTTPException(404, "Guided agent not enabled")
+        from .agent_integration import run_guided
+        from .memory.bridge import BridgeError
+        from .memory.core import PolicyError
+        try:
+            return run_guided(engine, settings, x_dataset, request.query)
+        except (BridgeError, PolicyError) as exc:
+            raise HTTPException(409, str(exc)) from exc
+
+    @app.get("/api/agent/receipts/{receipt_id}/freshness")
+    def guided_freshness(receipt_id: str,
+                         x_dataset: str = Header(default="demo", min_length=1, max_length=60,
+                                                 pattern=r"^[a-zA-Z0-9_-]+$"),
+                         engine=Depends(context)):
+        if not (settings.guided_agent_enabled and settings.memory_enabled):
+            raise HTTPException(404, "Receipt memory not enabled")
+        if len(receipt_id) != 32 or any(c not in "0123456789abcdef" for c in receipt_id):
+            raise HTTPException(404, "Unknown receipt")
+        from .agent_integration import check_receipt
+        from .memory.bridge import BridgeError
+        from .memory.core import PolicyError
+        from .memory.registry import RegistryError
+        try:
+            return check_receipt(engine, settings, x_dataset, receipt_id)
+        except (PolicyError, BridgeError, RegistryError) as exc:
+            # Safest behavior on unavailable evidence is to refuse reuse.
+            if "SCOPE" in str(exc) or "UNKNOWN_RECEIPT" in str(exc):
+                raise HTTPException(404, "Unknown receipt") from exc
+            raise HTTPException(503, "Freshness could not be verified; do not reuse") from exc
+
     @app.get("/api/tools")
     def tools(engine=Depends(context)):
         return {"planner": "bounded deterministic graph policy", "max_steps": settings.max_tool_steps,
                 "read_only": ["resolve_identity", "retrieve_claims", "reverse_dependency_paths",
                               "find_conflicts", "relationship_without_hypothesis"],
                 "writes": ["create_investigation_and_reviews", "review_decision", "create_hypothesis"],
-                "external_actions": [], "arbitrary_cypher": False}
+                "external_actions": [], "arbitrary_cypher": False,
+                "guided_agent_enabled": settings.guided_agent_enabled,
+                "receipt_memory_enabled": settings.memory_enabled,
+                "receipt_capture_scope": "guided_agent_endpoint_only",
+                "external_action_fencing": False}
 
     app.state.store_for = store_for
     app.state.settings = settings

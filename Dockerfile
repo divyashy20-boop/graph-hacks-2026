@@ -2,7 +2,8 @@ FROM python:3.12-slim
 WORKDIR /app
 COPY pyproject.toml ./
 COPY ugi ./ugi
-RUN pip install --no-cache-dir . && useradd --create-home appuser
+COPY demo ./demo
+RUN pip install --no-cache-dir . && useradd --create-home appuser && mkdir -p /var/lib/ugi && chown appuser:appuser /var/lib/ugi
 USER appuser
 EXPOSE 8000
 CMD ["uvicorn", "ugi.api:app", "--host", "0.0.0.0", "--port", "8000"]
