@@ -4,22 +4,23 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#0a0e14">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>UGI — Spatial evidence operations</title>
-  <link rel="stylesheet" href="/assets/style.css?v=ui-bg-v3">
+  <link rel="stylesheet" href="/assets/style.css?v=ui-bg-v8">
   <script defer src="/assets/app.js?v=ui-008"></script>
   <script defer src="/assets/guided.js?v=ugi-p5"></script>
-  <script defer src="/assets/bg.js?v=ui-bg-v3"></script>
+  <script defer src="/assets/bg.js?v=ui-bg-v8"></script>
 </head>
 <body>
   <div class="ugi-bg" aria-hidden="true">
     <div class="ugi-bg-base"></div>
     <div class="ugi-bg-orbs">
       <div class="ugi-bg-orb ugi-bg-orb--a"></div>
-      <div class="ugi-bg-orb ugi-bg-orb--b"></div>
       <div class="ugi-bg-orb ugi-bg-orb--c"></div>
     </div>
     <div class="ugi-bg-grid"></div>
-    <canvas id="ugi-bg-canvas" class="ugi-bg-canvas"></canvas>
     <div class="ugi-bg-grain"></div>
   </div>
   <div class="app-shell">
@@ -39,18 +40,24 @@
           </div>
           <p class="intro">Universal Graph Intelligence turns connected sources into inspectable evidence — with uncertainty and action boundaries left intact.</p>
         </div>
-        <div class="signal-sculpture" aria-hidden="true">
-          <span class="sculpture-plane sculpture-plane--back"></span>
-          <span class="sculpture-plane sculpture-plane--front"></span>
-          <span class="sculpture-core"></span>
-          <span class="sculpture-path"></span>
-          <span class="sculpture-label sculpture-label--bottom">EVIDENCE HAS CONTEXT</span>
-          <span class="sculpture-ann sculpture-ann--coord">REC · 38.89°N 77.03°W</span>
-          <span class="sculpture-ann sculpture-ann--rel">CLAIM → ENTITY</span>
-          <span class="sculpture-ann sculpture-ann--src">SOURCE 04 · CONF 0.82</span>
-          <span class="sculpture-ann sculpture-ann--cross-a">+</span>
-          <span class="sculpture-ann sculpture-ann--cross-b">+</span>
+        <div class="hero-visual signal-sculpture" aria-hidden="true">
+          <div class="hero-art">
+            <div class="hero-halo"></div>
+            <canvas id="hero-graph-canvas" class="hero-graph-canvas"></canvas>
+            <span class="sculpture-plane sculpture-plane--back"></span>
+            <span class="sculpture-plane sculpture-plane--front"></span>
+            <span class="sculpture-core"></span>
+            <span class="sculpture-path"></span>
+          </div>
+          <div class="hero-annotations">
+            <span class="sculpture-ann sculpture-ann--coord">NODE 07 · PATH ACTIVE</span>
+            <span class="sculpture-ann sculpture-ann--rel"><span class="ann-text">CLAIM → ENTITY</span><span class="ann-line" aria-hidden="true"></span></span>
+            <span class="sculpture-ann sculpture-ann--cross-a">+</span>
+          </div>
         </div>
+        <span class="sculpture-ann sculpture-ann--src" aria-hidden="true">SOURCE 04</span>
+        <span class="sculpture-label sculpture-label--bottom" aria-hidden="true">EVIDENCE HAS CONTEXT</span>
+        <span class="sculpture-ann sculpture-ann--cross-b" aria-hidden="true">+</span>
       </div>
 
       <div class="control-deck" aria-label="Dataset controls">
@@ -179,24 +186,59 @@
   <script>
     if (!window.ugiBgLoaded) {
       (function() {
-        var canvas = document.getElementById('ugi-bg-canvas');
-        if (!canvas) return;
+        var wrapper = document.querySelector('.hero-visual');
+        var art = document.querySelector('.hero-art') || document.querySelector('.hero-visual-stage');
+        var canvas = document.getElementById('hero-graph-canvas');
+        if (!canvas || !wrapper || !art) return;
         var ctx = canvas.getContext('2d');
         var mql = window.matchMedia('(prefers-reduced-motion: reduce)');
         var PRM = mql.matches;
-        var rafId = null, hidden = false, tStart = null;
-        var CFG = { nodeCount: 22, minR: 1.5, maxR: 3.2, edgeOp: 0.10, nodeOp: 0.14, brightOp: 0.32, tracerSecs: 11, glow: 0.45, drift: 3.5, blue: '103,167,200', copper: '207,102,76' };
-        function resize() { var dpr = window.devicePixelRatio || 1, w = window.innerWidth, h = window.innerHeight; canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); return {w:w, h:h}; }
+        var rafId = null, hidden = document.hidden, isIntersecting = true, tStart = null;
+        var CFG = { nodeCount: 22, minR: 1.6, maxR: 3.2, edgeOp: 0.12, nodeOp: 0.16, brightOp: 0.36, tracerSecs: 11, glow: 0.50, drift: 2.5, blue: '103,167,200', copper: '207,102,76' };
+        function resize() {
+          var dpr = window.devicePixelRatio || 1;
+          var w = art.offsetWidth || wrapper.clientWidth || 540;
+          var h = art.offsetHeight || wrapper.clientHeight || 320;
+          canvas.width = Math.round(w * dpr);
+          canvas.height = Math.round(h * dpr);
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          return { w: w, h: h };
+        }
         function buildNodes(w, h) {
-          var nodes = [], cx = Math.max(w * 0.65, Math.min(w * 0.82, w * 0.76)), cy = Math.max(120, Math.min(260, h * 0.25));
-          nodes.push({ bx: cx - 24, by: cy - 14, x: cx - 24, y: cy - 14, r: 2.8, bright: true, da: 0.4, ds: 0.03 });
-          nodes.push({ bx: cx + 28, by: cy + 18, x: cx + 28, y: cy + 18, r: 2.5, bright: false, da: 1.2, ds: 0.04 });
-          nodes.push({ bx: cx - 8,  by: cy + 34, x: cx - 8,  by: cy + 34, r: 3.0, bright: true, da: 2.1, ds: 0.035 });
-          for (var i = 3; i < CFG.nodeCount; i++) {
-            var ang = Math.random() * Math.PI * 2, d = 45 + Math.random() * Math.min(w * 0.22, 230);
-            var x = Math.max(w * 0.48, Math.min(w * 0.96, cx + Math.cos(ang) * d * (0.6 + Math.random() * 0.8)));
-            var y = Math.max(25, Math.min(Math.max(380, h * 0.55), cy + Math.sin(ang) * d * (0.5 + Math.random() * 0.7)));
-            nodes.push({ bx: x, by: y, x: x, y: y, r: CFG.minR + Math.random() * (CFG.maxR - CFG.minR), bright: i < 7, da: Math.random() * Math.PI * 2, ds: (0.5 + Math.random() * 0.8) / 20 });
+          var nodes = [];
+          var cx = w * 0.50, cy = h * 0.46;
+          var core = art.querySelector('.sculpture-core');
+          var artRect = art.getBoundingClientRect();
+          var scale = artRect.width / (art.offsetWidth || w || 1);
+          if (scale <= 0) scale = 1;
+          if (core) {
+            var coreRect = core.getBoundingClientRect();
+            cx = (coreRect.left + coreRect.width / 2 - artRect.left) / scale;
+            cy = (coreRect.top + coreRect.height / 2 - artRect.top) / scale;
+          }
+          var line = document.querySelector('.sculpture-ann--rel .ann-line');
+          var anchorX = w * 0.28, anchorY = h * 0.25;
+          if (line) {
+            var lineRect = line.getBoundingClientRect();
+            anchorX = (lineRect.right - artRect.left) / scale;
+            anchorY = (lineRect.top + lineRect.height / 2 - artRect.top) / scale;
+          }
+          nodes.push({ bx: anchorX, by: anchorY, x: anchorX, y: anchorY, r: 3.2, bright: true, da: 0, ds: 0 });
+          nodes.push({ bx: cx + 32, by: cy - 24, x: cx + 32, y: cy - 24, r: 2.6, bright: false, da: 1.2, ds: 0.035 });
+          nodes.push({ bx: cx + 38, by: cy + 18, x: cx + 38, y: cy + 18, r: 2.8, bright: true,  da: 2.5, ds: 0.03 });
+          nodes.push({ bx: cx - 34, by: cy - 18, x: cx - 34, y: cy - 18, r: 2.4, bright: false, da: 3.1, ds: 0.04 });
+          var directionalAngles = [
+            -Math.PI * 0.85, -Math.PI * 0.68, -Math.PI * 0.50, -Math.PI * 0.35, -Math.PI * 0.18,
+            0, Math.PI * 0.14, Math.PI * 0.28, Math.PI * 0.45, Math.PI * 0.58,
+            Math.PI * 0.85, -Math.PI * 0.95, -Math.PI * 0.55, -Math.PI * 0.25, 0.08,
+            Math.PI * 0.22, -Math.PI * 0.42, -Math.PI * 0.72
+          ];
+          for (var i = 0; i < directionalAngles.length && nodes.length < CFG.nodeCount; i++) {
+            var ang = directionalAngles[i] + (Math.random() - 0.5) * 0.22;
+            var dist = 42 + Math.pow(Math.random(), 1.2) * (Math.min(w, h) * 0.48);
+            var nx = Math.max(w * 0.06, Math.min(w * 0.94, cx + Math.cos(ang) * dist));
+            var ny = Math.max(h * 0.06, Math.min(h * 0.90, cy + Math.sin(ang) * (dist * 0.72)));
+            nodes.push({ bx: nx, by: ny, x: nx, y: ny, r: CFG.minR + Math.random() * (CFG.maxR - CFG.minR), bright: nodes.length < 5, da: Math.random() * Math.PI * 2, ds: (0.4 + Math.random() * 0.7) / 20 });
           }
           return nodes;
         }
@@ -226,16 +268,19 @@
           return path.length >= 3 ? path.slice(0, Math.min(10, path.length)) : path;
         }
         var dim = { w: 0, h: 0 }, nodes = [], edges = [], tracer = [];
-        function init() { dim = resize(); nodes = buildNodes(dim.w, dim.h); edges = buildEdges(nodes, Math.min(dim.w * 0.20, 185)); tracer = buildTracer(nodes, edges); }
+        function init() { dim = resize(); nodes = buildNodes(dim.w, dim.h); edges = buildEdges(nodes, Math.min(dim.w * 0.36, 135)); tracer = buildTracer(nodes, edges); }
         function draw(ts) {
           if (tStart === null) tStart = ts;
           var elapsed = (ts - tStart) / 1000;
           ctx.clearRect(0, 0, dim.w, dim.h);
           if (!PRM) {
             for (var i = 0; i < nodes.length; i++) {
-              var n = nodes[i], p = elapsed * n.ds * Math.PI * 2;
-              n.x = n.bx + Math.cos(n.da + p) * CFG.drift;
-              n.y = n.by + Math.sin(n.da + p * 0.7) * CFG.drift;
+              var n = nodes[i];
+              if (n.ds > 0) {
+                var p = elapsed * n.ds * Math.PI * 2;
+                n.x = n.bx + Math.cos(n.da + p) * CFG.drift;
+                n.y = n.by + Math.sin(n.da + p * 0.7) * CFG.drift;
+              }
             }
           }
           ctx.lineWidth = 0.85;
@@ -253,18 +298,31 @@
           if (tracer.length >= 2) {
             var t = PRM ? 0.35 : (elapsed % CFG.tracerSecs) / CFG.tracerSecs, sc = tracer.length - 1, st = t * sc, si = Math.min(Math.floor(st), sc - 1), sf = st - si;
             var nodeA = nodes[tracer[si]], nodeB = nodes[tracer[si + 1]], tx = nodeA.x + (nodeB.x - nodeA.x) * sf, ty = nodeA.y + (nodeB.y - nodeA.y) * sf;
-            var g = ctx.createRadialGradient(tx, ty, 0, tx, ty, 10);
+            var g = ctx.createRadialGradient(tx, ty, 0, tx, ty, 11);
             g.addColorStop(0, 'rgba(' + CFG.copper + ',' + CFG.glow + ')'); g.addColorStop(1, 'rgba(' + CFG.copper + ',0)');
-            ctx.beginPath(); ctx.arc(tx, ty, 10, 0, Math.PI * 2); ctx.fillStyle = g; ctx.fill();
-            ctx.beginPath(); ctx.arc(tx, ty, 2.6, 0, Math.PI * 2); ctx.fillStyle = 'rgba(' + CFG.copper + ',0.92)'; ctx.fill();
+            ctx.beginPath(); ctx.arc(tx, ty, 11, 0, Math.PI * 2); ctx.fillStyle = g; ctx.fill();
+            ctx.beginPath(); ctx.arc(tx, ty, 2.6, 0, Math.PI * 2); ctx.fillStyle = 'rgba(' + CFG.copper + ',0.95)'; ctx.fill();
           }
         }
         var lastTs = 0;
-        function loop(ts) { if (hidden || PRM) return; rafId = requestAnimationFrame(loop); if (ts - lastTs < 25) return; lastTs = ts; draw(ts); }
+        function loop(ts) { if (hidden || !isIntersecting || PRM) return; rafId = requestAnimationFrame(loop); if (ts - lastTs < 25) return; lastTs = ts; draw(ts); }
         function onMotion(e) { PRM = e.matches; if (rafId) { cancelAnimationFrame(rafId); rafId = null; } if (PRM) draw(0); else { tStart = null; rafId = requestAnimationFrame(loop); } }
         if (mql.addEventListener) mql.addEventListener('change', onMotion);
-        document.addEventListener('visibilitychange', function() { hidden = document.hidden; if (!hidden && !PRM) rafId = requestAnimationFrame(loop); });
-        var rt; window.addEventListener('resize', function() { clearTimeout(rt); rt = setTimeout(function() { if (rafId) cancelAnimationFrame(rafId); init(); if (PRM) draw(0); else { tStart = null; rafId = requestAnimationFrame(loop); } }, 150); });
+        document.addEventListener('visibilitychange', function() { hidden = document.hidden; if (!hidden && isIntersecting && !PRM) { tStart = null; rafId = requestAnimationFrame(loop); } else if (rafId) { cancelAnimationFrame(rafId); rafId = null; } });
+        if ('IntersectionObserver' in window) {
+          var io = new IntersectionObserver(function(entries) {
+            for (var i = 0; i < entries.length; i++) {
+              if (entries[i].target === wrapper) {
+                isIntersecting = entries[i].isIntersecting;
+                if (isIntersecting && !hidden && !PRM) { tStart = null; rafId = requestAnimationFrame(loop); }
+                else if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+              }
+            }
+          }, { threshold: 0.05 });
+          io.observe(wrapper);
+        }
+        var rt; function onR() { clearTimeout(rt); rt = setTimeout(function() { if (rafId) cancelAnimationFrame(rafId); init(); if (PRM) draw(0); else { tStart = null; rafId = requestAnimationFrame(loop); } }, 120); }
+        if ('ResizeObserver' in window) { (new ResizeObserver(onR)).observe(wrapper); } else { window.addEventListener('resize', onR); }
         init();
         if (PRM) draw(0); else rafId = requestAnimationFrame(loop);
       })();

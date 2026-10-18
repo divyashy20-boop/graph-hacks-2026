@@ -82,13 +82,22 @@ def create_app(settings=None):
 
     @app.get("/", response_class=HTMLResponse)
     def home():
-        return Path(__file__).with_name("index.html").read_text(encoding="utf-8")
+        html = Path(__file__).with_name("index.html").read_text(encoding="utf-8")
+        response = HTMLResponse(content=html)
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+        return response
 
     @app.get("/assets/{filename}")
     def asset(filename: str):
         if filename not in {"app.js", "style.css", "guided.js", "bg.js"}:
             raise HTTPException(404, "Asset not found")
-        return FileResponse(Path(__file__).with_name("assets") / filename)
+        response = FileResponse(Path(__file__).with_name("assets") / filename)
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+        return response
 
     @app.get("/health")
     def health():
