@@ -8,7 +8,7 @@ def test_collaborator_ui_and_guided_assets_available():
     client = TestClient(create_app(Settings(backend="memory")))
     page = client.get("/")
     assert page.status_code == 200
-    assert '/assets/app.js?v=ui-008' in page.text
+    assert '/assets/app.js?v=ui-008-force-graph' in page.text
     assert '/assets/guided.js?v=ugi-p5' in page.text
     assert 'id="orbitCanvas"' in page.text
     assert 'id="guidedpanel"' in page.text
@@ -30,7 +30,7 @@ def test_collaborator_demo_memory_seed_and_integrated_routes():
     assert "/api/events" in routes
 
 
-def test_additive_ui_adapter_does_not_replace_native_orbit():
+def test_additive_ui_adapter_preserves_graph_renderer():
     root = Path(__file__).parents[1]
     app = (root / "ugi/assets/app.js").read_text(encoding="utf-8")
     guided = (root / "ugi/assets/guided.js").read_text(encoding="utf-8")
@@ -40,3 +40,12 @@ def test_additive_ui_adapter_does_not_replace_native_orbit():
     assert '/freshness' in guided
     assert 'queryHighlights = new Set(' in guided
     assert 'innerHTML' not in guided
+
+
+def test_force_graph_bundle_is_local_and_loaded_before_app():
+    client = TestClient(create_app(Settings(backend="memory")))
+    page = client.get("/").text
+    assert page.index('/assets/3d-force-graph.min.js?v=1.79.0') < page.index('/assets/app.js')
+    bundle = client.get('/assets/3d-force-graph.min.js')
+    assert bundle.status_code == 200
+    assert 'Version 1.79.0 3d-force-graph' in bundle.text[:150]
