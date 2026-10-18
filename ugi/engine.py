@@ -6,7 +6,7 @@ from time import perf_counter
 
 from .extract import discover, parse, verify, verify_local_batch
 from .models import HypothesisProposal, RelationQuery, key, now, predicate, uid
-from .provider import Bedrock, Ollama, ProviderError
+from .provider import Bedrock, Groq, Ollama, ProviderError
 
 
 def active(claim, as_of=None):
@@ -46,6 +46,8 @@ class Engine:
             return Bedrock(self.settings, self.store)
         if self.settings.provider == "ollama":
             return Ollama(self.settings, self.store)
+        if self.settings.provider == "groq":
+            return Groq(self.settings, self.store)
         return None
 
     def ingest(self, filename, content, use_ai=False, semantic_verification=True, pack_refs=None,
