@@ -513,3 +513,47 @@ TLS/security, cloud health, upload safety and real browser E2E are verified.
 The v1.4 Re-DocRED `doc_005` real-model test was rate-limited and remains pending.
 The 10/10 Rulebook+P5 integrated E2E passed on the local deployment.
 Never publish the API with `UGI_API_KEYS` unset.
+
+## Graph Data Model and Cypher Algorithms
+
+We built our own graph converter using FalkorDB.
+It turns supported documents and structured files into an evidence-linked knowledge graph.
+
+Our graph uses Source, Chunk, Entity, Evidence, Claim, RelationEvent, Investigation and ReviewTask records.
+
+Source connects to Chunk using HAS_CHUNK. Evidence connects to its original chunk using CITES and supports claims or events using SUPPORTS. Entities are connected using RELATES. Multi-participant events use HAS_PARTICIPANT with explicit roles.
+
+For a detailed graph diagram, see [our graph data model](docs/nary_graph.md).
+
+### Real Cypher queries
+
+Find a record:
+
+```cypher
+MATCH (n:Record {id:$id})
+RETURN n.payload
+LIMIT 1
+```
+
+Find events involving an entity:
+
+```cypher
+MATCH (e:RelationEvent)-[:HAS_PARTICIPANT]->(:Entity {id:$id})
+RETURN DISTINCT e.payload ORDER BY e.id LIMIT 100
+```
+
+### Our graph reasoning algorithm
+
+Graphynx uses bounded multi-hop traversal to explore relationships. It checks source evidence, direction, time and contradictions before drawing conclusions.
+
+When there is not enough evidence, it returns UNKNOWN or CONNECTED_ONLY instead of inventing a fact. Possible relationships remain labelled as hypotheses.
+
+Implementation: [FalkorDB storage](ugi/store.py) and [relationship engine](ugi/engine.py).
+
+## AI Tools Disclosure
+
+We used AI coding assistants, including ChatGPT and Codex, to help with implementation, debugging, testing and documentation.
+
+Our team worked on the architecture, custom graph converter, FalkorDB integration, relationship reasoning, model experiments and AWS deployment. We reviewed the implementation and tested the working system.
+
+AI tools helped us build faster, while project decisions and validation remained our responsibility.
