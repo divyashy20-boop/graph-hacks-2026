@@ -82,7 +82,7 @@ We tested different extraction configurations and selected **GPT-OSS 120B throug
 
 Our Groq adapter uses strict structured JSON output for extraction, a low reasoning-effort configuration, input/output limits, request and token budgets, and fail-closed validation. The model helps interpret text; it is **not allowed to turn a guess into a source-backed fact**.
 
-Our selection came from a small controlled benchmark. It is **not** a claim of universal accuracy on unseen documents. Details: [Groq P2 release notes](GROQ_P2_RELEASE.md), [evaluation material](evaluation/), and [converter audit](CONVERTER_AUDIT.md).
+Our selection came from a small controlled benchmark. It is **not** a claim of universal accuracy on unseen documents. Details: [Groq P2 release notes](https://github.com/divyashy20-boop/graph-hacks-2026/blob/feat/groq-gpt-oss-120b/GROQ_P2_RELEASE.md), [evaluation material](evaluation/), and [converter audit](CONVERTER_AUDIT.md).
 
 ### 3. A resolver that understands the difference between a path and proof
 
@@ -254,7 +254,7 @@ The tested [UI + Groq P2 integration branch](https://github.com/divyashy20-boop/
 | Multi-participant events | [docs/nary_graph.md](docs/nary_graph.md) |
 | Guided agent and receipts | [INTEGRATION_GUIDE.md](INTEGRATION_GUIDE.md) |
 | Converter validation | [CONVERTER_AUDIT.md](CONVERTER_AUDIT.md) |
-| Groq P2 model selection | [GROQ_P2_RELEASE.md](GROQ_P2_RELEASE.md) |
+| Groq P2 model selection | [GROQ_P2_RELEASE.md](https://github.com/divyashy20-boop/graph-hacks-2026/blob/feat/groq-gpt-oss-120b/GROQ_P2_RELEASE.md) |
 | Older engineering checkpoints | [Milestone D](MILESTONE_D_REPORT.md), [F](MILESTONE_F_REPORT.md), [G](MILESTONE_G_REPORT.md) |
 | Dataset provenance | [DATA_LICENSES.md](DATA_LICENSES.md) |
 
