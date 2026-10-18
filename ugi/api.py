@@ -91,7 +91,7 @@ def create_app(settings=None):
 
     @app.get("/assets/{filename}")
     def asset(filename: str):
-        if filename not in {"app.js", "style.css", "guided.js", "bg.js"}:
+        if filename not in {"app.js", "style.css", "guided.js", "bg.js", "3d-force-graph.min.js"}:
             raise HTTPException(404, "Asset not found")
         response = FileResponse(Path(__file__).with_name("assets") / filename)
         response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"

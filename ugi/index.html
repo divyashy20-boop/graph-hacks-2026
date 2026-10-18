@@ -9,7 +9,8 @@
   <meta http-equiv="Expires" content="0">
   <title>UGI — Spatial evidence operations</title>
   <link rel="stylesheet" href="/assets/style.css?v=ui-bg-v8">
-  <script defer src="/assets/app.js?v=ui-008"></script>
+  <script defer src="/assets/3d-force-graph.min.js?v=1.79.0"></script>
+  <script defer src="/assets/app.js?v=ui-008-force-graph"></script>
   <script defer src="/assets/guided.js?v=ugi-p5"></script>
   <script defer src="/assets/bg.js?v=ui-bg-v8"></script>
 </head>
@@ -122,16 +123,16 @@
               <svg id="graph" aria-label="Interactive two-dimensional evidence graph"></svg>
             </div>
             <div id="graph3d" class="graph-surface graph-3d" hidden>
-              <canvas id="orbitCanvas" tabindex="0" aria-label="Interactive three-dimensional evidence graph" aria-describedby="orbitInstructions"></canvas>
+              <div id="orbitCanvas" tabindex="0" aria-label="Interactive three-dimensional evidence graph" aria-describedby="orbitInstructions"></div>
               <svg id="orbitLabels" aria-hidden="true"></svg>
               <div id="orbitFallback" class="orbit-fallback" hidden>
-                <p class="panel-kicker">WebGL unavailable</p><p>This browser cannot draw the orbit view. Continue with the accessible 2D evidence map.</p><button id="fallback2d">Return to 2D map</button>
+                <p class="panel-kicker">3D view unavailable</p><p>This browser cannot draw the orbit view. Continue with the accessible 2D evidence map.</p><button id="fallback2d">Return to 2D map</button>
               </div>
-              <p class="orbit-hud">Left-click or 3-finger drag to pan · 2-finger pinch to zoom · Select a signal to focus</p>
+              <p class="orbit-hud">Drag to orbit · Right-drag to pan · Scroll / pinch to zoom · Click nodes or links to inspect</p>
               <p id="orbitInstructions" class="visually-hidden">Arrow keys orbit. Plus and minus zoom. Zero resets the camera. Escape clears the selection.</p>
             </div>
             <div id="graphstate" class="graph-state" role="status" aria-live="polite" hidden><p class="panel-kicker" id="graphstatekicker">Loading evidence map</p><p id="graphstatetext">Retrieving graph-backed records.</p><button id="retrygraph" hidden>Retry load</button></div>
-            <div class="empty" id="empty"><p class="panel-kicker">No records in view</p><h3>Nothing to map yet.</h3><p>Upload a source or load one of the seeded demonstrations.</p></div>
+            <div class="empty" id="empty"><p class="panel-kicker">No records in view</p><h3>Nothing to map yet.</h3><p>No records are stored for this dataset yet. Upload a source to start. Demonstration presets require sample data in the server database.</p></div>
           </div>
           <div class="map-caption" id="mapcaption">Left-click or 3-finger drag to pan. 2-finger pinch to zoom. Drag nodes to reposition. Selection resolves to stored record.</div>
         </section>

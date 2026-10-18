@@ -70,7 +70,7 @@ class Settings(BaseSettings):
     requests_per_minute: int = Field(default=120, ge=1)
     daily_ai_queries: int = Field(default=15, ge=1)
     global_daily_calls: int = Field(default=100, ge=1)
-    provider: Literal["offline", "bedrock", "ollama"] = "offline"
+    provider: Literal["offline", "bedrock", "ollama", "groq"] = "offline"
     allow_paid_calls: bool = False
     schema_writes: bool = False
     open_predicates: bool = False
@@ -85,6 +85,12 @@ class Settings(BaseSettings):
     identity_candidate_limit: int = Field(default=20, ge=1, le=50)
     model_id: str = ""
     ollama_url: str = "http://host.docker.internal:11434"
+    groq_requests_per_minute: int = Field(default=30, ge=1, le=30)
+    groq_daily_requests: int = Field(default=1000, ge=1, le=1000)
+    groq_tokens_per_minute: int = Field(default=8000, ge=100, le=8000)
+    groq_daily_tokens: int = Field(default=200000, ge=100, le=200000)
+    groq_timeout_seconds: int = Field(default=90, ge=10, le=180)
+    groq_split_max_output_tokens: int = Field(default=1550, ge=100, le=4096)
     aws_region: str = "us-east-1"
     input_price: float = Field(default=0, ge=0)
     output_price: float = Field(default=0, ge=0)
@@ -127,6 +133,11 @@ class Settings(BaseSettings):
                     or url.port != 11434 or url.username or url.password
                     or url.path not in {"", "/"} or url.query or url.fragment):
                 raise ValueError("Local Ollama requires model ID and restricted localhost:11434 URL")
+        if self.provider == "groq" and (
+            not self.allow_paid_calls or not self.model_id
+            or not self.input_price or not self.output_price
+        ):
+            raise ValueError("Groq requires explicit paid opt-in, model ID and verified list prices")
         return self
 
 
