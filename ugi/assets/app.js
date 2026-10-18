@@ -30,9 +30,16 @@ async function api(path, body) {
     headers,
     body: body instanceof FormData ? body : body ? JSON.stringify(body) : undefined,
   });
-  const data = await response.json();
+  // Gateways sometimes reply with HTML rather than API JSON.
+  const raw = await response.text();
+  let data;
+  try {
+    data = JSON.parse(raw);
+  } catch (_) {
+    throw Error(`Backend returned a non-JSON response (HTTP ${response.status}). Check gateway routing.`);
+  }
   if (!response.ok) {
-    throw Error(typeof data.detail === "string" ? data.detail : JSON.stringify(data.detail || "Request failed"));
+    throw Error(typeof data.detail === "string" ? data.detail : JSON.stringify(data.detail || `HTTP ${response.status}`));
   }
   return data;
 }
@@ -549,8 +556,19 @@ async function refresh() {
   $("globalstatus").textContent = "Loading graph and persistent state…";
   setGraphState("loading");
   const query = $("timeline").value ? `?as_of=${$("timeline").value}` : "";
-  const [graph, cases, tasks] = await Promise.all([api(`/api/graph${query}`), api("/api/investigations"), api("/api/tasks")]);
+  // Secondary read-only panels must never prevent a valid graph from rendering.
+  const [graphResult, casesResult, tasksResult] = await Promise.allSettled([
+    api(`/api/graph${query}`), api("/api/investigations"), api("/api/tasks")
+  ]);
   if (epoch !== loadEpoch) return;
+  if (graphResult.status !== "fulfilled") throw graphResult.reason;
+  const graph = graphResult.value;
+  if (!graph || !Array.isArray(graph.entities) || !Array.isArray(graph.claims) ||
+      !Array.isArray(graph.events) || !graph.counts) {
+    throw Error("The graph endpoint returned an invalid response.");
+  }
+  const cases = casesResult.status === "fulfilled" && Array.isArray(casesResult.value) ? casesResult.value : [];
+  const tasks = tasksResult.status === "fulfilled" && Array.isArray(tasksResult.value) ? tasksResult.value : [];
   graphData = graph;
   if (!recordById(selectedRecordId)) selectedRecordId = null;
   for (const [id, value] of [["kentities", graph.counts.Entity || 0], ["kclaims", graph.counts.Claim || 0], ["kevents", graph.counts.RelationEvent || 0], ["kcases", cases.length], ["kreviews", tasks.filter((task) => task.status === "open").length]]) {
@@ -560,6 +578,8 @@ async function refresh() {
   setGraphState();
 
   const notices = [];
+  if (casesResult.status !== "fulfilled") notices.push("Saved investigations unavailable. Graph data is still shown.");
+  if (tasksResult.status !== "fulfilled") notices.push("Review queue unavailable. Graph data is still shown.");
   if (graph.truncated) notices.push("Bounded view: some records are outside this result.");
   if (graph.unknown_dates_excluded) notices.push("Historical view excludes claims without dated evidence; counts above show all stored records.");
   $("graphnotice").hidden = !notices.length;
@@ -610,7 +630,9 @@ async function refresh() {
     }
     $("tasks").append(entry);
   }
-  return `Loaded dataset ${$("dataset").value} · graph-backed records`;
+  return graph.entities.length
+    ? `Loaded dataset ${$("dataset").value} · graph-backed records`
+    : `Dataset ${$("dataset").value} is empty. Upload a source to populate this graph.`;
 }
 
 function resetAction() {
